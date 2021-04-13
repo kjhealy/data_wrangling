@@ -1,7 +1,7 @@
 ---
 title: "Data Wrangling with R and the tidyverse"
 description: |
-  Outline of a Course in Data Analysis using R and the Tidyverse suite of tools.
+  A Short Course in Data Analysis using R and the Tidyverse suite of tools.
 author:
 - name: Kieran Healy
   url: https://kieranhealy.org
