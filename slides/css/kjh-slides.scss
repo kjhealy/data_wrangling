@@ -207,6 +207,11 @@ Main title and section title slides
     color: #CBCBCB
 }
 
+.main-title-inv {
+    color:#212E3E;
+}
+
+
 .main-title {
     text-align: center;
 }
@@ -480,4 +485,21 @@ Coloring and inverse coloring in title bars and content boxes
     padding: 0.25em 0;
     background: nth($colors-dark, 4);
     color: #FFFFFF;
+}
+
+/* Extra CSS */
+.kjh-red {
+  color: #A30004;
+}
+.kjh-orange {
+  color: #EF9B2D;
+}
+.kjh-yellow {
+  color: #FFFF54;
+}
+.kjh-grey {
+  color: #CBCBCB;
+}
+.kjh-blue {
+  color: #212E3E;
 }

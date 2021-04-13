@@ -31,6 +31,22 @@ library(here)
 library(tidyverse)
 ```
 
+```{r xaringanthemer, echo=FALSE, eval = FALSE}
+
+xaringanthemer::style_extra_css(
+  outfile = stdout(),
+  css = list(
+    ".kjh-red" = list(color = "#A30004"),
+    ".kjh-orange" = list(color = "#EF9B2D"),
+    ".kjh-yellow" = list(color = "#FFFF54"),
+    ".kjh-grey" = list(color = "#CBCBCB"),
+    ".kjh-blue" = list(color = "#212E3E")
+    )
+  )
+
+```
+
+
 ```{r xaringanExtra, echo=FALSE}
 xaringanExtra::use_xaringan_extra(c("tile_view"))
 xaringanExtra::use_animate_css()
@@ -40,7 +56,7 @@ xaringanExtra::use_clipboard()
 
 class: center middle main-title section-title-1
 
-# A Title Slide
+# A Title Slide with .kjh-yellow[R]
 
 .class-info[
 
@@ -77,17 +93,22 @@ class: title title-1
 
 ---
 
-name: bigtext
 layout: false
-name: program-theories
-class: center middle section-title section-title-1
+class: main-title main-title-inv
 
-# Most Data Analysis<br />is Cleaning &<br />Recoding
+# .middle[Most Data Analysis is .kjh-orange[Cleaning] and .kjh-red[Recoding]]
+---
 
+layout: false
+class: main-title section-title-1
+
+# .left[More Wisdom for the Ages]
 ---
 
 layout: true
 class: title title-1
+
+---
 
 ```{r load_penguins, include = FALSE}
 
@@ -95,7 +116,7 @@ library(palmerpenguins)
 
 ```
 
-`r chunk_reveal("penguin_tabs", widths = c(35,65), title = "## Breaks")`
+`r chunk_reveal("penguin_tabs", widths = c(35,65), title = "# Breaks")`
 
 ```{r penguin_tabs, include = FALSE}
 penguins %>% 
@@ -111,7 +132,7 @@ penguins %>%
 ---
 
 ```{r my_cars, include = FALSE}
-cars %>%
+as_tibble(cars) %>%
   filter(speed > 4) %>%
   ggplot() +
   aes(x = speed) +
@@ -124,5 +145,62 @@ cars %>%
 ```
 
 `r chunk_reveal("my_cars", break_type = "auto", title = "# Chunk Breaks")`
+
+---
+
+layout: false
+
+.center[
+<figure>
+  <img src="img/01/tidyverse.png" alt="The tidyverse" title="The tidyverse" width="60%">
+</figure>
+]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Input and Output
+
+.pull-left[
+<figure>
+  <img src="img/01/lorem-ipsum-2.png" alt="What we have" title="What we have" width="100%">
+</figure>
+]
+
+.pull-right[
+<figure>
+  <img src="img/01/lorem-ipsum-1.png" alt="What we want" title="What we want" width="100%">
+</figure>
+]
+
+
+---
+
+# Pull left and right
+
+
+.pull-left.center[
+<figure>
+  <img src="img/01/tidyverse.png" alt="The tidyverse" title="The tidyverse" width="80%">
+</figure>
+]
+
+--
+
+.pull-right[.box-inv-1.medium[Introduction]]
+
+--
+
+.pull-right[.box-inv-1.medium[Deep-dive]]
+
+--
+
+.pull-right[.box-inv-1.medium[Some more]]
+
+---
 
 
