@@ -1,0 +1,4 @@
+name: "Data Wrangling"
+title: "Data Wrangling Remote Seminar"
+output_dir: "docs"
+exclude: ["*.Rmd", "*.csv", "*.key", "*.pdf", "slides"]
