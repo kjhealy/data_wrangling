@@ -203,4 +203,18 @@ class: title title-1
 
 ---
 
+# Pull left and right
+
+- Item 1
+
+--
+
+- Item 2
+
+--
+
+- Item 3
+
+
+
 

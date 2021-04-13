@@ -34,7 +34,7 @@ We will be working with the most recent stable versions of R and RStudio, as wel
 
 ### Installing R and RStudio on your computer
 
-- Begin by installing R (<http://cloud.r-project.org>). Choose the version appropriate for your computing platform: [macOS](https://cloud.r-project.org/bin/macosx/R-4.0.3.pkg), [Windows](https://cloud.r-project.org/bin/windows/base/R-4.0.3-win.exe), or [Linux](https://cloud.r-project.org/bin/linux/).
+- Begin by installing R (<http://cloud.r-project.org>). Choose the version appropriate for your computing platform: [macOS](https://cloud.r-project.org/bin/macosx/R-4.0.5.pkg), [Windows](https://cloud.r-project.org/bin/windows/base/R-4.0.5-win.exe), or [Linux](https://cloud.r-project.org/bin/linux/).
 - Next, install RStudio (<http://rstudio.com>). Follow the links to download the [free RStudio Desktop edition](https://rstudio.com/products/rstudio/download/#download) recommended for your system.
 
 ### Installing some additional packages
@@ -49,13 +49,21 @@ my_packages <- c("tidyverse", "broom", "drat", "gapminder",
 
 install.packages(my_packages, repos = "http://cran.rstudio.com")
 
-data_packages <- c("covdata", "congress", "nycdogs")
+data_packages <- c("covdata", "congress", "nycdogs", "ukelection2019", "uscenpops")
 
 drat::addRepo("kjhealy")
 install.packages(data_packages)
 ```
 
+Installing these packages may take a little time. 
+
+# The Course Packet
+
+In addition to installing the software above, we will work with a packet of material that includes all the slides for the course, all the code we will write, and additional, relatively unprocessed or otherwise awkward datasets that we will use as examples. This material will be finalized closer to the beginning of the course and will be available to download as a Zip file. Check back here for the link to this material closer to the date of the course. The course packet will not require any administrative privileges to install. You will just need to be able to download a file to your computer.
+
 # Course Outline
+
+-- Subject to change.
 
 ## Day 1
 
@@ -124,6 +132,6 @@ install.packages(data_packages)
 - The wider world of tidyverse-friendly packages and tools
 
 
-# The Course Packet
+
 
 

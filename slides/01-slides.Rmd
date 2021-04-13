@@ -39,7 +39,7 @@ xaringanExtra::use_clipboard()
 
 class: center middle main-title section-title-1
 
-# Data Wrangling with R and the tidyverse
+# Data Wrangling with .red[R] and the .yellow[Tidyverse]
 
 .class-info[
 
@@ -58,59 +58,3 @@ class: title title-1
 
 ---
 
-# Why am I making you learn R?
-
-&nbsp;
-
---
-
-.box-inv-1.medium[Blah]
-
---
-
-.box-inv-1.medium[Blah]
-
---
-
-.box-inv-1.medium.sp-after[Blah bullet points are bad]
-
----
-
-
-```{r load_penguins, include = FALSE}
-
-library(palmerpenguins)
-
-```
-
-
-`r chunk_reveal("penguin_tabs", widths = c(35,65), title = "# Breaks")`
-
-```{r penguin_tabs, include = FALSE}
-penguins %>% 
-  filter(year != 2007) %>% 
-  group_by(species) %>% 
-  summarize(across(starts_with("bill"), 
-                   list(mean = mean, 
-                        sd = sd),
-                   .names = "{.fn}_{.col}",
-                   na.rm = TRUE)) 
-```
----
-
-```{r my_cars, include = FALSE}
-cars %>%
-  filter(speed > 4) %>%
-  ggplot() +
-  aes(x = speed) +
-  aes(y = dist) + #BREAK
-  geom_point(
-    alpha = .8, 
-    color = "blue" 
-    ) + #BREAK
-  aes(size = speed) #BREAK
-```
-
-`r chunk_reveal("my_cars", break_type = "auto")`
-
----
