@@ -1,0 +1,24 @@
+﻿SEGMENT,DESCRIPTION ,R ,F ,M 
+,,,,
+Champions ,"Bought recently, buy often and spend the most ",4– 5 ,4– 5 ,4– 5 
+,,,,
+Loyal Customers ,Spend good money. Responsive to promotions ,2– 5 ,3– 5 ,3– 5 
+,,,,
+Potential Loyalist ,"Recent customers, spent good amount, bought more than once ",3– 5 ,1– 3 ,1– 3 
+,,,,
+New Customers ,"Bought more recently, but not often ",4– 5 ,<= 1 ,<= 1 
+,,,,
+Promising ,"Recent shoppers, but haven’t spent much ",3– 4 ,<= 1 ,<= 1 
+,,,,
+Need Attention ,"Above average recency, frequency & monetary values ",2– 3 ,2– 3 ,2– 3 
+,,,,
+About To Sleep ,"Below average recency, frequency & monetary values ",2– 3 ,<= 2 ,<= 2 
+,,,,
+At Risk ,"Spent big money, purchased often but long time ago ",<= 2 ,2– 5 ,2– 5 
+,,,,
+Can’t Lose Them ,"Made big purchases and often, but long time ago ",<= 1 ,4– 5 ,4– 5 
+,,,,
+Hibernating ,"Low spenders, low frequency, purchased long time ago ",1– 2 ,1– 2 ,1– 2 
+,,,,
+Lost ,"Lowest recency, frequency & monetary scores ",<= 2 ,<= 2 ,<= 2 
+,,,,

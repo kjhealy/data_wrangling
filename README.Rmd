@@ -1,0 +1,129 @@
+---
+title: "Data Wrangling with R and the tidyverse"
+description: |
+  Outline of a Course in Data Analysis using R and the Tidyverse suite of tools.
+author:
+- name: Kieran Healy
+  url: https://kieranhealy.org
+  affiliation: Duke University
+  affiliation_url: https://sociology.duke.edu
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Course Description
+
+R is a free and open-source package for statistical analysis that is widely used in the social, health, physical, and computational sciences. R is powerful, flexible, and has excellent graphics capabilities. It also has a large and rapidly growing community of users. Although there are a variety of approaches to working with data in R, in recent years, the "[tidyverse](https://www.tidyverse.org)" has emerged as a cohesive and consistent approach to the everyday tasks of data wrangling and analysis. The [tidyverse](https://www.tidyverse.org) is a suite of tools for data management, manipulation, analysis, and visualization within the R software environment for statistical computing. This seminar provides an intensive, hands-on introduction to using tidyverse tools for doing your own work. 
+
+The course is not focused on particular statistical methods or modeling techniques. Rather, we will learn how to accomplish everyday tasks that statistical analysis depends on but which are rarely taught in detail in their own right. These include topics such as getting your own data into R, exploring the structure of your data, recoding variables and reshaping tables, and presenting summary tabulations and graphs of this work. Throughout the course we will emphasize how R and the tidyverse "thinks". Every dataset is different, especially at stage where it still needs further cleaning or arranging before it can be easily analyzed or effectively presented. This course will teach you the logic and implicit "flow of action" behind the tidyverse's tools, giving you the ability to apply and extend this way of thinking when working with your own data and its particular challenges. 
+
+# Computing 
+
+This remote seminar is held via [Zoom](https://zoom.us/), a free video conferencing application. Instructions for joining a session via Zoom are available [here](https://support.zoom.us/hc/en-us/articles/201362193-Joining-a-Meeting). Before the seminar begins, you will receive an email with the meeting code and password you must use to join.
+
+We will be working with the most recent stable versions of R and RStudio, as well as with a number of additional packages. You will need to install R, RStudio, and the necessary packages on your own computer.
+
+### Installing R and RStudio on your computer
+
+- Begin by installing R (<http://cloud.r-project.org>). Choose the version appropriate for your computing platform: [macOS](https://cloud.r-project.org/bin/macosx/R-4.0.3.pkg), [Windows](https://cloud.r-project.org/bin/windows/base/R-4.0.3-win.exe), or [Linux](https://cloud.r-project.org/bin/linux/).
+- Next, install RStudio (<http://rstudio.com>). Follow the links to download the [free RStudio Desktop edition](https://rstudio.com/products/rstudio/download/#download) recommended for your system.
+
+### Installing some additional packages
+
+- Once the applications are installed, launch RStudio. Either carefully type in or copy-and-paste the following lines of code at R’s command prompt, located in the RStudio window named “Console”, and then hit return. In the code below, the `<-` arrow is made up of two keystrokes, first `<` and then the short dash or minus symbol, `-`.
+
+
+```R
+my_packages <- c("tidyverse", "broom", "drat", "gapminder",  
+                  "here", "janitor", "naniar", "palmerpenguins", 
+                  "skimr", "socviz")
+
+install.packages(my_packages, repos = "http://cran.rstudio.com")
+
+data_packages <- c("covdata", "congress", "nycdogs")
+
+drat::addRepo("kjhealy")
+install.packages(data_packages)
+```
+
+# Course Outline
+
+## Day 1
+
+1. Tidy data and the tidyverse
+
+- Motivation: plain-text data analysis
+- How R works and why it got that way
+- What's "tidy" about the tidyverse?
+- Pipelining your code
+- A first example
+
+2. Getting your data into R with `readr`
+
+- Reading in a single table of data
+- Tibbles
+- Data types
+- Common pitfalls and problems
+
+3. Tabulating and summarizing data with `dplyr`
+
+- Filtering, selecting, mutating, and summarizing a single table
+- Manipulating column names and arranging rows
+- Groups and the logic of working with grouped data
+- Calculating on the columns of a table, and on the rows
+- Zero counts in `dplyr` and other gotchas
+
+## Day 2
+
+4. Reshaping data with `tidyr`
+
+- Moving back and forth between wide and long data
+- Splitting, separating, and recoding observations
+- Managing and visualizing missing values
+- Expanding and completing datasets
+
+5. Managing categorical measures and textual data with `forcats` and `stringr`
+
+- Working with factors in R and in the tidyverse
+- Recoding and re-leveling factors
+- String manipulation, regular expressions, and `stringr`
+
+6. Iterating on data with `dplyr` and `purrr`
+
+- Relational data in `dplyr`
+- Joining tables
+- Working `across()` columns
+- Using `map()` and its friends to feed your data to functions
+
+
+## Day 3
+
+7. Modeling with `broom`
+
+- Extending tidy principles to models
+- Fitting and summarizing model output
+
+8. Making it easier to be tidy
+
+- The `janitor` package helps clean your data
+- Working with the `usethis` and `reprex` helper packages
+
+9. Managing your clean data 
+
+- Documenting your data
+- Using a package to store your data
+- The wider world of tidyverse-friendly packages and tools
+
+
+# The Course Packet
+
+
