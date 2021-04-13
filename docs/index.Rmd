@@ -45,7 +45,7 @@ We will be working with the most recent stable versions of R and RStudio, as wel
 ```R
 my_packages <- c("tidyverse", "broom", "drat", "gapminder",  
                   "here", "janitor", "naniar", "palmerpenguins", 
-                  "skimr", "socviz")
+                  "skimr", "socviz", "usethis", "reprex")
 
 install.packages(my_packages, repos = "http://cran.rstudio.com")
 
@@ -56,6 +56,19 @@ install.packages(data_packages)
 ```
 
 Installing these packages may take a little time. 
+
+### GitHub 
+
+GitHub is a software development platform and service that is widely used by R Developers. You can [read some background on it from an R user's point of view here](https://happygitwithr.com/big-picture.html).
+
+If you do not have one already, it will be useful to create a GitHub account and obtain a GitHub Personal Access Token. This is _not required_ for the course, but would be helpful to have. After you have installed R and RStudio, to get set up, read and _carefully follow_ the instructions here:
+
+- Register a [GitHub Account](https://happygitwithr.com/github-acct.html)
+- Install a [Git Client](https://happygitwithr.com/git-client.html)
+- Connect to [GitHub](https://happygitwithr.com/push-pull-github.html)
+- Get a [Personal Access Token](https://happygitwithr.com/credential-caching.html)
+
+Again, setting up a GitHub account is _not required_ to fully participate in the course.
 
 # The Course Packet
 
