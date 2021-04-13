@@ -55,9 +55,9 @@ drat::addRepo("kjhealy")
 install.packages(data_packages)
 ```
 
-Installing these packages may take a little time. 
+Installing these packages may take a little time. Once you have completed this step, you'll be ready to download the course packet and begin.
 
-### GitHub 
+### Optional step: get set up on GitHub 
 
 GitHub is a software development platform and service that is widely used by R Developers. You can [read some background on it from an R user's point of view here](https://happygitwithr.com/big-picture.html).
 
@@ -69,6 +69,8 @@ If you do not have one already, it will be useful to create a GitHub account and
 - Get a [Personal Access Token](https://happygitwithr.com/credential-caching.html)
 
 Again, setting up a GitHub account is _not required_ to fully participate in the course.
+
+
 
 # The Course Packet
 
