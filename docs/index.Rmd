@@ -1,7 +1,7 @@
 ---
 title: "Data Wrangling with R and the tidyverse"
 description: |
-  A Short Course in Data Analysis using R and the Tidyverse suite of tools.
+  A Short Course using R and the Tidyverse suite of tools.
 author:
 - name: Kieran Healy
   url: https://kieranhealy.org
@@ -75,6 +75,10 @@ Again, setting up a GitHub account is _not required_ to fully participate in the
 # The Course Packet
 
 In addition to installing the software above, we will work with a packet of material that includes all the slides for the course, all the code we will write, and additional, relatively unprocessed or otherwise awkward datasets that we will use as examples. This material will be finalized closer to the beginning of the course and will be available to download as a Zip file. Check back here for the link to this material closer to the date of the course. The course packet will not require any administrative privileges to install. You will just need to be able to download a file to your computer.
+
+# The Course Slack
+
+During the seminar we will use a [Slack](https://slack.com) to provide an additional channel of communication outside the lectures. You will recieve details about how to sign up prior to the course. I encourage you to use the Slack to ask questions, share code snippets, and discuss matters arising in the seminar, from "I can't get this to work" troubleshooting on up to any other more general comments or queries about the material we are covering.
 
 # Course Outline
 
