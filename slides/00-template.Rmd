@@ -10,6 +10,7 @@ output:
     seal: false
     anchor_sections: false
     nature:
+      beforeInit: "js/kjh-macros.js"
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
@@ -29,7 +30,12 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE,
 library(flipbookr)
 library(here)
 library(tidyverse)
+
+library(cowplot)
+theme_set(theme_cowplot())
+
 ```
+
 
 ```{r xaringanthemer, echo=FALSE, eval = FALSE}
 
@@ -214,6 +220,17 @@ class: title title-1
 --
 
 - Item 3
+
+---
+
+# Scale Images small
+
+![:scale 10%](img/01/Rlogo.png)
+
+---
+
+# Scale images medium
+.right[![:scale 40%](img/01/Rlogo.png)]
 
 
 

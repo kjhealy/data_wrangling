@@ -10,6 +10,7 @@ output:
     seal: false
     anchor_sections: false
     nature:
+      beforeInit: "js/kjh-macros.js"
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
@@ -27,7 +28,9 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE,
 
 ```{r packages-data, include=FALSE}
 library(flipbookr)
-library(tidyverse)
+library(cowplot)
+ggplot2::theme_set(theme_cowplot())
+
 ```
 
 ```{r xaringanExtra, echo=FALSE}
@@ -39,15 +42,14 @@ xaringanExtra::use_clipboard()
 
 class: center middle main-title section-title-1
 
-# Data Wrangling with .red[R] and the .yellow[Tidyverse]
+# Data Wrangling with R and the Tidyverse
 
 .class-info[
 
-**Session 1**
+**Day 1**
 
 .light[Kieran Healy<br>
-Statistical Horizons, April 2021
-]
+Statistical Horizons, April 2021]
 
 ]
 
@@ -57,4 +59,39 @@ layout: true
 class: title title-1
 
 ---
+
+# Housekeeping
+
+&nbsp;
+
+--
+
+## .kjh-blue[Use the Zoom chat to ask questions. I can pop them up on screen for everyone to see.]
+
+--
+
+## .kjh-blue[Alternatively, raise a hand with ![:scale 5%](img/01/zoom_raise_hand.png)]
+
+---
+
+# This Morning's Goals
+
+&nbsp;
+
+--
+
+## Some big-picture motivation & perspective
+
+--
+
+## Getting familiar with RStudio
+
+--
+
+## Getting oriented to R and how it thinks
+
+???
+Maybe you're familiar with R already, but I don't assume it. So please bear with me. I do find that, often, it's good to revisit some of the basic features of R and RStudio, as very often people learn them on an as-needed basis, which leads to some gaps. So hopefully even if you are a bit familiar with these tools you'll learn some new things.
+
+
 
