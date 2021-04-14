@@ -7,17 +7,12 @@ author:
   url: https://kieranhealy.org
   affiliation: Duke University
   affiliation_url: https://sociology.duke.edu
-date: "`r Sys.Date()`"
+date: "2021-04-13"
 output: html
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
+
 
 Statistical Horizons, April 2021.
