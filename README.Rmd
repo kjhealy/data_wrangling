@@ -8,7 +8,7 @@ author:
   affiliation: Duke University
   affiliation_url: https://sociology.duke.edu
 date: "`r Sys.Date()`"
-output: html_document
+output: md_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
