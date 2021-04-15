@@ -3,3 +3,6 @@
 .Rdata
 .httr-oauth
 .DS_Store
+slides/*.html
+slides/*_files/
+slides/libs/
