@@ -41,7 +41,7 @@ We will be working with the most recent stable versions of R and RStudio, as wel
 
 
 ```R
-my_packages <- c("tidyverse", "broom", "drat", "gapminder",  
+my_packages <- c("tidyverse", "babynames", "broom", "drat", "gapminder",  
                   "here", "janitor", "naniar", "palmerpenguins", 
                   "skimr", "socviz", "usethis", "visdat", "reprex")
 
