@@ -66,11 +66,44 @@ class: title title-1
 
 --
 
-## .kjh-blue[Use the Zoom chat to ask questions. I can pop them up on screen for everyone to see.]
+## 10am till 2pm US EST
 
 --
 
-## .kjh-blue[Alternatively, raise a hand with ![:scale 5%](img/01/zoom_raise_hand.png)]
+## Lab session from 5pm to 6pm US EST
+
+--
+
+## .kjh-blue[Use the Zoom chat to ask questions, or raise a hand with ![:scale 5%](img/01/zoom_raise_hand.png)]
+
+???
+
+- Very useful
+-  I can pop questions up on screen for everyone to see.
+
+
+---
+
+# In between class sessions
+
+## <figure alt="Slack logo" title="Slack logo">![:scale 90%](img/01/slack_logo.png)</figure>
+
+???
+
+- Slack is super useful
+
+---
+
+# For a better Zoom experience
+
+
+.pull-left.center[
+<figure>
+  <img src="img/01/best_zoom_experience.png" alt="The tidyverse" title="The tidyverse" width="60%">
+</figure>
+]
+
+- If you're watching in full-screen view and I'm sharing my screen, then from Zoom's "View options" menu _turn off_ "Side-by-Side" mode
 
 ---
 
@@ -84,7 +117,7 @@ class: title title-1
 
 --
 
-## Getting familiar with RStudio
+## Getting familiar with RStudio and its relationship to R
 
 --
 
@@ -93,5 +126,81 @@ class: title title-1
 ???
 Maybe you're familiar with R already, but I don't assume it. So please bear with me. I do find that, often, it's good to revisit some of the basic features of R and RStudio, as very often people learn them on an as-needed basis, which leads to some gaps. So hopefully even if you are a bit familiar with these tools you'll learn some new things.
 
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle[<br />.kjh-orange[**Data Analysis**]<br />is mostly<br />.kjh-red[**Data Cleaning**]]
+
+---
+
+layout: true
+class: title title-1
+
+---
 
 
+# Wrangling data is frustrating
+
+.center[
+  <img src="img/01/sad-mac.jpg" alt="Sad Mac" title="Sad Mac" width="1500%">
+]
+
+
+---
+
+# Can we make it .kjh-yellow[fun]?
+
+.pull-left.center[
+<figure>
+  <img src="img/01/happy_people_computer_2.png" alt="Fun data wrangling" title="Fun data wrangling" width="100%">
+</figure>
+]
+
+--
+
+.pull-right[.box-inv-1.large[.kjh-red[**No.**]]]
+
+--
+
+.pull-right[.box-inv-1.small[Not _this_ much fun, at any rate]]
+
+---
+
+# OK but can we eliminate frustration?
+
+.pull-left[
+<figure>
+  <img src="img/01/happy_woman_computer_2.png" alt="Fun data wrangling 2" title="Fun data wrangling 2" width="100%">
+</figure>
+]
+
+--
+
+.pull-right[.box-inv-1.large[.kjh-orange[**Also no.**]]]
+
+--
+
+.pull-right[.box-inv-1.small[Sorry.]]
+
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle[HOWEVER, WE _CAN_ MAKE IT _.kjh-green[WORK]_]
+
+--
+
+### Also, it's weirdly satisfying once you get into it
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# 

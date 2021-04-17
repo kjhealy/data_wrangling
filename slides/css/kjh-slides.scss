@@ -37,6 +37,7 @@ Typography
 }
 
 .remark-slide-content h1 {
+    font-weight: bold;
     font-size: 1.7em;
     line-height: 1em;
     margin-top: 0;
@@ -502,4 +503,8 @@ Coloring and inverse coloring in title bars and content boxes
 }
 .kjh-blue {
   color: #212E3E;
+}
+
+.kjh-green {
+  color: #53D52A;
 }
