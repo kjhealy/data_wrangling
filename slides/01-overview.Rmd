@@ -1,0 +1,494 @@
+---
+title: "Data Wrangling with R and the tidyverse"
+author: "Kieran Healy"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: "libs"
+    chakra: "libs/remark-latest.min.js"
+    css: ["default", "css/kjh-slides.css", "css/kjh-inferno-fonts.css", "css/animate.css"]
+    seal: false
+    anchor_sections: false
+    nature:
+      beforeInit: "js/kjh-macros.js"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      navigation:
+        scroll: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
+                      fig.retina = 3, fig.align = "center")
+```
+
+```{r packages-data, include=FALSE}
+library(flipbookr)
+library(cowplot)
+ggplot2::theme_set(theme_cowplot())
+
+```
+
+```{r xaringanExtra, echo=FALSE}
+xaringanExtra::use_xaringan_extra(c("tile_view"))
+xaringanExtra::use_animate_css()
+xaringanExtra::use_animate_all("fade")
+xaringanExtra::use_clipboard()
+```
+
+class: center middle main-title section-title-1
+
+# Data Wrangling with R and the Tidyverse
+
+.class-info[
+
+**Day 1**
+
+.light[Kieran Healy<br>
+Statistical Horizons, April 2021]
+
+]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Housekeeping
+
+&nbsp;
+
+--
+
+## 10am till 2pm US EST
+
+--
+
+## Lab session from 5pm to 6pm US EST
+
+--
+
+## .kjh-blue[Use the Zoom chat to ask questions, or raise a hand with ![:scale 5%](img/01/zoom_raise_hand.png)]
+
+???
+
+- Very useful
+-  I can pop questions up on screen for everyone to see.
+
+
+---
+
+# In between class sessions
+
+<br />
+
+## <figure alt="Slack logo" title="Slack logo">![:scale 90%](img/01/slack_logo.png)</figure>
+
+???
+
+- Slack is super useful
+
+---
+
+# For a better Zoom experience
+
+
+.pull-left.center[
+<figure>
+  <img src="img/01/best_zoom_experience.png" alt="The tidyverse" title="The tidyverse" width="60%">
+</figure>
+]
+
+- If you're watching in full-screen view and I'm sharing my screen, then from Zoom's "View options" menu _turn off_ "Side-by-Side" mode
+
+---
+
+# This Morning's Goals
+
+&nbsp;
+
+--
+
+## Some big-picture motivation & perspective
+
+## Getting familiar with RStudio and its relationship to R
+
+## Getting oriented to R and how it thinks
+
+???
+Maybe you're familiar with R already, but I don't assume it. So please bear with me. I do find that, often, it's good to revisit some of the basic features of R and RStudio, as very often people learn them on an as-needed basis, which leads to some gaps. So hopefully even if you are a bit familiar with these tools you'll learn some new things.
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle[<br />.kjh-orange[**Data Analysis**]<br />is mostly<br />.kjh-red[**Data Wrangling**]]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+
+# Wrangling data is frustrating
+
+.center[
+  <img src="img/01/sad-mac.jpg" alt="Sad Mac" title="Sad Mac" width="1500%">
+]
+
+
+---
+
+# Can we make it .kjh-yellow[fun]?
+
+.pull-left.center[
+<figure>
+  <img src="img/01/happy_people_computer_2.png" alt="Fun data wrangling" title="Fun data wrangling" width="100%">
+</figure>
+]
+
+--
+
+.pull-right[.box-inv-1.large[.kjh-red[**No.**]]]
+
+--
+
+.pull-right[.box-inv-1.small[&nbsp; ⇦ Not _this_ much fun, at any rate]]
+
+---
+
+# OK but can we eliminate frustration?
+
+.pull-left[
+<figure>
+  <img src="img/01/happy_woman_computer_2.png" alt="Fun data wrangling 2" title="Fun data wrangling 2" width="100%">
+</figure>
+]
+
+--
+
+.pull-right[.box-inv-1.large[.kjh-orange[**Also no.**]]]
+
+--
+
+.pull-right[.box-inv-1.small[&nbsp; Sorry.]]
+
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle[HOWEVER, WE _CAN_ MAKE IT _.kjh-green[WORK]_]
+
+--
+
+- Also, it's weirdly satisfying once you get into it
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# We take a broadly _Plain Text_ approach
+
+.pull-left[
+<figure>
+  <img src="img/01/plaintext-cover-us-letter.png" alt="The plain person's guide" title="The plain person's guide" width="75%">
+</figure>
+]
+
+--
+
+- Using R and the Tidyverse can be understood within this broader context. The same principles would apply to, e.g., using Python or similar tools.
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle[Two revolutions in computing]
+
+---
+
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Where the action is
+
+.pull-left.center[
+<figure>
+  <img src="img/01/phone_and_tablet.png" alt="iPhone and iPad" title="iPhone and iPad" width="80%">
+</figure>
+]
+
+--
+
+- Touch-based user interface
+
+--
+
+- Foregrounds a single application
+
+--
+
+- Dislikes multi-tasking
+
+--
+
+- Hides the file system
+
+---
+
+# \*Multitasking
+
+.middle[- I mean, “Making different specialized applications and resources work together in the service of a single but multi-dimensional project”, not “Checking Twitter while also listening to a talk and trying to keep up with the updates from the softball game.”]
+
+---
+
+# Where statistical computing lives
+
+.pull-left[
+<figure>
+  <img src="img/01/mac_and_imac.png" alt="iPhone and iPad" title="iPhone and iPad" width="70%">
+</figure>
+]
+
+--
+
+- Windows and pointers
+
+--
+
+- Multi-tasking, multiple windows
+
+--
+
+- Exposes and leverages the file system
+
+--
+
+- Many specialized tools in concert
+
+--
+
+- Underneath, it's the 1970s, UNIX, and the command-line 
+
+---
+
+# Plain-Text Tools for Data Analysis
+
+.pull-left[
+<figure>
+  <img src="img/01/mac_and_imac.png" alt="iPhone and iPad" title="iPhone and iPad" width="70%">
+</figure>
+]
+
+--
+
+- Better than they've ever been!
+
+--
+
+- Free! Open! Powerful!
+
+--
+
+- Friendly community! Many resources!
+
+--
+
+- But grounded in a UI paradigm that is increasingly far away from the everyday use of computing devices 
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle[The research process is _.kjh-orange[intrinsically messy]_]
+--
+
+## A rough distinction: "Office" vs "Engineering" approaches
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Questions
+
+.less-medium[
+- What is "real" in your project?
+
+- What is the final output?
+
+- How is it produced?
+
+- How are changes managed?
+]
+
+---
+
+# Different Answers
+
+.pull-left.SMALL[
+
+## In the Office model
+
+- Formatted documents are real
+
+- Intermediate outputs get pasted in
+
+- Changes are tracked inside files
+
+- Final output is often in the same format you've been working in, e.g. a Word file, or perhaps a PDF
+
+]
+
+--
+
+.pull-right.SMALL[
+
+## In the Engineering model
+
+- Plain-text files are real
+
+- Intermediate outputs are incorporated via code
+
+- Changes are tracked outside files
+
+- Final outputs are assembled programatically and converted to a desired output format
+]
+
+---
+
+# Different strengths and weaknesses
+
+.pull-left.SMALL[
+
+- Everyone knows Word, Excel, or Google Docs
+
+- "Track changes" is powerful and easy
+
+- Why can't I remember how I made this Figure or Table?
+
+- `Paper_Submission_Final_edits_FINAL_khcomments-1.docx`
+
+]
+
+--
+
+.pull-right.SMALL[
+
+- Plain text is universally portable
+
+- Push button, recreate analysis
+
+- Why can't I make R do this simple thing?
+
+- `object of type 'closure' is not subsettable`
+
+- 
+
+]
+
+--
+
+## .center[Each approach generates solutions to its own problems, too]
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle[<br />GETTING <br />O.kjh-orange[R]IENTED]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+.left[![:scale 30%](img/01/Rlogo.png)]
+
+.right[![:scale 50%](img/01/rstudio-logo.png)]
+
+---
+
+# RStudio is an IDE for R
+
+.center[![:scale 100% "Mercedes AMG Dash"](img/01/benz-amg-cabin.jpg)]
+
+---
+
+# An IDE for Meals
+
+.center[![:scale 70% "Kitchen"](img/01/jp-pouring-oil1920.jpg)]
+
+---
+
+# R & RStudio
+
+.center[![:scale 60% "rstudio-1.png"](img/01/rstudio-1.png)]
+
+---
+
+# R & RStudio
+
+.center[![:scale 50% "rstudio-1.png"](img/01/rstudio-conceptual-1.png)]
+
+---
+
+# R & RStudio
+
+.center[![:scale 50% "rstudio-3.png"](img/01/rstudio-conceptual-2.png)]
+
+---
+
+# RStudio
+
+.center[![:scale 70% "rstudio-4.png"](img/01/rstudio-conceptual-4.png)]
+
+---
+
+# R & RStudio
+
+.center[![:scale 70% "rstudio-5.png"](img/01/rstudio-conceptual-5.png)]
+
+---
+
+# R & RStudio
+
+.center[![:scale 70% "rstudio-6.png"](img/01/rstudio-conceptual-6.png)]
+
+---
+
+# R & RStudio
+
+.center[![:scale 70% "rstudio-7.png"](img/01/rstudio-conceptual-7.png)]
+
+---
+
+# R & RStudio
+
+.center[![:scale 75% "rstudio-3.png"](img/01/rstudio-conceptual-3.png)]
+
