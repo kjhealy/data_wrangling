@@ -1,5 +1,5 @@
 ---
-title: "Data Wrangling with R and the tidyverse"
+title: "Data Wrangling - 1. Overview"
 author: "Kieran Healy"
 date: "`r Sys.Date()`"
 output:
@@ -129,7 +129,7 @@ Maybe you're familiar with R already, but I don't assume it. So please bear with
 layout: false
 class: main-title main-title-inv
 
-# .middle[<br />.kjh-orange[**Data Analysis**]<br />is mostly<br />.kjh-red[**Data Wrangling**]]
+# .middle[<br />.kjh-orange[DATA ANALYSIS]<br />is mostly<br />.kjh-red[DATA WRANGLING]]
 
 ---
 
@@ -222,9 +222,6 @@ class: main-title main-title-inv
 
 ---
 
-
----
-
 layout: true
 class: title title-1
 
@@ -240,7 +237,7 @@ class: title title-1
 
 --
 
-- Touch-based user interface
+- Touch\-based user interface
 
 --
 
@@ -388,7 +385,9 @@ class: title title-1
 
 - "Track changes" is powerful and easy
 
-- Why can't I remember how I made this Figure or Table?
+- Hm, why can't I remember how I made this figure?
+
+- Where did this table of results come from?
 
 - `Paper_Submission_Final_edits_FINAL_khcomments-1.docx`
 
@@ -404,9 +403,9 @@ class: title title-1
 
 - Why can't I make R do this simple thing?
 
-- `object of type 'closure' is not subsettable`
+- This version control stuff is a pain
 
-- 
+- `object of type 'closure' is not subsettable`
 
 ]
 
@@ -490,5 +489,5 @@ class: title title-1
 
 # R & RStudio
 
-.center[![:scale 75% "rstudio-3.png"](img/01/rstudio-conceptual-3.png)]
+.center[![:scale 80% "rstudio-3.png"](img/01/rstudio-conceptual-3.png)]
 
