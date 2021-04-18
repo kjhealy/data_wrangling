@@ -27,7 +27,7 @@ $colors-light: (
 Typography
 */
 .remark-slide-content {
-    font-size: 40px;  /* Base font size */
+    font-size: 36px;  /* Base font size */
     padding: 1em 1em 1em 1em;
     background-color: #F6F6F6;
 }
@@ -46,10 +46,12 @@ Typography
 
 .huge {
     font-size: 2.2em;
+    line-height: 2rem;
 }
 
 .large {
     font-size: 1.6em;
+    line-height: 2rem;
 }
 
 .normal {
@@ -58,23 +60,28 @@ Typography
 
 .medium {
     font-size: 1.3em;
+    line-height: 2rem;
 }
 
 .less-medium {
     font-size: 1.1em;
+    line-height: 2rem;
 }
 
 .SMALL {
     /* CURSE YOU LATEX */
     font-size: 0.8em;
+    line-height: 1.85rem;
 }
 
 .small {
     font-size: 0.7em;
+    line-height: 1.85rem;
 }
 
 .smaller {
     font-size: 0.6em;
+    line-height: 1.5rem;
 }
 
 .tiny {
@@ -156,9 +163,13 @@ figcaption {
     margin-bottom: 0.7em !important;
 }
 
-.remark-code,
 .remark-inline-code {
+    font-size: 0.85em;
+}
+
+.remark-code {
     font-size: 0.45em;
+    line-height: 1.25em;
 }
 
 /* Side-by-side code/plot stuff https://www.garrickadenbuie.com/blog/decouple-code-and-output-in-xaringan-slides/ */
@@ -492,6 +503,16 @@ Coloring and inverse coloring in title bars and content boxes
 
 ul {
   list-style-type: none;
+  line-height: 2.75rem;
+}
+
+pre {
+  margin-top: 0.35em;
+  margin-bottom: 0.35em;
+}
+
+.kjh-pink {
+  color: #FC2290;
 }
 
 .kjh-red {

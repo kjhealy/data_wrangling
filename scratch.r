@@ -48,3 +48,9 @@ as_tibble(mtcars) %>%
   mutate(model = list(lm(mpg ~ wt, data = data))) %>%
   summarize(broom::glance(model))
 
+
+
+### Floating point numbers
+
+
+

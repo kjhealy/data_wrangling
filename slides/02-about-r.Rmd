@@ -55,10 +55,733 @@ Statistical Horizons, April 2021]
 
 ---
 
+layout: false
+class: main-title main-title-inv
+
+# .top[Using RMarkdown to .kjh-orange[produce] and .kjh-green[reproduce] your work]
+
+---
+
 layout: true
 class: title title-1
 
 ---
 
-# 
+# Where we want to end up
 
+.center[![:scale 90% "PDF out"](img/02/lorem-covid-latex.png)]  
+
+---
+
+# Where we want to end up
+
+.center[![:scale 45% "HTML out"](img/02/lorem-covid-html.png)]  
+
+---
+
+# Where we want to end up
+
+.center[![:scale 100% "Word out"](img/02/lorem-covid-word.png)]  
+
+---
+
+# How to get there?
+
+.pull-left[![:scale 35% "R script"](img/02/covid-r-script.png)] 
+
+.pull-right[
+
+- Write an R script with some notes inside. Create some figures and tables, paste them into our document.
+
+- This will work, but we can do better.
+
+]
+
+---
+
+# We can make this ...
+
+
+.center[![:scale 50% "Out"](img/02/lorem-ipsum-goal.png)]  
+
+---
+
+# ... by writing this
+
+.center[![:scale 50% "Out"](img/02/lorem-ipsum-raw.png)]  
+
+---
+
+# The code gets replaced by its output
+
+
+.pull-left[![:scale 100% "Out"](img/02/lorem-ipsum-raw.png)]
+
+.pull-right[![:scale 100% "Out"](img/02/lorem-ipsum-goal.png)]
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+.center[![:scale 90% "Covid example"](img/02/lorem-covid-markdown.png)]  
+
+---
+
+.center[![:scale 90% "Covid example annotated"](img/02/lorem-covid-markdown-annotated.png)]  
+
+---
+
+.pull-left[![:scale 66% "Covid example output"](img/02/lorem-covid-html-full.png)]  
+
+.pull-right[
+
+- This approach has its limitations, but it's very useful.
+
+- When learning R, stick with the defaults at the beginning. Later, you can customize the look of the output in all kinds of ways.
+]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+
+
+
+# The right frame of mind
+
+- This is like learning how to drive a car, or how to cook in a kitchen ... or learning to speak a language.
+
+--
+
+- After some orientation to what's where, you will learn best by _doing_.
+
+--
+
+- Software is a pain, but you won't crash the car or burn your house down. 
+
+---
+
+# The right frame of mind 
+
+- Don't be afraid of the IDE or code. Expect to be frustrated, and don't be surprised when things go wrong. Things will go wrong _constantly_. The software is a very powerful, very obedient, and _very_ dumb robot.
+
+--
+
+- But every time things "don't work", and every time you diagnose and fix them, you will become a little more adept at noticing and fixing these errors. And you will start to accumulate practical knowledge of common failures.
+
+--
+
+- So be like Jacques and keep at it.
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+## .top.large[TYPE OUT YOUR CODE .kjh-orange[BY HAND]]
+
+--
+
+- .left.SMALL[_By far_ the best way to get a feel for R works, and to get comfortable with the cycle of try-fail-fix-retry that is a permanent part of writing any code.]
+
+
+---
+
+.center[![:scale 90% "Samuel Beckett"](img/02/beckett-fail-better.png)]
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle[<br />GETTING <br />O.kjh-orange[R]IENTED]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Loading the tidyverse libraries
+
+```{r, message = TRUE}
+library(tidyverse)
+```
+
+---
+
+# Tidyverse components
+
+.center[![:scale 100% "Tidyverse loading"](img/02/tidyverse-first.png)]
+
+---
+
+# Tidyverse components
+
+.center[![:scale 100% "Tidyverse loading 2"](img/02/tidyverse-first-captioned.png)]
+
+---
+
+# What R looks like
+
+
+- .SMALL[Code you can type and run:] 
+
+```{r}
+## Inside code chunks, lines beginning with a # character are comments
+## Comments are ignored by R
+
+my_numbers <- c(1, 1, 2, 4, 1, 3, 1) # Anything after a # character is ignored as well
+
+```
+
+- .SMALL[Output]
+
+- .smaller[Equivalent to running the code above, typing `my_numbers` at the console, and hitting enter.]
+
+```{r}
+my_numbers 
+```
+
+---
+
+# What R looks like
+
+- .smaller[By convention, code output in documents is prefixed by `##`]
+
+```{r}
+my_numbers 
+```
+
+
+
+--
+
+- .smaller[Also by convention, outputting vectors, etc, gets a counter keeping track of the number of elements. For example,] 
+
+```{r}
+letters
+```
+
+
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .top.large[SOME THINGS<br />TO KNOW<br />ABOUT .kjh-orange[R]] 
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# 0. .kjh-yellow[It's a calculator]
+
+.left-code[
+
+- Arithmetic
+
+
+```{r}
+(31 * 12) / 2^4
+```
+
+```{r}
+sqrt(25)
+```
+
+```{r}
+log(100)
+
+log10(100)
+
+```
+
+]
+
+.right-code[
+
+- Logic
+
+```{r}
+4 < 10
+4 > 2 & 1 > 0.5 # The "&" means "and"
+4 < 2 | 1 > 0.5 # The "|" means "or"
+4 < 2 | 1 < 0.5
+```
+]
+
+---
+
+# Boolean and Logical operators
+
+- Logical equality and inequality (yielding a .kjh-green[`TRUE`] or .kjh-green[`FALSE`] result) is done with `==` and `!=`. Other logical operators include `<`, `>`, `<=`, `>=`, and `!` for negation.
+
+```{r}
+
+## A logical test
+2 == 2
+```
+
+```{r, eval = FALSE}
+## This will cause an error, because R will think you are trying to assign a value
+2 = 2
+```
+
+```{r}
+3 != 7
+```
+
+---
+
+# .kjh-red[Watch out!]
+
+- .small[Here's a gotcha. You might think you could write `3 < 5 & 7` and have it be interpreted as "Three is less than five and also less than seven":]
+
+```{r}
+3 < 5 & 7
+```
+
+- .small[It seems to work!]
+
+---
+
+# .kjh-red[Watch out!]
+
+- .small[But now try `3 < 5 & 1`, where your intention is "Three is less than five and also less than one"]
+
+```{r}
+3 < 5 & 1
+```
+
+--
+
+- .smaller[What's happening is that `3 < 5` is being evaluated first, and resolving to .kjh-green[TRUE], leaving us with the expression .kjh-green[`TRUE`] `& 1`, which R is effectively interpreting as .kjh-green[`TRUE`] `& as.logical(1)`. In Boolean algebra, `0` resolves to  .kjh-green[`FALSE`] and any other number to .kjh-green[`TRUE`]. So you have to make your comparisons explicit:]
+
+```{r}
+3 < 5 & 3 < 1
+```
+
+---
+
+# Logic and floating point arithmetic
+
+- Let's evaluate `0.6 + 0.2 == 0.8`
+
+--
+
+```{r}
+0.6 + 0.2 == 0.8
+```
+
+--
+
+- Now let's try `0.6 + 0.3 == 0.9`
+
+--
+
+```{r}
+0.6 + 0.3 == 0.9
+```
+
+--
+
+- Welcome to floating point maths!
+
+---
+
+# Logic and floating point arithmetic
+
+- .small[In Base 10, you can't precisely express fractions like] $\frac{1}{3}$ and $\frac{1}{9}$. .small[They come out as repeating decimals: 0.3333... or 0.1111... You _can_ cleanly represent fractions that use a prime factor of the base, which in the case of Base 10 are 2 and 5.] 
+
+--
+
+- .small[Computers represent numbers as binary (i.e. Base 2) floating-points. In Base 2, the only prime factor is 2. So] $\frac{1}{5}$ or $\frac{1}{10}$ .small[in binary would be repeating.] 
+
+---
+
+# Logic and floating point arithmetic
+
+- .small[When you do binary math on repeating numbers and convert back to decimals you get tiny leftovers, and this can mess up _logical_ comparisons of equality. The `all.equal()` function exists for this purpose.]
+
+```{r}
+print(.1 + .2)
+print(.1 + .2, digits=18)
+
+all.equal(.1 + .2, 0.3)
+```
+
+--
+
+- See e.g. [https://0.30000000000000004.com](https://0.30000000000000004.com) 
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .top.small[More later on why this might bite you, and how to deal with it]
+
+--
+
+- .smaller[For now, "Be very careful about doing logical comparisons on floating-point numbers" is not a bad rule.]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# 1. .kjh-yellow[Everything in R has a name]
+
+```{r}
+my_numbers ## We just created this
+
+letters  ## This one is built-in
+
+pi  ## Also built-in
+```
+
+---
+
+# Some names are forbidden
+
+- Or it's a _really_ bad idea to try to use them 
+
+```{r, eval = FALSE}
+TRUE
+FALSE
+Inf
+NaN 
+NA 
+NULL
+
+for
+if
+while
+break
+function
+```
+
+---
+
+# 2. .kjh-yellow[Everything is an object]
+
+- .SMALL[There are a few built-in objects]
+
+.small[
+```{r}
+letters
+```
+]
+
+--
+
+.small[
+```{r}
+pi
+```
+]
+
+--
+
+.small[
+```{r}
+
+LETTERS
+```
+]
+
+---
+
+# 3. .kjh-yellow[You can create objects] 
+
+--
+
+- In fact, this is mostly what we will be doing
+
+--
+
+- Objects are created by .kjh-red[assigning] a thing to a name:
+
+```{r}
+## name... gets ... this stuff
+my_numbers <- c(1, 2, 3, 1, 3, 5, 25)
+
+## name ... gets ... the output of the function `c()`
+your_numbers <- c(5, 31, 71, 1, 3, 21, 6)
+```
+
+--
+
+- The `c()` function _combines_ or _concatenates_ things
+
+???
+
+The core thing we do in R is _create objects_ by _assigning a thing to a name_. That thing is usually the output of some _function_. There are a lot of built-in functions.
+
+We can create an object with the `c()` function and the *assignment operator*, `<-`. The `c()` function concatenates things together.
+
+
+---
+
+# The assignment operator
+
+- The assignment operator performs the action of creating objects
+
+- Use a keyboard shortcut to write it:
+
+- Press `option` _and_ `-` on a Mac
+
+- Press `alt` _and_ `-` on Windows
+
+
+---
+
+# Assignment with `=`
+
+- You can use "`=`" as well as "`<-`" for assignment
+
+```{r}
+my_numbers = c(1, 2, 3, 1, 3, 5, 25)
+
+my_numbers
+```
+
+
+--
+
+- On the other hand, "`=`" has a different meaning when used in functions.
+
+--
+
+- I'm going to use "`<-`" for assigment throughout. 
+
+- Just be consistent either way.
+
+---
+
+# Assignment with `=`
+
+.center[![:scale 100%](img/02/gordon_assignment.png)]
+
+???
+
+--- 
+
+layout: true
+class: title title-1
+
+---
+
+# 4. .kjh-yellow[Do things to objects with functions]
+
+
+```{r create_objects_again}
+
+## this object... gets ... the output of this function
+my_numbers <- c(1, 2, 3, 1, 3, 5, 25)
+
+your_numbers <- c(5, 31, 71, 1, 3, 21, 6)
+```
+
+```{r 02-get-started-3}
+my_numbers
+```
+
+- Functions can be identified by the parentheses after their names.
+
+```{r 02-get-started-4}
+my_numbers 
+```
+
+
+```{r this_will_error, eval = FALSE}
+## If you run this you'll get an error
+mean()
+```
+
+---
+
+# What functions usually do
+
+- They take .kjh-orange[**inputs**] to .kjh-pink[**arguments**]
+
+- They perform .kjh-red[**actions**]
+
+- They produce, or return, .kjh-green[**outputs**]
+
+
+## .kjh-red[`mean`(].kjh-orange[`x`] `=` .kjh-pink[`my_numbers`].kjh-red[)]
+
+--
+
+## .kjh-green[`[1] 5.714286`]
+
+---
+
+# What functions usually do
+
+```{r}
+## Get the mean of what? Of x.
+## You need to tell the function what x is
+mean(x = my_numbers)
+
+mean(x = your_numbers)
+```
+
+--
+
+- If you don't _name_ the arguments, R assumes you are providing them in the order the function expects.
+
+```{r}
+mean(your_numbers)
+```
+
+---
+
+# What functions usually do
+
+- What arguments? Which order? Read the function's help page
+
+```{r, eval=FALSE}
+help(mean)
+```
+
+```{r, eval = FALSE}
+## quicker
+?mean
+```
+
+--
+
+- How to read an R help page ... 
+
+---
+
+# What functions usually do
+
+
+- Arguments often tell the function what to do in specific circumstances
+
+```{r}
+missing_numbers <- c(1:10, NA, 20, 32, 50, 104, 32, 147, 99, NA, 45)
+
+mean(missing_numbers, na.rm = TRUE)
+```
+
+--
+
+- Or select from one of several options
+
+```{r}
+## Look at ?mean to see what `trim` does
+mean(missing_numbers, na.rm = TRUE, trim = 0.1)
+```
+
+
+---
+
+# What functions usually do
+
+
+- There are all kinds of functions. They return different things.
+
+```{r}
+summary(my_numbers)
+```
+
+- You can assign the output of a function to a name, which turns it into an object
+
+```{r}
+my_summary <- summary(my_numbers)
+
+my_summary
+```
+
+---
+
+# What functions usually do
+
+- Objects hang around in your work environment until they are overwritten by you, or are deleted
+
+```{r, eval = FALSE}
+## rm() function removes objects
+rm(my_summary)
+
+my_summary
+
+## Error: object 'my_summary' not found
+```
+
+---
+
+# Functions are bundled into .kjh-yellow[packages]
+
+--
+
+- Packages are loaded into your working environment using the `library()` function
+
+--
+
+```{r}
+## A package containing a dataset rather than functions
+library(gapminder)
+
+gapminder
+```
+
+---
+
+# Functions are bundled into .kjh-yellow[packages]
+
+--
+
+- You need only _install_ a package once (or occasionally update it). But you must _load_ the package in each R session before you can access its contents
+
+.small[
+```{r}
+## To load a package, usually at the start of your RMarkdown document or script file
+library(palmerpenguins)
+penguins
+```
+]
+---
+
+# Getting a single function with `::`
+
+- .small[You can, however, "reach in" to an unloaded package and grab a function directly, using `::` between the name of the package and the function you want, like this: `<package>::<function>`]
+
+```{r, message = FALSE, echo = FALSE}
+gtsummary::theme_gtsummary_journal(journal = "jama")
+gtsummary::theme_gtsummary_compact()
+```
+
+.small[
+```{r, eval = FALSE}
+penguins %>% 
+  select(species, body_mass_g, sex) %>% 
+  gtsummary::tbl_summary(by = species)
+```
+]
+
+
+.smaller[
+```{r, echo = FALSE}
+penguins %>% 
+  select(species, body_mass_g, sex) %>% 
+  gtsummary::tbl_summary(by = species)
+```
+]
+
+---

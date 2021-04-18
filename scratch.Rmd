@@ -1,0 +1,58 @@
+---
+title: "scratchfile"
+author: "Kieran Healy"
+date: "4/18/2021"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+as_tibble(mtcars) %>%
+  nest_by(cyl) %>%
+  mutate(model = list(lm(mpg ~ wt, data = data))) %>%
+  summarize(broom::glance(model))
+
+
+```
+
+# Floating point comparisons
+
+- Let's say you are working with proportions
+
+```{r, echo = FALSE}
+
+df <- tribble(~id, ~ prop1, ~prop2,
+              "A", 0.1,      0.2,
+              "B", 0.1,      0.21, 
+              "C", 0.11,     0.2,
+              "D", 0.1,      0.1)
+```
+
+```{r}
+df
+```
+
+- You want to focus on cases where `prop1` plus `prop2` is greater than 0.3:
+
+df %>% 
+  filter(prop1*100 + prop2*100 == 0.3*100)
+```
+
+```{r}
+df %>% 
+  filter(near(prop1 + prop2, 0.3))
+
+df %>% 
+  mutate(prop3 = prop1 + prop2) %>% 
+  filter(prop3 == 0.3)
+
+
+df %>% 
+filter(prop1 + prop2, 0.3)
+
+```
+

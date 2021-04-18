@@ -418,7 +418,7 @@ class: title title-1
 layout: false
 class: main-title main-title-inv
 
-# .middle[<br />GETTING <br />O.kjh-orange[R]IENTED]
+# .middle[<br />INTO THE KITCHEN]
 
 ---
 
