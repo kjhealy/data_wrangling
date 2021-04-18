@@ -11,7 +11,7 @@ output:
     anchor_sections: false
     nature:
       beforeInit: "js/kjh-macros.js"
-      highlightStyle: github
+      highlightStyle: default
       highlightLines: true
       countIncrementalSlides: false
       ratio: "16:9"

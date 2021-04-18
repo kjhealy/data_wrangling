@@ -11,7 +11,7 @@ output:
     anchor_sections: false
     nature:
       beforeInit: "js/kjh-macros.js"
-      highlightStyle: github
+      highlightStyle: default
       highlightLines: true
       countIncrementalSlides: false
       ratio: "16:9"
@@ -236,7 +236,7 @@ library(tidyverse)
 ## Inside code chunks, lines beginning with a # character are comments
 ## Comments are ignored by R
 
-my_numbers <- c(1, 1, 2, 4, 1, 3, 1) # Anything after a # character is ignored as well
+my_numbers <- c(1, 1, 2, 4, 1, 3, 1, 5) # Anything after a # character is ignored as well
 
 ```
 
@@ -479,28 +479,23 @@ function
 
 - .SMALL[There are a few built-in objects]
 
-.small[
+
 ```{r}
 letters
 ```
-]
 
 --
 
-.small[
 ```{r}
 pi
 ```
-]
 
 --
 
-.small[
 ```{r}
 
 LETTERS
 ```
-]
 
 ---
 
@@ -516,10 +511,10 @@ LETTERS
 
 ```{r}
 ## name... gets ... this stuff
-my_numbers <- c(1, 2, 3, 1, 3, 5, 25)
+my_numbers <- c(1, 2, 3, 1, 3, 5, 25, 10)
 
 ## name ... gets ... the output of the function `c()`
-your_numbers <- c(5, 31, 71, 1, 3, 21, 6)
+your_numbers <- c(5, 31, 71, 1, 3, 21, 6, 52)
 ```
 
 --
@@ -590,9 +585,9 @@ class: title title-1
 ```{r create_objects_again}
 
 ## this object... gets ... the output of this function
-my_numbers <- c(1, 2, 3, 1, 3, 5, 25)
+my_numbers <- c(1, 2, 3, 1, 3, 5, 25, 10)
 
-your_numbers <- c(5, 31, 71, 1, 3, 21, 6)
+your_numbers <- c(5, 31, 71, 1, 3, 21, 6, 52)
 ```
 
 ```{r 02-get-started-3}
@@ -626,7 +621,7 @@ mean()
 
 --
 
-## .kjh-green[`[1] 5.714286`]
+## .kjh-green[`[1] 6.25`]
 
 ---
 
@@ -676,6 +671,8 @@ help(mean)
 
 ```{r}
 missing_numbers <- c(1:10, NA, 20, 32, 50, 104, 32, 147, 99, NA, 45)
+
+mean(missing_numbers)
 
 mean(missing_numbers, na.rm = TRUE)
 ```
@@ -750,6 +747,20 @@ gapminder
 - You need only _install_ a package once (or occasionally update it). But you must _load_ the package in each R session before you can access its contents
 
 .small[
+
+```{r, eval = FALSE}
+## Do at least once for each package. Once done, not needed each time.
+install.packages("palmerpenguins", repos = "http://cran.rstudio.com")
+
+## Needed sometimes, especially after an R major version upgrade.
+update.packages(repos = "http://cran.rstudio.com")
+
+```
+
+
+]
+
+.small[
 ```{r}
 ## To load a package, usually at the start of your RMarkdown document or script file
 library(palmerpenguins)
@@ -758,9 +769,9 @@ penguins
 ]
 ---
 
-# Getting a single function with `::`
+# Grabbing a single function with `::`
 
-- .small[You can, however, "reach in" to an unloaded package and grab a function directly, using `::` between the name of the package and the function you want, like this: `<package>::<function>`]
+- .small["Reach in" to an unloaded package and grab a function directly, using `<package>::<function>`]
 
 ```{r, message = FALSE, echo = FALSE}
 gtsummary::theme_gtsummary_journal(journal = "jama")
@@ -768,20 +779,192 @@ gtsummary::theme_gtsummary_compact()
 ```
 
 .small[
-```{r, eval = FALSE}
+```{r}
+## A little glimpse of what we'll do soon
 penguins %>% 
   select(species, body_mass_g, sex) %>% 
   gtsummary::tbl_summary(by = species)
 ```
 ]
 
+---
 
-.smaller[
-```{r, echo = FALSE}
-penguins %>% 
-  select(species, body_mass_g, sex) %>% 
-  gtsummary::tbl_summary(by = species)
+# 5. .kjh-yellow[Objects come in classes]
+
+- The object inspector in RStudio is your friend here
+
+--
+
+- You can also ask an object what its class is. 
+
+--
+
+- Objects can have more than one (nested) class:
+
+--
+
+```{r}
+class(my_numbers)
+
+class(summary(my_numbers)) # functions can be nested, and are evaluated from the inside out
+
+class(gapminder)
+
+```
+
+--
+
+???
+
+Again the object inspector is helpful here
+
+---
+
+# Some classes can't be directly combined
+
+- Objects can be manually or automatically coerced from one class to another
+
+- In general, you should be careful with coercing objects to other classes, as it can easily lead to errors
+
+--
+
+```{r 02-get-started-9}
+class(my_numbers)
+
+my_new_vector <- c(my_numbers, "Apple")
+
+my_new_vector
+
+class(my_new_vector)
+```
+
+---
+
+# Some classes are nested
+
+.left-code[
+
+```{r titanic1}
+library(socviz)
+titanic
+class(titanic)
+```
+
+```{r titanic2}
+## The `$` idiom picks out a named column here; 
+## more generally, the named element of a list
+titanic$percent  
 ```
 ]
+
+--
+
+.right-code[
+```{r titanic3}
+## tibbles are a kind of enhanced data frame 
+## used by the Tidyverse
+titanic_tb <- as_tibble(titanic) 
+class(titanic)
+titanic_tb
+class(titanic_tb)
+```
+]
+
+---
+
+# 6. .kjh-yellow[Arithmetic on vectors]
+
+- In R, all numbers vectors of different sorts. Even single numbers ("scalars") are conceptually vectors of length 1.
+
+--
+
+- Arithmetic on vectors follows a series of _recycling rules_ that favor ease of expression of vectorized, "elementwise" operations.
+
+- See if you can predict what the following operations do: 
+
+---
+
+# 6. .kjh-yellow[Arithmetic on vectors]
+
+```{r}
+my_numbers
+
+result1 <- my_numbers + 1
+
+```
+
+--
+
+```{r}
+result1
+```
+
+--
+
+```{r}
+result2 <- my_numbers + my_numbers
+
+```
+
+--
+
+```{r}
+result2
+```
+
+
+--
+
+
+```{r, warning=TRUE}
+two_nums <- c(5, 10)
+
+result3 <- my_numbers + two_nums
+
+```
+
+
+--
+
+```{r}
+result3
+```
+
+
+---
+
+# 6. .kjh-yellow[Arithmetic on vectors]
+
+```{r, warning=TRUE}
+three_nums <- c(1, 5, 10)
+
+result4 <- my_numbers + three_nums
+
+```
+
+--
+
+```{r}
+result4
+```
+
+
+---
+
+# 7. .kjh-yellow[R will be] .kjh-red[frustrating]
+
+--
+
+- The IDE tries its best to help you. Learn to attend to what it is trying to say.
+
+.left[![:scale 70% "Error 1"](img/02/error_object_length_warning.png)]  
+
+--
+
+.left[![:scale 60% "Error 2"](img/02/error_missing_comma.png)]  
+
+--
+
+.left[![:scale 60% "Error 3"](img/02/error_extra_paren.png)]  
 
 ---
