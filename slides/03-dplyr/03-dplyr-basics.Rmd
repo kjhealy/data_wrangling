@@ -10,7 +10,7 @@ output:
     seal: false
     anchor_sections: false
     nature:
-      beforeInit: "js/kjh-macros.js"
+      beforeInit: "../js/kjh-macros.js"
       highlightStyle: default
       highlightLines: true
       countIncrementalSlides: false
@@ -71,4 +71,41 @@ class: title title-1
 
 ---
 
-# .kjh-yellow[dplyr] 
+# Load our libraries
+
+.SMALL[
+```{r, message = TRUE}
+library(here)      # manage file paths
+library(socviz)    # data and some useful functions
+library(tidyverse) # your friend and mine
+```
+]
+
+---
+
+# Tidyverse components, again
+
+.center[![:scale 100%](img/dplyr_1.png)]
+
+---
+
+# Tidyverse components, again
+
+.center[![:scale 100%](img/dplyr_2.png)]
+
+---
+
+# Other tidyverse components
+
+.center[![:scale 100%](img/dplyr_addnl_1.png)]
+
+---
+
+# Other tidyverse components
+
+.center[![:scale 100%](img/dplyr_addnl_2.png)]
+
+---
+
+
+# .kjh-yellow[dplyr] lets you work with tibbles
