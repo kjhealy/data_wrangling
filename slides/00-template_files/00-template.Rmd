@@ -1,0 +1,251 @@
+---
+title: "Template Slides"
+author: "Kieran Healy"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: "libs"
+    chakra: "../libs/remark-latest.min.js"
+    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css"]
+    seal: false
+    anchor_sections: false
+    nature:
+      beforeInit: "../js/kjh-macros.js"
+      highlightStyle: default
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      navigation:
+        scroll: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
+                      fig.retina = 3, fig.align = "center")
+```
+
+```{r packages-data, include=FALSE}
+library(flipbookr)
+library(here)
+library(tidyverse)
+
+library(cowplot)
+theme_set(theme_cowplot())
+
+```
+
+
+```{r xaringanthemer, echo=FALSE, eval = FALSE}
+
+xaringanthemer::style_extra_css(
+  outfile = stdout(),
+  css = list(
+    ".kjh-red" = list(color = "#A30004"),
+    ".kjh-orange" = list(color = "#EF9B2D"),
+    ".kjh-yellow" = list(color = "#FFFF54"),
+    ".kjh-grey" = list(color = "#CBCBCB"),
+    ".kjh-blue" = list(color = "#212E3E")
+    )
+  )
+
+```
+
+
+```{r xaringanExtra, echo=FALSE}
+xaringanExtra::use_xaringan_extra(c("tile_view"))
+xaringanExtra::use_animate_css()
+xaringanExtra::use_animate_all("fade")
+xaringanExtra::use_clipboard()
+```
+
+class: center middle main-title section-title-1
+
+# A Title Slide with .kjh-yellow[R]
+
+.class-info[
+
+**Session 1**
+
+.light[Kieran Healy<br>
+Statistical Horizons, April 2021
+]
+
+]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# A Bullet Point Slide
+
+&nbsp;
+
+--
+
+.box-inv-1.medium[Blah]
+
+--
+
+.box-inv-1.medium[Blah]
+
+--
+
+.box-inv-1.medium.sp-after[Blah]
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle[Most Data Analysis is .kjh-orange[Cleaning] and .kjh-red[Recoding]]
+---
+
+layout: false
+class: main-title section-title-1
+
+# .left[More Wisdom for the Ages]
+---
+
+layout: true
+class: title title-1
+
+---
+
+```{r load_penguins, include = FALSE}
+
+library(palmerpenguins)
+
+```
+
+`r chunk_reveal("penguin_tabs", widths = c(35,65), title = "# Breaks")`
+
+```{r penguin_tabs, include = FALSE}
+penguins %>% 
+  filter(year != 2007) %>% 
+  group_by(species) %>% 
+  summarize(across(starts_with("bill"), 
+                   list(mean = mean, 
+                        sd = sd),
+                   .names = "{.fn}_{.col}",
+                   na.rm = TRUE)) 
+```
+
+---
+
+```{r my_cars, include = FALSE}
+as_tibble(cars) %>%
+  filter(speed > 4) %>%
+  ggplot() +
+  aes(x = speed) +
+  aes(y = dist) + #BREAK
+  geom_point(
+    alpha = .8, 
+    color = "blue" 
+    ) + #BREAK
+  aes(size = speed) #BREAK
+```
+
+`r chunk_reveal("my_cars", break_type = "auto", title = "# Chunk Breaks")`
+
+---
+
+layout: false
+
+.center[
+<figure>
+  <img src="img/01/tidyverse.png" alt="The tidyverse" title="The tidyverse" width="60%">
+</figure>
+]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Input and Output
+
+.pull-left[
+<figure>
+  <img src="img/01/lorem-ipsum-2.png" alt="What we have" title="What we have" width="100%">
+</figure>
+]
+
+.pull-right[
+<figure>
+  <img src="img/01/lorem-ipsum-1.png" alt="What we want" title="What we want" width="100%">
+</figure>
+]
+
+
+---
+
+# Pull left and right
+
+
+.pull-left.center[
+<figure>
+  <img src="img/01/tidyverse.png" alt="The tidyverse" title="The tidyverse" width="80%">
+</figure>
+]
+
+--
+
+.pull-right[.box-inv-1.medium[Introduction]]
+
+--
+
+.pull-right[.box-inv-1.medium[Deep-dive]]
+
+--
+
+.pull-right[.box-inv-1.medium[Some more]]
+
+---
+
+# Pull left and right
+
+
+.pull-left[
+## Option 1
+
+- Item L1
+
+- Item L2
+
+- Item L3
+]
+
+--
+
+.pull-right[
+
+## Option 2
+
+- Item R1
+
+- Item R2
+
+- Item R3
+]
+
+---
+
+# Scale Images small
+
+![:scale 10%](img/01/Rlogo.png)
+
+---
+
+# Scale images medium
+.right[![:scale 40%](img/01/Rlogo.png)]
+
+
+
+
