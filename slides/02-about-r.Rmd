@@ -134,12 +134,21 @@ class: main-title main-title-inv
 
 .pull-left[![:scale 66% "Covid example output"](img/02/lorem-covid-html-full.png)]  
 
-.pull-right[
 
-- This approach has its limitations, but it's very useful.
+--
 
-- When learning R, stick with the defaults at the beginning. Later, you can customize the look of the output in all kinds of ways.
+.right[
+
+- This approach has its limitations, but it's _very_ useful.
+
 ]
+---
+
+.pull-left[![:scale 44% "RMD out"](img/02/knit-rmd-tall.png)]  
+
+
+.pull-right[- When learning these workflows, stick with the defaults at the beginning. Later, you can customize the look of the output in all kinds of ways.]
+
 
 ---
 
@@ -147,9 +156,6 @@ layout: true
 class: title title-1
 
 ---
-
-
-
 
 # The right frame of mind
 
@@ -163,17 +169,11 @@ class: title title-1
 
 - Software is a pain, but you won't crash the car or burn your house down. 
 
----
-
-# The right frame of mind 
+???
 
 - Don't be afraid of the IDE or code. Expect to be frustrated, and don't be surprised when things go wrong. Things will go wrong _constantly_. The software is a very powerful, very obedient, and _very_ dumb robot.
 
---
-
 - But every time things "don't work", and every time you diagnose and fix them, you will become a little more adept at noticing and fixing these errors. And you will start to accumulate practical knowledge of common failures.
-
---
 
 - So be like Jacques and keep at it.
 
@@ -182,11 +182,11 @@ class: title title-1
 layout: false
 class: main-title main-title-inv
 
-## .top.large[TYPE OUT YOUR CODE .kjh-orange[BY HAND]]
+## .top.huge.squish4[TYPE OUT<br />YOUR CODE<br />.kjh-orange[BY HAND]]
 
 --
 
-- .left.SMALL[_By far_ the best way to get a feel for R works, and to get comfortable with the cycle of try-fail-fix-retry that is a permanent part of writing any code.]
+- .center.SMALL[_By far_ the best way to get a feel for R works, and to get comfortable with the cycle of<br/> try-fail-cry-fix-wail-retry that is a permanent part of writing any code.]
 
 
 ---
@@ -212,6 +212,9 @@ class: title title-1
 ```{r, message = TRUE}
 library(tidyverse)
 ```
+
+- The tidyverse has several components. 
+- We'll return to this message about Conflicts later.
 
 ---
 
@@ -822,54 +825,245 @@ penguins %>%
 
 ---
 
-# 5. .kjh-yellow[Objects come in classes]
+# Remember this warning about conflicts?
 
-- The object inspector in RStudio is your friend here.
+- ![:scale 80% "Conflicts"](img/02/function-masking.png)
+
+- Notice how some functions in different packages have the same names.
+
+--
+
+- Related concept of _namespaces_ and _environments_.
+
+---
+
+# Scope of names
+ 
+.small[
+```{r}
+x <- c(1:10)
+y <- c(90:100)
+
+x
+
+y
+```
+]
+--
+
+.small[
+```r
+mean()
+
+## Error in mean.default() : argument "x" is missing, with no default
+```
+]
+--
+.small[
+```{r}
+mean(x) # argument names are internal to functions
+
+mean(x = x)
+
+mean(x = y)
+
+x
+
+y
+
+```
+]
+
+---
+
+# 5. .kjh-yellow[Objects come in types and classes]
+
+- I'm going to speak somewhat loosely here for now, and gloss over some distinctions between object classes and data structures, as well as kinds of objects and their attributes.
 
 --
 
-- You can also ask an object what its class is. 
+- The object inspector in RStudio is your friend.
 
 --
+
+- You can ask an object what it is. 
+
+```{r}
+class(my_numbers)
+typeof(my_numbers)
+```
+
+
+---
+
+# 5. .kjh-yellow[Objects come in types and classes]
 
 - Objects can have more than one (nested) class:
 
 --
 
 ```{r}
-class(my_numbers)
+summary(my_numbers)
+
+my_smry <- summary(my_numbers) # remember, outputs can be assigned to a name, creating an object
 
 class(summary(my_numbers)) # functions can be nested, and are evaluated from the inside out
 
-class(gapminder)
-
+class(my_smry) # equivalent to the previous line
 ```
-
---
-
-???
-
-Again the object inspector is helpful here
 
 ---
 
-# Some classes can't be directly combined
+# 5. .kjh-yellow[Objects come in types and classes]
 
-- Objects can be manually or automatically coerced from one class to another.
 
-- In general, you should be careful with coercing objects to other classes, as it can easily lead to errors.
+```{r}
+typeof(my_smry)
+attributes(my_smry)
+
+## In this case, the functions extract the corresponding attribute
+class(my_smry)
+names(my_smry)
+```
+
+---
+
+# The most common types of vector
+
+.pull-left.tiny.kjh-darkgrey[
+
+[![:scale 80% "Vectors 1"](img/02/summary-tree-atomic.png)]  
+
+- From Hadley Wickham, _Advanced R_
+
+]
 
 --
 
+.pull-right.small[
+
+```{r}
+my_int <- c(1, 3, 5, 6, 10)
+is.integer(my_int)
+is.double(my_int)
+
+my_int <- as.integer(my_int)
+is.integer(my_int)
+
+my_chr <- c("Mary", "had", "a", "little", "lamb")
+is.character(my_chr)
+
+my_lgl <- c(TRUE, FALSE, TRUE)
+is.logical(my_lgl)
+
+```
+
+]
+
+---
+
+# The most common types of vector
+
+.pull-left.tiny.kjh-darkgrey[
+
+[![:scale 90% "Vectors 2"](img/02/summary-tree-s3.png)]  
+
+- From Hadley Wickham, _Advanced R_
+
+]
+
+--
+
+.pull-right.small[
+
+```{r}
+x <- factor(c("Yes", "No", "No", "Maybe", "Yes", "Yes", "Yes", "No"))
+x
+
+summary(x)
+
+typeof(x)
+attributes(x)
+class(x)
+levels(x)
+is.ordered(x)
+
+```
+
+]
+
+???
+
+HW: 
+
+Categorical data, where values come from a fixed set of levels recorded in factor vectors.
+
+Dates (with day resolution), which are recorded in Date vectors.
+
+Date-times (with second or sub-second resolution), which are stored in POSIXct vectors.
+
+Durations, which are stored in difftime vectors.
+
+---
+
+
+# Some things can't be directly combined
+
+- .small[Objects can be manually or automatically coerced from one class to another. Take care.]
+
+--
+
+.SMALL[
 ```{r 02-get-started-9}
 class(my_numbers)
 
 my_new_vector <- c(my_numbers, "Apple")
 
-my_new_vector
+my_new_vector # vectors are homogeneous
 
 class(my_new_vector)
 ```
+]
+--
+
+.SMALL[
+```{r}
+my_dbl <- c(2.1, 4.77, 30.111, 3.14519)
+is.double(my_dbl)
+
+my_dbl <- as.integer(my_dbl)
+
+my_dbl
+
+```
+]
+
+---
+
+# A table of data is a kind of .kjh-yellow[list]
+
+.SMALL[
+```{r}
+gapminder # tibbles and data frames can contain vectors of different types
+
+class(gapminder)
+typeof(gapminder) # hmm
+
+```
+]
+
+- .small[Underneath, most complex R objects are some kind of list with different components.]
+
+
+???
+
+- A _data frame_ is a list of vectors of the same length, where the vectors can be of different types (e.g. numeric, character, logical, etc)
+
+- A _tibble_ is an enhanced data frame 
+
+Tibbles have an enhanced print method, never coerce strings to factors, and provide stricter subsetting methods. (HW)
+
+Again the object inspector is helpful here
 
 ---
 
@@ -879,17 +1073,22 @@ class(my_new_vector)
 
 - Base R's trusty `data.frame`
 
+.SMALL[
 ```{r titanic1}
 library(socviz)
 titanic
 class(titanic)
 ```
+]
 
+.SMALL[
 ```{r titanic2}
 ## The `$` idiom picks out a named column here; 
 ## more generally, the named element of a list
 titanic$percent  
 ```
+]
+
 ]
 
 --
@@ -898,6 +1097,7 @@ titanic$percent
 
 - The Tidyverse's enhanced `tibble`
 
+.SMALL[
 ```{r titanic3}
 ## tibbles are build on data frames 
 titanic_tb <- as_tibble(titanic) 
@@ -905,17 +1105,33 @@ class(titanic)
 titanic_tb
 class(titanic_tb)
 ```
+ ]
 ]
+---
+
+# All of this will matter later on
+
+.SMALL[
+```{r}
+gss_sm
+```
+]
+
+--
+
+- .SMALL.squish2[Tidyverse tools are generally _type safe_, meaning their functions return the same type of thing every time, and often require the same type of input that they return as output. So it's good to know about the various data types.]
 
 ---
 
 # 6. .kjh-yellow[Arithmetic on vectors]
 
-- In R, all numbers vectors of different sorts. Even single numbers ("scalars") are conceptually vectors of length 1.
+- In R, all numbers are vectors of different sorts. Even single numbers ("scalars") are conceptually vectors of length 1.
 
 --
 
-- Arithmetic on vectors follows a series of _recycling rules_ that favor ease of expression of vectorized, "elementwise" operations.
+- Arithmetic on vectors\* follows a series of _recycling rules_ that favor ease of expression of vectorized, "elementwise" operations.
+
+.footnote.tiny[*And arrays, too.]
 
 - See if you can predict what the following operations do: 
 
@@ -1004,5 +1220,3 @@ result4
 --
 
 .left[![:scale 60% "Error 3"](img/02/error_extra_paren.png)]  
-
----

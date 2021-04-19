@@ -673,7 +673,7 @@ pre {
 }
 
 .kjh-red {
-  color: #A30004;
+  color: #FB0307;
 }
 
 .kjh-orange {
@@ -686,6 +686,10 @@ pre {
 
 .kjh-grey {
   color: #CBCBCB;
+}
+
+.kjh-darkgrey {
+  color: #C0C0C0;
 }
 
 .kjh-blue {
