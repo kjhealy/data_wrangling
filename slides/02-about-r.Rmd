@@ -46,7 +46,7 @@ class: center middle main-title section-title-1
 
 .class-info[
 
-**Day 1**
+**Session 2**
 
 .light[Kieran Healy<br>
 Statistical Horizons, April 2021]
@@ -757,6 +757,136 @@ my_summary
 
 ---
 
+# Functions can be .kjh-yellow[nested]
+
+```{r}
+c(1:20)
+```
+
+--
+
+```{r}
+mean(c(1:20))
+```
+
+--
+
+```{r}
+summary(mean(c(1:20)))
+```
+
+```{r}
+names(summary(mean(c(1:20))))
+```
+
+--
+
+```{r}
+length(names(summary(mean(c(1:20)))))
+```
+
+--
+
+- Nested functions are evaluated from the inside out.
+
+---
+
+# Use the pipe operator: .kjh-yellow[%>%]
+
+- .SMALL[Instead of nesting functions in parentheses, we can use the _pipe operator_:]
+
+
+```{r}
+c(1:20) %>% mean() %>% summary() %>% names() %>%  length()
+```
+
+--
+
+- .SMALL[Read this operator as "_.kjh-green[**and then**]_"]
+
+--
+
+- .SMALL[Better, vertical space is free in R:]
+
+
+```{r}
+c(1:20) %>% 
+  mean() %>% 
+  summary() %>% 
+  names() %>% 
+  length()
+```
+
+---
+
+# Piped operations make code more readable
+
+- Not great, Bob:
+
+```r
+  serve(stir(pour_in_pan(whisk(crack_eggs(get_from_fridge(eggs), into = "bowl"), len = 40), temp = "med-high")))
+```
+
+--
+
+- Notice how the first thing you read is the last operation performed.
+
+--
+
+- Really not much better:
+
+```r
+serve(
+  stir(
+    pour_in_pan(
+      whisk(
+        crack_eggs(
+          get_from_fridge(eggs), 
+        into = "bowl"), 
+      len = 40), 
+    temp = "med-high")
+  )
+)
+```
+
+---
+
+# Piped operations make code more readable
+
+- Much more preferable
+
+```r
+eggs %>% 
+  get_from_fridge() %>% 
+  crack_eggs(into = "bowl") %>% 
+  whisk(len = 40) %>% 
+  pour_in_pan(temp = "med-high") %>% 
+  stir() %>% 
+  serve()
+
+```
+
+---
+
+
+# Coming soon to an R near you: .kjh-yellow[|>]
+
+- The pipe operator **`%>%`** is not part of Base R. It was introduced in a package called `magrittr`. 
+
+--
+
+- It's been so successful, a version of it will soon be incorporated into Base R.
+
+--
+
+- It will be denoted by **`|>`** and should be a direct replacement for **`%>%`** in almost every case
+
+--
+
+- The magrittr pipe will continue to work, though.
+
+---
+
 # Functions are bundled into .kjh-yellow[packages]
 
 --
@@ -778,9 +908,9 @@ gapminder
 
 --
 
-- You need only _install_ a package once (and occasionally update it). But you must _load_ the package in each R session before you can access its contents.
+- .SMALL.squish2[You need only _install_ a package once (and occasionally update it). But you must _load_ the package in each R session before you can access its contents.]
 
-.small[
+.SMALL[
 
 ```{r, eval = FALSE}
 ## Do at least once for each package. Once done, not needed each time.
@@ -794,7 +924,7 @@ update.packages(repos = "http://cran.rstudio.com")
 
 ]
 
-.small[
+.SMALL[
 ```{r}
 ## To load a package, usually at the start of your RMarkdown document or script file
 library(palmerpenguins)
@@ -803,7 +933,7 @@ penguins
 ]
 ---
 
-# Grabbing a single function with `::`
+# Grabbing a single function with .kjh-yellow[`::`]
 
 - .small["Reach in" to an unloaded package and grab a function directly, using `<package>::<function>`]
 
