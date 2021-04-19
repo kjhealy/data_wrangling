@@ -36,22 +36,21 @@ Typography
     margin: 0.5em 0;
 }
 
+
 .remark-slide-content h1 {
     font-weight: bold;
     font-size: 1.7em;
-    line-height: 1em;
+    line-height: 1;
     margin-top: 0;
     text-align: center;
 }
 
 .huge {
     font-size: 2.2em;
-    line-height: 2rem;
 }
 
 .large {
     font-size: 1.6em;
-    line-height: 2rem;
 }
 
 .normal {
@@ -60,28 +59,24 @@ Typography
 
 .medium {
     font-size: 1.3em;
-    line-height: 2rem;
 }
 
 .less-medium {
     font-size: 1.1em;
-    line-height: 2rem;
 }
 
 .SMALL {
     /* CURSE YOU LATEX */
     font-size: 0.8em;
-    line-height: 1.85rem;
 }
 
 .small {
     font-size: 0.7em;
-    line-height: 1.85rem;
 }
 
 .smaller {
     font-size: 0.6em;
-    line-height: 1.5rem;
+    line-height: 0.2;
 }
 
 .tiny {
@@ -169,7 +164,6 @@ figcaption {
 
 .remark-code {
     font-size: 0.45em;
-    line-height: 1.25em;
 }
 
 /* Side-by-side code/plot stuff https://www.garrickadenbuie.com/blog/decouple-code-and-output-in-xaringan-slides/ */
@@ -501,9 +495,35 @@ Coloring and inverse coloring in title bars and content boxes
 
 /* Extra CSS */
 
+.squish1 {
+  display: block;
+  line-height: 1.3;
+}
+
+.squish2 {
+  display: block;
+  line-height: 1.2;
+}
+
+.squish3 {
+  display: block;
+  line-height: 1.1;
+}
+
+.squish4 {
+  display: block;
+  line-height: 1;
+}
+
+.squish5 {
+  display: block;
+  line-height: 0.9;
+}
+
+
+
 ul {
   list-style-type: none;
-  line-height: 2.75rem;
 }
 
 pre {

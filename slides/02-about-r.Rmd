@@ -58,7 +58,7 @@ Statistical Horizons, April 2021]
 layout: false
 class: main-title main-title-inv
 
-# .top[Using RMarkdown to .kjh-orange[produce] and .kjh-green[reproduce] your work]
+# .middle.squish4[Using RMarkdown to .kjh-orange[produce] and .kjh-green[reproduce] your work]
 
 ---
 
@@ -198,7 +198,7 @@ class: main-title main-title-inv
 layout: false
 class: main-title main-title-inv
 
-# .middle[<br />GETTING <br />O.kjh-orange[R]IENTED]
+# .middle.squish4[<br />GETTING <br />O.kjh-orange[R]IENTED]
 
 ---
 
@@ -230,7 +230,7 @@ library(tidyverse)
 # What R looks like
 
 
-- .SMALL[Code you can type and run:] 
+- Code you can type and run:
 
 ```{r}
 ## Inside code chunks, lines beginning with a # character are comments
@@ -240,7 +240,7 @@ my_numbers <- c(1, 1, 2, 4, 1, 3, 1, 5) # Anything after a # character is ignore
 
 ```
 
-- .SMALL[Output]
+- Output
 
 - .smaller[Equivalent to running the code above, typing `my_numbers` at the console, and hitting enter.]
 
@@ -252,7 +252,7 @@ my_numbers
 
 # What R looks like
 
-- .smaller[By convention, code output in documents is prefixed by `##`]
+- By convention, code output in documents is prefixed by `##`
 
 ```{r}
 my_numbers 
@@ -262,7 +262,7 @@ my_numbers
 
 --
 
-- .smaller[Also by convention, outputting vectors, etc, gets a counter keeping track of the number of elements. For example,] 
+- .small[Also by convention, outputting vectors, etc, gets a counter keeping track of the number of elements. For example,] 
 
 ```{r}
 letters
@@ -275,7 +275,7 @@ letters
 layout: false
 class: main-title main-title-inv
 
-# .top.large[SOME THINGS<br />TO KNOW<br />ABOUT .kjh-orange[R]] 
+# .top.large.squish4[SOME THINGS<br />TO KNOW<br />ABOUT .kjh-orange[R]] 
 
 ---
 
@@ -286,7 +286,7 @@ class: title title-1
 
 # 0. .kjh-yellow[It's a calculator]
 
-.left-code[
+.pull-left[
 
 - Arithmetic
 
@@ -308,7 +308,9 @@ log10(100)
 
 ]
 
-.right-code[
+--
+
+.pull-right[
 
 - Logic
 
@@ -324,7 +326,7 @@ log10(100)
 
 # Boolean and Logical operators
 
-- Logical equality and inequality (yielding a .kjh-green[`TRUE`] or .kjh-green[`FALSE`] result) is done with `==` and `!=`. Other logical operators include `<`, `>`, `<=`, `>=`, and `!` for negation.
+- Logical equality and inequality (yielding a .kjh-green[`TRUE`] or .kjh-red[`FALSE`] result) is done with `==` and `!=`. Other logical operators include `<`, `>`, `<=`, `>=`, and `!` for negation.
 
 ```{r}
 
@@ -335,6 +337,8 @@ log10(100)
 ```{r, eval = FALSE}
 ## This will cause an error, because R will think you are trying to assign a value
 2 = 2
+
+## Error in 2 = 2 : invalid (do_set) left-hand side to assignment
 ```
 
 ```{r}
@@ -345,31 +349,48 @@ log10(100)
 
 # .kjh-red[Watch out!]
 
-- .small[Here's a gotcha. You might think you could write `3 < 5 & 7` and have it be interpreted as "Three is less than five and also less than seven":]
+- Here's a gotcha. You might think you could write `3 < 5 & 7` and have it be interpreted as "Three is less than five and also less than seven [True or False?]":
 
 ```{r}
 3 < 5 & 7
 ```
 
-- .small[It seems to work!]
+--
+
+- It seems to work!
 
 ---
 
 # .kjh-red[Watch out!]
 
-- .small[But now try `3 < 5 & 1`, where your intention is "Three is less than five and also less than one"]
+- But now try `3 < 5 & 1`, where your intention is "Three is less than five and also less than one [True or False?]"
+
+.pull-left[
 
 ```{r}
 3 < 5 & 1
 ```
 
+- .smaller.squish1[What's happening is that `3 < 5` is evaluated first, and resolves to .kjh-green[TRUE], leaving us with the expression .kjh-green[`TRUE`] `& 1`. R interprets this as .kjh-green[`TRUE`] `& as.logical(1)`. In Boolean algebra, `1` resolves to  .kjh-green[`TRUE`]. Any other number is .kjh-red[`FALSE`]. So,]
+
+```{r}
+TRUE & as.logical(1)
+```
+
+]
+
 --
 
-- .smaller[What's happening is that `3 < 5` is being evaluated first, and resolving to .kjh-green[TRUE], leaving us with the expression .kjh-green[`TRUE`] `& 1`, which R is effectively interpreting as .kjh-green[`TRUE`] `& as.logical(1)`. In Boolean algebra, `0` resolves to  .kjh-green[`FALSE`] and any other number to .kjh-green[`TRUE`]. So you have to make your comparisons explicit:]
+.pull-right[
 
 ```{r}
 3 < 5 & 3 < 1
 ```
+
+- .smaller[You have to make your comparisons explicit.]
+
+
+]
 
 ---
 
@@ -395,7 +416,11 @@ log10(100)
 
 --
 
-- Welcome to floating point maths!
+- Er. That's not right.
+
+--
+
+- Welcome to floating point math!
 
 ---
 
@@ -411,7 +436,9 @@ log10(100)
 
 # Logic and floating point arithmetic
 
-- .small[When you do binary math on repeating numbers and convert back to decimals you get tiny leftovers, and this can mess up _logical_ comparisons of equality. The `all.equal()` function exists for this purpose.]
+- When you do binary math on repeating numbers and convert back to decimals you get tiny leftovers, and this can mess up _logical_ comparisons of equality. The `all.equal()` function exists for this purpose.
+
+--
 
 ```{r}
 print(.1 + .2)
@@ -429,7 +456,7 @@ all.equal(.1 + .2, 0.3)
 layout: false
 class: main-title main-title-inv
 
-# .top.small[More later on why this might bite you, and how to deal with it]
+# .middle.squish4[More later on why this might bite you, and how to deal with it]
 
 --
 
@@ -445,11 +472,11 @@ class: title title-1
 # 1. .kjh-yellow[Everything in R has a name]
 
 ```{r}
-my_numbers ## We just created this
+my_numbers # We created this a few minutes ago
 
-letters  ## This one is built-in
+letters  # This one is built-in
 
-pi  ## Also built-in
+pi  # Also built-in
 ```
 
 ---
@@ -533,6 +560,8 @@ We can create an object with the `c()` function and the *assignment operator*, `
 # The assignment operator
 
 - The assignment operator performs the action of creating objects
+
+--
 
 - Use a keyboard shortcut to write it:
 
@@ -698,7 +727,9 @@ mean(missing_numbers, na.rm = TRUE, trim = 0.1)
 summary(my_numbers)
 ```
 
-- You can assign the output of a function to a name, which turns it into an object
+--
+
+- You can assign the output of a function to a name, which turns it into an object. (Otherwise it'll send its output to the console.)
 
 ```{r}
 my_summary <- summary(my_numbers)
@@ -710,7 +741,7 @@ my_summary
 
 # What functions usually do
 
-- Objects hang around in your work environment until they are overwritten by you, or are deleted
+- Objects hang around in your work environment until they are overwritten by you, or are deleted.
 
 ```{r, eval = FALSE}
 ## rm() function removes objects
@@ -727,7 +758,7 @@ my_summary
 
 --
 
-- Packages are loaded into your working environment using the `library()` function
+- Packages are loaded into your working environment using the `library()` function.
 
 --
 
@@ -744,7 +775,7 @@ gapminder
 
 --
 
-- You need only _install_ a package once (or occasionally update it). But you must _load_ the package in each R session before you can access its contents
+- You need only _install_ a package once (and occasionally update it). But you must _load_ the package in each R session before you can access its contents.
 
 .small[
 
@@ -773,6 +804,8 @@ penguins
 
 - .small["Reach in" to an unloaded package and grab a function directly, using `<package>::<function>`]
 
+--
+
 ```{r, message = FALSE, echo = FALSE}
 gtsummary::theme_gtsummary_journal(journal = "jama")
 gtsummary::theme_gtsummary_compact()
@@ -783,7 +816,7 @@ gtsummary::theme_gtsummary_compact()
 ## A little glimpse of what we'll do soon
 penguins %>% 
   select(species, body_mass_g, sex) %>% 
-  gtsummary::tbl_summary(by = species)
+  gtsummary::tbl_summary(by = species) #<<
 ```
 ]
 
@@ -791,7 +824,7 @@ penguins %>%
 
 # 5. .kjh-yellow[Objects come in classes]
 
-- The object inspector in RStudio is your friend here
+- The object inspector in RStudio is your friend here.
 
 --
 
@@ -822,9 +855,9 @@ Again the object inspector is helpful here
 
 # Some classes can't be directly combined
 
-- Objects can be manually or automatically coerced from one class to another
+- Objects can be manually or automatically coerced from one class to another.
 
-- In general, you should be careful with coercing objects to other classes, as it can easily lead to errors
+- In general, you should be careful with coercing objects to other classes, as it can easily lead to errors.
 
 --
 
@@ -842,7 +875,9 @@ class(my_new_vector)
 
 # Some classes are nested
 
-.left-code[
+.pull-left[
+
+- Base R's trusty `data.frame`
 
 ```{r titanic1}
 library(socviz)
@@ -859,10 +894,12 @@ titanic$percent
 
 --
 
-.right-code[
+.pull-right[
+
+- The Tidyverse's enhanced `tibble`
+
 ```{r titanic3}
-## tibbles are a kind of enhanced data frame 
-## used by the Tidyverse
+## tibbles are build on data frames 
 titanic_tb <- as_tibble(titanic) 
 class(titanic)
 titanic_tb
@@ -948,6 +985,7 @@ result4 <- my_numbers + three_nums
 result4
 ```
 
+- Note that you get a _warning_ here. It'll still do it, though! Don't ignore warnings until you understand what they mean.
 
 ---
 

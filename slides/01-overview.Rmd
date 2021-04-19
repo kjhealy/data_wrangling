@@ -105,7 +105,7 @@ class: title title-1
 </figure>
 ]
 
-- If you're watching in full-screen view and I'm sharing my screen, then from Zoom's "View options" menu _turn off_ "Side-by-Side" mode
+- If you're watching in full-screen view and I'm sharing my screen, then from Zoom's "View options" menu _turn off_ "Side-by-Side" mode.
 
 ---
 
@@ -129,7 +129,7 @@ Maybe you're familiar with R already, but I don't assume it. So please bear with
 layout: false
 class: main-title main-title-inv
 
-# .middle[<br />.kjh-orange[DATA ANALYSIS]<br />is mostly<br />.kjh-red[DATA WRANGLING]]
+# .middle.squish4[<br />.kjh-orange[DATA ANALYSIS]<br />is mostly<br />.kjh-red[DATA WRANGLING]]
 
 ---
 
@@ -158,7 +158,7 @@ class: title title-1
 
 --
 
-.pull-right[.box-inv-1.large[.kjh-red[**No.**]]]
+.pull-right[.box-inv-1.huge[.kjh-red[**No.**]]]
 
 --
 
@@ -176,7 +176,7 @@ class: title title-1
 
 --
 
-.pull-right[.box-inv-1.large[.kjh-orange[**Also no.**]]]
+.pull-right[.box-inv-1.huge[.kjh-orange[**Also no.**]]]
 
 --
 
@@ -188,11 +188,11 @@ class: title title-1
 layout: false
 class: main-title main-title-inv
 
-# .middle[HOWEVER, WE _CAN_ MAKE IT _.kjh-green[WORK]_]
+# .middle.squish4[HOWEVER, WE _CAN_<br />MAKE IT _.kjh-green[WORK]_]
 
 --
 
-- Also, it's weirdly satisfying once you get into it
+- Also, it's weirdly satisfying once you get into it.
 
 ---
 
@@ -201,7 +201,7 @@ class: title title-1
 
 ---
 
-# We take a broadly _Plain Text_ approach
+# We take a broadly _.kjh-yellow[Plain Text]_ approach
 
 .pull-left[
 <figure>
@@ -211,14 +211,16 @@ class: title title-1
 
 --
 
-- Using R and the Tidyverse can be understood within this broader context. The same principles would apply to, e.g., using Python or similar tools.
+- Using R and the Tidyverse can be understood within this broader context. 
+
+- The same principles would apply to, e.g., using Python or similar tools.
 
 ---
 
 layout: false
 class: main-title main-title-inv
 
-# .middle[Two revolutions in computing]
+# .middle.squish4[Two revolutions<br/>in computing]
 
 ---
 
@@ -245,7 +247,7 @@ class: title title-1
 
 --
 
-- Dislikes multi-tasking
+- Dislikes multi-tasking\*
 
 --
 
@@ -255,7 +257,7 @@ class: title title-1
 
 # \*Multitasking
 
-.middle[- I mean, “Making different specialized applications and resources work together in the service of a single but multi-dimensional project”, not “Checking Twitter while also listening to a talk and trying to keep up with the updates from the softball game.”]
+.middle[I mean, “Making different specialized applications and resources work together in the service of a single but multi-dimensional project”, not “Checking Twitter while also listening to a talk and waiting for an update from the school nurse.”]
 
 ---
 
@@ -313,6 +315,9 @@ class: title title-1
 
 - But grounded in a UI paradigm that is increasingly far away from the everyday use of computing devices 
 
+--
+
+- So why do we use these tools?
 ---
 
 layout: false
@@ -350,13 +355,13 @@ class: title title-1
 
 ## In the Office model
 
-- Formatted documents are real
+- Formatted documents are real.
 
-- Intermediate outputs get pasted in
+- Intermediate outputs get pasted in.
 
-- Changes are tracked inside files
+- Changes are tracked inside files.
 
-- Final output is often in the same format you've been working in, e.g. a Word file, or perhaps a PDF
+- Final output is often in the same format you've been working in, e.g. a Word file, or perhaps a PDF.
 
 ]
 
@@ -366,13 +371,13 @@ class: title title-1
 
 ## In the Engineering model
 
-- Plain-text files are real
+- Plain-text files are real.
 
-- Intermediate outputs are incorporated via code
+- Intermediate outputs are incorporated via code.
 
-- Changes are tracked outside files
+- Changes are tracked outside files.
 
-- Final outputs are assembled programatically and converted to a desired output format
+- Final outputs are assembled programatically and converted to a desired output format.
 ]
 
 ---
@@ -381,15 +386,15 @@ class: title title-1
 
 .pull-left.SMALL[
 
-- Everyone knows Word, Excel, or Google Docs
+- Everyone knows Word, Excel, or Google Docs.
 
-- "Track changes" is powerful and easy
+- "Track changes" is powerful and easy.
 
-- Hm, why can't I remember how I made this figure?
+- Hm, why can't I remember how I made this figure?.
 
-- Where did this table of results come from?
+- Where did this table of results come from?.
 
-- `Paper_Submission_Final_edits_FINAL_khcomments-1.docx`
+- .small[`Paper_Submission_Final_edits_FINAL_khcomments-1.docx`]
 
 ]
 
@@ -397,15 +402,15 @@ class: title title-1
 
 .pull-right.SMALL[
 
-- Plain text is universally portable
+- Plain text is universally portable.
 
-- Push button, recreate analysis
+- Push button, recreate analysis.
 
 - Why can't I make R do this simple thing?
 
-- This version control stuff is a pain
+- This version control stuff is a pain.
 
-- `object of type 'closure' is not subsettable`
+- .small[`Object of type 'closure' is not subsettable`]
 
 ]
 
