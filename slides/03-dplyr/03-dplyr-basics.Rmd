@@ -105,7 +105,116 @@ library(tidyverse) # your friend and mine
 
 .center[![:scale 100%](img/dplyr_addnl_2.png)]
 
+--
+
+- Not all of these are attached when we do `library(tidyverse)`
+
 ---
 
-
 # .kjh-yellow[dplyr] lets you work with tibbles
+
+- Remember, tibbles are tables of data where the columns can be of different types, such as numeric, logical, character, factor, etc.
+
+--
+
+- We'll use dplyr to _transform_ and _summarize_ our data.
+
+--
+
+- We'll use the pipe operator, **`%>%`**, to chain together sequences of actions on our tables.
+
+--
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle.squish4[dplyr draws on the logic and language of  .kjh-green[database queries], where the focus is on manupulating tables]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Some .kjh-orange[actions] to take on a single table 
+
+--
+
+- **Group** the data at the level we want, such as “_Religion by Region_” or _“Children by School by District_”, so as to present data at that level.
+
+--
+
+- **Subset** either the rows or columns of or table.
+
+--
+
+- **Mutate**  the data. That is, change something at the _current_ level of grouping.  Mutating adds new columns to the table, or changes the content of an existing column. This won't change the number of rows.
+
+--
+
+- **Summarize** or aggregate the data. That is, make something new at a _higher_ level of grouping. E.g., calculate means or counts by some grouping variable. This will generally result in a smaller, _summary_ table.
+
+---
+
+# Each .kjh-orange[action] has a corresponding .kjh-green[function] 
+
+--
+
+- **Group** using  `group_by()`.
+
+--
+
+- **Subset** has one action for rows and one for columns. We `filter()` rows and `select()` columns. 
+
+--
+
+- **Mutate** tables (i.e. add new columns, or re-make existing ones) using `mutate()`.
+
+--
+
+- **Summarize** tables (i.e. perform aggregating calculations) using `summarize()`.
+
+---
+
+# General Social Survey data: .kjh-pink[`gss_sm`]
+
+```{r}
+## library(socviz) # if not loaded
+gss_sm
+```
+
+--
+
+- Notice how the tibble already tells us a lot.
+
+---
+
+# Summarizing a Table
+
+--
+
+- Here's what we're going to do:
+
+.center[![:scale 100%](img/dplyr-pipe-example.png)]
+
+---
+
+# Summarizing a Table
+
+```{r}
+## Just take a look at the columns we will work on
+gss_sm %>% 
+  select(id, bigregion, religion)
+```
+
+---
+
+# Summarizing a Table
+
+```{r}
+
+```
+
