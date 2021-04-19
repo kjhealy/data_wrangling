@@ -1,5 +1,5 @@
 ---
-title: "Data Wrangling - 2. Finding your way in R"
+title: "Data Wrangling - 3. Manipulating tables with `dplyr`"
 author: "Kieran Healy"
 date: "`r Sys.Date()`"
 output:
