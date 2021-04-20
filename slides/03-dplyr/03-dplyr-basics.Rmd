@@ -423,9 +423,10 @@ theme_set(cowplot::theme_cowplot())
 ```
 
 .SMALL[
-```{r, fig.height=4, fig.width=12}
+```{r, fig.height=4, fig.width=15}
 gss_sm %>% 
-  count(bigregion, religion) %>% 
+  group_by(bigregion, religion) %>% 
+  tally() %>% 
   mutate(pct = round((n/sum(n))*100), 1) %>% 
   drop_na() %>% 
   ggplot(mapping = aes(x = pct, y = reorder(religion, -pct), fill = religion)) + 
@@ -521,9 +522,10 @@ Hm, did I sum over right group?
 .pull-right[
 
 ```{r}
+## Each region should sum to ~100
 rel_by_region %>% 
   group_by(bigregion) %>% 
-  summarize(total = sum(pct))
+  summarize(total = sum(pct)) 
 
 ```
 
@@ -582,7 +584,7 @@ rel_by_region %>%
 
 ## Check your tables!
 
-- Pipelines feed their content forward, so you need to make sure your results are not all wrong.
+- Pipelines feed their content forward, so you need to make sure your results are not incorrect.
 
 --
 
@@ -631,7 +633,7 @@ gss_sm %>%
 
 ---
 
-`r chunk_reveal("03-kid-pipeline", widths = c(25,75), title = "Following a pipeline")`
+`r chunk_reveal("03-kid-pipeline", widths = c(40,60), title = "# Following a pipeline")`
 
 
 ```{r 03-kid-pipeline, include = FALSE} 
@@ -642,6 +644,7 @@ gss_sm %>%
             mean_kids = mean(childs, na.rm = TRUE)) %>% 
   mutate(pct = n/sum(n)*100) %>% 
   filter(race !="Other") %>% 
-  drop_na()
+  drop_na() %>% 
+  summarize(grp_totpct = sum(pct))
 ```
 
