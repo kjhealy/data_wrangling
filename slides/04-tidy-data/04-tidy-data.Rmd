@@ -500,3 +500,59 @@ df %>%
 `r chunk_reveal("04-pivot-pipeline-case", widths = c(40,60), title = "# Pivot wider while summarizing")`
 
 ---
+
+# .kjh-yellow[`separate()`] and .kjh-yellow[`unite()`] columns
+
+```{r}
+## tribble() lets you make tibbles by hand
+df <- tribble(
+  ~name, ~occupation,
+  "Nero.Wolfe", "Private Detective",
+  "Archie.Goodwin", "Personal Assistant",
+  "Fritz.Brenner", "Cook and Butler",
+  "Theodore.Horstmann", "Orchid Expert"
+)
+
+df
+
+```
+
+---
+
+```{r 04-separate-pipe-1, include=FALSE}
+df %>% 
+  separate(name, into = c("first", "last")) %>% 
+  unite("full_name", first:last, sep = " ") %>% 
+  unite("both_together", full_name:occupation, 
+        sep = ", ", remove = FALSE)
+
+```
+
+`r chunk_reveal("04-separate-pipe-1", widths = c(40,60), title = "# Separate and unite")`
+
+---
+
+```{r 04-separate-pipe-2, include=FALSE}
+df %>% 
+  separate(name, into = c("first", "last")) %>% 
+  unite("full_name", first:last) %>% 
+  separate(full_name, into = c("first", "last"))
+
+```
+
+`r chunk_reveal("04-separate-pipe-2", widths = c(40,60), title = "# Separate and unite")`
+
+---
+
+```{r 04-separate-pipe-3, include=FALSE}
+gss_sm %>%
+    select(race, degree) %>% 
+    mutate(racedeg = interaction(race, degree)) %>%
+    group_by(racedeg) %>% 
+    tally() %>% 
+    separate(racedeg, sep = "\\.", into = c("race", "degree"))
+```
+
+`r chunk_reveal("04-separate-pipe-3", widths = c(50,50), title = "# Separate and unite")`
+
+This one is a bit trickier, and our first glimpse of a _regular expression_. 
