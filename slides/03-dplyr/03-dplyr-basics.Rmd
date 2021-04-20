@@ -105,7 +105,6 @@ library(tidyverse) # your friend and mine
 
 .center[![:scale 100%](img/dplyr_addnl_2.png)]
 
---
 
 - Not all of these are attached when we do `library(tidyverse)`
 
@@ -130,7 +129,7 @@ library(tidyverse) # your friend and mine
 layout: false
 class: main-title main-title-inv
 
-# .middle.squish4[dplyr draws on the logic and language of  .kjh-green[database queries], where the focus is on manupulating tables]
+# .middle.squish4[`dplyr` draws on the logic and language of  .kjh-green[database queries], where the focus is on manupulating tables]
 
 ---
 
@@ -202,7 +201,7 @@ gss_sm
 
 ---
 
-# Summarizing a Table
+# Summarizing a table
 
 ```{r}
 ## Just take a look at the columns we will work on
@@ -210,11 +209,184 @@ gss_sm %>%
   select(id, bigregion, religion)
 ```
 
+- We're just taking a look at the relevant columns here
+
 ---
 
-# Summarizing a Table
+# Group by .kjh-orange[_one_] column or variable
 
 ```{r}
 
+gss_sm %>% 
+  group_by(bigregion)
 ```
 
+- Grouping just changes the logical structure of the tibble
+
+---
+
+`r chunk_reveal("03-dplyr-onecol-summary", widths = c(25,75), title = "# Group and summarize by .kjh-orange[_one_] column")`
+
+
+```{r 03-dplyr-onecol-summary, include = FALSE}
+gss_sm %>% 
+  group_by(bigregion) %>% 
+  summarize(total = n())
+```
+
+--
+
+- The function `n()` counts up the rows within each group.
+
+--
+
+- All the other columns are dropped in the summary operation
+
+--
+
+- Your original .kjh-pink[`gss_sm`] table is untouched
+
+---
+
+`r chunk_reveal("03-dplyr-twocol-summary", widths = c(25,75), title = "# Group and summarize by .kjh-orange[_two_] columns")`
+
+
+```{r 03-dplyr-twocol-summary, include = FALSE}
+gss_sm %>% 
+  group_by(bigregion, religion) %>% 
+  summarize(total = n())
+```
+
+--
+
+- The function `n()` counts up the rows within the _innermost_ (i.e. the rightmost) group.
+
+---
+
+`r chunk_reveal("03-dplyr-freq", widths = c(30,70), title = "# Calculate frequencies")`
+
+
+```{r 03-dplyr-freq, include = FALSE}
+gss_sm %>% 
+  group_by(bigregion, religion) %>% 
+  summarize(total = n()) %>% 
+  mutate(freq = total / sum(total),
+           pct = round((freq*100), 1))
+```
+
+--
+
+- The function `n()` counts up the rows 
+
+--
+
+- Which rows? The ones fed down the pipeline
+
+--
+
+- The _innermost_ (i.e. the rightmost) group.
+
+---
+
+# Pipelines carry some assumptions forward
+
+.small[
+```{r}
+gss_sm %>% 
+  group_by(bigregion, religion) %>% #<<
+  summarize(total = n()) %>% 
+  mutate(freq = total / sum(total),
+           pct = round((freq*100), 1))
+```
+]
+
+- Groups are carried forward till summarized or explicitly ungrouped
+
+--
+
+- Summary calculations are done on the innermost group, which then "disappears". (Notice how it's no longer a group in the output.)
+
+---
+
+# Pipelines carry some assumptions forward
+
+.small[
+```{r}
+gss_sm %>% 
+  group_by(bigregion, religion) %>% 
+  summarize(total = n()) %>% 
+  mutate(freq = total / sum(total),
+           pct = round((freq*100), 1)) #<<
+```
+]
+
+- `mutate()` is very clever. See how we can immediately use `freq`, even though we are creating it in the same `mutate()` expression.
+
+---
+
+# Convenience functions
+
+.small[
+
+```{r}
+gss_sm %>% 
+  group_by(bigregion, religion) %>% #<<
+  summarize(total = n()) %>% #<<
+  mutate(freq = total / sum(total),
+           pct = round((freq*100), 1)) 
+```
+]
+
+- We're going to be doing this `group_by()` ... `n()` step a lot. Some shorthand for it would be useful.
+
+---
+
+# Three options for counting up rows
+
+.pull-left-3[
+
+- .SMALL.squish3[Do it yourself]
+
+.SMALL[
+```{r}
+gss_sm %>% 
+  group_by(bigregion, religion) %>% #<<
+  summarize(n = n()) #<<
+```
+]
+
+- .small.squish3[Result is a grouped tibble]
+]
+
+--
+
+.pull-middle-3[
+
+- .SMALL.squish3[use `tally()`]
+
+.SMALL[
+```{r}
+gss_sm %>% 
+  group_by(bigregion, religion) %>% 
+  tally() #<<
+```
+]
+
+- .small.squish3[Group it yourself; output is grouped]
+]
+
+--
+
+.pull-right-3[
+
+- .SMALL.squish3[use `count()`]
+
+.SMALL[
+```{r}
+gss_sm %>% 
+  count(bigregion, religion) #<<
+```
+]
+
+- .small.squish3[One step; result is not grouped]
+]
