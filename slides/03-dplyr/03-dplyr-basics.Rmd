@@ -51,7 +51,6 @@ class: center middle main-title section-title-1
 .light[Kieran Healy<br>
 Statistical Horizons, April 2021]
 
-]
 
 ---
 
@@ -1072,6 +1071,7 @@ covus %>%
   select(-data_quality_grade) %>% 
   filter(measure == "death") %>%
   group_by(state) %>%
+  arrange(date) %>% 
   mutate(deaths_daily = count - lag(count, order_by = date)) %>% 
   arrange(state, desc(date)) %>% 
   filter(state %in% "NY")
@@ -1084,7 +1084,9 @@ covus %>%
 
 But we could also write a function to do this. 
 
-We write functions using the special `function()` function.
+We write functions using the special `function()` function.\*
+
+.SMALL[
 
 ```{r}
 my_fun <- function(x) {
@@ -1097,6 +1099,10 @@ my_fun(x = 1) # But we can supply it with an input!
 
 my_fun(10)
 ```
+
+]
+
+.smaller[.footnote[.kjh-darkgrey[\*Nerds love this sort of stuff.]]]
 
 ---
 
@@ -1124,6 +1130,7 @@ covus %>%
   filter(measure == "death") %>%
   select(-data_quality_grade) %>% 
   group_by(state) %>%
+  arrange(date) %>% 
   mutate(deaths_daily = get_daily_count(count, date)) %>% 
   arrange(state, desc(date)) %>% 
   filter(state %in% "NY")
@@ -1132,3 +1139,86 @@ covus %>%
 ]
 
 .SMALL.squish3[Not super-useful quite yet, but if our task had more steps ...]
+
+---
+
+# Tidy moving averages with .kjh-orange[`slider`]  
+
+`dplyr`'s window functions don't include moving averages. 
+
+There are several options, notably [`RcppRoll`](https://cran.r-project.org/web/packages/RcppRoll/index.html)
+
+We'll use the .kjh-orange[[`slider`](https://cran.r-project.org/web/packages/slider/vignettes/slider.html)] package.
+
+```{r}
+# install.packages("slider")
+library(slider)
+```
+
+---
+
+# Tidy moving averages with .kjh-orange[`slider`]  
+
+.SMALL[
+
+```{r}
+covus %>%
+  filter(measure == "death") %>%
+  select(-data_quality_grade) %>% 
+  group_by(state) %>%
+  arrange(date) %>% 
+  mutate(
+    deaths_daily = get_daily_count(count, date), 
+    deaths7 = slide_mean(deaths_daily, #<<
+                         before = 7, #<<
+                         na_rm = TRUE)) %>% #<<
+  arrange(state, desc(date)) %>% 
+  filter(state %in% "NY")
+```
+
+]
+---
+
+# Tidy moving averages with .kjh-orange[`slider`]  
+
+```r
+    deaths7 = slide_mean(deaths_daily, #<<
+                         before = 7, #<<
+                         na_rm = TRUE)) %>% #<<
+```
+
+.SMALL[
+
+Notice the Tidyverse-style `na_rm` argument rather than the usual base `na.rm`
+
+The package provides a lot of different functions, from general-purpose `slide_max()`, `slide_min()` to more specialized sliding functions. In particular note e.g. `slide_index_mean()` that addresses some subtleties in averaging over dates with gaps. 
+]
+
+---
+
+# Tidying up after yourself with .kjh-yellow[`relocate()`]
+
+```{r}
+gss_sm
+```
+
+---
+
+```{r 03-relocate-pipeline, include = FALSE}
+gss_sm %>% 
+  select(region, bigregion, year, 
+         id:region, 
+         starts_with("p"), 
+         contains("income")) %>% 
+  rename(children = childs, 
+         siblings = sibs) %>% 
+  relocate(id) %>% 
+  select(-ballot) %>% 
+  relocate(where(is.numeric), 
+           .before = where(is.factor)) %>% 
+  relocate(contains("region"), 
+           .after = year) 
+```
+
+`r chunk_reveal("03-relocate-pipeline", widths = c(35,65), title = "# Shuffle columns around")`
+
