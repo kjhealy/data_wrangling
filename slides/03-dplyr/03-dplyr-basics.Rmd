@@ -129,7 +129,7 @@ library(tidyverse) # your friend and mine
 layout: false
 class: main-title main-title-inv
 
-# .middle.squish4[`dplyr` draws on the logic and language of  .kjh-green[database queries], where the focus is on manupulating tables]
+# .middle.squish4[`dplyr` draws on the logic and language of  .kjh-green[database queries], where the focus is on manipulating tables]
 
 ---
 
@@ -390,3 +390,258 @@ gss_sm %>%
 
 - .small.squish3[One step; result is not grouped]
 ]
+
+---
+
+# Pass your pipeline on to ... a .kjh-yellow[table]
+
+```{r, eval = FALSE}
+gss_sm %>% 
+  count(bigregion, religion) %>% 
+  pivot_wider(names_from = bigregion, values_from = n) %>%  #<<
+  kable()  
+```
+
+
+.small[
+```{r, echo = FALSE}
+gss_sm %>% 
+  count(bigregion, religion) %>% 
+  pivot_wider(names_from = bigregion, values_from = n) %>% 
+  kable()  
+```
+]
+
+- More on `pivot_wider()` and `kable()` soon ...
+
+---
+
+# Pass your pipeline on to ... a .kjh-yellow[graph]
+
+```{r, echo = FALSE}
+theme_set(cowplot::theme_cowplot())
+```
+
+.SMALL[
+```{r, fig.height=4, fig.width=12}
+gss_sm %>% 
+  count(bigregion, religion) %>% 
+  mutate(pct = round((n/sum(n))*100), 1) %>% 
+  drop_na() %>% 
+  ggplot(mapping = aes(x = pct, y = reorder(religion, -pct), fill = religion)) + 
+  geom_col() +
+    labs(x = "Percent", y = NULL) +
+    guides(fill = FALSE) + 
+    facet_wrap(~ bigregion, nrow = 1)
+```
+]
+
+---
+
+# Pass your pipeline on to ... an .kjh-yellow[object]
+
+.pull-left[
+- .SMALL.squish3[You can do it like this ...]
+```{r}
+rel_by_region <- gss_sm %>% #<<
+  count(bigregion, religion) %>% 
+  mutate(pct = round((n/sum(n))*100, 1)) 
+
+rel_by_region
+```
+]
+
+--
+
+.pull-right[
+
+- .SMALL.squish3[Or like this!]
+```{r}
+gss_sm %>% 
+  count(bigregion, religion) %>% 
+  mutate(pct = round((n/sum(n))*100, 1)) -> #<<
+rel_by_region #<<
+
+rel_by_region
+```
+
+]
+
+---
+
+# .kjh-lblue[Right] assignmment is a thing, just like .kjh-red[Left]
+
+.pull-left[
+
+- .kjh-red[Left] assignment is standard
+
+```{r}
+gss_tab <- gss_sm %>% 
+  count(bigregion, religion) 
+```
+
+.left[This may feel awkward with a pipe: "`gss_tab` .kjh-orange[_gets_] the output of the following pipeline."]
+
+]
+
+--
+
+.pull-right[
+
+- .kjh-lblue[Right] assignment also works!
+
+```{r}
+gss_sm %>% 
+  count(bigregion, religion) -> gss_tab  
+  
+```
+
+.right[Without any authority, I assert that right-assignment should be read as, e.g., "This pipeline .kjh-orange[_begets_] `gss_tab`"]
+
+]
+---
+
+# Pipelined tables can be quickly checked
+
+.pull-left[
+
+```{r}
+rel_by_region <- gss_sm %>% 
+  count(bigregion, religion) %>% 
+  mutate(pct = round((n/sum(n))*100, 1)) 
+
+rel_by_region
+```
+
+Hm, did I sum over right group?
+
+]
+
+--
+.pull-right[
+
+```{r}
+rel_by_region %>% 
+  group_by(bigregion) %>% 
+  summarize(total = sum(pct))
+
+```
+
+No! What has gone wrong here?
+
+]
+
+---
+
+# Pipelined tables can be quickly checked
+
+.pull-left[
+
+```{r}
+rel_by_region <- gss_sm %>% 
+  count(bigregion, religion) %>% #<< 
+  mutate(pct = round((n/sum(n))*100, 1)) 
+```
+
+.SMALL.squish3[`count()` returns ungrouped results, so no groups carry forward to the `mutate()` step.]
+
+```{r}
+rel_by_region %>% 
+  summarize(total = sum(pct))
+```
+
+.SMALL.squish3[With `count()`, the `pct` values here are the marginals for the whole table.]
+
+]
+
+--
+.pull-right[
+
+```{r}
+rel_by_region <- gss_sm %>% 
+  group_by(bigregion, religion) %>% #<<
+  tally() %>% #<<
+  mutate(pct = round((n/sum(n))*100, 1)) 
+```
+
+```{r}
+# Check
+rel_by_region %>% 
+  group_by(bigregion) %>% 
+  summarize(total = sum(pct))
+
+```
+
+.SMALL.squish3[We get some rounding error because we used `round()` after summing originally.]
+]
+
+
+---
+
+# Two lessons
+
+## Check your tables!
+
+- Pipelines feed their content forward, so you need to make sure your results are not all wrong.
+
+--
+
+- Often, complex tables and graphs can be disturbingly plausible even when wrong.
+
+--
+
+- So, figure out what the result should be and test it!
+
+--
+
+- Starting with simple or toy cases can help with this process.
+
+---
+
+# Two lessons
+
+## Inspect your pipes!
+
+- Understand pipelines by running them forward or peeling them back a step at a time
+
+- This is a _very_ effective way to understand your own and other people's code
+
+---
+
+# Following a pipeline
+
+```{r, echo = FALSE}
+theme_set(cowplot::theme_minimal_grid())
+```
+
+
+```{r, fig.height = 4, fig.width=10} 
+gss_sm %>% 
+  group_by(race, sex, degree) %>% 
+  summarize(n = n(), 
+            mean_age = mean(age, na.rm = TRUE), 
+            mean_kids = mean(childs, na.rm = TRUE)) %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  filter(race !="Other") %>% 
+  drop_na() %>% 
+  ggplot(mapping = aes(x = mean_kids, y = degree)) + 
+  geom_col() + facet_grid(sex ~ race) + 
+  labs(x = "Average number of Chidren", y = NULL)
+```
+
+---
+
+`r chunk_reveal("03-kid-pipeline", widths = c(25,75), title = "Following a pipeline")`
+
+
+```{r 03-kid-pipeline, include = FALSE} 
+gss_sm %>% 
+  group_by(race, sex, degree) %>% 
+  summarize(n = n(), 
+            mean_age = mean(age, na.rm = TRUE), 
+            mean_kids = mean(childs, na.rm = TRUE)) %>% 
+  mutate(pct = n/sum(n)*100) %>% 
+  filter(race !="Other") %>% 
+  drop_na()
+```
+
