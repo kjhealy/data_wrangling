@@ -775,7 +775,7 @@ organdata %>%
 
 ---
 
-# Conditionals in .kjh-yellow[`mutate()`] and .kjh-yellow[`summarize()`]
+# Doing more than one thing 
 
 Earlier we saw this:
 
@@ -789,7 +789,7 @@ gss_sm %>%
 
 ---
 
-# Conditionals in .kjh-yellow[`mutate()`] and .kjh-yellow[`summarize()`]
+# Doing more than one thing 
 
 .SMALL.squish3[Similarly for `organdata` we might want to do:]
 
@@ -808,3 +808,327 @@ organdata %>%
 ]
 
 This works, but it's really tedious. Also error-prone.
+
+---
+
+# Doing more than one thing with .kjh-yellow[`across()`]
+
+.SMALL.squish3[Instead, use `across()` to apply a function to more than one column.]
+
+.SMALL[
+```{r, 03-across-pipeline-1}
+
+my_vars <- c("gdp", "donors", "roads")
+
+## nested parens again, but it's worth it
+organdata %>% 
+  group_by(consent_law, country) %>%
+  summarize(across(my_vars,           
+                   list(avg = mean),  
+                   na.rm = TRUE))     
+```
+]
+
+---
+
+
+`r chunk_reveal("03-across-pipeline-1", widths = c(40,60), title = "# Let's look at that again")`
+
+- .small.squish3[`my_vars` are selected by `across()`]
+
+--
+
+- .small.squish3[`list()` of the form `result = function` gives the new columns that will be calculated.]
+
+--
+
+- .small.squish3[`na.rm = TRUE` is passed through to the functions inside the `list()`]
+
+---
+
+# We can calculate more than one thing
+
+.small[
+```{r}
+
+my_vars <- c("gdp", "donors", "roads")
+
+organdata %>% 
+  group_by(consent_law, country) %>%
+  summarize(across(my_vars,           
+                   list(avg = mean, #<<
+                        sd = var, #<<
+                        md = median),#<<  
+                   na.rm = TRUE))     
+```
+]
+
+
+---
+
+# It's OK to use the function names 
+
+.small[
+```{r}
+
+my_vars <- c("gdp", "donors", "roads")
+
+organdata %>% 
+  group_by(consent_law, country) %>%
+  summarize(across(my_vars,           
+                   list(mean = mean, #<<
+                        var = var, #<<
+                        median = median),#<<  
+                   na.rm = TRUE))     
+```
+]
+
+---
+
+# Conditionally select with .kjh-yellow[`across(where())`]
+
+.SMALL[
+
+```{r}
+organdata %>% 
+  group_by(consent_law, country) %>%
+  summarize(across(where(is.numeric), #<<       
+                   list(mean = mean, 
+                        var = var, 
+                        median = median),
+                   na.rm = TRUE)) %>% 
+    print(n = 3) # just to save slide space
+```
+]
+
+
+---
+
+# Name new columns with .kjh-yellow[`.names`]
+
+.pull-left[
+
+.SMALL[
+```{r}
+organdata %>% 
+  group_by(consent_law, country) %>%
+  summarize(across(where(is.numeric),        
+                   list(mean = mean, 
+                        var = var, 
+                        median = median),
+                   na.rm = TRUE, 
+                   .names = "{fn}_{col}")) %>% #<<
+  print(n = 3) 
+```
+]
+]
+
+.pull-right[
+
+.small.squish3[In tidyverse functions, arguments that begin with a "`.`" generally have it in order to avoid confusion with existing items, or are "pronouns" referring to e.g. "the name of the thing we're currently talking about as we evaluate this function". ]
+
+]
+
+---
+
+# This all works with .kjh-yellow[`mutate()`], too
+
+
+```{r}
+organdata %>% 
+  mutate(across(where(is.character), toupper)) %>% 
+  select(where(is.character))
+```
+
+---
+
+# Arrange rows and columns
+
+Sort rows with `arrange()`
+
+.pull-left[
+
+```{r}
+organdata %>% 
+  group_by(consent_law, country) %>%
+  summarize(donors = mean(donors, na.rm = TRUE)) %>% 
+  arrange(donors) %>% ##< 
+  print(n = 5)
+```
+
+]
+
+.pull-right[
+
+```{r}
+organdata %>% 
+  group_by(consent_law, country) %>%
+  summarize(donors = mean(donors, na.rm = TRUE)) %>% 
+  arrange(desc(donors)) %>%  ##<
+  print(n = 5)
+```
+
+]
+
+Using `arrange()` to order rows in this way won't respect groupings.
+
+---
+
+# More generally ...
+
+```{r}
+organdata %>% 
+  group_by(consent_law, country) %>%
+  summarize(donors = mean(donors, na.rm = TRUE)) %>% 
+  slice_max(donors, n = 5) #<<
+```
+
+.small.squish3[You can see that `slice_max()` respects grouping.]
+
+.small.squish3[There's `slice_min()`, `.slice_head()`, `slice_tail()`, `slice_sample()`, and the most general one, `slice()`.] 
+
+---
+
+# `dplyr`'s .kjh-yellow[window] functions 
+
+Ranking and cumulation within groups.  
+
+
+```{r}
+## Data on COVID-19
+library(covdata)
+
+covnat_weekly 
+```
+
+---
+
+# `dplyr`'s .kjh-yellow[window] functions 
+
+ `cumsum()` gives cumulative sums
+
+```{r}
+covnat_weekly %>% 
+  filter(cname == "United States") %>% 
+  select(date, cname, iso3, cases) %>% 
+  mutate(cumulative = cumsum(cases)) 
+
+```
+
+---
+
+# `dplyr`'s .kjh-yellow[window] functions 
+
+.SMALL[`cume_dist()` gives the proportion of values less than or equal to the current value.]
+
+```{r}
+covnat_weekly %>% 
+  select(date, cname, iso3, deaths) %>% 
+  filter(cname == "United States") %>% 
+  filter(cume_dist(desc(deaths)) < 0.1) # i.e. Top 10%
+
+```
+
+.SMALL.squish3[The `dplyr` vignette on Window functions is good.] 
+
+---
+
+# An application 
+
+```{r}
+covus %>% 
+  filter(measure == "death") %>% 
+  group_by(state) %>% 
+  arrange(state, desc(date)) %>% 
+  filter(state %in% "NY")
+```
+
+.SMALL.squish3[Here the `count` measure is _cumulative_ deaths. What if we want to recover the daily count for all the states in the data?]
+
+---
+
+# An application 
+
+`dplyr` has `lead()` and `lag()` functions. These allow you to access the previous and next values in a vector. You can calculate offsets this way.
+
+```{r}
+my_vec <- c(1:20)
+my_vec
+lag(my_vec) # first element has no lag
+
+my_vec - lag(my_vec)
+
+```
+
+---
+
+# An application
+
+.SMALL.squish3[We can write the expression directly:]
+
+.SMALL[
+```{r}
+covus %>%
+  select(-data_quality_grade) %>% 
+  filter(measure == "death") %>%
+  group_by(state) %>%
+  mutate(deaths_daily = count - lag(count, order_by = date)) %>% 
+  arrange(state, desc(date)) %>% 
+  filter(state %in% "NY")
+  
+```
+]
+---
+
+# Writing our own .kjh-orange[functions]
+
+But we could also write a function to do this. 
+
+We write functions using the special `function()` function.
+
+```{r}
+my_fun <- function(x) {
+  x + 1
+}
+
+my_fun # we've created the function; it's just an object
+
+my_fun(x = 1) # But we can supply it with an input!
+
+my_fun(10)
+```
+
+---
+
+# Writing our own .kjh-orange[functions]
+
+We write our function. It's just the expression we originally wrote, wrapped up.
+
+```{r}
+get_daily_count <- function(count, date){
+  count - lag(count, order_by = date)
+}
+```
+
+This function has no generality, error-handling, or anything else. It's a once-off.
+
+---
+
+# Writing our own .kjh-orange[functions]
+
+.SMALL.squish3[Now we can use it like any other:]
+
+.SMALL[
+```{r}
+covus %>%
+  filter(measure == "death") %>%
+  select(-data_quality_grade) %>% 
+  group_by(state) %>%
+  mutate(deaths_daily = get_daily_count(count, date)) %>% 
+  arrange(state, desc(date)) %>% 
+  filter(state %in% "NY")
+  
+```
+]
+
+.SMALL.squish3[Not super-useful quite yet, but if our task had more steps ...]
