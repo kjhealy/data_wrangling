@@ -604,9 +604,9 @@ rel_by_region %>%
 
 ## Inspect your pipes!
 
-- Understand pipelines by running them forward or peeling them back a step at a time
+- Understand pipelines by running them forward or peeling them back a step at a time.
 
-- This is a _very_ effective way to understand your own and other people's code
+- This is a _very_ effective way to understand your own and other people's code.
 
 ---
 
@@ -626,7 +626,7 @@ gss_sm %>%
   mutate(pct = n/sum(n)*100) %>% 
   filter(race !="Other") %>% 
   drop_na() %>% 
-  ggplot(mapping = aes(x = mean_kids, y = degree)) + 
+  ggplot(mapping = aes(x = mean_kids, y = degree)) + # I'm sorry I can't talk more about the graphs
   geom_col() + facet_grid(sex ~ race) + 
   labs(x = "Average number of Chidren", y = NULL)
 ```
