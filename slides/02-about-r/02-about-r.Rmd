@@ -213,8 +213,9 @@ class: title title-1
 library(tidyverse)
 ```
 
-- The tidyverse has several components. 
-- We'll return to this message about Conflicts later.
+The tidyverse has several components. 
+
+We'll return to this message about Conflicts later.
 
 ---
 
@@ -233,7 +234,7 @@ library(tidyverse)
 # What R looks like
 
 
-- Code you can type and run:
+Code you can type and run:
 
 ```{r 02-about-r-1}
 ## Inside code chunks, lines beginning with a # character are comments
@@ -243,9 +244,9 @@ my_numbers <- c(1, 1, 2, 4, 1, 3, 1, 5) # Anything after a # character is ignore
 
 ```
 
-- Output
+Output:
 
-- .smaller[Equivalent to running the code above, typing `my_numbers` at the console, and hitting enter.]
+.smaller[Equivalent to running the code above, typing `my_numbers` at the console, and hitting enter.]
 
 ```{r 02-about-r-2}
 my_numbers 
@@ -255,7 +256,7 @@ my_numbers
 
 # What R looks like
 
-- By convention, code output in documents is prefixed by `##`
+By convention, code output in documents is prefixed by `##`
 
 ```{r 02-about-r-3}
 my_numbers 
@@ -265,7 +266,7 @@ my_numbers
 
 --
 
-- .small[Also by convention, outputting vectors, etc, gets a counter keeping track of the number of elements. For example,] 
+.small[Also by convention, outputting vectors, etc, gets a counter keeping track of the number of elements. For example,] 
 
 ```{r 02-about-r-4}
 letters
@@ -329,7 +330,7 @@ log10(100)
 
 # Boolean and Logical operators
 
-- Logical equality and inequality (yielding a .kjh-green[`TRUE`] or .kjh-red[`FALSE`] result) is done with `==` and `!=`. Other logical operators include `<`, `>`, `<=`, `>=`, and `!` for negation.
+Logical equality and inequality (yielding a .kjh-green[`TRUE`] or .kjh-red[`FALSE`] result) is done with `==` and `!=`. Other logical operators include `<`, `>`, `<=`, `>=`, and `!` for negation.
 
 ```{r 02-about-r-9}
 
@@ -352,7 +353,7 @@ log10(100)
 
 # .kjh-red[Watch out!]
 
-- Here's a gotcha. You might think you could write `3 < 5 & 7` and have it be interpreted as "Three is less than five and also less than seven [True or False?]":
+Here's a gotcha. You might think you could write `3 < 5 & 7` and have it be interpreted as "Three is less than five and also less than seven [True or False?]":
 
 ```{r 02-about-r-12}
 3 < 5 & 7
@@ -360,13 +361,13 @@ log10(100)
 
 --
 
-- It seems to work!
+It seems to work!
 
 ---
 
 # .kjh-red[Watch out!]
 
-- But now try `3 < 5 & 1`, where your intention is "Three is less than five and also less than one [True or False?]"
+But now try `3 < 5 & 1`, where your intention is "Three is less than five and also less than one [True or False?]"
 
 .pull-left[
 
@@ -374,7 +375,7 @@ log10(100)
 3 < 5 & 1
 ```
 
-- .smaller.squish1[What's happening is that `3 < 5` is evaluated first, and resolves to .kjh-green[TRUE], leaving us with the expression .kjh-green[`TRUE`] `& 1`. R interprets this as .kjh-green[`TRUE`] `& as.logical(1)`. In Boolean algebra, `1` resolves to  .kjh-green[`TRUE`]. Any other number is .kjh-red[`FALSE`]. So,]
+.smaller.squish1[What's happening is that `3 < 5` is evaluated first, and resolves to .kjh-green[TRUE], leaving us with the expression .kjh-green[`TRUE`] `& 1`. R interprets this as .kjh-green[`TRUE`] `& as.logical(1)`. In Boolean algebra, `1` resolves to  .kjh-green[`TRUE`]. Any other number is .kjh-red[`FALSE`]. So,]
 
 ```{r 02-about-r-14}
 TRUE & as.logical(1)
@@ -399,7 +400,7 @@ TRUE & as.logical(1)
 
 # Logic and floating point arithmetic
 
-- Let's evaluate `0.6 + 0.2 == 0.8`
+Let's evaluate `0.6 + 0.2 == 0.8`
 
 --
 
@@ -409,7 +410,7 @@ TRUE & as.logical(1)
 
 --
 
-- Now let's try `0.6 + 0.3 == 0.9`
+Now let's try `0.6 + 0.3 == 0.9`
 
 --
 
@@ -419,27 +420,27 @@ TRUE & as.logical(1)
 
 --
 
-- Er. That's not right.
+Er. That's not right.
 
 --
 
-- Welcome to floating point math!
+Welcome to floating point math!
 
 ---
 
 # Logic and floating point arithmetic
 
-- .small[In Base 10, you can't precisely express fractions like] $\frac{1}{3}$ and $\frac{1}{9}$. .small[They come out as repeating decimals: 0.3333... or 0.1111... You _can_ cleanly represent fractions that use a prime factor of the base, which in the case of Base 10 are 2 and 5.] 
+.small[In Base 10, you can't precisely express fractions like] $\frac{1}{3}$ and $\frac{1}{9}$. .small[They come out as repeating decimals: 0.3333... or 0.1111... You _can_ cleanly represent fractions that use a prime factor of the base, which in the case of Base 10 are 2 and 5.] 
 
 --
 
-- .small[Computers represent numbers as binary (i.e. Base 2) floating-points. In Base 2, the only prime factor is 2. So] $\frac{1}{5}$ or $\frac{1}{10}$ .small[in binary would be repeating.] 
+.small[Computers represent numbers as binary (i.e. Base 2) floating-points. In Base 2, the only prime factor is 2. So] $\frac{1}{5}$ or $\frac{1}{10}$ .small[in binary would be repeating.] 
 
 ---
 
 # Logic and floating point arithmetic
 
-- When you do binary math on repeating numbers and convert back to decimals you get tiny leftovers, and this can mess up _logical_ comparisons of equality. The `all.equal()` function exists for this purpose.
+When you do binary math on repeating numbers and convert back to decimals you get tiny leftovers, and this can mess up _logical_ comparisons of equality. The `all.equal()` function exists for this purpose.
 
 --
 
@@ -452,7 +453,7 @@ all.equal(.1 + .2, 0.3)
 
 --
 
-- See e.g. [https://0.30000000000000004.com](https://0.30000000000000004.com) 
+See e.g. [https://0.30000000000000004.com](https://0.30000000000000004.com) 
 
 ---
 
@@ -486,7 +487,7 @@ pi  # Also built-in
 
 # Some names are forbidden
 
-- Or it's a _really_ bad idea to try to use them 
+Or it's a _really_ bad idea to try to use them 
 
 ```{r 02-about-r-20, eval = FALSE}
 TRUE
@@ -507,7 +508,7 @@ function
 
 # 2. .kjh-yellow[Everything is an object]
 
-- .SMALL[There are a few built-in objects]
+.SMALL[There are a few built-in objects]
 
 
 ```{r 02-about-r-21}
@@ -533,11 +534,11 @@ LETTERS
 
 --
 
-- In fact, this is mostly what we will be doing
+In fact, this is mostly what we will be doing
 
 --
 
-- Objects are created by .kjh-red[assigning] a thing to a name:
+Objects are created by .kjh-red[assigning] a thing to a name:
 
 ```{r 02-about-r-24}
 ## name... gets ... this stuff
@@ -549,7 +550,7 @@ your_numbers <- c(5, 31, 71, 1, 3, 21, 6, 52)
 
 --
 
-- The `c()` function _combines_ or _concatenates_ things
+The `c()` function _combines_ or _concatenates_ things
 
 ???
 
@@ -588,13 +589,11 @@ my_numbers
 
 --
 
-- On the other hand, "`=`" has a different meaning when used in functions.
+On the other hand, "`=`" has a different meaning when used in functions.
 
 --
 
-- I'm going to use "`<-`" for assigment throughout. 
-
-- Just be consistent either way.
+I'm going to use "`<-`" for assigment throughout. Just be consistent either way.
 
 ---
 
@@ -669,7 +668,7 @@ mean(x = your_numbers)
 
 --
 
-- If you don't _name_ the arguments, R assumes you are providing them in the order the function expects.
+If you don't _name_ the arguments, R assumes you are providing them in the order the function expects.
 
 ```{r 02-about-r-27}
 mean(your_numbers)
@@ -679,7 +678,7 @@ mean(your_numbers)
 
 # What functions usually do
 
-- What arguments? Which order? Read the function's help page
+What arguments? Which order? Read the function's help page
 
 ```{r 02-about-r-28, eval=FALSE}
 help(mean)
@@ -711,7 +710,7 @@ mean(missing_numbers, na.rm = TRUE)
 
 --
 
-- Or select from one of several options
+Or select from one of several options
 
 ```{r 02-about-r-31}
 ## Look at ?mean to see what `trim` does
@@ -724,7 +723,7 @@ mean(missing_numbers, na.rm = TRUE, trim = 0.1)
 # What functions usually do
 
 
-- There are all kinds of functions. They return different things.
+There are all kinds of functions. They return different things.
 
 ```{r 02-about-r-32}
 summary(my_numbers)
@@ -732,7 +731,7 @@ summary(my_numbers)
 
 --
 
-- You can assign the output of a function to a name, which turns it into an object. (Otherwise it'll send its output to the console.)
+You can assign the output of a function to a name, which turns it into an object. (Otherwise it'll send its output to the console.)
 
 ```{r 02-about-r-33}
 my_summary <- summary(my_numbers)
@@ -744,7 +743,7 @@ my_summary
 
 # What functions usually do
 
-- Objects hang around in your work environment until they are overwritten by you, or are deleted.
+Objects hang around in your work environment until they are overwritten by you, or are deleted.
 
 ```{r 02-about-r-34, eval = FALSE}
 ## rm() function removes objects
@@ -787,13 +786,13 @@ length(names(summary(mean(c(1:20)))))
 
 --
 
-- Nested functions are evaluated from the inside out.
+Nested functions are evaluated from the inside out.
 
 ---
 
 # Use the pipe operator: .kjh-yellow[%>%]
 
-- .SMALL[Instead of nesting functions in parentheses, we can use the _pipe operator_:]
+.SMALL[Instead of nesting functions in parentheses, we can use the _pipe operator_:]
 
 
 ```{r 02-about-r-40}
@@ -802,11 +801,11 @@ c(1:20) %>% mean() %>% summary() %>% names() %>%  length()
 
 --
 
-- .SMALL[Read this operator as "_.kjh-green[**and then**]_"]
+.SMALL[Read this operator as "_.kjh-green[**and then**]_"]
 
 --
 
-- .SMALL[Better, vertical space is free in R:]
+.SMALL[Better, vertical space is free in R:]
 
 
 ```{r 02-about-r-41}
@@ -821,7 +820,7 @@ c(1:20) %>%
 
 # Piped operations make code more readable
 
-- Not great, Bob:
+Not great, Bob:
 
 ```r
   serve(stir(pour_in_pan(whisk(crack_eggs(get_from_fridge(eggs), into = "bowl"), len = 40), temp = "med-high")))
@@ -829,11 +828,11 @@ c(1:20) %>%
 
 --
 
-- Notice how the first thing you read is the last operation performed.
+Notice how the first thing you read is the last operation performed.
 
 --
 
-- Really not much better:
+Really not much better:
 
 ```r
 serve(
@@ -853,7 +852,7 @@ serve(
 
 # Piped operations make code more readable
 
-- Much more preferable
+Much nicer:
 
 ```r
 eggs %>% 
@@ -866,24 +865,28 @@ eggs %>%
 
 ```
 
+--
+
+We'll still use nested parentheses quite a bit, often in the context of a function working inside a pipeline. But it's good not to have too many levels of nesting.
+
 ---
 
 
 # Coming soon to an R near you: .kjh-yellow[|>]
 
-- The pipe operator **`%>%`** is not part of Base R. It was introduced in a package called `magrittr`. 
+The pipe operator **`%>%`** is not part of Base R. It was introduced in a package called `magrittr`. 
 
 --
 
-- It's been so successful, a version of it will soon be incorporated into Base R.
+It's been so successful, a version of it will soon be incorporated into Base R.
 
 --
 
-- It will be denoted by **`|>`** and should be a direct replacement for **`%>%`** in almost every case
+It will be denoted by **`|>`** and should be a direct replacement for **`%>%`** in almost every case
 
 --
 
-- The magrittr pipe will continue to work, though.
+The magrittr pipe will continue to work, though.
 
 ---
 
@@ -891,7 +894,7 @@ eggs %>%
 
 --
 
-- Packages are loaded into your working environment using the `library()` function.
+Packages are loaded into your working environment using the `library()` function.
 
 --
 
@@ -908,7 +911,7 @@ gapminder
 
 --
 
-- .SMALL.squish2[You need only _install_ a package once (and occasionally update it). But you must _load_ the package in each R session before you can access its contents.]
+.SMALL.squish2[You need only _install_ a package once (and occasionally update it). But you must _load_ the package in each R session before you can access its contents.]
 
 .SMALL[
 
@@ -935,7 +938,7 @@ penguins
 
 # Grabbing a single function with .kjh-yellow[`::`]
 
-- .small["Reach in" to an unloaded package and grab a function directly, using `<package>::<function>`]
+.small["Reach in" to an unloaded package and grab a function directly, using `<package>::<function>`]
 
 --
 
@@ -957,13 +960,13 @@ penguins %>%
 
 # Remember this warning about conflicts?
 
-- ![:scale 80% "Conflicts"](img/function-masking.png)
+![:scale 80% "Conflicts"](img/function-masking.png)
 
-- Notice how some functions in different packages have the same names.
+Notice how some functions in different packages have the same names.
 
 --
 
-- Related concept of _namespaces_ and _environments_.
+Related concepts of _namespaces_ and _environments_.
 
 ---
 
@@ -1008,15 +1011,15 @@ y
 
 # 5. .kjh-yellow[Objects come in types and classes]
 
-- I'm going to speak somewhat loosely here for now, and gloss over some distinctions between object classes and data structures, as well as kinds of objects and their attributes.
+I'm going to speak somewhat loosely here for now, and gloss over some distinctions between object classes and data structures, as well as kinds of objects and their attributes.
 
 --
 
-- The object inspector in RStudio is your friend.
+The object inspector in RStudio is your friend.
 
 --
 
-- You can ask an object what it is. 
+You can ask an object what it is. 
 
 ```{r 02-about-r-49}
 class(my_numbers)
@@ -1028,7 +1031,7 @@ typeof(my_numbers)
 
 # 5. .kjh-yellow[Objects come in types and classes]
 
-- Objects can have more than one (nested) class:
+Objects can have more than one (nested) class:
 
 --
 
@@ -1182,7 +1185,7 @@ typeof(gapminder) # hmm
 ```
 ]
 
-- .small[Underneath, most complex R objects are some kind of list with different components.]
+.small[Underneath, most complex R objects are some kind of list with different components.]
 
 
 ???
@@ -1249,13 +1252,13 @@ gss_sm
 
 --
 
-- .SMALL.squish2[Tidyverse tools are generally _type safe_, meaning their functions return the same type of thing every time, and often require the same type of input that they return as output. So it's good to know about the various data types.]
+.SMALL.squish2[Tidyverse tools are generally _type safe_, meaning their functions return the same type of thing every time, and often require the same type of input that they return as output. So it's good to know about the various data types.]
 
 ---
 
 # 6. .kjh-yellow[Arithmetic on vectors]
 
-- In R, all numbers are vectors of different sorts. Even single numbers ("scalars") are conceptually vectors of length 1.
+In R, all numbers are vectors of different sorts. Even single numbers ("scalars") are conceptually vectors of length 1.
 
 --
 
@@ -1331,7 +1334,7 @@ result4 <- my_numbers + three_nums
 result4
 ```
 
-- Note that you get a _warning_ here. It'll still do it, though! Don't ignore warnings until you understand what they mean.
+Note that you get a _warning_ here. It'll still do it, though! Don't ignore warnings until you understand what they mean.
 
 ---
 

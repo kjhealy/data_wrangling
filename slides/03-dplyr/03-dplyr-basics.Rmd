@@ -112,15 +112,15 @@ library(tidyverse) # your friend and mine
 
 # .kjh-yellow[dplyr] lets you work with tibbles
 
-- Remember, tibbles are tables of data where the columns can be of different types, such as numeric, logical, character, factor, etc.
+Remember, tibbles are tables of data where the columns can be of different types, such as numeric, logical, character, factor, etc.
 
 --
 
-- We'll use dplyr to _transform_ and _summarize_ our data.
+We'll use dplyr to _transform_ and _summarize_ our data.
 
 --
 
-- We'll use the pipe operator, **`%>%`**, to chain together sequences of actions on our tables.
+We'll use the pipe operator, **`%>%`**, to chain together sequences of actions on our tables.
 
 --
 
@@ -187,13 +187,11 @@ gss_sm
 
 --
 
-- Notice how the tibble already tells us a lot.
+Notice how the tibble already tells us a lot.
 
 ---
 
 # Summarizing a Table
-
---
 
 - Here's what we're going to do:
 
@@ -209,7 +207,7 @@ gss_sm %>%
   select(id, bigregion, religion)
 ```
 
-- We're just taking a look at the relevant columns here
+We're just taking a look at the relevant columns here.
 
 ---
 
@@ -221,7 +219,7 @@ gss_sm %>%
   group_by(bigregion)
 ```
 
-- Grouping just changes the logical structure of the tibble
+Grouping just changes the logical structure of the tibble. 
 
 ---
 
@@ -236,15 +234,15 @@ gss_sm %>%
 
 --
 
-- The function `n()` counts up the rows within each group.
+The function `n()` counts up the rows within each group.
 
 --
 
-- All the other columns are dropped in the summary operation
+All the other columns are dropped in the summary operation
 
 --
 
-- Your original .kjh-pink[`gss_sm`] table is untouched
+Your original .kjh-pink[`gss_sm`] table is untouched
 
 ---
 
@@ -259,7 +257,7 @@ gss_sm %>%
 
 --
 
-- The function `n()` counts up the rows within the _innermost_ (i.e. the rightmost) group.
+The function `n()` counts up the rows within the _innermost_ (i.e. the rightmost) group.
 
 ---
 
@@ -276,15 +274,15 @@ gss_sm %>%
 
 --
 
-- The function `n()` counts up the rows 
+The function `n()` counts up the rows 
 
 --
 
-- Which rows? The ones fed down the pipeline
+Which rows? The ones fed down the pipeline
 
 --
 
-- The _innermost_ (i.e. the rightmost) group.
+The _innermost_ (i.e. the rightmost) group.
 
 ---
 
@@ -300,11 +298,11 @@ gss_sm %>%
 ```
 ]
 
-- Groups are carried forward till summarized or explicitly ungrouped
+Groups are carried forward till summarized or explicitly ungrouped
 
 --
 
-- Summary calculations are done on the innermost group, which then "disappears". (Notice how it's no longer a group in the output.)
+Summary calculations are done on the innermost group, which then "disappears". (Notice how it's no longer a group in the output.)
 
 ---
 
@@ -320,7 +318,7 @@ gss_sm %>%
 ```
 ]
 
-- `mutate()` is very clever. See how we can immediately use `freq`, even though we are creating it in the same `mutate()` expression.
+`mutate()` is very clever. See how we can immediately use `freq`, even though we are creating it in the same `mutate()` expression.
 
 ---
 
@@ -337,7 +335,7 @@ gss_sm %>%
 ```
 ]
 
-- We're going to be doing this `group_by()` ... `n()` step a lot. Some shorthand for it would be useful.
+We're going to be doing this `group_by()` ... `n()` step a lot. Some shorthand for it would be useful.
 
 ---
 
@@ -412,7 +410,7 @@ gss_sm %>%
 ```
 ]
 
-- More on `pivot_wider()` and `kable()` soon ...
+More on `pivot_wider()` and `kable()` soon ...
 
 ---
 
@@ -584,7 +582,7 @@ rel_by_region %>%
 
 ## Check your tables!
 
-- Pipelines feed their content forward, so you need to make sure your results are not incorrect.
+-     Pipelines feed their content forward, so you need to make sure your results are not incorrect.
 
 --
 
@@ -648,3 +646,165 @@ gss_sm %>%
   summarize(grp_totpct = sum(pct))
 ```
 
+---
+
+# Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
+
+Some new data, this time on national rates of cadaveric organ donation:
+
+```{r}
+# library(socviz)
+organdata
+```
+
+---
+
+# Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
+
+```{r}
+organdata %>% 
+  filter(consent_law == "Informed" & donors > 15) 
+```
+
+---
+
+# Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
+
+```{r}
+organdata %>% 
+  select(country, year, where(is.integer)) #<<
+```
+
+Use `where()` to test columns.
+
+---
+
+# Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
+
+When telling `where()` use `is.integer()` to test each column, we don't put parentheses at the end of its name. If we did, R would try to evaluate `is.integer()` right then, and fail:
+
+```r
+> organdata %>% 
++   select(country, year, where(is.integer()))
+Error: 0 arguments passed to 'is.integer' which requires 1
+Run `rlang::last_error()` to see where the error occurred.
+```
+
+This is true in similar situations elsewhere as well.
+
+---
+
+# Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
+
+```{r}
+organdata %>% 
+  select(country, year, where(is.character))
+```
+
+We have functions like e.g. `is.character()`, `is.numeric()`, `is.logical()`, `is.factor()`, etc. All return either .kjh-green[`TRUE`] or .kjh-red[`FALSE`]. 
+
+---
+
+# Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
+
+Sometimes we don't pass a function, but do want to use the result of one:
+
+```{r}
+organdata %>% 
+  select(country, year, starts_with("gdp")) #<<
+```
+
+We have `starts_with()`, `ends_with()`, `contains()`, `matches()`, and `num_range()`. Collectively these are "tidy selectors".
+
+---
+
+# Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
+
+```{r}
+organdata %>% 
+  filter(country == "Australia" | country == "Canada") 
+```
+
+This could get cumbersome fast.
+
+---
+
+# Use .kjh-yellow[`%in%`] for multiple selections
+
+```{r}
+my_countries <- c("Australia", "Canada", "United States", "Ireland")
+
+organdata %>% 
+  filter(country %in% my_countries) #<<
+```
+
+---
+
+# Negating .kjh-yellow[`%in%`] 
+
+```{r}
+my_countries <- c("Australia", "Canada", "United States", "Ireland")
+
+organdata %>% 
+  filter(!(country %in% my_countries)) #<<
+```
+
+Also a bit awkward. There's no built-in "Not in" operator. 
+
+
+---
+
+# Negating .kjh-yellow[`%in%`] 
+
+We can make one!
+
+```{r}
+`%nin%` <- Negate(`%in%`) # this operator is included in the socviz package
+```
+
+.small.squish3[(The backticks are special here because we need to name an operator.)]
+
+--
+.SMALL[
+```{r}
+organdata %>% 
+  filter(country %nin% my_countries) #<<
+```
+]
+
+
+---
+
+# Conditionals in .kjh-yellow[`mutate()`] and .kjh-yellow[`summarize()`]
+
+Earlier we saw this:
+
+```{r}
+gss_sm %>% 
+  group_by(race, sex, degree) %>% 
+  summarize(n = n(), 
+            mean_age = mean(age, na.rm = TRUE), 
+            mean_kids = mean(childs, na.rm = TRUE))
+```
+
+---
+
+# Conditionals in .kjh-yellow[`mutate()`] and .kjh-yellow[`summarize()`]
+
+.SMALL.squish3[Similarly for `organdata` we might want to do:]
+
+.small[
+
+```{r}
+organdata %>%  
+  group_by(consent_law, country) %>%
+  summarize(donors_mean = mean(donors, na.rm = TRUE),
+            donors_sd = sd(donors, na.rm = TRUE),
+            gdp_mean = mean(gdp, na.rm = TRUE),
+            health_mean = mean(health, na.rm = TRUE),
+            roads_mean = mean(roads, na.rm = TRUE))
+```
+
+]
+
+This works, but it's really tedious. Also error-prone.
