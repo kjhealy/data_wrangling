@@ -43,7 +43,7 @@ We will be working with the most recent stable versions of R and RStudio, as wel
 ```R
 my_packages <- c("tidyverse", "babynames", "broom", "drat", "gapminder",  
                   "here", "janitor", "naniar", "palmerpenguins", 
-                  "skimr", "slider", socviz", "usethis", "visdat", "reprex")
+                  "skimr", "slider", "socviz", "usethis", "visdat", "reprex")
 
 install.packages(my_packages, repos = "http://cran.rstudio.com")
 
