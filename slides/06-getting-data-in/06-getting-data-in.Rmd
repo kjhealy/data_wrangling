@@ -118,7 +118,7 @@ Quite messy things like tables on web pages.
 
 # Reading in CSV files
 
-CSV is not really a proper format at all.
+CSV is not really a proper format at all!
 
 --
 
@@ -126,8 +126,8 @@ Base R has `read.csv()`
 
 --
 
-As is often the case, the tidyverse has a corresponding "underscored" version, `read_csv()`
-It's _much_ pickier and more talkative than the Base R version.
+As is often the case, the tidyverse has a corresponding "underscored" version, `read_csv()`.
+It is _much_ pickier and more talkative than the Base R version.
 
 ???
 
@@ -135,7 +135,7 @@ It's very hazily defined. This makes it surprisingly difficult to parse! Yet is 
 
 ---
 
-# Using .kjh-yellow[here()]
+# Where's the data? Using .kjh-yellow[here()]
 
 If we're loading a file, it's coming from _somewhere_.
 
@@ -147,6 +147,14 @@ df <- read_csv("/Users/kjhealy/Documents/data/misc/project/data/mydata.csv")
 ```
 
 --
+  
+We should also do it in a way that is _platform independent_. 
+
+This makes it easier to share your work, move it around, etc. Projects should be self-contained.
+
+---
+
+# Where's the data? Using .kjh-yellow[here()]
 
 The `here` package, and `here()` function builds paths relative to the top level of your R project. 
 
@@ -156,7 +164,7 @@ here() # this path will be different for you
 
 ---
 
-# Using .kjh-yellow[here()]
+# Where's the data? Using .kjh-yellow[here()]
 
 This seminar's files all live in an RStudio project. It looks like this:
 
@@ -168,7 +176,7 @@ I want to load files from the `data` folder, but I also want _you_ to be able to
 
 ---
 
-# Using .kjh-yellow[here()]
+# Where's the data? Using .kjh-yellow[here()]
 
  So:
 
@@ -190,7 +198,7 @@ organs
 
 ---
 
-# Using .kjh-yellow[here()]
+# Where's the data? Using .kjh-yellow[here()]
 
 Get in the habit of putting this at the top of your files:
 
@@ -218,35 +226,37 @@ organs <- read_csv(file = here("data", "organdonation.csv"))
 my_data <- read_csv2(file = here("data", "my_euro_file.csv))
 ```
 
-## Both are special cases of `read_delim()`
+Both are special cases of `read_delim()`
 
 ---
 
 # Other species are also catered to
 
-- `read_tsv()` Tab separated
+- `read_tsv()` Tab separated.
 
-- `read_fwf()` Fixed-width files
+- `read_fwf()` Fixed-width files.
 
-- `read_log()` Log files (i.e. computer log files)
+- `read_log()` Log files (i.e. computer log files).
 
-- `read_lines()` and `read_lines_raw()` More low level, unstructured files
-
----
-
-# Often useful
-
-- `read_table()` and `read_table2()` Data separated by one (or more) columns of space.
-
+- `read_lines()` Just read in lines, without trying to parse them.
 
 ---
 
-# Read remotely
+# Also often useful ...
+
+- `read_table()` and `read_table2()` 
+
+Data that's separated by one (or more) columns of space.
+
+
+---
+
+# You can read files remotely, too
 
 .SMALL.squish3[
 You can give all of these functions local files, or they can point to URLs.
 
-Compressed files will be automatically uncompressed
+Compressed files will be automatically uncompressed.
 
 (Be careful what you download from remote locations!)]
 
@@ -260,7 +270,7 @@ organ_remote
 
 ---
 
-# .kjh-yellow[read_table()]
+# An example: .kjh-yellow[read_table()]
 
 .pull-left[
 ![:scale 100%](img/mortality-top.png)
@@ -302,6 +312,14 @@ Why is `age` imported in `character` format?
 
 ---
 
+# Pay attention to the .kjh-yellow[column specification]
+
+Absent you giving them a column specification, the `read_` functions try to _guess_ what the type of each column is. They do this by looking at the first thousand rows of each column. 
+
+They may guess incorrectly!
+
+---
+
 ```{r, 06-janitor-pipeline, include = FALSE}
 read_table(here("data", "mortality.txt"), 
                       skip = 2, na = ".") %>% 
@@ -313,7 +331,9 @@ read_table(here("data", "mortality.txt"),
 
 --
 
-The `janitor` package is very handy! The main cost of normalizing names comes with, e.g., data where there is a codebook you need to consult. But in general it's worth it.
+The `janitor` package is very handy! 
+
+The main cost of normalizing names comes with, e.g., data where there is a codebook you need to consult. But in general it's worth it.
 
 ---
 
@@ -345,28 +365,81 @@ nchs <- read_csv(here("data", "SAS_on_2021-04-13.csv"))
 problems(nchs)
 ```
 
+--
+
+Problems are stored as an attribute of the `nchs` object, so we can revisit them.
+
+--
+
+Parsing failures tend to cascade. Our data only has 56k rows but we got 88k failures.
+
+???
+
+A meta-tibble!
+
 ---
+
+# Take a look with .kjh-yellow[head()]
 
 ```{r}
 head(nchs)
 ```
 
+
 ---
 
+# Take a look with .kjh-yellow[tail()]
+
 ```{r}
-nchs %>% 
-  slice(2755:2760) 
+tail(nchs)
 ```
 
 ---
 
+# Take a look with .kjh-yellow[slice_sample()]
+
 ```{r}
 nchs %>% 
-  slice(2755:2760) %>% 
+  slice_sample(n = 10)
+```
+
+---
+
+# Aside: one that happened earlier ...
+
+![:scale 100%](img/slice_sample_why_lgl.png)
+
+???
+
+Month 1!
+
+---
+
+# Take a look with .kjh-yellow[slice()]
+
+Let's look at the rows `read_csv()` complained about.
+
+```{r}
+nchs %>% 
+  slice(2750:2760) 
+```
+
+---
+
+# Take a look with .kjh-yellow[slice()]
+
+```{r}
+nchs %>% 
+  slice(2750:2760) %>% 
   select(Year, Month, State)
 ```
 
+Hm, something to do with the transition to national numbers maybe?
+
 ---
+
+# Take a look  with .kjh-yellow[select()] and .kjh-yellow[filter()]
+
 
 ```{r}
 nchs %>% 
@@ -377,14 +450,21 @@ nchs %>%
 
 ---
 
+# Take a look with .kjh-yellow[is.na()]
+
 ```{r}
 nchs %>% 
   select(Year, Month, State) %>% 
   filter(!is.na(Year)) #<<
-
 ```
 
+It really has been read in as a completely empty column.
+
+That doesn't seem like it can be right.
+
 ---
+
+# Take a look with .kjh-yellow[distinct()]
 
 ```{r}
 nchs %>% 
@@ -393,20 +473,59 @@ nchs %>%
 
 ```
 
+Again, it's been read in as a completely empty column.
+
 ---
 
+# Take a look with .kjh-yellow[read_lines()]
+
+Time to reach for a different kitchen knife.
 
 ```{r}
- read_lines(here("data", "SAS_on_2021-04-13.csv"), n_max = 10)
+read_lines(here("data", "SAS_on_2021-04-13.csv"), n_max = 10)
 ```
 
 ---
 
-# So, let's go back to the colspec
+# We can get the whole thing this way
+
+```{r}
+raw_file <- read_lines(here("data", "SAS_on_2021-04-13.csv"))
+```
+
+This imports the data as a long, long character vector, with each element being a line. 
+
+```{r}
+# reminder: indexing 1D vectors
+letters[5:6]
+```
+
+---
+
+# Now we're just looking at lines in a file
+
+```{r}
+# This is not a tibble; we have to index it the basic way
+raw_file[2753:2758] 
+```
+
+--
+
+There you are, you little bastard.
+
+--
+
+In this case, this is due to the kind of data this is, mixing multiple reporting levels and totals. That is, it's not a mistake in the _data_, but rather in the _parsing_.
+
+---
+
+# OK, let's go back to the colspec!
 
 ```{r, message = TRUE}
 nchs <- read_csv(here("data", "SAS_on_2021-04-13.csv")) 
 ```
+
+We can just copy it from the console output! It's valid code.
 
 ---
 
@@ -435,27 +554,31 @@ nchs <- read_csv(here("data", "SAS_on_2021-04-13.csv"),
 
 ```
 
-But we're going to make some adjustments
+
+But we know we need to make some adjustments.
+
+???
+
+Copying a _valid_ colspec is good practice if the underlying data changes!
 
 ---
 
-# Fix the date while we're here
-
-.small[And switch to integers as well]
+# Fixes
 
 .SMALL[
 ```{r}
-us_style <-  "%m/%d/%Y"
+# Date format
+us_style <-  "%m/%d/%Y" #<<
 
 nchs <- read_csv(
   here("data", "SAS_on_2021-04-13.csv"),
   col_types = cols(
-    `Data As Of` = col_date(format = us_style),
-    `Start Date` = col_date(format = us_style),
-    `End Date` = col_date(format = us_style),
+    `Data As Of` = col_date(format = us_style),#<<
+    `Start Date` = col_date(format = us_style),#<<
+    `End Date` = col_date(format = us_style),#<<
     Group = col_character(),
-    Year = col_character(),
-    Month = col_character(),
+    Year = col_character(),#<<
+    Month = col_character(),#<<
     State = col_character(),
     Sex = col_character(),
     `Age Group` = col_character(),
@@ -475,11 +598,49 @@ nchs <- read_csv(
 ]
 ---
 
-# If we wanted to ...
+# Now let's look again
 
-```{r, nchs-pipeline-02, include=FALSE}
-library(stringr) # it's back!
+```{r}
+dim(nchs)
 
+nchs %>% 
+  select(year, month, state) %>% 
+  filter(!is.na(year)) #<<
+```
+
+---
+
+# Now let's look again
+
+```{r}
+nchs %>% 
+  distinct(year) #<<
+
+```
+
+---
+
+# Lessons learned
+
+--
+
+I said at the start that it was no fun, but also weirdly satisfying.
+
+--
+
+When `read_csv()` warns you of a parsing failure _don't ignore it_.
+
+--
+
+`read_lines()` lets you get the file in a nearly unprocessed form.
+
+--
+
+The `colspec` output is your friend.
+
+---
+
+```{r, echo = FALSE}
 nchs_fmt <- nchs %>% 
   select(-year, -month) %>% 
   pivot_longer(covid_19_deaths:pneumonia_influenza_or_covid_19_deaths, 
@@ -490,7 +651,30 @@ nchs_fmt <- nchs %>%
          outcome = str_replace(outcome, "(C|c)ovid 19", "COVID-19"))
 ```
 
+
+```{r, nchs-pipeline-02, include=FALSE}
+library(stringr) # it's back!
+
+nchs %>% 
+  select(-year, -month) %>% 
+  pivot_longer(covid_19_deaths:pneumonia_influenza_or_covid_19_deaths, 
+               names_to = "outcome", 
+               values_to = "n") %>% 
+  mutate(outcome = str_to_sentence(outcome), 
+         outcome = str_replace_all(outcome, "_", " "),
+         outcome = str_replace(outcome, "(C|c)ovid 19", "COVID-19"))
+```
+
+`r chunk_reveal("nchs-pipeline-02", widths = c(50,50), title = "# If we wanted to ...")`
+
+
+--
+
+Put this in `nchs_fmt`
+
 ---
+
+# ... we could make a table or graph
 
 ```{r}
 nchs_fmt %>% 
@@ -499,19 +683,27 @@ nchs_fmt %>%
 
 ---
 
+# Cleaned up
+
+.pull-left[
 ```{r}
 nchs_fmt %>% 
   distinct(group)
 ```
+]
 
---- 
+--
 
+.pull-right[
 ```{r}
 nchs_fmt %>% 
   distinct(age_group)
 ```
+]
 
 ---
+
+# Make our plot
 
 ```{r}
 p_out <- nchs_fmt %>% 
@@ -526,9 +718,9 @@ p_out <- nchs_fmt %>%
                           "65-74 years",
                           "85 years and over"),  
          outcome %in% "COVID-19 deaths") %>%
-  mutate(age_group = str_replace(age_group, "years", "yrs"),
-         age_group = str_replace(age_group, " and over", ""),
-         age_group = str_replace(age_group, "85", "85+")) %>% 
+  mutate(age_group = str_replace(age_group, "years", "yrs"),#<<
+         age_group = str_replace(age_group, " and over", ""),#<<
+         age_group = str_replace(age_group, "85", "85+")) %>% #<<
   ggplot(mapping = aes(x = n, y = age_group)) +
   geom_col() + scale_x_continuous(labels = scales::comma) + 
   labs(x = "Deaths", y = NULL, title = "U.S. COVID-19 mortality totals by age group")
