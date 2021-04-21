@@ -151,15 +151,398 @@ df <- read_csv("/Users/kjhealy/Documents/data/misc/project/data/mydata.csv")
 The `here` package, and `here()` function builds paths relative to the top level of your R project. 
 
 ```{r}
-here::i_am("slides/")
+here() # this path will be different for you
 ```
+
+---
+
+# Using .kjh-yellow[here()]
+
+This seminar's files all live in an RStudio project. It looks like this:
+
+```{r, echo = FALSE}
+fs::dir_tree(here(), recurse = 0)
+```
+
+I want to load files from the `data` folder, but I also want _you_ to be able to load them. I'm writing this from somewhere deep in the `slides` folder, but you won't be there. Also, I'm on a Mac, but you may not be.
+
+---
+
+# Using .kjh-yellow[here()]
+
+ So:
+
+```{r}
+## Load the file relative to the path from the top of the project, without separators, etc
+organs <- read_csv(file = here("data", "organdonation.csv"))
+```
+
+--
+.SMALL[
+
+```{r}
+organs
+```
+
+]
+
+.small[And there it is.]
+
+---
+
+# Using .kjh-yellow[here()]
+
+Get in the habit of putting this at the top of your files:
+
+```r
+here::i_am("analysis.Rmd") # or whatever your Rmd or R file is called
+```
+
+See [the `here` project page](https://here.r-lib.org) for more details.
+
+---
+
+# .kjh-yellow[read_csv()] comes in different varieties
+
+
+## `read_csv() `Field separator is **`,`**
+
+```{r}
+organs <- read_csv(file = here("data", "organdonation.csv"))
+```
+
+## `read_csv2()` Field separator is **`,`**
+
+```r
+# Example only
+my_data <- read_csv2(file = here("data", "my_euro_file.csv))
+```
+
+## Both are special cases of `read_delim()`
+
+---
+
+# Other species are also catered to
+
+- `read_tsv()` Tab separated
+
+- `read_fwf()` Fixed-width files
+
+- `read_log()` Log files (i.e. computer log files)
+
+- `read_lines()` and `read_lines_raw()` More low level, unstructured files
+
+---
+
+# Often useful
+
+- `read_table()` and `read_table2()` Data separated by one (or more) columns of space.
 
 
 ---
 
+# Read remotely
+
+.SMALL.squish3[
+You can give all of these functions local files, or they can point to URLs.
+
+Compressed files will be automatically uncompressed
+
+(Be careful what you download from remote locations!)]
+
+.SMALL[
 ```{r}
+organ_remote <- read_csv("http://kjhealy.co/organdonation.csv")
 
-
-my_data <- read_csv(file = "data/organdonation.csv")
+organ_remote
 ```
+]
+
+---
+
+# .kjh-yellow[read_table()]
+
+.pull-left[
+![:scale 100%](img/mortality-top.png)
+<br />
+
+![:scale 100%](img/mortality-bottom.png)
+]
+
+--
+
+.pull-right[
+
+```{r}
+engmort <- read_table(here("data", "mortality.txt"), 
+                      skip = 2, na = ".")
+
+engmort
+```
+
+]
+
+---
+
+# Pay attention to the .kjh-yellow[column specification]
+
+```{r, message=TRUE}
+engmort <- read_table(here("data", "mortality.txt"), 
+                      skip = 2, na = ".")
+
+```
+
+
+The column specification tells you what the read function did. That is, how it interpreted each of the columns. It will also report if things don't go as expected. 
+
+--
+
+Why is `age` imported in `character` format?
+
+
+---
+
+```{r, 06-janitor-pipeline, include = FALSE}
+read_table(here("data", "mortality.txt"), 
+                      skip = 2, na = ".") %>% 
+  janitor::clean_names() %>% 
+  mutate(age = as.integer(recode(age, "110+" = "110")))
+```
+
+`r chunk_reveal("06-janitor-pipeline", widths = c(40,60), title = "# Normalizing names and recoding")`
+
+--
+
+The `janitor` package is very handy! The main cost of normalizing names comes with, e.g., data where there is a codebook you need to consult. But in general it's worth it.
+
+---
+
+# More on column specifications
+
+CDC/NCHS data: [Provisional COVID-19 Death Counts by Sex, Age, and State](https://data.cdc.gov/NCHS/Provisional-COVID-19-Death-Counts-by-Sex-Age-and-S/9bhg-hcku)
+
+![:scale 100%](img/cdc-nchs-sas.png)
+---
+
+# More on column specifications
+
+![:scale 90%](img/cdc-nchs-sas-desc.png)
+
+---
+
+# Let's try to load it
+
+
+```{r, warning = TRUE}
+nchs <- read_csv(here("data", "SAS_on_2021-04-13.csv"))
+```
+
+---
+
+# Let's try to load it
+
+```{r}
+problems(nchs)
+```
+
+---
+
+```{r}
+head(nchs)
+```
+
+---
+
+```{r}
+nchs %>% 
+  slice(2755:2760) 
+```
+
+---
+
+```{r}
+nchs %>% 
+  slice(2755:2760) %>% 
+  select(Year, Month, State)
+```
+
+---
+
+```{r}
+nchs %>% 
+  select(Year, Month, State) %>% 
+  filter(State == "New York")
+
+```
+
+---
+
+```{r}
+nchs %>% 
+  select(Year, Month, State) %>% 
+  filter(!is.na(Year)) #<<
+
+```
+
+---
+
+```{r}
+nchs %>% 
+  select(Year) %>% 
+  distinct(Year)
+
+```
+
+---
+
+
+```{r}
+ read_lines(here("data", "SAS_on_2021-04-13.csv"), n_max = 10)
+```
+
+---
+
+# So, let's go back to the colspec
+
+```{r, message = TRUE}
+nchs <- read_csv(here("data", "SAS_on_2021-04-13.csv")) 
+```
+
+---
+
+# We use it with .kjh-yellow[col_types]
+
+```r
+nchs <- read_csv(here("data", "SAS_on_2021-04-13.csv"), 
+           col_types = cols(
+  `Data As Of` = col_character(),
+  `Start Date` = col_character(),
+  `End Date` = col_character(),
+  Group = col_character(),
+  Year = col_logical(),
+  Month = col_logical(),
+  State = col_character(),
+  Sex = col_character(),
+  `Age Group` = col_character(),
+  `COVID-19 Deaths` = col_double(),
+  `Total Deaths` = col_double(),
+  `Pneumonia Deaths` = col_double(),
+  `Pneumonia and COVID-19 Deaths` = col_double(),
+  `Influenza Deaths` = col_double(),
+  `Pneumonia, Influenza, or COVID-19 Deaths` = col_double(),
+  Footnote = col_character()
+)
+
+```
+
+But we're going to make some adjustments
+
+---
+
+# Fix the date while we're here
+
+.small[And switch to integers as well]
+
+.SMALL[
+```{r}
+us_style <-  "%m/%d/%Y"
+
+nchs <- read_csv(
+  here("data", "SAS_on_2021-04-13.csv"),
+  col_types = cols(
+    `Data As Of` = col_date(format = us_style),
+    `Start Date` = col_date(format = us_style),
+    `End Date` = col_date(format = us_style),
+    Group = col_character(),
+    Year = col_character(),
+    Month = col_character(),
+    State = col_character(),
+    Sex = col_character(),
+    `Age Group` = col_character(),
+    `COVID-19 Deaths` = col_integer(),
+    `Total Deaths` = col_integer(),
+    `Pneumonia Deaths` = col_integer(),
+    `Pneumonia and COVID-19 Deaths` = col_integer(),
+    `Influenza Deaths` = col_integer(),
+    `Pneumonia, Influenza, or COVID-19 Deaths` = col_integer(),
+    Footnote = col_character()
+  )) %>% 
+  janitor::clean_names() %>% 
+  select(-footnote) %>%
+  mutate(age_group = stringr::str_to_sentence(age_group)) %>%
+  filter(!stringr::str_detect(state, "Total"))
+```
+]
+---
+
+# If we wanted to ...
+
+```{r, nchs-pipeline-02, include=FALSE}
+library(stringr) # it's back!
+
+nchs_fmt <- nchs %>% 
+  select(-year, -month) %>% 
+  pivot_longer(covid_19_deaths:pneumonia_influenza_or_covid_19_deaths, 
+               names_to = "outcome", 
+               values_to = "n") %>% 
+  mutate(outcome = str_to_sentence(outcome), 
+         outcome = str_replace_all(outcome, "_", " "),
+         outcome = str_replace(outcome, "(C|c)ovid 19", "COVID-19"))
+```
+
+---
+
+```{r}
+nchs_fmt %>% 
+  select(state, age_group, outcome, n)
+```
+
+---
+
+```{r}
+nchs_fmt %>% 
+  distinct(group)
+```
+
+--- 
+
+```{r}
+nchs_fmt %>% 
+  distinct(age_group)
+```
+
+---
+
+```{r}
+p_out <- nchs_fmt %>% 
+  filter(group %in% "By Total", 
+         sex %in% "All Sexes", 
+         state %in% "United States", 
+         age_group %in% c("0-17 years", 
+                          "18-29 years",
+                          "30-39 years",
+                          "40-49 years",
+                          "50-64 years",
+                          "65-74 years",
+                          "85 years and over"),  
+         outcome %in% "COVID-19 deaths") %>%
+  mutate(age_group = str_replace(age_group, "years", "yrs"),
+         age_group = str_replace(age_group, " and over", ""),
+         age_group = str_replace(age_group, "85", "85+")) %>% 
+  ggplot(mapping = aes(x = n, y = age_group)) +
+  geom_col() + scale_x_continuous(labels = scales::comma) + 
+  labs(x = "Deaths", y = NULL, title = "U.S. COVID-19 mortality totals by age group")
+```
+
+---
+
+```{r, echo = FALSE}
+theme_set(cowplot::theme_minimal_grid())
+```
+
+
+```{r, fig.height=5, fig.width=12}
+print(p_out)
+```
+
 
