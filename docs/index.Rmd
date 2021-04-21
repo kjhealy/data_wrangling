@@ -82,8 +82,6 @@ During the seminar we will use a [Slack](https://slack.com) to provide an additi
 
 -- Subject to change.
 
-## Day 1
-
 1. Tidy data and the tidyverse
 
 - Motivation: plain-text data analysis
