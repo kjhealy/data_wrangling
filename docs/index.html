@@ -92,8 +92,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2021-04-15" />
-  <meta property="article:created" itemprop="dateCreated" content="2021-04-15" />
+  <meta property="article:published" itemprop="datePublished" content="2021-04-20" />
+  <meta property="article:created" itemprop="dateCreated" content="2021-04-20" />
   <meta name="article:author" content="Kieran Healy" />
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -111,7 +111,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Data Wrangling with R and the tidyverse"]},{"type":"character","attributes":{},"value":["A Short Course using R and the Tidyverse suite of tools.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Kieran Healy"]},{"type":"character","attributes":{},"value":["https://kieranhealy.org"]}]}]},{"type":"character","attributes":{},"value":["2021-04-15"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Data Wrangling with R and the tidyverse"]},{"type":"character","attributes":{},"value":["A Short Course using R and the Tidyverse suite of tools.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Kieran Healy"]},{"type":"character","attributes":{},"value":["https://kieranhealy.org"]}]}]},{"type":"character","attributes":{},"value":["2021-04-20"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1455,7 +1455,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Data Wrangling with R and the tidyverse","description":"A Short Course using R and the Tidyverse suite of tools.","authors":[{"author":"Kieran Healy","authorURL":"https://kieranhealy.org","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-04-15T00:00:00.000+00:00","citationText":"Healy, 2021"}
+{"title":"Data Wrangling with R and the tidyverse","description":"A Short Course using R and the Tidyverse suite of tools.","authors":[{"author":"Kieran Healy","authorURL":"https://kieranhealy.org","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-04-20T00:00:00.000+00:00","citationText":"Healy, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1474,7 +1474,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-byline">
   Kieran Healy <a href="https://kieranhealy.org" class="uri">https://kieranhealy.org</a> 
   
-<br />2021-04-15
+<br />2021-04-20
 </div>
 
 <div class="d-article">
@@ -1530,18 +1530,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li>How R works and why it got that way</li>
 <li>What’s “tidy” about the tidyverse?</li>
 <li>Pipelining your code</li>
-<li>A first example</li>
+<li>First examples</li>
 </ul>
 <ol start="2" type="1">
-<li>Getting your data into R with <code>readr</code></li>
-</ol>
-<ul>
-<li>Reading in a single table of data</li>
-<li>Tibbles</li>
-<li>Data types</li>
-<li>Common pitfalls and problems</li>
-</ul>
-<ol start="3" type="1">
 <li>Tabulating and summarizing data with <code>dplyr</code></li>
 </ol>
 <ul>
@@ -1549,54 +1540,49 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li>Manipulating column names and arranging rows</li>
 <li>Groups and the logic of working with grouped data</li>
 <li>Calculating on the columns of a table, and on the rows</li>
-<li>Zero counts in <code>dplyr</code> and other gotchas</li>
+<li>Working <code>across()</code> columns</li>
 </ul>
-<h2 id="day-2">Day 2</h2>
-<ol start="4" type="1">
+<ol start="3" type="1">
 <li>Reshaping data with <code>tidyr</code></li>
 </ol>
 <ul>
+<li>Best practices before having to reshape</li>
 <li>Moving back and forth between wide and long data</li>
 <li>Splitting, separating, and recoding observations</li>
-<li>Managing and visualizing missing values</li>
 <li>Expanding and completing datasets</li>
 </ul>
-<ol start="5" type="1">
-<li>Managing categorical measures and textual data with <code>forcats</code> and <code>stringr</code></li>
+<ol start="4" type="1">
+<li>Managing textual and categorical data with <code>stringr</code> and <code>forcats</code></li>
 </ol>
 <ul>
+<li>String manipulation, regular expressions, and <code>stringr</code></li>
 <li>Working with factors in R and in the tidyverse</li>
 <li>Recoding and re-leveling factors</li>
-<li>String manipulation, regular expressions, and <code>stringr</code></li>
+</ul>
+<ol start="5" type="1">
+<li>Getting data into R and cleaning it</li>
+</ol>
+<ul>
+<li>Reading in different plain-text formats</li>
+<li>Importing from Stata</li>
+<li>Importing multiple files using <code>map()</code> and its friends</li>
+<li>Managing and visualizing missing values</li>
 </ul>
 <ol start="6" type="1">
-<li>Iterating on data with <code>dplyr</code> and <code>purrr</code></li>
+<li>Iterating on data with <code>dplyr</code>, <code>purrr</code>, and <code>broom</code></li>
 </ol>
 <ul>
-<li>Relational data in <code>dplyr</code></li>
 <li>Joining tables</li>
-<li>Working <code>across()</code> columns</li>
-<li>Using <code>map()</code> and its friends to feed your data to functions</li>
-</ul>
-<h2 id="day-3">Day 3</h2>
-<ol start="7" type="1">
-<li>Modeling with <code>broom</code></li>
-</ol>
-<ul>
 <li>Extending tidy principles to models</li>
 <li>Fitting and summarizing model output</li>
+<li>Making tables</li>
 </ul>
 <ol start="8" type="1">
 <li>Making it easier to be tidy</li>
 </ol>
 <ul>
-<li>The <code>janitor</code> package helps clean your data</li>
+<li>The <code>janitor</code> package</li>
 <li>Working with the <code>usethis</code> and <code>reprex</code> helper packages</li>
-</ul>
-<ol start="9" type="1">
-<li>Managing your clean data</li>
-</ol>
-<ul>
 <li>Documenting your data</li>
 <li>Using a package to store your data</li>
 <li>The wider world of tidyverse-friendly packages and tools</li>

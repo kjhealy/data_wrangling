@@ -90,60 +90,47 @@ During the seminar we will use a [Slack](https://slack.com) to provide an additi
 - How R works and why it got that way
 - What's "tidy" about the tidyverse?
 - Pipelining your code
-- A first example
+- First examples
 
-2. Getting your data into R with `readr`
-
-- Reading in a single table of data
-- Tibbles
-- Data types
-- Common pitfalls and problems
-
-3. Tabulating and summarizing data with `dplyr`
+2. Tabulating and summarizing data with `dplyr`
 
 - Filtering, selecting, mutating, and summarizing a single table
 - Manipulating column names and arranging rows
 - Groups and the logic of working with grouped data
 - Calculating on the columns of a table, and on the rows
-- Zero counts in `dplyr` and other gotchas
+- Working `across()` columns
 
-## Day 2
+3. Reshaping data with `tidyr`
 
-4. Reshaping data with `tidyr`
-
+- Best practices before having to reshape
 - Moving back and forth between wide and long data
 - Splitting, separating, and recoding observations
-- Managing and visualizing missing values
 - Expanding and completing datasets
 
-5. Managing categorical measures and textual data with `forcats` and `stringr`
+4. Managing textual and categorical data with `stringr` and `forcats`
 
+- String manipulation, regular expressions, and `stringr`
 - Working with factors in R and in the tidyverse
 - Recoding and re-leveling factors
-- String manipulation, regular expressions, and `stringr`
 
-6. Iterating on data with `dplyr` and `purrr`
+5. Getting data into R and cleaning it
 
-- Relational data in `dplyr`
+- Reading in different plain-text formats
+- Importing from Stata
+- Importing multiple files using `map()` and its friends
+- Managing and visualizing missing values
+
+6. Iterating on data with `dplyr`, `purrr`, and `broom`
+
 - Joining tables
-- Working `across()` columns
-- Using `map()` and its friends to feed your data to functions
-
-
-## Day 3
-
-7. Modeling with `broom`
-
 - Extending tidy principles to models
 - Fitting and summarizing model output
+- Making tables
 
 8. Making it easier to be tidy
 
-- The `janitor` package helps clean your data
+- The `janitor` package
 - Working with the `usethis` and `reprex` helper packages
-
-9. Managing your clean data 
-
 - Documenting your data
 - Using a package to store your data
 - The wider world of tidyverse-friendly packages and tools
