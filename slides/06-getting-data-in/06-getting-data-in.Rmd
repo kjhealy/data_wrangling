@@ -1,0 +1,165 @@
+---
+title: "Data Wrangling - 6. Reading in data"
+author: "Kieran Healy"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: "libs"
+    chakra: "../libs/remark-latest.min.js"
+    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css"]
+    seal: false
+    anchor_sections: false
+    nature:
+      beforeInit: "../js/kjh-macros.js"
+      highlightStyle: default
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      navigation:
+        scroll: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
+                      fig.retina = 3, fig.align = "center")
+```
+
+```{r packages-data, include=FALSE}
+library(flipbookr)
+library(cowplot)
+ggplot2::theme_set(theme_cowplot())
+
+```
+
+```{r xaringanExtra, echo=FALSE}
+xaringanExtra::use_xaringan_extra(c("tile_view"))
+xaringanExtra::use_animate_css()
+xaringanExtra::use_animate_all("fade")
+xaringanExtra::use_clipboard()
+```
+
+class: center middle main-title section-title-1
+
+# Reading in data with .kjh-yellow[readr] and .kjh-yellow[haven]  
+
+.class-info[
+
+**Session 6**
+
+.light[Kieran Healy<br>
+Statistical Horizons, April 2021]
+
+]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Load the packages, as always
+
+.SMALL[
+```{r, message = TRUE}
+library(here)      # manage file paths
+library(socviz)    # data and some useful functions
+library(tidyverse) # your friend and mine
+library(haven)     # for Stata, SAS, and SPSS files
+```
+]
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle.squish4[.kjh-orange[We've put a lot of pieces in place at this point]]
+
+Including several things we haven't fully exploited yet
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Data we want to get into R
+
+--
+
+Nice, clean CSV files.
+
+--
+
+More troublesome CSVs.
+
+--
+
+Other plain-text formats.
+
+--
+
+Foreign formats, like Stata.
+
+--
+
+
+Quite messy things like tables on web pages.
+
+--
+
+... and more besides.
+
+---
+
+# Reading in CSV files
+
+CSV is not really a proper format at all.
+
+--
+
+Base R has `read.csv()`
+
+--
+
+As is often the case, the tidyverse has a corresponding "underscored" version, `read_csv()`
+It's _much_ pickier and more talkative than the Base R version.
+
+???
+
+It's very hazily defined. This makes it surprisingly difficult to parse! Yet is the most common of all plain-text data formats
+
+---
+
+# Using .kjh-yellow[here()]
+
+If we're loading a file, it's coming from _somewhere_.
+
+If it's on our local disk somewhere, we will need to interact with the file system. We should try to do this in a way that avoids _absolute_ file paths. 
+
+```r
+# This is not portable
+df <- read_csv("/Users/kjhealy/Documents/data/misc/project/data/mydata.csv")
+```
+
+--
+
+The `here` package, and `here()` function builds paths relative to the top level of your R project. 
+
+```{r}
+here::i_am("slides/")
+```
+
+
+---
+
+```{r}
+
+
+my_data <- read_csv(file = "data/organdonation.csv")
+```
+
