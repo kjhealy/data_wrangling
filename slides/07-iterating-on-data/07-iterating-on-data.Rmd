@@ -1,0 +1,346 @@
+---
+title: "Data Wrangling - 7. Iterating on data"
+author: "Kieran Healy"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: "libs"
+    chakra: "../libs/remark-latest.min.js"
+    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css"]
+    seal: false
+    anchor_sections: false
+    nature:
+      beforeInit: "../js/kjh-macros.js"
+      highlightStyle: default
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      navigation:
+        scroll: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
+                      fig.retina = 3, fig.align = "center")
+```
+
+```{r packages-data, include=FALSE}
+library(flipbookr)
+library(cowplot)
+ggplot2::theme_set(theme_cowplot())
+
+```
+
+```{r xaringanExtra, echo=FALSE}
+xaringanExtra::use_xaringan_extra(c("tile_view"))
+xaringanExtra::use_animate_css()
+xaringanExtra::use_animate_all("fade")
+xaringanExtra::use_clipboard()
+```
+
+class: center middle main-title section-title-1
+
+# Iterating on data with .kjh-yellow[purrr] and .kjh-yellow[map]  
+
+.class-info[
+
+**Session 7**
+
+.light[Kieran Healy<br>
+Statistical Horizons, April 2021]
+
+]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Load the packages, as always
+
+.SMALL[
+```{r 06-getting-data-in-1, message = TRUE}
+library(here)      # manage file paths
+library(socviz)    # data and some useful functions
+library(tidyverse) # your friend and mine
+```
+]
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle.squish4.huge[.kjh-orange[Moar Data]]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# More than one data file
+
+.SMALL[Inside the `data/` folder of the course packet is a folder named `congress/`]
+
+
+.smaller[
+
+```{r}
+# A little trick from the fs package: 
+fs::dir_tree(here("data", "congress"))
+```
+
+]
+
+---
+
+# More than one data file
+
+.SMALL[Let's look at one.]
+
+```{r}
+read_csv(here("data", "congress", "17_95_congress.csv")) %>% 
+  janitor::clean_names() %>% 
+  head()
+```
+
+We often find ourselves in this situation. We know each file has the same structure, and we would like to use them all at once. 
+
+---
+
+# Loops?
+
+How to read them all in?
+
+One traditional way, which we could do in R, is to write an explicit _loop_ that iterated over a vector of filenames, read each file, and then joined the results together in a tall rectangle.
+
+```r
+# Pseudocode
+
+filenames <- c("01_79_congress.csv", "02_80_congress.csv", "03_81_congress.csv",
+                "04_82_congress.csv" [etc etc])
+
+collected_files <- NULL
+
+for(i in 1:length(filenames)) {
+      new_file <- read_file(filenames[i])
+      collected_files <- append_to(collected_files, new_files)
+}
+
+
+```
+
+---
+
+# Loops?
+
+You may have noticed we have not written any loops, however.
+
+While loops are still lurking there underneath the surface, what we will do instead is to take advantage of the combination of vectors and functions and _map_ one to the other in order to generate results.
+
+Speaking loosely, think of `map()` as a way of iterating without writing loops. You start with a vector of things and you feed it to the function one thing at a time. The function does whatever it does, and you get back output that is the same length as your input.
+
+---
+
+# Mapping is just iteration for functions
+
+The `purrr` package provides a big family of mapping functions. One reason there are a lot of them is that `purrr`, like the rest of the tidyverse, is picky about data types. 
+
+--
+
+So in addition to the basic `map()`, which always returns a _list_, we also have `map_chr()`, `map_int()`, `map_dbl()`, `map_lgl()` and others. They always return the data type indicated by their suffix, or die trying.
+
+---
+
+# Vectorized arithmetic again
+
+The simplest cases are not that different from the vectorized arithmetic we're already familiar with. 
+
+```{r}
+a <- c(1:10)
+
+b <- 1
+
+# You know what R will do here
+a + b
+
+```
+
+--
+
+R's vectorized rules add `b` to every element of `a`. In a sense, the **`+`** operation can be thought of as a function that takes each element of `a` and does something with it. In this case "add `b`".  
+
+---
+
+# Vectorized arithmetic again
+
+We can make this explicit by writing a function:
+
+```{r}
+add_b <- function(x) {
+  b <- 1
+  x + b # for any x
+}
+```
+
+Now:
+
+```{r}
+add_b(x = a)
+```
+
+---
+
+# Vectorized arithmetic again
+
+
+Again, R's vectorized approach means it automatically adds `b` to every element of the x we give it.
+
+```{r}
+add_b(x = 10)
+```
+
+```{r}
+add_b(x = c(1, 99, 1000))
+```
+
+---
+
+# Iterating in a pipeline
+
+Some operations can't directly be vectorized in this way, which is why we need to manually iterate, or will want to write loops. 
+
+```{r}
+library(gapminder)
+gapminder %>% 
+  summarize(n_distinct(country), 
+            n_distinct(continent), 
+            n_distinct(year), 
+            n_distinct(lifeExp), 
+            n_distinct(population))
+```
+
+That's tedious to write. Computers are supposed to allow us to avoid that sort of thing.
+
+---
+
+# Iterating in a pipeline
+
+So how would we iterate this? What we want is to apply the `n_distinct()` function to each column of `gapminder`, but in a way that still allows us to use pipelines and so on. 
+
+```{r}
+library(gapminder)
+gapminder %>% 
+  summarize(n_distinct(country), 
+            n_distinct(continent), 
+            n_distinct(year), 
+            n_distinct(lifeExp), 
+            n_distinct(population))
+```
+
+.smaller.kjh-darkgrey[Using `n_distinct()` in this context is an idea I got from Rebecca Barter's discussion of `purrr`.]
+
+---
+
+# Iterating in a pipeline
+
+```{r}
+  map(gapminder, n_distinct)
+```
+
+Read it as "Feed each column of `gapminder` to the `n_distinct()` function.
+
+---
+
+# Iterating in a pipeline
+
+Or, in pipeline form:
+
+```{r}
+gapminder %>% 
+  map(n_distinct)
+```
+
+You can see we are getting a _list_ back.
+
+---
+
+# Iterating in a pipeline
+
+Or, in pipeline form:
+
+```{r}
+result <- gapminder %>% 
+  map(n_distinct)
+
+class(result)
+
+result$continent
+
+result[[2]]
+```
+
+You can see we are getting a _list_ back.
+
+---
+
+# Iterating in a pipeline
+
+In this context, `n_distinct()` is always going to return an integer, though.
+
+
+```{r}
+gapminder %>% 
+  map_int(n_distinct)
+```
+
+The thing about the `map()` family is that they can deal with all kinds of input types and output types.
+
+---
+
+# Get a vector of filenames
+
+```{r}
+filenames <- dir(path = here("data", "congress"),
+                 pattern = "*.csv",
+                 full.names = TRUE)
+
+filenames[1:10] # Just displaying the first 10, to save slide space
+
+```
+
+---
+
+# And feed it to .kjh-yellow[read_csv()]
+
+```{r}
+df <- filenames %>% 
+  map_dfr(read_csv, .id = "congress") %>% 
+  janitor::clean_names()
+
+df
+```
+
+... using the variant of `map()` that returns data frames and tibbles.
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+.top[![:scale 100%](img/emperor-witness.png)]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+
