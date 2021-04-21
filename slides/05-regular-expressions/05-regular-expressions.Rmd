@@ -63,7 +63,7 @@ class: title title-1
 # Load the packages, as always
 
 .SMALL[
-```{r, message = FALSE}
+```{r 05-regular-expressions-1, message = FALSE}
 library(here)      # manage file paths
 library(socviz)    # data and some useful functions
 ```
@@ -71,7 +71,7 @@ library(socviz)    # data and some useful functions
 
 .SMALL[
 
-```{r, message = TRUE}
+```{r 05-regular-expressions-2, message = TRUE}
 library(tidyverse) # your friend and mine
 library(gapminder) # gapminder data
 library(stringr)
@@ -97,7 +97,7 @@ class: title title-1
 
 # .kjh-yellow[stringr] is your gateway to regexps
 
-```{r}
+```{r 05-regular-expressions-3}
 library(stringr)
 ```
 
@@ -155,7 +155,7 @@ str_replace(<STRING>, <PATTERN>, <REPLACEMENT>)
 
 .SMALL[Here I'll follow the exposition in Wickham & Grolemund (2017).]
 
-```{r}
+```{r 05-regular-expressions-4}
 x <- c("apple", "banana", "pear")
 
 str_view(x, "an")
@@ -200,7 +200,7 @@ You need to use an “escape” to tell the regular expression you want to match
 
 .small.squish3[We use strings to represent regular expressions. **`\`** is also used as an escape symbol in strings. So to create the regular expression **`\.`** we need the string "**`\\.`**"]
 
-```{r}
+```{r 05-regular-expressions-5}
 # To create the regular expression, we need \\
 dot <- "\\."
 
@@ -219,7 +219,7 @@ We use strings to represent regular expressions, and \ is also used as an escape
   
 # But ... then how do you match a .kjh-yellow[literal] **`\`**?
 
-```{r}
+```{r 05-regular-expressions-6}
 
 x <- "a\\b"
 writeLines(x)
@@ -247,7 +247,7 @@ Use **`$`** to match the end of a string.
 
 .pull-left[
 
-```{r}
+```{r 05-regular-expressions-7}
 x <- c("apple", "banana", "pear")
 str_view(x, "^a")
 ```
@@ -257,7 +257,7 @@ str_view(x, "^a")
 
 .pull-right[
 
-```{r}
+```{r 05-regular-expressions-8}
 str_view(x, "a$")
 ```
 
@@ -273,7 +273,7 @@ To force a regular expression to only match a complete string, anchor it with bo
 
 .pull-left[
 
-```{r}
+```{r 05-regular-expressions-9}
 x <- c("apple pie", "apple", "apple cake")
 str_view(x, "apple")
 
@@ -285,7 +285,7 @@ str_view(x, "apple")
 
 .pull-right[
 
-```{r}
+```{r 05-regular-expressions-10}
 str_view(x, "^apple$")
 ```
 ]
@@ -313,7 +313,7 @@ Remember, to create a regular expression containing \d or \s, you’ll need to e
 Look for a literal character that normally has special meaning in a regex
 
 .pull-left[
-```{r}
+```{r 05-regular-expressions-11}
 
 str_view(c("abc", "a.c", "a*c", "a c"), "a[.]c")
 
@@ -324,7 +324,7 @@ str_view(c("abc", "a.c", "a*c", "a c"), "a[.]c")
 
 .pull-right[
 
-```{r}
+```{r 05-regular-expressions-12}
 str_view(c("abc", "a.c", "a*c", "a c"), ".[*]c")
 ```
 
@@ -340,7 +340,7 @@ This works for most (but not all) regex metacharacters: $ . | ? * + ( ) [ {. Unf
 
 Use parentheses to make the precedence of **`|`** clear:
 
-```{r}
+```{r 05-regular-expressions-13}
 str_view(c("groy", "grey", "griy", "gray"), "gr(e|a)y")
 ```
 
@@ -355,7 +355,7 @@ str_view(c("groy", "grey", "griy", "gray"), "gr(e|a)y")
 
 **`*`** is 0 or more
 
-```{r}
+```{r 05-regular-expressions-14}
 x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
 str_view(x, "CC?")
 ```
@@ -371,7 +371,7 @@ str_view(x, "CC?")
 
 **`*`** is 0 or more
 
-```{r}
+```{r 05-regular-expressions-15}
 str_view(x, "CC+")
 ```
 
@@ -387,7 +387,7 @@ str_view(x, "CC+")
 
 **`*`** is 0 or more
 
-```{r}
+```{r 05-regular-expressions-16}
 x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
 str_view(x, 'C[LX]+')
 ```
@@ -405,7 +405,7 @@ str_view(x, 'C[LX]+')
 **`{n,m}`** is between n and m
 
 
-```{r}
+```{r 05-regular-expressions-17}
 str_view(x, "C{2}")
 ```
 
@@ -423,7 +423,7 @@ str_view(x, "C{2}")
 **`{n,m}`** is between n and m
 
 
-```{r}
+```{r 05-regular-expressions-18}
 str_view(x, "C{2,}")
 ```
 
@@ -440,7 +440,7 @@ ___
 **`{n,m}`** is between n and m
 
 
-```{r}
+```{r 05-regular-expressions-19}
 str_view(x, "C{2,3}")
 ```
 
@@ -459,7 +459,7 @@ ___
 
 By default these are _greedy_ matches. You can make them “lazy”, matching the shortest string possible by putting a **`?`** after them. 
 
-```{r}
+```{r 05-regular-expressions-20}
 str_view(x, 'C{2,3}?')
 ```
 
@@ -477,7 +477,7 @@ str_view(x, 'C{2,3}?')
 
 By default these are _greedy_ matches. You can make them “lazy”, matching the shortest string possible by putting a **`?`** after them. 
 
-```{r}
+```{r 05-regular-expressions-21}
 str_view(x, 'C[LX]+?')
 ```
 
@@ -486,7 +486,7 @@ str_view(x, 'C[LX]+?')
 # And .kjh-yellow[finally] ... backreferences
 
 .SMALL[
-```{r}
+```{r 05-regular-expressions-22}
 fruit # built into stringr
 ```
 ]
@@ -496,7 +496,7 @@ fruit # built into stringr
 
 Find all fruits that have a repeated pair of letters:
 
-```{r}
+```{r 05-regular-expressions-23}
 str_view(fruit, "(..)\\1", match = TRUE)
 ```
 

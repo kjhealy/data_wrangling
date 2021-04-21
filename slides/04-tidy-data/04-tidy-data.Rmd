@@ -63,7 +63,7 @@ class: title title-1
 # Load the packages, as always
 
 .SMALL[
-```{r, message = FALSE}
+```{r 04-tidy-data-1, message = FALSE}
 library(here)      # manage file paths
 library(socviz)    # data and some useful functions
 ```
@@ -71,7 +71,7 @@ library(socviz)    # data and some useful functions
 
 .SMALL[
 
-```{r, message = TRUE}
+```{r 04-tidy-data-2, message = TRUE}
 library(tidyverse) # your friend and mine
 library(gapminder) # gapminder data
 ```
@@ -121,7 +121,7 @@ As we'll see later, `dplyr` has recently acquired the ability to do _rowwise_ op
 
 --
 
-```{r}
+```{r 04-tidy-data-3}
 # Sneak peek
 edu %>% 
   select(year, elem4:coll4)
@@ -132,7 +132,7 @@ edu %>%
 
 # This isn't an .kjh-red[_iron_] rule
 
-```{r}
+```{r 04-tidy-data-4}
 edu %>% 
   select(year, elem4:coll4) %>% 
   rowwise() %>% #<<
@@ -156,7 +156,7 @@ class: title title-1
 
 # Tidy data
 
-```{r}
+```{r 04-tidy-data-5}
 gapminder
 ```
 
@@ -200,7 +200,7 @@ When data is tidy in this way, the vectorized character of R's way of doing thin
 
 Storing data in long form is often _inefficient_
 
-```{r}
+```{r 04-tidy-data-6}
 library(covdata)
 covus %>% 
   filter(state == "NY") %>% 
@@ -214,7 +214,7 @@ covus %>%
 Storing data in wide form is _easier to display_ in a printed table
 
 .small[
-```{r}
+```{r 04-tidy-data-7}
 library(palmerpenguins)
 penguins %>% 
   group_by(species, island, year) %>% 
@@ -230,7 +230,7 @@ penguins %>%
 Storing data in wide form is _easier to display_ in a printed table
 
 .small[
-```{r}
+```{r 04-tidy-data-8}
 penguins %>% 
   group_by(species, island, year) %>% 
   summarize(bill = round(mean(bill_length_mm, na.rm = TRUE), 2)) %>% 
@@ -362,7 +362,7 @@ Needs a consistent naming scheme.]
 Pivoting:
 
 .SMALL[
-```{r}
+```{r 04-tidy-data-9}
 edu
 ```
 
@@ -377,7 +377,7 @@ This is fine for a compact table, but for us it should be a single measure, say,
 
 .SMALL.squish2[We're going to put the columns `elem4:coll4` into a new column, creating a new categorical measure named `education`. The numbers currently under each column will become a  new .kjh-green[value] column corresponding to that level of education. ]
 
-```{r}
+```{r 04-tidy-data-10}
 edu %>% 
   pivot_longer(elem4:coll4, names_to = "education")
 ```
@@ -388,7 +388,7 @@ edu %>%
 
 .SMALL.squish2[We can name the value column to whatever we like. Here it's a number of people.]
 
-```{r}
+```{r 04-tidy-data-11}
 edu %>% 
   pivot_longer(elem4:coll4, names_to = "education", values_to = "n")
 ```
@@ -397,7 +397,7 @@ edu %>%
 
 # Let's .kjh-yellow[recode()] it while we're here
 
-```{r}
+```{r 04-tidy-data-12}
 edu %>% 
   pivot_longer(elem4:coll4, names_to = "education", values_to = "n") %>% 
   mutate(education = recode(education, 
@@ -413,7 +413,7 @@ edu %>%
 
 # .kjh-yellow[pivot_longer()] implies .kjh-yellow[pivot_wider()]
 
-```{r}
+```{r 04-tidy-data-13}
 gapminder
 ```
 
@@ -421,7 +421,7 @@ gapminder
 
 # .kjh-yellow[pivot_longer()] implies .kjh-yellow[pivot_wider()]
 
-```{r}
+```{r 04-tidy-data-14}
 gapminder %>% 
   select(country, continent, year, lifeExp) %>% 
   pivot_wider(names_from = year, values_from = lifeExp) #<<
@@ -436,7 +436,7 @@ This is a pretty common problem.
 
 Our first thought ("Just don't mention the other columns") isn't it:
 ]
-```{r}
+```{r 04-tidy-data-15}
 gapminder %>% 
   pivot_wider(names_from = year, values_from = lifeExp) 
 ```
@@ -451,7 +451,7 @@ gapminder %>%
 .SMALL.squish2[We need to specify that we want values from more than one column.]
 
 .SMALL[
-```{r}
+```{r 04-tidy-data-16}
 gapminder %>% 
   select(country, continent, year, lifeExp, gdpPercap) %>% 
   pivot_wider(names_from = year, values_from = c(lifeExp, gdpPercap)) #<<
@@ -466,7 +466,7 @@ gapminder %>%
 
 .small.squish3[Let's see that again. This time, let's say we want to calculate some within-stratum statistics as we do it.]
 
-```{r, echo = FALSE}
+```{r 04-tidy-data-17, echo = FALSE}
 gen_cats <- function(x, N = 1000) {
     sample(x, N, replace = TRUE)
 }
@@ -485,7 +485,7 @@ df <- as_tibble(map_dfc(vars, gen_cats))
 df <- add_column(df, income)
 ```
 
-```{r}
+```{r 04-tidy-data-18}
 # Some made-up data
 df
 ```
@@ -518,7 +518,7 @@ In this case, everthing outside (or to the left of) `stratum` is untouched.
 
 # .kjh-yellow[separate()] and .kjh-yellow[unite()] columns
 
-```{r}
+```{r 04-tidy-data-19}
 ## tribble() lets you make tibbles by hand
 df <- tribble(
   ~name, ~occupation,

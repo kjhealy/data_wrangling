@@ -42,7 +42,7 @@ xaringanExtra::use_clipboard()
 
 class: center middle main-title section-title-1
 
-# Manipulating Tables with .kjh-yellow[`dplyr`]
+# Manipulating Tables with .kjh-yellow[dplyr]
 
 .class-info[
 
@@ -51,6 +51,7 @@ class: center middle main-title section-title-1
 .light[Kieran Healy<br>
 Statistical Horizons, April 2021]
 
+]
 
 ---
 
@@ -73,7 +74,7 @@ class: title title-1
 # Load our libraries
 
 .SMALL[
-```{r, message = TRUE}
+```{r 03-dplyr-basics-1, message = TRUE}
 library(here)      # manage file paths
 library(socviz)    # data and some useful functions
 library(tidyverse) # your friend and mine
@@ -179,7 +180,7 @@ class: title title-1
 
 # General Social Survey data: .kjh-pink[`gss_sm`]
 
-```{r}
+```{r 03-dplyr-basics-2}
 ## library(socviz) # if not loaded
 gss_sm
 ```
@@ -200,7 +201,7 @@ Notice how the tibble already tells us a lot.
 
 # Summarizing a table
 
-```{r}
+```{r 03-dplyr-basics-3}
 ## Just take a look at the columns we will work on
 gss_sm %>% 
   select(id, bigregion, religion)
@@ -212,7 +213,7 @@ We're just taking a look at the relevant columns here.
 
 # Group by .kjh-orange[_one_] column or variable
 
-```{r}
+```{r 03-dplyr-basics-4}
 
 gss_sm %>% 
   group_by(bigregion)
@@ -288,7 +289,7 @@ The _innermost_ (i.e. the rightmost) group.
 # Pipelines carry some assumptions forward
 
 .small[
-```{r}
+```{r 03-dplyr-basics-5}
 gss_sm %>% 
   group_by(bigregion, religion) %>% #<<
   summarize(total = n()) %>% 
@@ -308,7 +309,7 @@ Summary calculations are done on the innermost group, which then "disappears". (
 # Pipelines carry some assumptions forward
 
 .small[
-```{r}
+```{r 03-dplyr-basics-6}
 gss_sm %>% 
   group_by(bigregion, religion) %>% 
   summarize(total = n()) %>% 
@@ -325,7 +326,7 @@ gss_sm %>%
 
 .small[
 
-```{r}
+```{r 03-dplyr-basics-7}
 gss_sm %>% 
   group_by(bigregion, religion) %>% #<<
   summarize(total = n()) %>% #<<
@@ -345,7 +346,7 @@ We're going to be doing this `group_by()` ... `n()` step a lot. Some shorthand f
 - .SMALL.squish3[Do it yourself]
 
 .SMALL[
-```{r}
+```{r 03-dplyr-basics-8}
 gss_sm %>% 
   group_by(bigregion, religion) %>% #<<
   summarize(n = n()) #<<
@@ -362,7 +363,7 @@ gss_sm %>%
 - .SMALL.squish3[use `tally()`]
 
 .SMALL[
-```{r}
+```{r 03-dplyr-basics-9}
 gss_sm %>% 
   group_by(bigregion, religion) %>% 
   tally() #<<
@@ -379,7 +380,7 @@ gss_sm %>%
 - .SMALL.squish3[use `count()`]
 
 .SMALL[
-```{r}
+```{r 03-dplyr-basics-10}
 gss_sm %>% 
   count(bigregion, religion) #<<
 ```
@@ -392,7 +393,7 @@ gss_sm %>%
 
 # Pass your pipeline on to ... a .kjh-yellow[table]
 
-```{r, eval = FALSE}
+```{r 03-dplyr-basics-11, eval = FALSE}
 gss_sm %>% 
   count(bigregion, religion) %>% 
   pivot_wider(names_from = bigregion, values_from = n) %>%  #<<
@@ -401,7 +402,7 @@ gss_sm %>%
 
 
 .small[
-```{r, echo = FALSE}
+```{r 03-dplyr-basics-12, echo = FALSE}
 gss_sm %>% 
   count(bigregion, religion) %>% 
   pivot_wider(names_from = bigregion, values_from = n) %>% 
@@ -415,12 +416,12 @@ More on `pivot_wider()` and `kable()` soon ...
 
 # Pass your pipeline on to ... a .kjh-yellow[graph]
 
-```{r, echo = FALSE}
+```{r 03-dplyr-basics-13, echo = FALSE}
 theme_set(cowplot::theme_cowplot())
 ```
 
 .SMALL[
-```{r, fig.height=4, fig.width=15}
+```{r 03-dplyr-basics-14, fig.height=4, fig.width=15}
 gss_sm %>% 
   group_by(bigregion, religion) %>% 
   tally() %>% 
@@ -440,7 +441,7 @@ gss_sm %>%
 
 .pull-left[
 - .SMALL.squish3[You can do it like this ...]
-```{r}
+```{r 03-dplyr-basics-15}
 rel_by_region <- gss_sm %>% #<<
   count(bigregion, religion) %>% 
   mutate(pct = round((n/sum(n))*100, 1)) 
@@ -454,7 +455,7 @@ rel_by_region
 .pull-right[
 
 - .SMALL.squish3[Or like this!]
-```{r}
+```{r 03-dplyr-basics-16}
 gss_sm %>% 
   count(bigregion, religion) %>% 
   mutate(pct = round((n/sum(n))*100, 1)) -> #<<
@@ -473,7 +474,7 @@ rel_by_region
 
 - .kjh-red[Left] assignment is standard
 
-```{r}
+```{r 03-dplyr-basics-17}
 gss_tab <- gss_sm %>% 
   count(bigregion, religion) 
 ```
@@ -488,7 +489,7 @@ gss_tab <- gss_sm %>%
 
 - .kjh-lblue[Right] assignment also works!
 
-```{r}
+```{r 03-dplyr-basics-18}
 gss_sm %>% 
   count(bigregion, religion) -> gss_tab  
   
@@ -503,7 +504,7 @@ gss_sm %>%
 
 .pull-left[
 
-```{r}
+```{r 03-dplyr-basics-19}
 rel_by_region <- gss_sm %>% 
   count(bigregion, religion) %>% 
   mutate(pct = round((n/sum(n))*100, 1)) 
@@ -518,7 +519,7 @@ Hm, did I sum over right group?
 --
 .pull-right[
 
-```{r}
+```{r 03-dplyr-basics-20}
 ## Each region should sum to ~100
 rel_by_region %>% 
   group_by(bigregion) %>% 
@@ -536,7 +537,7 @@ No! What has gone wrong here?
 
 .pull-left[
 
-```{r}
+```{r 03-dplyr-basics-21}
 rel_by_region <- gss_sm %>% 
   count(bigregion, religion) %>% #<< 
   mutate(pct = round((n/sum(n))*100, 1)) 
@@ -544,7 +545,7 @@ rel_by_region <- gss_sm %>%
 
 .SMALL.squish3[`count()` returns ungrouped results, so no groups carry forward to the `mutate()` step.]
 
-```{r}
+```{r 03-dplyr-basics-22}
 rel_by_region %>% 
   summarize(total = sum(pct))
 ```
@@ -556,14 +557,14 @@ rel_by_region %>%
 --
 .pull-right[
 
-```{r}
+```{r 03-dplyr-basics-23}
 rel_by_region <- gss_sm %>% 
   group_by(bigregion, religion) %>% #<<
   tally() %>% #<<
   mutate(pct = round((n/sum(n))*100, 1)) 
 ```
 
-```{r}
+```{r 03-dplyr-basics-24}
 # Check
 rel_by_region %>% 
   group_by(bigregion) %>% 
@@ -609,12 +610,12 @@ rel_by_region %>%
 
 # Following a pipeline
 
-```{r, echo = FALSE}
+```{r 03-dplyr-basics-25, echo = FALSE}
 theme_set(cowplot::theme_minimal_grid())
 ```
 
 
-```{r, fig.height = 4, fig.width=10} 
+```{r 03-dplyr-basics-26, fig.height = 4, fig.width=10 }
 gss_sm %>% 
   group_by(race, sex, degree) %>% 
   summarize(n = n(), 
@@ -651,7 +652,7 @@ gss_sm %>%
 
 Some new data, this time on national rates of cadaveric organ donation:
 
-```{r}
+```{r 03-dplyr-basics-27}
 # library(socviz)
 organdata
 ```
@@ -660,7 +661,7 @@ organdata
 
 # Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
 
-```{r}
+```{r 03-dplyr-basics-28}
 organdata %>% 
   filter(consent_law == "Informed" & donors > 15) 
 ```
@@ -669,7 +670,7 @@ organdata %>%
 
 # Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
 
-```{r}
+```{r 03-dplyr-basics-29}
 organdata %>% 
   select(country, year, where(is.integer)) #<<
 ```
@@ -695,7 +696,7 @@ This is true in similar situations elsewhere as well.
 
 # Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
 
-```{r}
+```{r 03-dplyr-basics-30}
 organdata %>% 
   select(country, year, where(is.character))
 ```
@@ -708,7 +709,7 @@ We have functions like e.g. `is.character()`, `is.numeric()`, `is.logical()`, `i
 
 Sometimes we don't pass a function, but do want to use the result of one:
 
-```{r}
+```{r 03-dplyr-basics-31}
 organdata %>% 
   select(country, year, starts_with("gdp")) #<<
 ```
@@ -719,7 +720,7 @@ We have `starts_with()`, `ends_with()`, `contains()`, `matches()`, and `num_rang
 
 # Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
 
-```{r}
+```{r 03-dplyr-basics-32}
 organdata %>% 
   filter(country == "Australia" | country == "Canada") 
 ```
@@ -730,7 +731,7 @@ This could get cumbersome fast.
 
 # Use .kjh-yellow[`%in%`] for multiple selections
 
-```{r}
+```{r 03-dplyr-basics-33}
 my_countries <- c("Australia", "Canada", "United States", "Ireland")
 
 organdata %>% 
@@ -741,7 +742,7 @@ organdata %>%
 
 # Negating .kjh-yellow[`%in%`] 
 
-```{r}
+```{r 03-dplyr-basics-34}
 my_countries <- c("Australia", "Canada", "United States", "Ireland")
 
 organdata %>% 
@@ -757,7 +758,7 @@ Also a bit awkward. There's no built-in "Not in" operator.
 
 We can make one!
 
-```{r}
+```{r 03-dplyr-basics-35}
 `%nin%` <- Negate(`%in%`) # this operator is included in the socviz package
 ```
 
@@ -765,7 +766,7 @@ We can make one!
 
 --
 .SMALL[
-```{r}
+```{r 03-dplyr-basics-36}
 organdata %>% 
   filter(country %nin% my_countries) #<<
 ```
@@ -778,7 +779,7 @@ organdata %>%
 
 Earlier we saw this:
 
-```{r}
+```{r 03-dplyr-basics-37}
 gss_sm %>% 
   group_by(race, sex, degree) %>% 
   summarize(n = n(), 
@@ -794,7 +795,7 @@ gss_sm %>%
 
 .small[
 
-```{r}
+```{r 03-dplyr-basics-38}
 organdata %>%  
   group_by(consent_law, country) %>%
   summarize(donors_mean = mean(donors, na.rm = TRUE),
@@ -815,7 +816,7 @@ This works, but it's really tedious. Also error-prone.
 .SMALL.squish3[Instead, use `across()` to apply a function to more than one column.]
 
 .SMALL[
-```{r, 03-across-pipeline-1}
+```{r 03-across-pipeline-1}
 
 my_vars <- c("gdp", "donors", "roads")
 
@@ -829,7 +830,6 @@ organdata %>%
 ]
 
 ---
-
 
 `r chunk_reveal("03-across-pipeline-1", widths = c(40,60), title = "# Let's look at that again")`
 
@@ -848,7 +848,7 @@ organdata %>%
 # We can calculate more than one thing
 
 .small[
-```{r}
+```{r 03-dplyr-basics-40}
 
 my_vars <- c("gdp", "donors", "roads")
 
@@ -868,7 +868,7 @@ organdata %>%
 # It's OK to use the function names 
 
 .small[
-```{r}
+```{r 03-dplyr-basics-41}
 
 my_vars <- c("gdp", "donors", "roads")
 
@@ -888,7 +888,7 @@ organdata %>%
 
 .SMALL[
 
-```{r}
+```{r 03-dplyr-basics-42}
 organdata %>% 
   group_by(consent_law, country) %>%
   summarize(across(where(is.numeric), #<<       
@@ -908,7 +908,7 @@ organdata %>%
 .pull-left[
 
 .SMALL[
-```{r}
+```{r 03-dplyr-basics-43}
 organdata %>% 
   group_by(consent_law, country) %>%
   summarize(across(where(is.numeric),        
@@ -933,7 +933,7 @@ organdata %>%
 # This all works with .kjh-yellow[`mutate()`], too
 
 
-```{r}
+```{r 03-dplyr-basics-44}
 organdata %>% 
   mutate(across(where(is.character), toupper)) %>% 
   select(where(is.character))
@@ -947,7 +947,7 @@ Sort rows with `arrange()`
 
 .pull-left[
 
-```{r}
+```{r 03-dplyr-basics-45}
 organdata %>% 
   group_by(consent_law, country) %>%
   summarize(donors = mean(donors, na.rm = TRUE)) %>% 
@@ -959,7 +959,7 @@ organdata %>%
 
 .pull-right[
 
-```{r}
+```{r 03-dplyr-basics-46}
 organdata %>% 
   group_by(consent_law, country) %>%
   summarize(donors = mean(donors, na.rm = TRUE)) %>% 
@@ -975,7 +975,7 @@ Using `arrange()` to order rows in this way won't respect groupings.
 
 # More generally ...
 
-```{r}
+```{r 03-dplyr-basics-47}
 organdata %>% 
   group_by(consent_law, country) %>%
   summarize(donors = mean(donors, na.rm = TRUE)) %>% 
@@ -993,7 +993,7 @@ organdata %>%
 Ranking and cumulation within groups.  
 
 
-```{r}
+```{r 03-dplyr-basics-48}
 ## Data on COVID-19
 library(covdata)
 
@@ -1006,7 +1006,7 @@ covnat_weekly
 
  `cumsum()` gives cumulative sums
 
-```{r}
+```{r 03-dplyr-basics-49}
 covnat_weekly %>% 
   filter(cname == "United States") %>% 
   select(date, cname, iso3, cases) %>% 
@@ -1020,7 +1020,7 @@ covnat_weekly %>%
 
 .SMALL[`cume_dist()` gives the proportion of values less than or equal to the current value.]
 
-```{r}
+```{r 03-dplyr-basics-50}
 covnat_weekly %>% 
   select(date, cname, iso3, deaths) %>% 
   filter(cname == "United States") %>% 
@@ -1034,7 +1034,7 @@ covnat_weekly %>%
 
 # An application 
 
-```{r}
+```{r 03-dplyr-basics-51}
 covus %>% 
   filter(measure == "death") %>% 
   group_by(state) %>% 
@@ -1050,7 +1050,7 @@ covus %>%
 
 `dplyr` has `lead()` and `lag()` functions. These allow you to access the previous and next values in a vector. You can calculate offsets this way.
 
-```{r}
+```{r 03-dplyr-basics-52}
 my_vec <- c(1:20)
 my_vec
 lag(my_vec) # first element has no lag
@@ -1066,7 +1066,7 @@ my_vec - lag(my_vec)
 .SMALL.squish3[We can write the expression directly:]
 
 .SMALL[
-```{r}
+```{r 03-dplyr-basics-53}
 covus %>%
   select(-data_quality_grade) %>% 
   filter(measure == "death") %>%
@@ -1088,7 +1088,7 @@ We write functions using the special `function()` function.\*
 
 .SMALL[
 
-```{r}
+```{r 03-dplyr-basics-54}
 my_fun <- function(x) {
   x + 1
 }
@@ -1110,7 +1110,7 @@ my_fun(10)
 
 We write our function. It's just the expression we originally wrote, wrapped up.
 
-```{r}
+```{r 03-dplyr-basics-55}
 get_daily_count <- function(count, date){
   count - lag(count, order_by = date)
 }
@@ -1125,7 +1125,7 @@ This function has no generality, error-handling, or anything else. It's a once-o
 .SMALL.squish3[Now we can use it like any other:]
 
 .SMALL[
-```{r}
+```{r 03-dplyr-basics-56}
 covus %>%
   filter(measure == "death") %>%
   select(-data_quality_grade) %>% 
@@ -1150,7 +1150,7 @@ There are several options, notably [`RcppRoll`](https://cran.r-project.org/web/p
 
 We'll use the .kjh-orange[[`slider`](https://cran.r-project.org/web/packages/slider/vignettes/slider.html)] package.
 
-```{r}
+```{r 03-dplyr-basics-57}
 # install.packages("slider")
 library(slider)
 ```
@@ -1161,7 +1161,7 @@ library(slider)
 
 .SMALL[
 
-```{r}
+```{r 03-dplyr-basics-58}
 covus %>%
   filter(measure == "death") %>%
   select(-data_quality_grade) %>% 
@@ -1198,7 +1198,7 @@ The package provides a lot of different functions, from general-purpose `slide_m
 
 # Tidying up after yourself with .kjh-yellow[`relocate()`]
 
-```{r}
+```{r 03-dplyr-basics-59}
 gss_sm
 ```
 

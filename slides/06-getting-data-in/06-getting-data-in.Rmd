@@ -63,7 +63,7 @@ class: title title-1
 # Load the packages, as always
 
 .SMALL[
-```{r, message = TRUE}
+```{r 06-getting-data-in-1, message = TRUE}
 library(here)      # manage file paths
 library(socviz)    # data and some useful functions
 library(tidyverse) # your friend and mine
@@ -158,7 +158,7 @@ This makes it easier to share your work, move it around, etc. Projects should be
 
 The `here` package, and `here()` function builds paths relative to the top level of your R project. 
 
-```{r}
+```{r 06-getting-data-in-2}
 here() # this path will be different for you
 ```
 
@@ -168,7 +168,7 @@ here() # this path will be different for you
 
 This seminar's files all live in an RStudio project. It looks like this:
 
-```{r, echo = FALSE}
+```{r 06-getting-data-in-3, echo = FALSE}
 fs::dir_tree(here(), recurse = 0)
 ```
 
@@ -180,7 +180,7 @@ I want to load files from the `data` folder, but I also want _you_ to be able to
 
  So:
 
-```{r}
+```{r 06-getting-data-in-4}
 ## Load the file relative to the path from the top of the project, without separators, etc
 organs <- read_csv(file = here("data", "organdonation.csv"))
 ```
@@ -188,7 +188,7 @@ organs <- read_csv(file = here("data", "organdonation.csv"))
 --
 .SMALL[
 
-```{r}
+```{r 06-getting-data-in-5}
 organs
 ```
 
@@ -215,7 +215,7 @@ See [the `here` project page](https://here.r-lib.org) for more details.
 
 ## `read_csv() `Field separator is **`,`**
 
-```{r}
+```{r 06-getting-data-in-6}
 organs <- read_csv(file = here("data", "organdonation.csv"))
 ```
 
@@ -261,7 +261,7 @@ Compressed files will be automatically uncompressed.
 (Be careful what you download from remote locations!)]
 
 .SMALL[
-```{r}
+```{r 06-getting-data-in-7}
 organ_remote <- read_csv("http://kjhealy.co/organdonation.csv")
 
 organ_remote
@@ -283,7 +283,7 @@ organ_remote
 
 .pull-right[
 
-```{r}
+```{r 06-getting-data-in-8}
 engmort <- read_table(here("data", "mortality.txt"), 
                       skip = 2, na = ".")
 
@@ -296,7 +296,7 @@ engmort
 
 # Pay attention to the .kjh-yellow[column specification]
 
-```{r, message=TRUE}
+```{r 06-getting-data-in-9, message=TRUE}
 engmort <- read_table(here("data", "mortality.txt"), 
                       skip = 2, na = ".")
 
@@ -320,7 +320,7 @@ They may guess incorrectly!
 
 ---
 
-```{r, 06-janitor-pipeline, include = FALSE}
+```{r 06-janitor-pipeline, include = FALSE}
 read_table(here("data", "mortality.txt"), 
                       skip = 2, na = ".") %>% 
   janitor::clean_names() %>% 
@@ -353,7 +353,7 @@ CDC/NCHS data: [Provisional COVID-19 Death Counts by Sex, Age, and State](https:
 # Let's try to load it
 
 
-```{r, warning = TRUE}
+```{r 06-getting-data-in-11, warning = TRUE}
 nchs <- read_csv(here("data", "SAS_on_2021-04-13.csv"))
 ```
 
@@ -361,7 +361,7 @@ nchs <- read_csv(here("data", "SAS_on_2021-04-13.csv"))
 
 # Let's try to load it
 
-```{r}
+```{r 06-getting-data-in-12}
 problems(nchs)
 ```
 
@@ -381,7 +381,7 @@ A meta-tibble!
 
 # Take a look with .kjh-yellow[head()]
 
-```{r}
+```{r 06-getting-data-in-13}
 head(nchs)
 ```
 
@@ -390,7 +390,7 @@ head(nchs)
 
 # Take a look with .kjh-yellow[tail()]
 
-```{r}
+```{r 06-getting-data-in-14}
 tail(nchs)
 ```
 
@@ -398,7 +398,7 @@ tail(nchs)
 
 # Take a look with .kjh-yellow[slice_sample()]
 
-```{r}
+```{r 06-getting-data-in-15}
 nchs %>% 
   slice_sample(n = 10)
 ```
@@ -419,7 +419,7 @@ Month 1!
 
 Let's look at the rows `read_csv()` complained about.
 
-```{r}
+```{r 06-getting-data-in-16}
 nchs %>% 
   slice(2750:2760) 
 ```
@@ -428,7 +428,7 @@ nchs %>%
 
 # Take a look with .kjh-yellow[slice()]
 
-```{r}
+```{r 06-getting-data-in-17}
 nchs %>% 
   slice(2750:2760) %>% 
   select(Year, Month, State)
@@ -441,7 +441,7 @@ Hm, something to do with the transition to national numbers maybe?
 # Take a look  with .kjh-yellow[select()] and .kjh-yellow[filter()]
 
 
-```{r}
+```{r 06-getting-data-in-18}
 nchs %>% 
   select(Year, Month, State) %>% 
   filter(State == "New York")
@@ -452,7 +452,7 @@ nchs %>%
 
 # Take a look with .kjh-yellow[is.na()]
 
-```{r}
+```{r 06-getting-data-in-19}
 nchs %>% 
   select(Year, Month, State) %>% 
   filter(!is.na(Year)) #<<
@@ -466,7 +466,7 @@ That doesn't seem like it can be right.
 
 # Take a look with .kjh-yellow[distinct()]
 
-```{r}
+```{r 06-getting-data-in-20}
 nchs %>% 
   select(Year) %>% 
   distinct(Year)
@@ -481,7 +481,7 @@ Again, it's been read in as a completely empty column.
 
 Time to reach for a different kitchen knife.
 
-```{r}
+```{r 06-getting-data-in-21}
 read_lines(here("data", "SAS_on_2021-04-13.csv"), n_max = 10)
 ```
 
@@ -489,13 +489,13 @@ read_lines(here("data", "SAS_on_2021-04-13.csv"), n_max = 10)
 
 # We can get the whole thing this way
 
-```{r}
+```{r 06-getting-data-in-22}
 raw_file <- read_lines(here("data", "SAS_on_2021-04-13.csv"))
 ```
 
 This imports the data as a long, long character vector, with each element being a line. 
 
-```{r}
+```{r 06-getting-data-in-23}
 # reminder: indexing 1D vectors
 letters[5:6]
 ```
@@ -504,7 +504,7 @@ letters[5:6]
 
 # Now we're just looking at lines in a file
 
-```{r}
+```{r 06-getting-data-in-24}
 # This is not a tibble; we have to index it the basic way
 raw_file[2753:2758] 
 ```
@@ -521,7 +521,7 @@ In this case, this is due to the kind of data this is, mixing multiple reporting
 
 # OK, let's go back to the colspec!
 
-```{r, message = TRUE}
+```{r 06-getting-data-in-25, message = TRUE}
 nchs <- read_csv(here("data", "SAS_on_2021-04-13.csv")) 
 ```
 
@@ -566,7 +566,7 @@ Copying a _valid_ colspec is good practice if the underlying data changes!
 # Fixes
 
 .SMALL[
-```{r}
+```{r 06-getting-data-in-26}
 # Date format
 us_style <-  "%m/%d/%Y" #<<
 
@@ -600,7 +600,7 @@ nchs <- read_csv(
 
 # Now let's look again
 
-```{r}
+```{r 06-getting-data-in-27}
 dim(nchs)
 
 nchs %>% 
@@ -612,7 +612,7 @@ nchs %>%
 
 # Now let's look again
 
-```{r}
+```{r 06-getting-data-in-28}
 nchs %>% 
   distinct(year) #<<
 
@@ -640,7 +640,7 @@ The `colspec` output is your friend.
 
 ---
 
-```{r, echo = FALSE}
+```{r 06-getting-data-in-29, echo = FALSE}
 nchs_fmt <- nchs %>% 
   select(-year, -month) %>% 
   pivot_longer(covid_19_deaths:pneumonia_influenza_or_covid_19_deaths, 
@@ -652,7 +652,7 @@ nchs_fmt <- nchs %>%
 ```
 
 
-```{r, nchs-pipeline-02, include=FALSE}
+```{r nchs-pipeline-02, include=FALSE}
 library(stringr) # it's back!
 
 nchs %>% 
@@ -676,7 +676,7 @@ Put this in `nchs_fmt`
 
 # ... we could make a table or graph
 
-```{r}
+```{r 06-getting-data-in-31}
 nchs_fmt %>% 
   select(state, age_group, outcome, n)
 ```
@@ -686,7 +686,7 @@ nchs_fmt %>%
 # Cleaned up (but not tidy)
 
 .pull-left[
-```{r}
+```{r 06-getting-data-in-32}
 nchs_fmt %>% 
   distinct(group)
 ```
@@ -695,7 +695,7 @@ nchs_fmt %>%
 --
 
 .pull-right[
-```{r}
+```{r 06-getting-data-in-33}
 nchs_fmt %>% 
   distinct(age_group)
 ```
@@ -705,7 +705,7 @@ nchs_fmt %>%
 
 # Make our plot
 
-```{r}
+```{r 06-getting-data-in-34}
 p_out <- nchs_fmt %>% 
   filter(group %in% "By Total", 
          sex %in% "All Sexes", 
@@ -730,12 +730,12 @@ p_out <- nchs_fmt %>%
 
 # Result
 
-```{r, echo = FALSE}
+```{r 06-getting-data-in-35, echo = FALSE}
 theme_set(cowplot::theme_minimal_grid())
 ```
 
 
-```{r, fig.height=5, fig.width=12}
+```{r 06-getting-data-in-36, fig.height=5, fig.width=12}
 print(p_out)
 ```
 
@@ -755,7 +755,7 @@ class: title title-1
 
 # Dropping .kjh-orange[missing values]: a quick demo
 
-```{r}
+```{r 06-getting-data-in-37}
 df <- tribble(
   ~a, ~b, ~c,
   1, NA, 2,
@@ -771,7 +771,7 @@ df
 
 # Dropping .kjh-orange[missing values]: a quick demo
 
-```{r}
+```{r 06-getting-data-in-38}
 # 1 Write it yourself
 df %>% 
   filter(complete.cases(.))
@@ -790,7 +790,7 @@ Both drop all rows with _any_ missing cases.
 
 What if we only want to drop all rows with _all_ missing cases?
 
-```{r}
+```{r 06-getting-data-in-39}
 # 3
 df %>% 
   filter(!(is.na(.))) # Pronoun
@@ -812,7 +812,7 @@ With that in mind ... Some marketing data
 
 ---
 
-```{r, 06-clean-table-pipeline, include = FALSE}
+```{r 06-clean-table-pipeline, include = FALSE}
 
 read_csv(here("data", "rfm_table.csv")) %>% 
   janitor::clean_names() %>%
@@ -838,7 +838,7 @@ read_csv(here("data", "rfm_table.csv")) %>%
 
 # Maybe a candidate for .kjh-yellow[rowwise]?
 
-```{r, echo = FALSE}
+```{r 06-getting-data-in-41, echo = FALSE}
 rfm_table <- read_csv(here("data", "rfm_table.csv")) %>% 
   janitor::clean_names() %>%
   filter(!(is.na(.))) %>% #<<
@@ -858,7 +858,7 @@ rfm_table <- read_csv(here("data", "rfm_table.csv")) %>%
 
 ```
 
-```{r}
+```{r 06-getting-data-in-42}
 rfm_table
 ```
 
@@ -868,7 +868,7 @@ rfm_table
 
 This does what we expect:
 
-```{r}
+```{r 06-getting-data-in-43}
 rfm_table %>% 
   mutate(sum_lo = lo_r + lo_f + lo_m,#<<
          sum_hi = hi_r + hi_f + hi_m) %>% #<<
@@ -883,7 +883,7 @@ This adds each column, elementwise.
 
 .squish4[But this does not:]
 
-```{r}
+```{r 06-getting-data-in-44}
 rfm_table %>% 
   mutate(sum_lo = sum(lo_r, lo_f, lo_m),#<<
          sum_hi = sum(hi_r, hi_f, hi_m)) %>%#<< 
@@ -900,7 +900,7 @@ rfm_table %>%
 
 Similarly, this will not give the answer we probably expect:
 
-```{r}
+```{r 06-getting-data-in-45}
 rfm_table %>% 
   mutate(mean_lo = mean(c(lo_r, lo_f, lo_m)),#<<
          mean_hi = mean(c(hi_r, hi_f, hi_m))) %>%#<< 
@@ -916,7 +916,7 @@ rfm_table %>%
 
 But this will:
 
-```{r}
+```{r 06-getting-data-in-46}
 rfm_table %>% 
   rowwise() %>% #<<
   mutate(mean_lo = mean(c(lo_r, lo_f, lo_m)),#<<
@@ -937,9 +937,9 @@ So, `rowwise()` is not likely to see a whole lot of further development.
 
 ---
 
-# You probably want `group_by()` instead
+# You probably want .kjh-yellow[`group_by()`] instead
 
-```{r}
+```{r 06-getting-data-in-47}
 rfm_table %>% 
   group_by(segment) %>% 
   mutate(mean_lo = mean(c(lo_r, lo_f, lo_m)),#<<
@@ -948,7 +948,12 @@ rfm_table %>%
 
 ```
 
-```{r}
+---
+
+# You probably want .kjh-yellow[`group_by()`] instead
+
+
+```{r 06-getting-data-in-48}
 rfm_table %>% 
   group_by(segment) %>% 
   mutate(sum_lo = sum(lo_r, lo_f, lo_m),#<<
@@ -972,4 +977,326 @@ class: title title-1
 ---
 
 # Using .kjh-green[haven]
+
+Haven is the Tidyverse's package for reading and managing files from Stata, SPSS, and SAS. You should prefer it to the older Base R package `foreign`, which has similar functionality.
+
+We're going to import a General Social Survey dataset that's in Stata's `.dta` format.
+
+
+```{r 06-getting-data-in-49}
+library(haven)
+
+# This will take a moment
+gss_panel <- read_stata(here("data", "gss_panel_long.dta"))
+
+```
+
+We'll do some of the common recoding and reorganizing tasks that accompany this. 
+
+---
+# The GSS panel
+
+.SMALL.squish4[The data:]
+
+```{r 06-getting-data-in-50}
+gss_panel
+```
+
+---
+
+# The GSS panel
+
+Many variables.
+
+Stata's missing value types are preserved
+
+Data types are things like `dbl+lbl` indicating that Stata's numeric values and variable labels have been preserved. 
+
+---
+
+# The GSS panel
+
+You can see the labeling system at work:
+
+```{r 06-getting-data-in-51}
+gss_panel %>% 
+  select(degree) %>% 
+  group_by(degree) %>% 
+  tally()
+```
+
+---
+
+# The GSS panel
+
+Values get pivoted, not labels, though.
+
+```{r 06-getting-data-in-52}
+gss_panel %>% 
+  select(sex, degree) %>% 
+  group_by(sex, degree) %>% 
+  tally() %>% 
+  pivot_wider(names_from = sex, values_from = n)
+```
+
+---
+
+# The GSS panel
+
+.SMALL.squish4[Option 1: Just drop all the labels.]
+
+.SMALL[
+
+```{r 06-getting-data-in-53}
+gss_panel %>% 
+  zap_missing() %>% 
+  zap_labels()
+```
+
+]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# The GSS panel
+
+.SMALL.squish4[Option 2: Convert the labels]
+
+.SMALL.squish4[Let's focus on a few measures of interest, and do some recoding.]
+
+```{r 06-getting-data-in-54}
+
+## Categorical vars
+cat_vars <- c("race", "sex", "degree", "relig", "income", "polviews", "fefam")
+
+## Integer vars
+int_vars <- c("year", "id", "ballot", "age", "tvhours")
+
+
+## Survey design
+wt_vars <- c("vpsu",
+             "vstrat",
+             "oversamp",
+             "formwt",              # weight to deal with experimental randomization
+             "wtssall",             # weight variable
+             "sampcode",            # sampling error code
+             "sample")              # sampling frame and method
+
+
+my_gss_vars <- c(int_vars, cat_vars, wt_vars)
+
+```
+
+
+.SMALL[Now we're ready to go ...]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Cut down the dataset
+
+```{r 06-getting-data-in-55}
+gss_sub <- gss_panel %>% 
+  select(all_of(my_gss_vars))
+
+gss_sub
+```
+
+
+---
+
+```{r gss1, include = FALSE}
+gss_sub %>% 
+  mutate(across(everything(), zap_missing)) %>% 
+  mutate(across(all_of(wt_vars), as.numeric)) %>% 
+  mutate(across(all_of(int_vars), as.integer)) %>% 
+  mutate(across(all_of(cat_vars), as_factor)) %>%
+  mutate(across(all_of(cat_vars), fct_relabel, tolower)) %>% 
+  mutate(across(all_of(cat_vars), fct_relabel, tools::toTitleCase)) %>% 
+  mutate(income = stringr::str_replace(income, " - ", "-")) 
+```
+
+`r chunk_reveal("gss1", widths = c(35,65), title = "# The GSS panel: recoding")`
+
+---
+
+# How we'd actually write this
+
+```{r 06-getting-data-in-57}
+gss_sub <- gss_sub %>% 
+  mutate(across(everything(), zap_missing), 
+         across(all_of(wt_vars), as.numeric), 
+         across(all_of(int_vars), as.integer), 
+         across(all_of(cat_vars), as_factor),
+         across(all_of(cat_vars), fct_relabel, tolower), 
+         across(all_of(cat_vars), fct_relabel, tools::toTitleCase), 
+         income = stringr::str_replace(income, " - ", "-")) 
+```
+
+---
+
+# The GSS panel: more recoding
+
+Age quintiles: find the cutpoints
+
+```{r 06-getting-data-in-58}
+# seq can make all kinds of sequences
+seq(from = 0, to = 1, by = 0.2)
+
+age_quintiles <- quantile(as.numeric(gss_panel$age), 
+                      probs = seq(0, 1, 0.2), 
+                      na.rm = TRUE)
+
+## These are the quintile cutpoints
+age_quintiles
+```
+
+---
+
+# The GSS panel: more recoding
+
+Age quintiles: create the quintile variable
+
+```{r 06-getting-data-in-59}
+## Apply the cut
+gss_sub %>% 
+  mutate(agequint = cut(x = age, 
+                          breaks = unique(age_quintiles), 
+                          include.lowest = TRUE)) %>% 
+  pull(agequint) %>% # grab a column and make it an ordinary vector
+  table()
+
+```
+
+We'll need clean up those labels.
+
+---
+
+# The GSS panel: more recoding
+
+I told you that regexp stuff would pay off.
+
+```{r 06-getting-data-in-60}
+
+convert_agegrp <- function(x){
+    x <- stringr::str_remove(x, "\\(")  # Remove open paren
+    x <- stringr::str_remove(x, "\\[")  # Remove open bracket
+    x <- stringr::str_remove(x, "\\]")  # Remove close bracket
+    x <- stringr::str_replace(x, ",", "-") # Replace comma with dash
+    x <- stringr::str_replace(x, "-89", "+") # Replace -89 with + 
+    regex <- "^(.*$)" # Matches everything in string to end of line
+    x <- stringr::str_replace(x, regex, "Age \\1") # Preface string with "Age" 
+    x
+}
+
+```
+
+---
+
+```{r gss-recode-pipeline-2, include = FALSE}
+gss_sub %>%
+    mutate(agequint = cut(x = age, 
+                          breaks = unique(age_quintiles), 
+                          include.lowest = TRUE)) %>% 
+    mutate(agequint = fct_relabel(agequint, convert_agegrp)) %>% 
+    mutate(year_f = droplevels(factor(year))) %>% 
+    mutate(young = ifelse(age < 26, "Yes", "No")) %>% 
+    mutate(fefam_d = fct_recode(fefam,
+                                Agree = "Strongly Agree",
+                                Disagree = "Strongly Disagree")) %>% 
+    mutate(degree = factor(degree, 
+                           levels = levels(gss_sub$degree), 
+                           ordered = TRUE))
+```
+
+`r chunk_reveal("gss-recode-pipeline-2", widths = c(45,55), title = "# The GSS panel: more recoding")`
+
+---
+
+# How we'd actually write this
+
+```{r 06-getting-data-in-61}
+gss_sub <- gss_sub %>%
+    mutate(agequint = cut(x = age, 
+                          breaks = unique(age_quintiles), 
+                          include.lowest = TRUE), 
+            agequint = fct_relabel(agequint, convert_agegrp), 
+            year_f = droplevels(factor(year)),#<<  
+            young = ifelse(age < 26, "Yes", "No"), 
+            fefam_d = fct_recode(fefam,
+                                Agree = "Strongly Agree",
+                                Disagree = "Strongly Disagree"),
+            degree = factor(degree, 
+                           levels = levels(gss_sub$degree), 
+                           ordered = TRUE))
+```
+
+---
+
+# How we'd actually write this
+
+```{r 06-getting-data-in-62}
+gss_sub <- gss_sub %>%
+    mutate(agequint = cut(x = age, 
+                          breaks = unique(age_quintiles), 
+                          include.lowest = TRUE), 
+            agequint = fct_relabel(agequint, convert_agegrp), 
+            year_f = droplevels(factor(year)),  
+            young = ifelse(age < 26, "Yes", "No"),#<< 
+            fefam_d = fct_recode(fefam,
+                                Agree = "Strongly Agree",
+                                Disagree = "Strongly Disagree"),
+            degree = factor(degree, 
+                           levels = levels(gss_sub$degree), 
+                           ordered = TRUE))
+```
+
+---
+# How we'd actually write this
+
+```{r 06-getting-data-in-63}
+gss_sub <- gss_sub %>%
+    mutate(agequint = cut(x = age, 
+                          breaks = unique(age_quintiles), 
+                          include.lowest = TRUE), 
+            agequint = fct_relabel(agequint, convert_agegrp), 
+            year_f = droplevels(factor(year)),  
+            young = ifelse(age < 26, "Yes", "No"), 
+            fefam_d = fct_recode(fefam,
+                                Agree = "Strongly Agree",
+                                Disagree = "Strongly Disagree"),
+            degree = factor(degree, 
+                           levels = levels(gss_sub$degree), 
+                           ordered = TRUE))#<<
+```
+
+---
+
+# GSS Panel
+
+```{r 06-getting-data-in-64}
+gss_sub
+```
+
+---
+
+# GSS Panel
+
+```{r 06-getting-data-in-65}
+gss_sub %>% 
+  select(sex, degree) %>% 
+  group_by(sex, degree) %>% 
+  tally() %>% 
+  pivot_wider(names_from = sex, values_from = n)
+```
+
+
 

@@ -1,0 +1,183 @@
+here::i_am("code/04-tidy-data.R")
+
+## ----setup, include=FALSE----------------------------------------------------------------------------------------------------------------
+knitr::opts_chunk$set(warning = FALSE, message = FALSE,
+                      fig.retina = 3, fig.align = "center")
+
+
+## ----packages-data, include=FALSE--------------------------------------------------------------------------------------------------------
+library(cowplot)
+ggplot2::theme_set(theme_cowplot())
+
+
+
+## ----04-tidy-data-1, message = FALSE-----------------------------------------------------------------------------------------------------
+library(here)      # manage file paths
+library(socviz)    # data and some useful functions
+
+
+## ----04-tidy-data-2, message = TRUE------------------------------------------------------------------------------------------------------
+library(tidyverse) # your friend and mine
+library(gapminder) # gapminder data
+
+
+## ----04-tidy-data-3----------------------------------------------------------------------------------------------------------------------
+# Sneak peek
+edu %>%
+  select(year, elem4:coll4)
+
+
+
+## ----04-tidy-data-4----------------------------------------------------------------------------------------------------------------------
+edu %>%
+  select(year, elem4:coll4) %>%
+  rowwise() %>% #<<
+  mutate(mean_of_row = mean(c_across(elem4:coll4)))
+
+
+
+## ----04-tidy-data-5----------------------------------------------------------------------------------------------------------------------
+gapminder
+
+
+## ----04-tidy-data-6----------------------------------------------------------------------------------------------------------------------
+library(covdata)
+covus %>%
+  filter(state == "NY") %>%
+  select(date:fips, measure:count)
+
+
+## ----04-tidy-data-7----------------------------------------------------------------------------------------------------------------------
+library(palmerpenguins)
+penguins %>%
+  group_by(species, island, year) %>%
+  summarize(bill = round(mean(bill_length_mm, na.rm = TRUE),2)) %>%
+  kable()
+
+
+## ----04-tidy-data-8----------------------------------------------------------------------------------------------------------------------
+penguins %>%
+  group_by(species, island, year) %>%
+  summarize(bill = round(mean(bill_length_mm, na.rm = TRUE), 2)) %>%
+  pivot_wider(names_from = year, values_from = bill) %>%
+  kable()
+
+
+## ----04-tidy-data-9----------------------------------------------------------------------------------------------------------------------
+edu
+
+
+## ----04-tidy-data-10---------------------------------------------------------------------------------------------------------------------
+edu %>%
+  pivot_longer(elem4:coll4, names_to = "education")
+
+
+## ----04-tidy-data-11---------------------------------------------------------------------------------------------------------------------
+edu %>%
+  pivot_longer(elem4:coll4, names_to = "education", values_to = "n")
+
+
+## ----04-tidy-data-12---------------------------------------------------------------------------------------------------------------------
+edu %>%
+  pivot_longer(elem4:coll4, names_to = "education", values_to = "n") %>%
+  mutate(education = recode(education,
+                            elem4 = "Elementary 4", elem8 = "Elementary 8",
+                            hs3 = "High School 3", hs4 = "High School 4",
+                            coll3 = "College 3", coll4 = "College 4"))
+
+
+
+## ----04-tidy-data-13---------------------------------------------------------------------------------------------------------------------
+gapminder
+
+
+## ----04-tidy-data-14---------------------------------------------------------------------------------------------------------------------
+gapminder %>%
+  select(country, continent, year, lifeExp) %>%
+  pivot_wider(names_from = year, values_from = lifeExp) #<<
+
+
+## ----04-tidy-data-15---------------------------------------------------------------------------------------------------------------------
+gapminder %>%
+  pivot_wider(names_from = year, values_from = lifeExp)
+
+
+## ----04-tidy-data-16---------------------------------------------------------------------------------------------------------------------
+gapminder %>%
+  select(country, continent, year, lifeExp, gdpPercap) %>%
+  pivot_wider(names_from = year, values_from = c(lifeExp, gdpPercap)) #<<
+
+
+## ----04-tidy-data-17, echo = FALSE-------------------------------------------------------------------------------------------------------
+gen_cats <- function(x, N = 1000) {
+    sample(x, N, replace = TRUE)
+}
+
+set.seed(101)
+N <- 1000
+
+income <- rnorm(N, 100, 50)
+
+vars <- list(stratum = c(1:8),
+          sex = c("M", "F"),
+          race =  c("B", "W"),
+          educ = c("HS", "BA"))
+
+df <- as_tibble(map_dfc(vars, gen_cats))
+df <- add_column(df, income)
+
+
+## ----04-tidy-data-18---------------------------------------------------------------------------------------------------------------------
+# Some made-up data
+df
+
+
+## ----04-pivot-pipeline-case, include = FALSE---------------------------------------------------------------------------------------------
+df %>%
+    group_by(sex, race, stratum, educ) %>%
+    summarize(mean_inc = mean(income),
+              n = n()) %>%
+    pivot_wider(names_from = (educ),
+                values_from = c(mean_inc, n)) %>%
+    ungroup()
+
+
+## ----04-tidy-data-19---------------------------------------------------------------------------------------------------------------------
+## tribble() lets you make tibbles by hand
+df <- tribble(
+  ~name, ~occupation,
+  "Nero.Wolfe", "Private Detective",
+  "Archie.Goodwin", "Personal Assistant",
+  "Fritz.Brenner", "Cook and Butler",
+  "Theodore.Horstmann", "Orchid Expert"
+)
+
+df
+
+
+
+## ----04-separate-pipe-1, include=FALSE---------------------------------------------------------------------------------------------------
+df %>%
+  separate(name, into = c("first", "last")) %>%
+  unite("full_name", first:last, sep = " ") %>%
+  unite("both_together", full_name:occupation,
+        sep = ", ", remove = FALSE)
+
+
+
+## ----04-separate-pipe-2, include=FALSE---------------------------------------------------------------------------------------------------
+df %>%
+  separate(name, into = c("first", "last")) %>%
+  unite("full_name", first:last) %>%
+  separate(full_name, into = c("first", "last"))
+
+
+
+## ----04-separate-pipe-3, include=FALSE---------------------------------------------------------------------------------------------------
+gss_sm %>%
+    select(race, degree) %>%
+    mutate(racedeg = interaction(race, degree)) %>%
+    group_by(racedeg) %>%
+    tally() %>%
+    separate(racedeg, sep = "\\.", into = c("race", "degree"))
+
