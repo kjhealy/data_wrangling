@@ -656,7 +656,7 @@ nchs_fmt <- nchs %>%
 library(stringr) # it's back!
 
 nchs %>% 
-  select(-year, -month) %>% 
+  select(!(c(data_as_of:end_date, year, month))) %>% 
   pivot_longer(covid_19_deaths:pneumonia_influenza_or_covid_19_deaths, 
                names_to = "outcome", 
                values_to = "n") %>% 
@@ -683,7 +683,7 @@ nchs_fmt %>%
 
 ---
 
-# Cleaned up
+# Cleaned up (but not tidy)
 
 .pull-left[
 ```{r}
@@ -728,6 +728,8 @@ p_out <- nchs_fmt %>%
 
 ---
 
+# Result
+
 ```{r, echo = FALSE}
 theme_set(cowplot::theme_minimal_grid())
 ```
@@ -737,4 +739,237 @@ theme_set(cowplot::theme_minimal_grid())
 print(p_out)
 ```
 
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle.squish4.huge[.kjh-orange[Every dataset is different]]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Dropping .kjh-orange[missing values]: a quick demo
+
+```{r}
+df <- tribble(
+  ~a, ~b, ~c,
+  1, NA, 2,
+  NA, NA, NA, 
+  2, 2, 2
+)
+
+df
+
+```
+
+---
+
+# Dropping .kjh-orange[missing values]: a quick demo
+
+```{r}
+# 1 Write it yourself
+df %>% 
+  filter(complete.cases(.))
+
+# 2 Convenience function
+df %>% 
+  drop_na()
+
+```
+
+Both drop all rows with _any_ missing cases.
+
+---
+
+# Dropping .kjh-orange[missing values]: a quick demo
+
+What if we only want to drop all rows with _all_ missing cases?
+
+```{r}
+# 3
+df %>% 
+  filter(!(is.na(.))) # Pronoun
+```
+
+Read **`.`** as "the thing we're looking at" or "the thing we're computing on right now".
+
+???
+
+This is the kind of thing where you'll find ten different ways online to do it
+
+---
+
+# Cleaning a table
+
+With that in mind ... Some marketing data
+
+![:scale 50%](img/rfm_table.png)
+
+---
+
+```{r, 06-clean-table-pipeline, include = FALSE}
+
+read_csv(here("data", "rfm_table.csv")) %>% 
+  janitor::clean_names() %>%
+  filter(!(is.na(.))) %>% #<<
+  pivot_longer(cols = r:m) %>% 
+  separate(col = value, into = c("lo", "hi"), 
+           remove = FALSE, convert = TRUE, 
+           fill = "left") %>%
+  select(-value) %>%
+  pivot_wider(names_from = name, 
+              values_from = lo:hi) %>%
+  mutate_if(is.integer, replace_na, 0) %>%
+  select(segment, 
+         lo_r, hi_r, 
+         lo_f, hi_f, 
+         lo_m, hi_m, 
+         description)
+```
+
+`r chunk_reveal("06-clean-table-pipeline", widths = c(40,60), title = "# Cleaning a table")`
+
+---
+
+# Maybe a candidate for .kjh-yellow[rowwise]?
+
+```{r, echo = FALSE}
+rfm_table <- read_csv(here("data", "rfm_table.csv")) %>% 
+  janitor::clean_names() %>%
+  filter(!(is.na(.))) %>% #<<
+  pivot_longer(cols = r:m) %>% 
+  separate(col = value, into = c("lo", "hi"), 
+           remove = FALSE, convert = TRUE, 
+           fill = "left") %>%
+  select(-value) %>%
+  pivot_wider(names_from = name, 
+              values_from = lo:hi) %>%
+  mutate_if(is.integer, replace_na, 0) %>%
+  select(segment, 
+         lo_r, hi_r, 
+         lo_f, hi_f, 
+         lo_m, hi_m, 
+         description)
+
+```
+
+```{r}
+rfm_table
+```
+
+---
+
+# Maybe a candidate for .kjh-yellow[rowwise]?
+
+This does what we expect:
+
+```{r}
+rfm_table %>% 
+  mutate(sum_lo = lo_r + lo_f + lo_m,#<<
+         sum_hi = hi_r + hi_f + hi_m) %>% #<<
+  select(segment, sum_lo, sum_hi, everything())
+```
+
+This adds each column, elementwise.
+
+---
+
+# Maybe a candidate for .kjh-yellow[rowwise]?
+
+.squish4[But this does not:]
+
+```{r}
+rfm_table %>% 
+  mutate(sum_lo = sum(lo_r, lo_f, lo_m),#<<
+         sum_hi = sum(hi_r, hi_f, hi_m)) %>%#<< 
+  select(segment, sum_lo, sum_hi, everything())
+
+
+```
+
+.SMALL.squish3[Sum is taking all the columns, adding them up (into a single mumber), and putting that result in each row.]
+
+---
+
+# Maybe a candidate for .kjh-yellow[rowwise]?
+
+Similarly, this will not give the answer we probably expect:
+
+```{r}
+rfm_table %>% 
+  mutate(mean_lo = mean(c(lo_r, lo_f, lo_m)),#<<
+         mean_hi = mean(c(hi_r, hi_f, hi_m))) %>%#<< 
+  select(segment, mean_lo, mean_hi, everything())
+
+
+
+```
+
+---
+
+# Maybe a candidate for .kjh-yellow[rowwise]?
+
+But this will:
+
+```{r}
+rfm_table %>% 
+  rowwise() %>% #<<
+  mutate(mean_lo = mean(c(lo_r, lo_f, lo_m)),#<<
+         mean_hi = mean(c(hi_r, hi_f, hi_m))) %>%#<< 
+  select(segment, mean_lo, mean_hi, everything())
+
+```
+
+---
+
+# Rowwise operations aren't very efficient
+
+In general, you'll want to see if some vectorized ("operating on columns, but elementwise") function exists, as it'll be faster. 
+
+And most of the time, R and the tidyverse "wants" you to work in vectorized, columnar terms ... hence your first move will often be to pivot the data into long format. 
+
+So, `rowwise()` is not likely to see a whole lot of further development. 
+
+---
+
+# You probably want `group_by()` instead
+
+```{r}
+rfm_table %>% 
+  group_by(segment) %>% 
+  mutate(mean_lo = mean(c(lo_r, lo_f, lo_m)),#<<
+         mean_hi = mean(c(hi_r, hi_f, hi_m))) %>%#<< 
+  select(segment, mean_lo, mean_hi, everything())
+
+```
+
+```{r}
+rfm_table %>% 
+  group_by(segment) %>% 
+  mutate(sum_lo = sum(lo_r, lo_f, lo_m),#<<
+         sum_hi = sum(hi_r, hi_f, hi_m)) %>%#<< 
+  select(segment, sum_lo, sum_hi, everything())
+
+```
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle.squish4[.kjh-orange[What about Stata?]]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Using .kjh-green[haven]
 
