@@ -111,7 +111,7 @@ During the seminar we will use a [Slack](https://slack.com) to provide an additi
 - Working with factors in R and in the tidyverse
 - Recoding and re-leveling factors
 
-5. Getting data into R and cleaning it
+5. Getting data into R with `readr` and `haven`, and cleaning it
 
 - Reading in different plain-text formats
 - Importing from Stata
