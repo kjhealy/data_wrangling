@@ -92,8 +92,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2021-04-20" />
-  <meta property="article:created" itemprop="dateCreated" content="2021-04-20" />
+  <meta property="article:published" itemprop="datePublished" content="2021-04-21" />
+  <meta property="article:created" itemprop="dateCreated" content="2021-04-21" />
   <meta name="article:author" content="Kieran Healy" />
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -111,7 +111,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Data Wrangling with R and the tidyverse"]},{"type":"character","attributes":{},"value":["A Short Course using R and the Tidyverse suite of tools.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Kieran Healy"]},{"type":"character","attributes":{},"value":["https://kieranhealy.org"]}]}]},{"type":"character","attributes":{},"value":["2021-04-20"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Data Wrangling with R and the tidyverse"]},{"type":"character","attributes":{},"value":["A Short Course using R and the Tidyverse suite of tools.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Kieran Healy"]},{"type":"character","attributes":{},"value":["https://kieranhealy.org"]}]}]},{"type":"character","attributes":{},"value":["2021-04-21"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1455,7 +1455,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Data Wrangling with R and the tidyverse","description":"A Short Course using R and the Tidyverse suite of tools.","authors":[{"author":"Kieran Healy","authorURL":"https://kieranhealy.org","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-04-20T00:00:00.000+00:00","citationText":"Healy, 2021"}
+{"title":"Data Wrangling with R and the tidyverse","description":"A Short Course using R and the Tidyverse suite of tools.","authors":[{"author":"Kieran Healy","authorURL":"https://kieranhealy.org","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-04-21T00:00:00.000+00:00","citationText":"Healy, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1474,7 +1474,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-byline">
   Kieran Healy <a href="https://kieranhealy.org" class="uri">https://kieranhealy.org</a> 
   
-<br />2021-04-20
+<br />2021-04-21
 </div>
 
 <div class="d-article">
@@ -1516,7 +1516,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ul>
 <p>Again, setting up a GitHub account is <em>not required</em> to fully participate in the course.</p>
 <h1 id="the-course-packet">The Course Packet</h1>
-<p>In addition to installing the software above, we will work with a packet of material that includes all the slides for the course, all the code we will write, and additional, relatively unprocessed or otherwise awkward datasets that we will use as examples. This material will be finalized closer to the beginning of the course and will be available to download as a Zip file. Check back here for the link to this material closer to the date of the course. The course packet will not require any administrative privileges to install. You will just need to be able to download a file to your computer.</p>
+<p>In addition to installing the software above, we will work with a packet of material that includes all the slides for the course, all the code we will write, and additional, relatively unprocessed or otherwise awkward datasets that we will use as examples.</p>
+<p>The course packet is available as a zip file at this link:</p>
+<p><a href="https://github.com/kjhealy/data_wrangling/archive/refs/heads/master.zip">Download the Data Wrangling Course Packet</a></p>
+<p><em>Notes:</em></p>
+<ul>
+<li><p>The packet has a <code>README.md</code> file explaining what it contains.</p></li>
+<li><p>Once you have downloaded the packet, <em>make sure you uncompress the zip file into a folder</em>. Some versions of the Windows file manager allow you to browse the contents of a zip file without actually uncompressing it. For the packet to be useful, make sure it is uncompressed.</p></li>
+<li><p>There are still one or two files of additional slides and code to be added to the packet. I will update these during the course. However what is there now will not change.</p></li>
+</ul>
 <h1 id="the-course-slack">The Course Slack</h1>
 <p>During the seminar we will use a <a href="https://slack.com">Slack</a> to provide an additional channel of communication outside the lectures. You will recieve details about how to sign up prior to the course. I encourage you to use the Slack to ask questions, share code snippets, and discuss matters arising in the seminar, from “I can’t get this to work” troubleshooting on up to any other more general comments or queries about the material we are covering.</p>
 <h1 id="course-outline">Course Outline</h1>
@@ -1567,18 +1575,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li>Importing multiple files using <code>map()</code> and its friends</li>
 <li>Cleaning awkward data (<code>tidyr</code> and <code>stringr</code> return)</li>
 <li>Managing and visualizing missing values</li>
+<li>Categorical data and <code>forcats</code></li>
 </ul>
-<h2 id="managing-categorical-data-with-forcats">7. Managing categorical data with <code>forcats</code></h2>
+<h2 id="iterating-on-data-with-dplyr-purrr-and-broom">7. Iterating on data with <code>dplyr</code>, <code>purrr</code>, and <code>broom</code></h2>
 <ul>
-<li>Working with factors in R and in the tidyverse</li>
-<li>Recoding and re-leveling factors</li>
-</ul>
-<h2 id="iterating-on-data-with-dplyr-purrr-and-broom">8. Iterating on data with <code>dplyr</code>, <code>purrr</code>, and <code>broom</code></h2>
-<ul>
+<li>Reading in multiple data files</li>
 <li>Joining tables</li>
 <li>Extending tidy principles to models</li>
 <li>Fitting and summarizing model output</li>
-<li>Making tables</li>
 </ul>
 <h2 id="making-it-easier-to-be-tidy">9. Making it easier to be tidy</h2>
 <ul>

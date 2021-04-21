@@ -72,7 +72,21 @@ Again, setting up a GitHub account is _not required_ to fully participate in the
 
 # The Course Packet
 
-In addition to installing the software above, we will work with a packet of material that includes all the slides for the course, all the code we will write, and additional, relatively unprocessed or otherwise awkward datasets that we will use as examples. This material will be finalized closer to the beginning of the course and will be available to download as a Zip file. Check back here for the link to this material closer to the date of the course. The course packet will not require any administrative privileges to install. You will just need to be able to download a file to your computer.
+In addition to installing the software above, we will work with a packet of material that includes all the slides for the course, all the code we will write, and additional, relatively unprocessed or otherwise awkward datasets that we will use as examples. 
+
+
+The course packet is available as a zip file at this link:
+
+[Download the Data Wrangling Course Packet](https://github.com/kjhealy/data_wrangling/archive/refs/heads/master.zip)
+
+_Notes:_ 
+
+- The packet has a `README.md` file explaining what it contains.
+
+- Once you have downloaded the packet, _make sure you uncompress the zip file into a folder_. Some versions of the Windows file manager allow you to browse the contents of a zip file without actually uncompressing it. For the packet to be useful, make sure it is uncompressed.
+
+- There are still one or two files of additional slides and code to be added to the packet. I will update these during the course. However what is there now will not change.
+
 
 # The Course Slack
 
@@ -129,20 +143,14 @@ During the seminar we will use a [Slack](https://slack.com) to provide an additi
 - Importing multiple files using `map()` and its friends
 - Cleaning awkward data (`tidyr` and `stringr` return)
 - Managing and visualizing missing values
+- Categorical data and `forcats`
 
+## 7. Iterating on data with `dplyr`, `purrr`, and `broom`
 
-## 7. Managing categorical data with `forcats`
-
-- Working with factors in R and in the tidyverse
-- Recoding and re-leveling factors
-
-
-## 8. Iterating on data with `dplyr`, `purrr`, and `broom`
-
+- Reading in multiple data files
 - Joining tables
 - Extending tidy principles to models
 - Fitting and summarizing model output
-- Making tables
 
 ## 9. Making it easier to be tidy
 
