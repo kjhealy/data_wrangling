@@ -1521,64 +1521,66 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>During the seminar we will use a <a href="https://slack.com">Slack</a> to provide an additional channel of communication outside the lectures. You will recieve details about how to sign up prior to the course. I encourage you to use the Slack to ask questions, share code snippets, and discuss matters arising in the seminar, from “I can’t get this to work” troubleshooting on up to any other more general comments or queries about the material we are covering.</p>
 <h1 id="course-outline">Course Outline</h1>
 <p>– Subject to change.</p>
-<ol type="1">
-<li>Tidy data and the tidyverse</li>
-</ol>
+<h2 id="overview-and-motivation">1. Overview and motivation</h2>
 <ul>
-<li>Motivation: plain-text data analysis</li>
+<li>Plain-text data analysis</li>
 <li>How R works and why it got that way</li>
-<li>What’s “tidy” about the tidyverse?</li>
+<li>The RStudio IDE and how it works</li>
 <li>Pipelining your code</li>
 <li>First examples</li>
 </ul>
-<ol start="2" type="1">
-<li>Tabulating and summarizing data with <code>dplyr</code></li>
-</ol>
+<h2 id="r-and-how-it-thinks">2. R and how it thinks</h2>
+<ul>
+<li>Reproducible research with RMarkdown</li>
+<li>Making the IDE work for you</li>
+<li>What’s “tidy” about the tidyverse?</li>
+<li>The nuts and bolts of R</li>
+<li>Pipelining your code</li>
+<li>Objects, functions, packages, environments</li>
+<li>The right frame of mind</li>
+</ul>
+<h2 id="viewing-tabulating-and-summarizing-data-with-dplyr">3. Viewing, tabulating and summarizing data with <code>dplyr</code></h2>
 <ul>
 <li>Filtering, selecting, mutating, and summarizing a single table</li>
-<li>Manipulating column names and arranging rows</li>
 <li>Groups and the logic of working with grouped data</li>
 <li>Calculating on the columns of a table, and on the rows</li>
 <li>Working <code>across()</code> columns</li>
+<li>Manipulating column names and arranging rows</li>
 </ul>
-<ol start="3" type="1">
-<li>Reshaping data with <code>tidyr</code></li>
-</ol>
+<h2 id="reshaping-data-with-tidyr">4. Reshaping data with <code>tidyr</code></h2>
 <ul>
-<li>Best practices before having to reshape</li>
+<li>What’s tidy about tidy data</li>
 <li>Moving back and forth between wide and long data</li>
 <li>Splitting, separating, and recoding observations</li>
+<li>Best practices before having to reshape</li>
 <li>Expanding and completing datasets</li>
 </ul>
-<ol start="4" type="1">
-<li>Managing textual and categorical data with <code>stringr</code> and <code>forcats</code></li>
-</ol>
+<h2 id="a-brief-introduction-to-regular-expressions">5. A brief introduction to regular expressions</h2>
 <ul>
-<li>String manipulation, regular expressions, and <code>stringr</code></li>
-<li>Working with factors in R and in the tidyverse</li>
-<li>Recoding and re-leveling factors</li>
+<li>String manipulation and <code>stringr</code></li>
+<li>The language of rexeps</li>
 </ul>
-<ol start="5" type="1">
-<li>Getting data into R with <code>readr</code> and <code>haven</code>, and cleaning it</li>
-</ol>
+<h2 id="getting-data-into-r-with-readr-and-haven-and-cleaning-it">6. Getting data into R with <code>readr</code> and <code>haven</code>, and cleaning it</h2>
 <ul>
 <li>Reading in different plain-text formats</li>
 <li>Importing from Stata</li>
 <li>Importing multiple files using <code>map()</code> and its friends</li>
+<li>Cleaning awkward data (<code>tidyr</code> and <code>stringr</code> return)</li>
 <li>Managing and visualizing missing values</li>
 </ul>
-<ol start="6" type="1">
-<li>Iterating on data with <code>dplyr</code>, <code>purrr</code>, and <code>broom</code></li>
-</ol>
+<h2 id="managing-categorical-data-with-forcats">7. Managing categorical data with <code>forcats</code></h2>
+<ul>
+<li>Working with factors in R and in the tidyverse</li>
+<li>Recoding and re-leveling factors</li>
+</ul>
+<h2 id="iterating-on-data-with-dplyr-purrr-and-broom">8. Iterating on data with <code>dplyr</code>, <code>purrr</code>, and <code>broom</code></h2>
 <ul>
 <li>Joining tables</li>
 <li>Extending tidy principles to models</li>
 <li>Fitting and summarizing model output</li>
 <li>Making tables</li>
 </ul>
-<ol start="8" type="1">
-<li>Making it easier to be tidy</li>
-</ol>
+<h2 id="making-it-easier-to-be-tidy">9. Making it easier to be tidy</h2>
 <ul>
 <li>The <code>janitor</code> package</li>
 <li>Working with the <code>usethis</code> and <code>reprex</code> helper packages</li>

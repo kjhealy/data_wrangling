@@ -82,58 +82,72 @@ During the seminar we will use a [Slack](https://slack.com) to provide an additi
 
 -- Subject to change.
 
-1. Tidy data and the tidyverse
+## 1. Overview and motivation
 
-- Motivation: plain-text data analysis
+- Plain-text data analysis
 - How R works and why it got that way
-- What's "tidy" about the tidyverse?
+- The RStudio IDE and how it works
 - Pipelining your code
 - First examples
 
-2. Tabulating and summarizing data with `dplyr`
+## 2. R and how it thinks
+
+- Reproducible research with RMarkdown
+- Making the IDE work for you
+- What's "tidy" about the tidyverse?
+- The nuts and bolts of R
+- Pipelining your code
+- Objects, functions, packages, environments
+- The right frame of mind
+
+
+## 3. Viewing, tabulating and summarizing data with `dplyr`
 
 - Filtering, selecting, mutating, and summarizing a single table
-- Manipulating column names and arranging rows
 - Groups and the logic of working with grouped data
 - Calculating on the columns of a table, and on the rows
 - Working `across()` columns
+- Manipulating column names and arranging rows
 
-3. Reshaping data with `tidyr`
+## 4. Reshaping data with `tidyr`
 
-- Best practices before having to reshape
+- What's tidy about tidy data
 - Moving back and forth between wide and long data
 - Splitting, separating, and recoding observations
+- Best practices before having to reshape
 - Expanding and completing datasets
 
-4. Managing textual and categorical data with `stringr` and `forcats`
+## 5. A brief introduction to regular expressions
 
-- String manipulation, regular expressions, and `stringr`
-- Working with factors in R and in the tidyverse
-- Recoding and re-leveling factors
+- String manipulation and `stringr`
+- The language of rexeps
 
-5. Getting data into R with `readr` and `haven`, and cleaning it
+## 6. Getting data into R with `readr` and `haven`, and cleaning it
 
 - Reading in different plain-text formats
 - Importing from Stata
 - Importing multiple files using `map()` and its friends
+- Cleaning awkward data (`tidyr` and `stringr` return)
 - Managing and visualizing missing values
 
-6. Iterating on data with `dplyr`, `purrr`, and `broom`
+
+## 7. Managing categorical data with `forcats`
+
+- Working with factors in R and in the tidyverse
+- Recoding and re-leveling factors
+
+
+## 8. Iterating on data with `dplyr`, `purrr`, and `broom`
 
 - Joining tables
 - Extending tidy principles to models
 - Fitting and summarizing model output
 - Making tables
 
-8. Making it easier to be tidy
+## 9. Making it easier to be tidy
 
 - The `janitor` package
 - Working with the `usethis` and `reprex` helper packages
 - Documenting your data
 - Using a package to store your data
 - The wider world of tidyverse-friendly packages and tools
-
-
-
-
-
