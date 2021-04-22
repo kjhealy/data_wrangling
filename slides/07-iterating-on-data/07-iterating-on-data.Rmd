@@ -327,7 +327,7 @@ df <- filenames %>%
 df
 ```
 
-... using the variant of `map()` that returns data frames and tibbles.
+.SMALL.squish3[... using the variant of `map()` that returns data frames and tibbles.]
 
 ---
 
@@ -343,4 +343,387 @@ class: title title-1
 
 ---
 
+# Cleaning up .kjh-yellow[congress]
 
+```{r}
+df %>% 
+  select(born, death, start, end)
+```
+
+We'll use the **lubridate** package to sort these out. 
+
+Lubridate has a wide range of functions to handle dates, times, and durations. 
+
+???
+
+In particular it has many convenience functions to help with the many different ways that people encode dates that _ought_ to be encoded as `YYYY-MM-DD`.
+
+---
+
+# Cleaning up .kjh-yellow[congress]
+
+```{r}
+library(lubridate)
+
+date_recodes <- c("born", "death", "start", "end")
+
+df <- df %>% 
+    mutate(across(any_of(date_recodes), mdy), 
+           congress = as.double(congress) + 78)
+
+df 
+
+```
+
+---
+
+# Cleaning up .kjh-yellow[congress]
+
+```{r}
+sessions <- tibble(congress = 79:116,
+                   start_year = seq(1945, 2019, by = 2),
+                   end_year = seq(1947, 2021, by = 2)) %>% 
+  mutate(start_year = ymd(paste(start_year, "01", "03", sep = "-")), 
+         end_year = ymd(paste(end_year, "01", "03", sep = "-")))
+
+
+sessions
+
+```
+
+---
+
+# We're going to join these tables
+
+
+.pull-left[
+
+The big table
+
+.SMALL[
+
+```{r}
+df %>% 
+  select(congress, last, born)
+
+```
+]
+
+]
+
+.pull-right[
+
+The smaller table
+
+.SMALL[
+
+```{r}
+sessions
+
+```
+
+]
+]
+
+---
+
+# We're going to .kjh-orange[join] these tables
+
+.SMALL.squish3[We will use **`left_join()`** which is what you want most of the time when you are looking to merge a smaller table with additional information into a larger main one. ]
+
+.SMALL[
+
+```{r, message = TRUE}
+
+df <- left_join(df, sessions) %>% 
+  relocate(start_year:end_year, .after = congress)  
+
+df 
+
+```
+
+]
+
+---
+
+# Table joins
+
+.footnote[*Spiffy Join Animatations courtesy [Garrick Aden-Buie](github.com/gadenbuie/join-animations-with-gganimate.R)]
+
+.top[![:scale 40%](img/original-dfs.png)]
+
+---
+
+# Left join, .kjh-yellow[left_join()]
+
+.top[![:scale 40%](img/left-join.gif)]
+
+.SMALL[All rows from x, and all columns from x and y. Rows in x with no match in y will have NA values in the new columns.]
+
+---
+
+# Left join (contd), .kjh-yellow[left_join()]
+
+.top[![:scale 40%](img/left-join-extra.gif)]
+
+.SMALL[If there are multiple matches between x and y, all combinations of the matches are returned.]
+
+---
+
+# Inner join, .kjh-yellow[inner_join()]
+
+
+.top[![:scale 40%](img/inner-join.gif)]
+
+.SMALL[All rows from x where there are matching values in y, and all columns from x and y.]
+---
+
+# Full join, .kjh-yellow[full_join()]
+
+.top[![:scale 40%](img/full-join.gif)]
+
+.SMALL[All rows and all columns from both x and y. Where there are not matching values, returns NA for the one missing.]
+---
+
+# Semi join, .kjh-yellow[semi_join()]
+
+.top[![:scale 40%](img/semi-join.gif)]
+
+.SMALL[All rows from x where there are matching values in y, keeping just columns from x.]
+---
+
+# Anti join, .kjh-yellow[anti_join()]
+
+.top[![:scale 40%](img/anti-join.gif)]
+
+.SMALL[All rows from x where there are not matching values in y, keeping just columns from x.]
+---
+
+# Left join, .kjh-yellow[left_join()]
+
+Most of the time you will be looking to make a **`left_join()`**
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle.squish4.huge[.kjh-red[Missing Data]]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
+
+```{r}
+library(naniar)
+library(visdat)
+
+organdata
+```
+
+```{r, fig.height=6, fig.width=8}
+gg_miss_var(organdata)
+```
+
+---
+
+# A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
+
+```{r, fig.height=6, fig.width=8}
+vis_dat(organdata)
+```
+
+---
+
+# A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
+
+```{r, fig.height=6, fig.width=8}
+miss_var_summary(organdata)
+```
+
+
+---
+
+# A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
+
+```{r}
+miss_case_summary(organdata)
+```
+
+---
+
+# A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
+
+```{r}
+organdata %>%
+  select(consent_law, year, pubhealth, roads) %>%
+  group_by(consent_law) %>%
+  miss_var_summary()
+
+```
+
+---
+
+# A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
+
+```{r, fig.height=6, fig.width=8}
+vis_miss(organdata)
+```
+
+---
+
+# A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
+
+```{r, fig.height=6, fig.width=8}
+library(congress)
+gg_miss_upset(congress)
+```
+
+---
+
+# A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
+
+```{r, fig.height=6, fig.width=8}
+vis_miss(organdata, cluster = TRUE)
+```
+
+---
+
+# A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
+
+```{r, fig.height=6, fig.width=8}
+gg_miss_upset(organdata)
+```
+
+---
+
+# .kjh-yellow[Upset plots] and a bit of wrangling
+
+![:scale 35%](img/covid-symptoms-venn.jpg)
+
+---
+
+# .kjh-yellow[Upset plots] and a bit of wrangling
+
+```{r}
+symptoms <- c("Anosmia", "Cough", "Fatigue", 
+              "Diarrhea", "Breath", "Fever")
+names(symptoms) <- symptoms
+symptoms
+```
+
+---
+
+# .kjh-yellow[Upset plots] and a bit of wrangling
+
+.SMALL[
+
+```{r}
+# An Excel file!
+dat <- readxl::read_xlsx(here("data", "symptoms.xlsx")) 
+dat %>% print(n = nrow(dat))
+
+```
+
+]
+
+---
+
+# .kjh-yellow[Upset plots] and a bit of wrangling
+
+.SMALL[
+
+```{r}
+subsets <- dat %>% 
+  pull(combination)
+
+## Check if each subset mentions each symptom or not
+symptom_mat <- map_dfc(subsets, str_detect, symptoms) %>%
+    data.frame() %>%
+    t() %>% # transpose the result, this is a little gross, sorry
+    as_tibble(.name_repair = "unique")
+
+colnames(symptom_mat) <- symptoms
+symptom_mat$count <- dat$count
+```
+
+]
+
+---
+
+# .kjh-yellow[Upset plots] and a bit of wrangling
+
+Now we have a table we can do something with.
+
+.SMALL[
+
+
+```{r}
+symptom_mat %>% print(n = nrow(symptom_mat))
+```
+
+]
+---
+
+# .kjh-yellow[Upset plots] and a bit of wrangling
+
+Uncounting tables
+
+.SMALL[
+
+```{r}
+indvs <- symptom_mat %>%
+    uncount(count) 
+
+indvs
+
+```
+
+]
+
+Now we've reconstructed the individual-level observations.
+
+---
+
+# .kjh-yellow[Upset plots] and a bit of wrangling
+
+
+```{r, fig.width=16, fig.height=9, eval = FALSE}
+# devtools::install_github("krassowski/complex-upset")
+
+library(ComplexUpset)
+
+upset(data = indvs, intersect = symptoms, 
+      name="Symptom Groupings by Frequency. Total pool is 1,764 individuals.", 
+      min_size = 0,
+      width_ratio = 0.125) +
+    labs(title = "Co-Occurence of COVID-19 Symptoms",
+         caption = "Data: covid.joinzoe.com/us | Graph: @kjhealy")
+
+
+```
+
+---
+
+# .kjh-yellow[Upset plots] and a bit of wrangling
+
+
+```{r, fig.width=12, fig.height=7, echo = FALSE}
+# devtools::install_github("krassowski/complex-upset")
+
+library(ComplexUpset)
+
+upset(data = indvs, intersect = symptoms, 
+      name="Symptom Groupings by Frequency. Total pool is 1,764 individuals.", 
+      min_size = 0,
+      width_ratio = 0.125) +
+    labs(title = "Co-Occurence of COVID-19 Symptoms",
+         caption = "Data: covid.joinzoe.com/us | Graph: @kjhealy")
+
+
+```
