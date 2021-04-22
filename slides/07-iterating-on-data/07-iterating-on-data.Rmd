@@ -352,6 +352,8 @@ filenames[1:15] # Just displaying the first 15, to save slide space
 
 # And feed it to .kjh-yellow[read_csv()]
 
+.small.squish3[... using the variant of `map()` that returns data frames and tibbles.]
+
 ```{r}
 df <- filenames %>% 
   map_dfr(read_csv, .id = "congress") %>% #<<
@@ -360,7 +362,7 @@ df <- filenames %>%
 df
 ```
 
-.SMALL.squish3[... using the variant of `map()` that returns data frames and tibbles.]
+
 
 ---
 
