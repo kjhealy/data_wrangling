@@ -1222,3 +1222,256 @@ gss_sm %>%
 
 `r chunk_reveal("03-relocate-pipeline", widths = c(35,65), title = "# Shuffle columns around")`
 
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle.squish4.large[Two dplyr .kjh-red[gotchas]]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Comparisons filtering on proportions
+
+Let's say you are working with proportions
+
+```{r, echo = FALSE}
+
+# Make some sample data with tribb
+df <- tribble(~id, ~ prop1, ~prop2,
+              "A", 0.1,      0.2,
+              "B", 0.1,      0.21, 
+              "C", 0.11,     0.2,
+              "D", 0.1,      0.1)
+```
+
+```{r}
+df
+```
+
+---
+
+# Comparisons filtering on proportions
+
+And you want to focus on cases where `prop1` _plus_ `prop2` is greater than 0.3:
+
+--
+
+```{r}
+df %>% 
+  filter(prop1 + prop2 > 0.3)
+```
+
+`A` shouldn't have been included there.
+
+--
+
+This is not dlpyr's fault. It's our floating point friend again.
+
+---
+
+# Comparisons filtering on proportions
+
+
+```{r}
+df %>% 
+  filter(prop1 + prop2 == 0.3)
+```
+
+`A` _should_ have been included here!
+
+---
+
+# Comparisons filtering on proportions
+
+This won't give the right behavior either:
+
+```{r}
+df %>% 
+  mutate(prop3 = prop1 + prop2) %>% 
+  filter(prop3 == 0.3)
+```
+
+---
+
+# Comparisons filtering on proportions
+
+So, beware.
+
+```{r}
+df %>% 
+  filter(prop1*100 + prop2*100 == 0.3*100)
+```
+
+Better:
+
+```{r}
+df %>% 
+  filter(near(prop1 + prop2, 0.3))
+```
+
+---
+
+# .kjh-orange[Zero Counts] in dplyr
+
+```{r}
+df <- read_csv(here("data", "first_terms.csv"))
+
+df
+```
+
+---
+
+#  .kjh-orange[Zero Counts] in dplyr
+
+```{r, echo = FALSE}
+## Hex colors for sex
+sex_colors <- c("#E69F00", "#993300")
+
+## Group labels
+mf_labs <- tibble(M = "Men", F = "Women")
+
+theme_set(cowplot::theme_cowplot())
+
+```
+
+
+```{r}
+df %>%
+    group_by(start_year, party, sex) %>%
+    summarize(N = n()) %>%
+    mutate(freq = N / sum(N))
+
+```
+
+---
+
+#  .kjh-orange[Zero Counts] in dplyr
+
+
+```{r}
+p_col <- df %>%
+    group_by(start_year, party, sex) %>%
+    summarize(N = n()) %>%
+    mutate(freq = N / sum(N)) %>%
+    ggplot(aes(x = start_year,
+               y = freq,
+               fill = sex)) +
+    geom_col() +
+    scale_y_continuous(labels = scales::percent) +
+    scale_fill_manual(values = sex_colors, labels = c("Women", "Men")) +
+    labs(x = "Year", y = "Percent", fill = "Group") +
+    facet_wrap(~ party)
+```
+
+---
+
+#  .kjh-orange[Zero Counts] in dplyr
+
+```{r, fig.height = 6, fig.width=8}
+p_col
+```
+
+---
+
+#  .kjh-orange[Zero Counts] in dplyr
+
+```{r}
+p_line <- df %>%
+    group_by(start_year, party, sex) %>%
+    summarize(N = n()) %>%
+    mutate(freq = N / sum(N)) %>%
+    ggplot(aes(x = start_year,
+               y = freq,
+               color = sex)) +
+    geom_line(size = 1.1) +
+    scale_y_continuous(labels = scales::percent) +
+    scale_color_manual(values = sex_colors, labels = c("Women", "Men")) +
+    guides(color = guide_legend(reverse = TRUE)) +
+    labs(x = "Year", y = "Percent", color = "Group") +
+    facet_wrap(~ party)
+```
+
+---
+
+#  .kjh-orange[Zero Counts] in dplyr
+
+```{r, fig.height = 6, fig.width=9}
+p_line
+```
+
+---
+
+# Option 1: the `.drop` Flag
+
+```{r}
+df %>%
+    group_by(start_year, party, sex, 
+             .drop = FALSE) %>%
+    tally()
+```
+
+---
+
+# Option 1: the `.drop` Flag
+
+You can check this 
+
+```{r}
+group_by_drop_default(df)
+```
+
+---
+
+# Option 2: .kjh-yellow[ungroup()] .kjh-green[and complete()]
+
+```{r}
+df_c <- df %>%
+    group_by(start_year, party, sex) %>%
+    summarize(N = n()) %>%
+    mutate(freq = N / sum(N)) %>%
+    ungroup() %>%#<<
+    complete(start_year, party, sex,#<<
+             fill = list(N = 0, freq = 0))#<<
+```
+
+---
+
+# Option 2: .kjh-yellow[ungroup()] .kjh-green[and complete()]
+
+
+```{r}
+df_c
+```
+
+---
+
+# Option 2: .kjh-yellow[ungroup()] .kjh-green[and complete()]
+
+```{r}
+p_out <- df_c %>% 
+  ggplot(aes(x = start_year,
+               y = freq,
+               color = sex)) +
+    geom_line(size = 1.1) +
+    scale_y_continuous(labels = scales::percent) +
+    scale_color_manual(values = sex_colors, labels = c("Women", "Men")) +
+    guides(color = guide_legend(reverse = TRUE)) +
+    labs(x = "Year", y = "Percent", color = "Group") +
+    facet_wrap(~ party)
+```
+
+---
+
+# Option 2: .kjh-yellow[ungroup()] .kjh-green[and complete()]
+
+```{r, fig.height = 6, fig.width=9}
+p_out
+```
+
