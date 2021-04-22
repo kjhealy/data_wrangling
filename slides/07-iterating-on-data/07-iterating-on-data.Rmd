@@ -1,5 +1,5 @@
 ---
-title: "Data Wrangling - 7. Iterating on data"
+title: "Data Wrangling - 7. .kjh-green[Iterating] on data"
 author: "Kieran Healy"
 date: "`r Sys.Date()`"
 output:
@@ -42,7 +42,7 @@ xaringanExtra::use_clipboard()
 
 class: center middle main-title section-title-1
 
-# Iterating on data with .kjh-yellow[purrr] and .kjh-yellow[map]  
+# .kjh-green[Iterating] on data with .kjh-yellow[purrr] and .kjh-yellow[map]  
 
 .class-info[
 
@@ -144,11 +144,11 @@ You may have noticed we have not written any loops, however.
 
 While loops are still lurking there underneath the surface, what we will do instead is to take advantage of the combination of vectors and functions and _map_ one to the other in order to generate results.
 
-Speaking loosely, think of `map()` as a way of iterating without writing loops. You start with a vector of things and you feed it to the function one thing at a time. The function does whatever it does, and you get back output that is the same length as your input.
+Speaking loosely, think of `map()` as a way of .kjh-green[Iterating] without writing loops. You start with a vector of things and you feed it to the function one thing at a time. The function does whatever it does, and you get back output that is the same length as your input.
 
 ---
 
-# Mapping is just a kind of iteration for functions
+# Mapping is just a kind of iteration
 
 The `purrr` package provides a big family of mapping functions. One reason there are a lot of them is that `purrr`, like the rest of the tidyverse, is picky about data types. 
 
@@ -212,8 +212,7 @@ add_b(x = c(1, 99, 1000))
 
 ---
 
-# Iterating in a pipeline
-
+# .kjh-green[Iterating] in a pipeline
 Some operations can't directly be vectorized in this way, which is why we need to manually iterate, or will want to write loops. 
 
 ```{r}
@@ -230,7 +229,7 @@ That's tedious to write. Computers are supposed to allow us to avoid that sort o
 
 ---
 
-# Iterating in a pipeline
+# .kjh-green[Iterating] in a pipeline
 
 So how would we iterate this? What we want is to apply the `n_distinct()` function to each column of `gapminder`, but in a way that still allows us to use pipelines and so on. 
 
@@ -248,9 +247,7 @@ gapminder %>%
 
 ---
 
----
-
-# Interating in a pipeline
+# .kjh-green[Iterating] in a pipeline
 
 You'd use _across()_, of course.
 
@@ -261,23 +258,34 @@ gapminder %>%
 
 ---
 
-But!
+# .kjh-green[Iterating] in a pipeline
 
-# Iterating in a pipeline
+But you could also do this ... 
 
-You could also do this ... 
+.pull-left[
+
+.SMALL[
 
 ```{r}
   map(gapminder, n_distinct)
 ```
+]
 
+]
+
+.pull-right[
 Read it as "Feed each column of `gapminder` to the `n_distinct()` function.
+]
 
 .footnote[(This is pretty much what `across()` is doing more nicely.)]
 
 ---
 
-# Iterating in a pipeline
+# .kjh-green[Iterating] in a pipeline
+
+.pull-left[
+
+.SMALL[
 
 Or, in pipeline form:
 
@@ -286,11 +294,18 @@ gapminder %>%
   map(n_distinct)
 ```
 
+]
+]
+
+.pull-right[
+
 You can see we are getting a _list_ back.
+
+]
 
 ---
 
-# Iterating in a pipeline
+# .kjh-green[Iterating] in a pipeline
 
 Or, in pipeline form:
 
@@ -305,11 +320,10 @@ result$continent
 result[[2]]
 ```
 
-You can see we are getting a _list_ back.
 
 ---
 
-# Iterating in a pipeline
+# .kjh-green[Iterating] in a pipeline
 
 In this context, `n_distinct()` is always going to return an integer, though.
 
@@ -323,14 +337,14 @@ The thing about the `map()` family is that they can deal with all kinds of input
 
 ---
 
-# Get a vector of filenames
+# Get a vector of .kjh-pink[filenames]
 
 ```{r}
 filenames <- dir(path = here("data", "congress"),
                  pattern = "*.csv",
                  full.names = TRUE)
 
-filenames[1:10] # Just displaying the first 10, to save slide space
+filenames[1:15] # Just displaying the first 15, to save slide space
 
 ```
 
@@ -340,7 +354,7 @@ filenames[1:10] # Just displaying the first 10, to save slide space
 
 ```{r}
 df <- filenames %>% 
-  map_dfr(read_csv, .id = "congress") %>% 
+  map_dfr(read_csv, .id = "congress") %>% #<<
   janitor::clean_names()
 
 df
@@ -777,7 +791,7 @@ library(gapminder)
 ```
 
 
-```{r 07-iterating-2}
+```{r 07-.kjh-green[Iterating]-2}
 out <- lm(formula = lifeExp ~ gdpPercap + pop + continent,
           data = gapminder)
 ```
@@ -790,7 +804,7 @@ We can't _do_ anything with this, programatically.
 
 .SMALL[
 
-```{r 07-iterating-3}
+```{r 07-.kjh-green[Iterating]-3}
 summary(out)
 ```
 
@@ -799,11 +813,11 @@ summary(out)
 
 # Tidy regression output with .kjh-yellow[broom]
 
-```{r 07-iterating-8}
+```{r 07-.kjh-green[Iterating]-8}
 library(broom)
 ```
 
-```{r 07-iterating-9}
+```{r 07-.kjh-green[Iterating]-9}
 tidy(out)
 ```
 
@@ -815,7 +829,7 @@ That's a _lot_ nicer. Now it's just a tibble. We know those.
 
 .SMALL[
 
-```{r 07-iterating-11}
+```{r 07-.kjh-green[Iterating]-11}
 out_conf <- tidy(out, conf.int = TRUE)
 out_conf 
 ```
@@ -841,14 +855,14 @@ out_conf %>%
 
 # Grouped analysis and .kjh-orange[list columns]
 
-```{r 07-iterating-20}
+```{r 07-.kjh-green[Iterating]-20}
 eu77 <- gapminder %>% filter(continent == "Europe", year == 1977)
 fit <- lm(lifeExp ~ log(gdpPercap), data = eu77)
 ```
 
 .SMALL[
 
-```{r 07-iterating-21}
+```{r 07-.kjh-green[Iterating]-21}
 
 summary(fit)
 ```
@@ -859,7 +873,7 @@ summary(fit)
 
 # Grouped analysis and .kjh-orange[list columns]
 
-```{r 07-iterating-22}
+```{r 07-.kjh-green[Iterating]-22}
 
 out_le <- gapminder %>%
     group_by(continent, year) %>%
@@ -877,7 +891,7 @@ Think of nesting as a kind of "super-grouping". Look in the object inspector.
 
 It's still in there.
 
-```{r 07-iterating-23}
+```{r 07-.kjh-green[Iterating]-23}
 out_le %>% filter(continent == "Europe" & year == 1977) %>% 
     unnest(cols = c(data))
 ```
@@ -886,14 +900,14 @@ out_le %>% filter(continent == "Europe" & year == 1977) %>%
 
 # Grouped analysis and .kjh-orange[list columns]
 
-```{r 07-iterating-24, echo = FALSE}
+```{r 07-.kjh-green[Iterating]-24, echo = FALSE}
 old_digits <- getOption("digits")
 options(digits = 3)
 ```
 
 Here we `map()` a custom function to every row in the `data` column.
 
-```{r 07-iterating-25}
+```{r 07-.kjh-green[Iterating]-25}
 
 fit_ols <- function(df) {
     lm(lifeExp ~ log(gdpPercap), data = df)
@@ -921,7 +935,7 @@ out_le
 
 We can tidy the nested models, too.
 
-```{r 07-iterating-26}
+```{r 07-.kjh-green[Iterating]-26}
 
 fit_ols <- function(df) {
     lm(lifeExp ~ log(gdpPercap), data = df)
@@ -957,7 +971,7 @@ out_tidy %>%
 ```
 
 
-```{r 07-iterating-27, echo = FALSE}
+```{r 07-.kjh-green[Iterating]-27, echo = FALSE}
 options(digits = old_digits)
 ```
 
