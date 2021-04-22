@@ -1,5 +1,5 @@
 ---
-title: "scratchfile"
+title: "Scratchfile"
 author: "Kieran Healy"
 date: "4/18/2021"
 output: html_document
@@ -38,6 +38,7 @@ df
 
 - You want to focus on cases where `prop1` plus `prop2` is greater than 0.3:
 
+```{r}
 df %>% 
   filter(prop1*100 + prop2*100 == 0.3*100)
 ```
@@ -53,6 +54,10 @@ df %>%
 
 df %>% 
 filter(prop1 + prop2, 0.3)
+
+```
+
+```{r}
 
 ```
 
