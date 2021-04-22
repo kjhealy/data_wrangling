@@ -148,7 +148,7 @@ Speaking loosely, think of `map()` as a way of iterating without writing loops. 
 
 ---
 
-# Mapping is just iteration for functions
+# Mapping is just a kind of iteration for functions
 
 The `purrr` package provides a big family of mapping functions. One reason there are a lot of them is that `purrr`, like the rest of the tidyverse, is picky about data types. 
 
@@ -248,13 +248,32 @@ gapminder %>%
 
 ---
 
+---
+
+# Interating in a pipeline
+
+You'd use _across()_, of course.
+
+```{r}
+gapminder %>% 
+  summarize(across(everything(), n_distinct))
+```
+
+---
+
+But!
+
 # Iterating in a pipeline
+
+You could also do this ... 
 
 ```{r}
   map(gapminder, n_distinct)
 ```
 
 Read it as "Feed each column of `gapminder` to the `n_distinct()` function.
+
+.footnote[(This is pretty much what `across()` is doing more nicely.)]
 
 ---
 
@@ -727,3 +746,218 @@ upset(data = indvs, intersect = symptoms,
 
 
 ```
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle.squish4.huge[.kjh-green[Models]]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# This is not a .kjh-yellow[statistics] seminar!
+
+I'll just give you an example of the sort of thing that many other modeling packages implement for all kinds of modeling techniques.
+
+Again, the principle is tidy incorporation of models and their output.
+
+---
+
+# Tidy regression output with .kjh-yellow[broom]
+
+```{r}
+library(broom)
+library(gapminder)
+```
+
+
+```{r 07-iterating-2}
+out <- lm(formula = lifeExp ~ gdpPercap + pop + continent,
+          data = gapminder)
+```
+
+---
+
+# Tidy regression output with .kjh-yellow[broom]
+
+We can't _do_ anything with this, programatically.
+
+.SMALL[
+
+```{r 07-iterating-3}
+summary(out)
+```
+
+]
+---
+
+# Tidy regression output with .kjh-yellow[broom]
+
+```{r 07-iterating-8}
+library(broom)
+```
+
+```{r 07-iterating-9}
+tidy(out)
+```
+
+That's a _lot_ nicer. Now it's just a tibble. We know those.
+
+---
+
+# Tidy regression output with .kjh-yellow[broom]
+
+.SMALL[
+
+```{r 07-iterating-11}
+out_conf <- tidy(out, conf.int = TRUE)
+out_conf 
+```
+
+]
+
+---
+
+# Tidy regression output with .kjh-yellow[broom]
+
+.SMALL[
+
+```{r}
+out_conf %>%
+    filter(term %nin% "(Intercept)") %>%
+    mutate(nicelabs = prefix_strip(term, "continent")) %>%
+    select(nicelabs, everything())
+```
+
+]
+
+---
+
+# Grouped analysis and .kjh-orange[list columns]
+
+```{r 07-iterating-20}
+eu77 <- gapminder %>% filter(continent == "Europe", year == 1977)
+fit <- lm(lifeExp ~ log(gdpPercap), data = eu77)
+```
+
+.SMALL[
+
+```{r 07-iterating-21}
+
+summary(fit)
+```
+
+]
+
+---
+
+# Grouped analysis and .kjh-orange[list columns]
+
+```{r 07-iterating-22}
+
+out_le <- gapminder %>%
+    group_by(continent, year) %>%
+    nest()
+
+out_le
+
+```
+
+Think of nesting as a kind of "super-grouping". Look in the object inspector.
+
+---
+
+# Grouped analysis and .kjh-orange[list columns]
+
+It's still in there.
+
+```{r 07-iterating-23}
+out_le %>% filter(continent == "Europe" & year == 1977) %>% 
+    unnest(cols = c(data))
+```
+
+---
+
+# Grouped analysis and .kjh-orange[list columns]
+
+```{r 07-iterating-24, echo = FALSE}
+old_digits <- getOption("digits")
+options(digits = 3)
+```
+
+Here we `map()` a custom function to every row in the `data` column.
+
+```{r 07-iterating-25}
+
+fit_ols <- function(df) {
+    lm(lifeExp ~ log(gdpPercap), data = df)
+}
+
+out_le <- gapminder %>%
+    group_by(continent, year) %>%
+    nest() %>% 
+    mutate(model = map(data, fit_ols)) #<<
+```
+
+---
+
+# Grouped analysis and .kjh-orange[list columns]
+
+
+```{r}
+out_le
+```
+
+
+---
+
+# Grouped analysis and .kjh-orange[list columns]
+
+We can tidy the nested models, too.
+
+```{r 07-iterating-26}
+
+fit_ols <- function(df) {
+    lm(lifeExp ~ log(gdpPercap), data = df)
+}
+
+out_tidy <- gapminder %>%
+    group_by(continent, year) %>%
+    nest() %>% 
+    mutate(model = map(data, fit_ols),
+           tidied = map(model, tidy)) %>%
+    unnest(cols = c(tidied)) %>%
+    filter(term %nin% "(Intercept)" &
+           continent %nin% "Oceania")
+```
+
+
+---
+
+# Grouped analysis and .kjh-orange[list columns]
+
+```{r}
+out_tidy
+```
+
+---
+
+# Grouped analysis and .kjh-orange[list columns]
+
+```{r}
+out_tidy %>% 
+    ungroup() %>%
+    sample_n(5)
+```
+
+
+```{r 07-iterating-27, echo = FALSE}
+options(digits = old_digits)
+```
+
