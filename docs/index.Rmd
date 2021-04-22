@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 # Practice exercises
 
-- [Day 1]("day1.html")
+- [Day 1]("https://kjhealy.github.io/data_wrangling/day1.html")
 
 # Course Description
 
