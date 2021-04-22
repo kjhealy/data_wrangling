@@ -42,7 +42,7 @@ xaringanExtra::use_clipboard()
 
 class: center middle main-title section-title-1
 
-# Data Wrangling with R and the Tidyverse
+# Data Wrangling with .kjh-orange[R] and the .kjh-orange[Tidyverse]
 
 .class-info[
 
@@ -80,7 +80,7 @@ class: title title-1
 
 - Very useful
 -  I can pop questions up on screen for everyone to see.
-
+- breaks: 5 at 11, 15 at noon, 5 at 1
 
 ---
 
@@ -271,23 +271,23 @@ class: title title-1
 
 --
 
-- Windows and pointers
+- Windows and pointers.
 
 --
 
-- Multi-tasking, multiple windows
+- Multi-tasking, multiple windows.
 
 --
 
-- Exposes and leverages the file system
+- Exposes and leverages the file system.
 
 --
 
-- Many specialized tools in concert
+- Many specialized tools in concert.
 
 --
 
-- Underneath, it's the 1970s, UNIX, and the command-line 
+- Underneath, it's the 1970s, UNIX, and the command-line. 
 
 ---
 
@@ -453,6 +453,10 @@ class: title title-1
 # R & RStudio
 
 .center[![:scale 60% "rstudio-1.png"](img/rstudio-1.png)]
+
+???
+
+SWITCH TO MAC HERE
 
 ---
 
