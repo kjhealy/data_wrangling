@@ -496,3 +496,14 @@ class: title title-1
 
 .center[![:scale 80% "rstudio-3.png"](img/rstudio-conceptual-3.png)]
 
+---
+
+# Your code is what's real in your project
+
+.center[![:scale 45% "Do not restore"](img/rstudio_dont_restore.png)]
+
+---
+
+# Consider not showing your output inline
+
+.center[![:scale 45% "Uncheck inline"](img/rstudio_uncheck_inline.png)]
