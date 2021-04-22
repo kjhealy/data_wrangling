@@ -1479,122 +1479,64 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<h1 id="practice-exercises">Practice exercises</h1>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://kjhealy.github.io/socviz/">socviz</a></span><span class="op">)</span>
+</code></pre>
+</div>
+</div>
+<h1 id="selecting-mutating-and-summarizing">Selecting, Mutating and Summarizing</h1>
+<p>The <code>ukelection2019</code> package has a tibble called <code>ukvote2019</code> that contains the results of the UK’s 2019 general election, by candidate.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kjhealy/ukelection2019">ukelection2019</a></span><span class="op">)</span>
+<span class="va">ukvote2019</span>
+</code></pre>
+</div>
+<pre><code>#&gt; # A tibble: 3,320 x 13
+#&gt; # Groups:   candidate [3,300]
+#&gt;    cid     constituency electorate party_name    candidate       votes
+#&gt;    &lt;chr&gt;   &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;           &lt;int&gt;
+#&gt;  1 W07000… Aberavon          50747 Labour        Stephen Kinnock 17008
+#&gt;  2 W07000… Aberavon          50747 Conservative  Charlotte Lang   6518
+#&gt;  3 W07000… Aberavon          50747 The Brexit P… Glenda Davies    3108
+#&gt;  4 W07000… Aberavon          50747 Plaid Cymru   Nigel Hunt       2711
+#&gt;  5 W07000… Aberavon          50747 Liberal Demo… Sheila Kingsto…  1072
+#&gt;  6 W07000… Aberavon          50747 Independent   Captain Beany     731
+#&gt;  7 W07000… Aberavon          50747 Green         Giorgia Finney    450
+#&gt;  8 W07000… Aberconwy         44699 Conservative  Robin Millar    14687
+#&gt;  9 W07000… Aberconwy         44699 Labour        Emily Owen      12653
+#&gt; 10 W07000… Aberconwy         44699 Plaid Cymru   Lisa Goodier     2704
+#&gt; # … with 3,310 more rows, and 7 more variables:
+#&gt; #   vote_share_percent &lt;dbl&gt;, vote_share_change &lt;dbl&gt;,
+#&gt; #   total_votes_cast &lt;int&gt;, vrank &lt;int&gt;, turnout &lt;dbl&gt;, fname &lt;chr&gt;,
+#&gt; #   lname &lt;chr&gt;</code></pre>
+</div>
+<p>The data are (accidentally) grouped by candidate, so let’s ungroup it first.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class="va">ukvote2019</span> <span class="op">&lt;-</span> <span class="va">ukvote2019</span> <span class="op">%&gt;%</span> 
+  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="some-things-to-find">Some things to find</h2>
 <ul>
-<li><a href="%22day1.html%22">Day 1</a></li>
+<li>What were the results in the Dover constituency?</li>
 </ul>
-<h1 id="course-description">Course Description</h1>
-<p>R is a free and open-source package for statistical analysis that is widely used in the social, health, physical, and computational sciences. R is powerful, flexible, and has excellent graphics capabilities. It also has a large and rapidly growing community of users. Although there are a variety of approaches to working with data in R, in recent years, the “<a href="https://www.tidyverse.org">tidyverse</a>” has emerged as a cohesive and consistent approach to the everyday tasks of data wrangling and analysis. The <a href="https://www.tidyverse.org">tidyverse</a> is a suite of tools for data management, manipulation, analysis, and visualization within the R software environment for statistical computing. This seminar provides an intensive, hands-on introduction to using tidyverse tools for doing your own work.</p>
-<p>The course is not focused on particular statistical methods or modeling techniques. Rather, we will learn how to accomplish everyday tasks that statistical analysis depends on but which are rarely taught in detail in their own right. These include topics such as getting your own data into R, exploring the structure of your data, recoding variables and reshaping tables, and presenting summary tabulations and graphs of this work. Throughout the course we will emphasize how R and the tidyverse “thinks”. Every dataset is different, especially at stage where it still needs further cleaning or arranging before it can be easily analyzed or effectively presented. This course will teach you the logic and implicit “flow of action” behind the tidyverse’s tools, giving you the ability to apply and extend this way of thinking when working with your own data and its particular challenges.</p>
-<h1 id="computing">Computing</h1>
-<p>This remote seminar is held via <a href="https://zoom.us/">Zoom</a>, a free video conferencing application. Instructions for joining a session via Zoom are available <a href="https://support.zoom.us/hc/en-us/articles/201362193-Joining-a-Meeting">here</a>. Before the seminar begins, you will receive an email with the meeting code and password you must use to join.</p>
-<p>We will be working with the most recent stable versions of R and RStudio, as well as with a number of additional packages. You will need to install R, RStudio, and the necessary packages on your own computer.</p>
-<h3 id="installing-r-and-rstudio-on-your-computer">Installing R and RStudio on your computer</h3>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
 <ul>
-<li>Begin by installing R (<a href="http://cloud.r-project.org" class="uri">http://cloud.r-project.org</a>). Choose the version appropriate for your computing platform: <a href="https://cloud.r-project.org/bin/macosx/R-4.0.5.pkg">macOS</a>, <a href="https://cloud.r-project.org/bin/windows/base/R-4.0.5-win.exe">Windows</a>, or <a href="https://cloud.r-project.org/bin/linux/">Linux</a>.</li>
-<li>Next, install RStudio (<a href="http://rstudio.com" class="uri">http://rstudio.com</a>). Follow the links to download the <a href="https://rstudio.com/products/rstudio/download/#download">free RStudio Desktop edition</a> recommended for your system.</li>
-</ul>
-<h3 id="installing-some-additional-packages">Installing some additional packages</h3>
-<ul>
-<li>Once the applications are installed, launch RStudio. Either carefully type in or copy-and-paste the following lines of code at R’s command prompt, located in the RStudio window named “Console”, and then hit return. In the code below, the <code>&lt;-</code> arrow is made up of two keystrokes, first <code>&lt;</code> and then the short dash or minus symbol, <code>-</code>.</li>
-</ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>my_packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;babynames&quot;</span>, <span class="st">&quot;broom&quot;</span>, <span class="st">&quot;drat&quot;</span>, <span class="st">&quot;gapminder&quot;</span>,  </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&quot;here&quot;</span>, <span class="st">&quot;janitor&quot;</span>, <span class="st">&quot;naniar&quot;</span>, <span class="st">&quot;palmerpenguins&quot;</span>, </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&quot;skimr&quot;</span>, <span class="st">&quot;slider&quot;</span>, <span class="st">&quot;socviz&quot;</span>, <span class="st">&quot;usethis&quot;</span>, <span class="st">&quot;visdat&quot;</span>, <span class="st">&quot;reprex&quot;</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(my_packages, <span class="at">repos =</span> <span class="st">&quot;http://cran.rstudio.com&quot;</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data_packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;covdata&quot;</span>, <span class="st">&quot;congress&quot;</span>, <span class="st">&quot;nycdogs&quot;</span>, <span class="st">&quot;ukelection2019&quot;</span>, <span class="st">&quot;uscenpops&quot;</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>drat<span class="sc">::</span><span class="fu">addRepo</span>(<span class="st">&quot;kjhealy&quot;</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(data_packages)</span></code></pre></div>
-<p>Installing these packages may take a little time. Once you have completed this step, you’ll be ready to download the course packet and begin.</p>
-<h3 id="optional-step-get-set-up-on-github">Optional step: get set up on GitHub</h3>
-<p>GitHub is a software development platform and service that is widely used by R Developers. You can <a href="https://happygitwithr.com/big-picture.html">read some background on it from an R user’s point of view here</a>.</p>
-<p>If you do not have one already, it will be useful to create a GitHub account and obtain a GitHub Personal Access Token. This is <em>not required</em> for the course, but would be helpful to have. After you have installed R and RStudio, to get set up, read and <em>carefully follow</em> the instructions here:</p>
-<ul>
-<li>Register a <a href="https://happygitwithr.com/github-acct.html">GitHub Account</a></li>
-<li>Install a <a href="https://happygitwithr.com/git-client.html">Git Client</a></li>
-<li>Connect to <a href="https://happygitwithr.com/push-pull-github.html">GitHub</a></li>
-<li>Get a <a href="https://happygitwithr.com/credential-caching.html">Personal Access Token</a></li>
-</ul>
-<p>Again, setting up a GitHub account is <em>not required</em> to fully participate in the course.</p>
-<h1 id="the-course-packet">The Course Packet</h1>
-<p>In addition to installing the software above, we will work with a packet of material that includes all the slides for the course, all the code we will write, and additional, relatively unprocessed or otherwise awkward datasets that we will use as examples.</p>
-<p>The course packet is available as a zip file at this link:</p>
-<p><a href="https://github.com/kjhealy/data_wrangling/archive/refs/heads/master.zip">Download the Data Wrangling Course Packet</a></p>
-<p><em>Notes:</em></p>
-<ul>
-<li><p>The packet has a <code>README.md</code> file explaining what it contains.</p></li>
-<li><p>Once you have downloaded the packet, <em>make sure you uncompress the zip file into a folder</em>. Some versions of the Windows file manager allow you to browse the contents of a zip file without actually uncompressing it. For the packet to be useful, make sure it is uncompressed.</p></li>
-<li><p>There are still one or two files of additional slides and code to be added to the packet. I will update these during the course. However what is there now will not change.</p></li>
-</ul>
-<h1 id="the-course-slack">The Course Slack</h1>
-<p>During the seminar we will use a <a href="https://slack.com">Slack</a> to provide an additional channel of communication outside the lectures. You will recieve details about how to sign up prior to the course. I encourage you to use the Slack to ask questions, share code snippets, and discuss matters arising in the seminar, from “I can’t get this to work” troubleshooting on up to any other more general comments or queries about the material we are covering.</p>
-<h1 id="course-outline">Course Outline</h1>
-<p>– Subject to change.</p>
-<h2 id="overview-and-motivation">1. Overview and motivation</h2>
-<ul>
-<li>Plain-text data analysis</li>
-<li>How R works and why it got that way</li>
-<li>The RStudio IDE and how it works</li>
-<li>Pipelining your code</li>
-<li>First examples</li>
-</ul>
-<h2 id="r-and-how-it-thinks">2. R and how it thinks</h2>
-<ul>
-<li>Reproducible research with RMarkdown</li>
-<li>Making the IDE work for you</li>
-<li>What’s “tidy” about the tidyverse?</li>
-<li>The nuts and bolts of R</li>
-<li>Pipelining your code</li>
-<li>Objects, functions, packages, environments</li>
-<li>The right frame of mind</li>
-</ul>
-<h2 id="viewing-tabulating-and-summarizing-data-with-dplyr">3. Viewing, tabulating and summarizing data with <code>dplyr</code></h2>
-<ul>
-<li>Filtering, selecting, mutating, and summarizing a single table</li>
-<li>Groups and the logic of working with grouped data</li>
-<li>Calculating on the columns of a table, and on the rows</li>
-<li>Working <code>across()</code> columns</li>
-<li>Manipulating column names and arranging rows</li>
-</ul>
-<h2 id="reshaping-data-with-tidyr">4. Reshaping data with <code>tidyr</code></h2>
-<ul>
-<li>What’s tidy about tidy data</li>
-<li>Moving back and forth between wide and long data</li>
-<li>Splitting, separating, and recoding observations</li>
-<li>Best practices before having to reshape</li>
-<li>Expanding and completing datasets</li>
-</ul>
-<h2 id="a-brief-introduction-to-regular-expressions">5. A brief introduction to regular expressions</h2>
-<ul>
-<li>String manipulation and <code>stringr</code></li>
-<li>The language of rexeps</li>
-</ul>
-<h2 id="getting-data-into-r-with-readr-and-haven-and-cleaning-it">6. Getting data into R with <code>readr</code> and <code>haven</code>, and cleaning it</h2>
-<ul>
-<li>Reading in different plain-text formats</li>
-<li>Importing from Stata</li>
-<li>Importing multiple files using <code>map()</code> and its friends</li>
-<li>Cleaning awkward data (<code>tidyr</code> and <code>stringr</code> return)</li>
-<li>Managing and visualizing missing values</li>
-<li>Categorical data and <code>forcats</code></li>
-</ul>
-<h2 id="iterating-on-data-with-dplyr-purrr-and-broom">7. Iterating on data with <code>dplyr</code>, <code>purrr</code>, and <code>broom</code></h2>
-<ul>
-<li>Reading in multiple data files</li>
-<li>Joining tables</li>
-<li>Extending tidy principles to models</li>
-<li>Fitting and summarizing model output</li>
-</ul>
-<h2 id="making-it-easier-to-be-tidy">9. Making it easier to be tidy</h2>
-<ul>
-<li>The <code>janitor</code> package</li>
-<li>Working with the <code>usethis</code> and <code>reprex</code> helper packages</li>
-<li>Documenting your data</li>
-<li>Using a package to store your data</li>
-<li>The wider world of tidyverse-friendly packages and tools</li>
+<li><p>How many constituencies (US translation: districts) are there?</p></li>
+<li><p>How many candidates did each party run in the election as a whole?</p></li>
+<li><p>Show the number of candidates fielded by party from highest to lowest.</p></li>
+<li><p>Calculate the percentage of all candidates fielded by each party</p></li>
+<li><p>Find the five worst-performing candidates overall, as measured by number of votes.</p></li>
+<li><p>Find the five largest constituencies in the country as measured by votes cast</p></li>
+<li><p>Find the total number of votes cast nationally for the Labour and Conservative parties.</p></li>
+<li><p>Find the ten largest vote-winning candidates in the country, as measured by percentage of vote share.</p></li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->

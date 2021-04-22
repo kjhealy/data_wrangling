@@ -1,0 +1,70 @@
+---
+title: "Data Wrangling with R and the tidyverse"
+description: |
+  A Short Course using R and the Tidyverse suite of tools.
+author:
+- name: Kieran Healy
+  url: https://kieranhealy.org
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+```{r}
+library(tidyverse)
+library(socviz)
+```
+
+# Selecting, Mutating and Summarizing
+
+The `ukelection2019` package has a tibble called `ukvote2019` that contains the results of the UK's 2019 general election, by candidate. 
+
+```{r}
+library(ukelection2019)
+ukvote2019
+```
+
+The data are (accidentally) grouped by candidate, so let's ungroup it first.
+
+```{r}
+ukvote2019 <- ukvote2019 %>% 
+  ungroup()
+```
+
+## Some things to find
+
+- What were the results in the Dover constituency?
+
+```{r}
+
+```
+
+
+- How many constituencies (US translation: districts) are there?
+
+- How many candidates did each party run in the election as a whole?
+
+- Show the number of candidates fielded by party from highest to lowest.
+
+- Calculate the percentage of all candidates fielded by each party
+
+- Find the five worst-performing candidates overall, as measured by number of votes.
+
+- Find the five largest constituencies in the country as measured by votes cast
+
+- Find the total number of votes cast nationally for the Labour and Conservative parties.
+
+- Find the ten largest vote-winning candidates in the country, as measured by percentage of vote share.
+
+
+
+
