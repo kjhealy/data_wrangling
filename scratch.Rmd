@@ -19,7 +19,113 @@ as_tibble(mtcars) %>%
 
 ```
 
-```{r}
+```{r 02-about-r-1}
+## Inside code chunks, lines beginning with a # character are comments
+## Comments are ignored by R
+
+my_numbers <- c(1, 1, 2, 4, 1, 3, 1, 5) # Anything after a # character is ignored as well
 
 ```
+
+```{r}
+
+my_a <- my_b <- my_c <- my_d <- 1:10
+
+rm(list = ls(pattern = "my*"))
+
+```
+
+
+So perhaps you're making a note like this. About some code:
+
+```{r}
+# r code goes here
+mean(1:10)
+```
+
+More notes:
+
+```{r}
+library(socviz)
+ 
+```
+
+```{r}
+
+gss_sm %>% 
+  group_by(bigregion, religion) %>% #<<
+  summarize(total = n()) %>% #<<
+  mutate(freq = total / sum(total),
+         pct = round(freq*100, digits = 1)) 
+
+```
+
+
+```{r}
+gss_sm %>%
+  group_by(race, sex, degree) %>%
+  summarize(n = n(),
+            mean_age = mean(age, na.rm = TRUE),
+            mean_kids = mean(childs, na.rm = TRUE)) %>%
+  mutate(pct = n/sum(n)*100) %>%
+  filter(race !="Other") %>% 
+  print(n = 23)
+```
+
+
+
+```{r}
+library(survey)
+library(srvyr)
+
+gss_sm %>% 
+  group_by(race, sex, degree) %>% 
+  tally() %>% 
+  mutate(prop = n/sum(n))
+
+
+gss_lon
+
+options(survey.lonely.psu = "adjust")
+options(na.action="na.pass")
+
+gss_wt <- subset(gss_lon, year > 1974) %>%
+    mutate(stratvar = interaction(year, vstrat)) %>%
+    as_survey_design(ids = vpsu,
+                     strata = stratvar,
+                     weights = wtssall,
+                     nest = TRUE)
+
+gss_wt %>% 
+    filter(year == 2016) %>%
+    group_by(race, sex, degree) %>%
+    summarize(prop = survey_mean(na.rm = TRUE))
+
+
+```
+
+
+---
+title: "Data Wrangling with R and the tidyverse"
+description: |
+  A Short Course using R and the Tidyverse suite of tools.
+author:
+- name: Kieran Healy
+  url: https://kieranhealy.org
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+
+
 

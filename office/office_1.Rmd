@@ -70,12 +70,14 @@ ukvote2019 %>%
   
 ```
 
+Just to emphasize that using `mutate()` instead of `summarize()` here is how you get, e.g. the denominators for within-group proportions:
+
 ```{r}
 ukvote2019 %>% 
   group_by(constituency) %>% 
   mutate(vote_tot = sum(votes)) %>% 
   select(constituency, party_name, candidate, votes, vote_tot) %>% 
-  mutate(turnout = votes/vote_tot)
+  mutate(cand_share = votes/vote_tot)
 ```
 
 - Find the total number of votes cast nationally for the Labour and Conservative parties.
