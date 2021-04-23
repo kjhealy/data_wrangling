@@ -70,7 +70,7 @@ ukvote2019 %>%
   
 ```
 
-Just to emphasize that using `mutate()` instead of `summarize()` here is how you get, e.g. the denominators for within-group proportions:
+Just to emphasize that using `mutate()` instead of `summarize()` here is how you get, e.g. the denominators for within-group proportions   :
 
 ```{r}
 ukvote2019 %>% 

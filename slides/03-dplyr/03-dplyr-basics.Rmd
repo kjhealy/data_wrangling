@@ -1374,7 +1374,7 @@ p_col <- df %>%
 
 #  .kjh-orange[Zero Counts] in dplyr
 
-```{r, fig.height = 6, fig.width=8}
+```{r, fig.height = 6, fig.width=10}
 p_col
 ```
 
@@ -1408,28 +1408,93 @@ p_line
 
 ---
 
-# Option 1: the `.drop` Flag
+# Option 1: .kjh-orange[factors] and .kjh-red[`.drop`]
+
+Factors are for categorical variables and are stored differently from characters.
+
+This can matter when modeling, and also now.
 
 ```{r}
-df %>%
-    group_by(start_year, party, sex, 
-             .drop = FALSE) %>%
-    tally()
+df_f <- df %>% 
+  mutate(party_f = factor(party))
+
+df_f
 ```
 
 ---
 
-# Option 1: the `.drop` Flag
-
-You can check this 
+# Option 1: .kjh-orange[factors] and .kjh-red[`.drop`]
 
 ```{r}
-group_by_drop_default(df)
+df_f %>% 
+  group_by(party_f) %>% 
+  tally()
+```
+
+Factors are integer values with named labels, or _levels_:
+
+```{r}
+typeof(df_f$party_f)
+levels(df_f$party_f)
+
 ```
 
 ---
 
-# Option 2: .kjh-yellow[ungroup()] .kjh-green[and complete()]
+# Option 1: .kjh-orange[factors] and .kjh-red[`.drop`]
+
+By default, unused levels won't display:
+
+
+```{r}
+df_f <- df %>% 
+  mutate(party_f = factor(party, 
+                          levels = c("Democrat", 
+                                     "Republican", 
+                                     "Libertarian")))
+df_f %>% 
+  group_by(party_f) %>% 
+  tally()
+
+levels(df_f$party_f)
+
+```
+
+---
+
+# Option 1: .kjh-orange[factors] and .kjh-red[`.drop`]
+
+By default, unused levels won't display:
+
+```{r}
+df %>% 
+  mutate(across(where(is.character), as_factor)) %>% 
+  group_by(start_year, party, sex) %>%
+  summarize(N = n()) %>%
+  mutate(freq = N / sum(N))
+
+```
+
+---
+
+# Option 1: .kjh-orange[factors] and .kjh-red[`.drop`]
+
+You can make `dplyr` keep empty factor levels though:
+
+```{r}
+df %>% 
+  mutate(across(where(is.character), as_factor)) %>% 
+  group_by(start_year, party, sex, .drop = FALSE) %>% #<<
+  summarize(N = n()) %>%
+  mutate(freq = N / sum(N))
+  
+```
+
+---
+
+# Option 2: .kjh-yellow[ungroup()] and .kjh-green[complete()]
+
+Maybe you don't want to deal with factors.
 
 ```{r}
 df_c <- df %>%
@@ -1443,7 +1508,7 @@ df_c <- df %>%
 
 ---
 
-# Option 2: .kjh-yellow[ungroup()] .kjh-green[and complete()]
+# Option 2: .kjh-yellow[ungroup()] and .kjh-green[complete()]
 
 
 ```{r}
@@ -1452,7 +1517,7 @@ df_c
 
 ---
 
-# Option 2: .kjh-yellow[ungroup()] .kjh-green[and complete()]
+# Option 2: .kjh-yellow[ungroup()] and .kjh-green[complete()]
 
 ```{r}
 p_out <- df_c %>% 
@@ -1469,7 +1534,7 @@ p_out <- df_c %>%
 
 ---
 
-# Option 2: .kjh-yellow[ungroup()] .kjh-green[and complete()]
+# Option 2: .kjh-yellow[ungroup()] and .kjh-green[complete()]
 
 ```{r, fig.height = 6, fig.width=9}
 p_out
