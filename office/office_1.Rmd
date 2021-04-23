@@ -1,0 +1,173 @@
+---
+title: "Office Hour 1"
+author: "Kieran Healy"
+date: "4/23/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries}
+
+library(tidyverse)
+library(here)
+library(socviz)
+library(ukelection2019)
+
+ukvote2019 <- ukvote2019 %>% 
+  ungroup()
+```
+
+# From the exercises ...
+
+Some things to find:
+
+- What were the results in the Dover constituency?
+
+```{r}
+ukvote2019 %>% 
+  filter(constituency == "Dover")
+```
+
+- How many candidates did each party run in the election as a whole?
+
+```{r}
+ukvote2019 %>% 
+  tally() %>% 
+  arrange(desc(n))
+```
+
+- Calculate the percentage of all candidates fielded by each party
+
+```{r}
+ukvote2019 %>% 
+  group_by(party_name) %>% 
+  tally() %>%
+  arrange(desc(n)) %>% 
+  mutate(pct = n/sum(n) * 100)
+  
+```
+
+- Find the five worst-performing candidates overall, as measured by number of votes.
+
+```{r}
+ukvote2019 %>%
+  slice_min(votes, n = 5)
+
+
+```
+
+
+- Find the five largest constituencies in the country as measured by votes cast
+
+```{r}
+ukvote2019 %>% 
+  group_by(constituency) %>% 
+  summarize(vote_tot = sum(votes)) %>% 
+  slice_max(vote_tot, n = 5)
+  
+```
+
+```{r}
+ukvote2019 %>% 
+  group_by(constituency) %>% 
+  mutate(vote_tot = sum(votes)) %>% 
+  select(constituency, party_name, candidate, votes, vote_tot) %>% 
+  mutate(turnout = votes/vote_tot)
+```
+
+- Find the total number of votes cast nationally for the Labour and Conservative parties.
+
+```{r}
+ukvote2019 %>% 
+  group_by(party_name) %>% 
+  summarise(votes = sum(votes)) %>% 
+  arrange(desc(votes)) %>% 
+  filter(party_name %in% c("Conservative", "Labour")) 
+```
+
+- Find the ten largest vote-winning candidates in the country, as measured by percentage of vote share.
+
+```{r}
+ukvote2019 %>% 
+  group_by(constituency) %>% 
+  slice_max(vote_share_percent) %>% 
+  ungroup() %>% 
+  slice_max(vote_share_percent, n = 10)
+```
+
+Actually in this particular case we don't need to group, as I didn't ask the question precisely enough ...
+
+```{r}
+ukvote2019 %>% 
+  slice_max(vote_share_percent,n=10)
+```
+
+## Additionally: survey weights
+
+We also talked about survey-weighted estimates. This is a bit out-of-scope for the course but here is a start. The main point is that you will work with the `survey` and `srvyr` packages. 
+
+We'll use the `gss_lon` data here, as it has the relevant weight columns.
+
+```{r}
+
+## Naive estimates of proportions
+## Same as the gss_sm example from class
+gss_lon %>% 
+  filter(year == 2016) %>% 
+  group_by(race, sex, degree) %>% 
+  tally() %>% 
+  mutate(prop = n/sum(n))
+```
+
+The survey packages:
+
+```{r}
+## Survey-weighted estimates require survey-aware tools
+
+# install.packages("survey")
+
+# install.packages("srvyr")
+library(survey)
+library(srvyr)
+
+```
+
+```{r}
+## Make gss_lon a survey object
+## You'll need to read the survey and srvyr docs!
+## Every survey is different ...
+options(survey.loney.psu = "adjust")
+options(na.action = "na.pass")
+
+gss_wt  <- gss_lon %>% 
+  filter(year == 2016) %>% 
+  mutate(stratvar = year) %>% 
+  as_survey_design(ids = vpsu, 
+                   strata = stratvar, 
+                   weights = wtssall, 
+                   nest = TRUE)
+
+class(gss_sm) # Regular tibble object
+class(gss_wt) # Survey design object
+```
+
+Compare:
+
+```{r}
+gss_sm %>% 
+  group_by(race, sex, degree) %>% 
+  tally() %>% 
+  mutate(prop = n/sum(n))
+
+## survey_mean() gives us weighted SEs too
+gss_wt %>% 
+  group_by(race, sex, degree) %>% 
+  summarize(
+    n = n(),
+    prop = survey_mean(na.rm = TRUE))
+  
+```
+
