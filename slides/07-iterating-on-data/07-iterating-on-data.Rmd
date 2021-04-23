@@ -552,6 +552,64 @@ class: title title-1
 
 ---
 
+# Never test for missingness with .kjh-red[`==`]
+
+The result of almost any operation involving a missing/unknown value will be missing/unknown.
+
+```{r}
+df <- tribble(
+  ~subject, ~age,
+  "A", 20,
+  "B", 25,
+  "C", NA,
+  "D", 34
+)
+
+df
+
+```
+
+---
+
+# Never test for missingness with .kjh-red[`==`]
+
+The result of almost any operation involving a missing/unknown value will be missing/unknown.
+
+```{r}
+# OK
+df %>% 
+  filter(age == 25)
+```
+
+---
+
+```{r}
+# Nope
+df %>% 
+  filter(age == NA)
+```
+
+
+```{r}
+# E.g.
+23 == NA
+```
+
+
+---
+
+# Never test for missingness with .kjh-red[`==`]
+
+Always use `is.na()` instead
+
+```{r}
+# Yes
+df %>% 
+  filter(is.na(age))
+```
+
+---
+
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
 ```{r}
