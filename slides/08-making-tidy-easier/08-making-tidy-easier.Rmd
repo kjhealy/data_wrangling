@@ -68,6 +68,8 @@ library(here)      # manage file paths
 library(socviz)    # data and some useful functions
 library(tidyverse) # your friend and mine
 library(haven)     # for Stata, SAS, and SPSS files
+
+library(broom)     # tidy model summaries
 ```
 ]
 
@@ -295,3 +297,102 @@ trial %>%
 ]
 
 
+--- 
+
+# The power of .kjh-orange[lists]
+
+Similar to earlier, but simpler:
+
+```{r}
+library(gapminder)
+
+## Fit as a function, for clarity
+fit_ols <- function(df) {
+    lm(lifeExp ~ log(gdpPercap), data = df)
+}
+
+
+out_le <- gapminder %>%
+  filter(continent %nin% "Oceania") %>% 
+  group_by(continent) %>%
+  nest() %>%
+  mutate(model = map(data, fit_ols),
+         mod_sum = map(model, glance),
+         mod_terms = map(model, tidy, conf.int = TRUE),
+         ) %>%
+  unnest(cols = c(mod_terms))
+
+```
+
+---
+
+# The power of .kjh-orange[lists]
+
+```{r}
+## Nice formatting of the numbers
+# remotes::install_github("tjmahr/printy")
+
+text_ready <- out_le %>%
+  mutate(
+    across(c(estimate, conf.low, conf.high),
+           printy::fmt_fix_digits, 2),
+    se = printy::fmt_fix_digits(std.error, 3),
+    ci = glue::glue("[{conf.low}, {conf.high}]")
+  ) %>%
+  select(continent, term, estimate, se, ci)
+  
+```
+
+.small[The `printy` package is by [T.J. Mahr](https://github.com/tjmahr/printy)]
+
+---
+
+# The power of .kjh-orange[lists]
+
+
+```{r}
+text_ready
+```
+
+---
+
+# The power of .kjh-orange[lists]
+
+Now ...
+
+```{r}
+
+stats <- text_ready %>% 
+  mutate(term = janitor::make_clean_names(term)) %>%
+  printy::super_split(continent, term) # Thanks again, TJ Mahr
+
+```
+
+---
+
+# The power of .kjh-orange[lists]
+
+Why are we doing this?
+
+```{r}
+stats
+```
+
+---
+
+# The power of .kjh-orange[lists]
+
+```text
+The Intercept term for Africa was 'r stats$Africa$intercept$estimate' 'r stats$Africa$intercept$ci'. 
+
+For Europe it was 'r stats$Europe$intercept$estimate' 'r stats$Europe$intercept$ci'
+
+```
+
+The Intercept term for Africa was `r stats$Africa$intercept$estimate` `r stats$Africa$intercept$ci`. 
+
+For Europe it was `r stats$Europe$intercept$estimate` `r stats$Europe$intercept$ci`. 
+
+For more, see [this post by TJ Mahr](https://www.tjmahr.com/lists-knitr-secret-weapon/):
+
+<https://www.tjmahr.com/lists-knitr-secret-weapon/>
