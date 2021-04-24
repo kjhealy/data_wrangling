@@ -144,7 +144,7 @@ starwars %>%
 
 ---
 
-# Never .kjh-orange[copy and paste] into a slide again!
+# Never .kjh-orange[paste] tables into a slide again!
 
 .pull-left[
 
@@ -154,12 +154,16 @@ starwars %>%
 
 .pull-right[
 
-```{r}
+.small.expand2[
+```{r, echo=FALSE}
 # Oh no, its the GSS
 gss_sm %>% 
-  count(bigregion, religion)
+  count(bigregion, religion) %>% 
+  pivot_wider(names_from =  bigregion, 
+              values_from  = n) %>% 
+  knitr::kable()
 ```
-
+ ]
 ]
 
 
@@ -167,6 +171,7 @@ gss_sm %>%
 
 # .kjh-orange[Tables], .kjh-yellow[tables], .kjh-green[tables]
 
+The **[gtsummary](http://www.danieldsjoberg.com/gtsummary/)** package is very powerful. There are a number of other very good tidy table-making options too.
 
 ```{r}
 library(gtsummary)
@@ -177,6 +182,8 @@ trial
 ---
 
 # .kjh-orange[Tables], .kjh-yellow[tables], .kjh-green[tables]
+
+The **[gtsummary](http://www.danieldsjoberg.com/gtsummary/)** package is very powerful. There are a number of other very good tidy table-making options too.
 
 ```{r, eval = FALSE}
 trial %>% 
@@ -272,6 +279,7 @@ trial %>%
   italicize_levels()
 ```
 
+
 ---
 
 # .kjh-orange[Tables], .kjh-yellow[tables], .kjh-green[tables]
@@ -296,8 +304,7 @@ trial %>%
 
 ]
 
-
---- 
+---
 
 # The power of .kjh-orange[lists]
 
@@ -329,7 +336,18 @@ out_le <- gapminder %>%
 # The power of .kjh-orange[lists]
 
 ```{r}
+out_le
+```
+
+
+---
+
+# The power of .kjh-orange[lists]
+
+```{r}
 ## Nice formatting of the numbers
+## There are many convenience packages
+## like this; it's not too hard to write your own, either
 # remotes::install_github("tjmahr/printy")
 
 text_ready <- out_le %>%
