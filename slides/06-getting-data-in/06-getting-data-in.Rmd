@@ -1383,6 +1383,8 @@ summary(lm(age ~ sex, data = gss_sub))
 
 Relevel manually
 
+.SMALL[
+
 ```{r}
 gss_sub <- gss_sub %>% 
   mutate(degree_by_race = fct_cross(race, degree))
@@ -1390,6 +1392,8 @@ gss_sub <- gss_sub %>%
 gss_sub %>% 
   count(degree_by_race)
 ```
+
+]
 
 ---
 

@@ -54,6 +54,10 @@ Typography
   line-height: 0.4;
 }
 
+.smaller2 {
+  font-size: 0.6em;
+}
+
 .tiny {
   font-size: 0.4em;
 }
@@ -634,6 +638,16 @@ Coloring and inverse coloring in title bars and content boxes
 }
 
 /* Extra CSS */
+.expand1 {
+  display: block;
+  line-height: 0.8;
+}
+
+.expand2 {
+  display: block;
+  line-height: 1.2;
+}
+
 .squish1 {
   display: block;
   line-height: 1.3;

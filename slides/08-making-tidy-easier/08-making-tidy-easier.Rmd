@@ -1,0 +1,297 @@
+---
+title: "Data Wrangling - 8. Making tidy easier"
+author: "Kieran Healy"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: "libs"
+    chakra: "../libs/remark-latest.min.js"
+    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css"]
+    seal: false
+    anchor_sections: false
+    nature:
+      beforeInit: "../js/kjh-macros.js"
+      highlightStyle: default
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      navigation:
+        scroll: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
+                      fig.retina = 3, fig.align = "center")
+```
+
+```{r packages-data, include=FALSE}
+library(flipbookr)
+library(cowplot)
+ggplot2::theme_set(theme_cowplot())
+
+```
+
+```{r xaringanExtra, echo=FALSE}
+xaringanExtra::use_xaringan_extra(c("tile_view"))
+xaringanExtra::use_animate_css()
+xaringanExtra::use_animate_all("fade")
+xaringanExtra::use_clipboard()
+```
+
+class: center middle main-title section-title-1
+
+# Making it .kjh-green[easier] to be .kjh-yellow[tidy]  
+
+.class-info[
+
+**Session 8**
+
+.light[Kieran Healy<br>
+Statistical Horizons, April 2021]
+
+]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Load the packages, as always
+
+.SMALL[
+```{r 06-getting-data-in-1, message = TRUE}
+library(here)      # manage file paths
+library(socviz)    # data and some useful functions
+library(tidyverse) # your friend and mine
+library(haven)     # for Stata, SAS, and SPSS files
+```
+]
+
+---
+
+layout: false
+class: main-title main-title-inv
+
+# .middle.squish4.huge[.kjh-orange[Moving ahead]]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Some helpful things
+
+---
+
+# The RStudio Community
+
+.center[![:scale 90%](img/rstudio_community.png)]
+
+
+---
+
+# The .kjh-yellow[reprex] package
+
+.center[![:scale 90%](img/reprex.png)]
+
+---
+
+# Best demonstrated live
+
+When asking for help, make a .kjh-green[**reproducible example**]
+
+```{r}
+library(reprex)
+```
+
+.SMALL[
+
+```{r}
+library(tidyverse)
+
+starwars %>% 
+  count(homeworld, species) %>% 
+  mutate(pct = n / sum(n) * 100) %>% 
+  arrange(desc(pct))
+```
+
+]
+---
+
+# The .kjh-green[usethis] package
+
+
+.center[![:scale 90%](img/usethis.png)]
+
+---
+
+# The packages that made these slides
+
+
+.pull-left[![:scale 85%](img/xaringan.png)]
+
+
+.pull-right[![:scale 100%](img/xaringanthemer.png)]
+
+
+---
+
+# Never .kjh-orange[copy and paste] into a slide again!
+
+.pull-left[
+
+![:scale 100%](img/xaringan-sample.png)
+
+]
+
+.pull-right[
+
+```{r}
+# Oh no, its the GSS
+gss_sm %>% 
+  count(bigregion, religion)
+```
+
+]
+
+
+---
+
+# .kjh-orange[Tables], .kjh-yellow[tables], .kjh-green[tables]
+
+
+```{r}
+library(gtsummary)
+
+trial
+```
+
+---
+
+# .kjh-orange[Tables], .kjh-yellow[tables], .kjh-green[tables]
+
+```{r, eval = FALSE}
+trial %>% 
+  tbl_summary(
+    by = trt, # split table by group
+    missing = "no" # don't list missing data separately
+  ) %>%
+  add_n() %>% # add column with total number of non-missing observations
+  add_p() %>% # test for a difference between groups
+  modify_header(label = "**Variable**") %>% # update the column header
+  bold_labels()
+```
+
+---
+
+# .kjh-orange[Tables], .kjh-yellow[tables], .kjh-green[tables]
+
+.smaller.expand1[
+
+```{r, echo = FALSE}
+trial %>% 
+  tbl_summary(
+    by = trt, # split table by group
+    missing = "no" # don't list missing data separately
+  ) %>%
+  add_n() %>% # add column with total number of non-missing observations
+  add_p() %>% # test for a difference between groups
+  modify_header(label = "**Variable**") %>% # update the column header
+  bold_labels()
+```
+]
+
+
+---
+
+# .kjh-orange[Tables], .kjh-yellow[tables], .kjh-green[tables]
+
+`gtsummary()` straight out of the box: 
+
+```{r, eval = FALSE}
+gss_sm %>% 
+  select(race, degree, marital) %>% 
+  drop_na() %>% 
+  tbl_summary(
+    by = race, # split table by group
+    missing = "no" # don't list missing data separately
+  ) %>%
+  add_n() %>% # add column with total number of non-missing observations
+#  modify_header(label = "**Variable**") %>% # update the column header
+  bold_labels()
+```
+
+---
+
+# .kjh-orange[Tables], .kjh-yellow[tables], .kjh-green[tables]
+
+.smaller.expand1[
+
+```{r, echo = FALSE}
+gss_sm %>% 
+  select(race, degree, marital) %>% 
+  drop_na() %>% 
+  tbl_summary(
+    by = race, # split table by group
+    missing = "no" # don't list missing data separately
+  ) %>%
+  add_n() %>% # add column with total number of non-missing observations
+  modify_header(label = "**Variable**") %>% # update the column header
+  bold_labels()
+```
+]
+
+
+---
+
+# .kjh-orange[Tables], .kjh-yellow[tables], .kjh-green[tables]
+
+With a bit more work ...
+
+
+```{r, eval = FALSE}
+trial %>%
+  select(trt, age, marker) %>%
+  tbl_summary(
+    by = trt,
+    type = all_continuous() ~ "continuous2",
+    statistic = all_continuous() ~ c("{N_nonmiss}",
+                                     "{mean} ({sd})", 
+                                     "{median} ({p25}, {p75})", 
+                                     "{min}, {max}"),
+    missing = "no"
+  ) %>%
+  italicize_levels()
+```
+
+---
+
+# .kjh-orange[Tables], .kjh-yellow[tables], .kjh-green[tables]
+
+
+.small.expand2[
+
+```{r, echo = FALSE}
+trial %>%
+  select(trt, age, marker) %>%
+  tbl_summary(
+    by = trt,
+    type = all_continuous() ~ "continuous2",
+    statistic = all_continuous() ~ c("{N_nonmiss}",
+                                     "{mean} ({sd})", 
+                                     "{median} ({p25}, {p75})", 
+                                     "{min}, {max}"),
+    missing = "no"
+  ) %>%
+  italicize_levels()
+```
+
+]
+
+
