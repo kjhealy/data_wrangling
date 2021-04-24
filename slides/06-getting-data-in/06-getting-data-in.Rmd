@@ -1213,8 +1213,8 @@ gss_sub %>%
                                 Agree = "Strongly Agree",
                                 Disagree = "Strongly Disagree")) %>% 
     mutate(degree = factor(degree, 
-                           levels = levels(gss_sub$degree), 
-                           ordered = TRUE))
+                           levels = levels(gss_sub$degree), #<<
+                           ordered = TRUE))#<<
 ```
 
 `r chunk_reveal("gss-recode-pipeline-2", widths = c(45,55), title = "# The GSS panel: more recoding")`
@@ -1225,18 +1225,18 @@ gss_sub %>%
 
 ```{r 06-getting-data-in-61}
 gss_sub <- gss_sub %>%
-    mutate(agequint = cut(x = age, 
-                          breaks = unique(age_quintiles), 
-                          include.lowest = TRUE), 
-            agequint = fct_relabel(agequint, convert_agegrp), 
-            year_f = droplevels(factor(year)),#<<  
-            young = ifelse(age < 26, "Yes", "No"), 
-            fefam_d = fct_recode(fefam,
-                                Agree = "Strongly Agree",
-                                Disagree = "Strongly Disagree"),
-            degree = factor(degree, 
-                           levels = levels(gss_sub$degree), 
-                           ordered = TRUE))
+      mutate(agequint = cut(x = age, 
+                            breaks = unique(age_quintiles), 
+                            include.lowest = TRUE), 
+              agequint = fct_relabel(agequint, convert_agegrp), 
+              year_f = droplevels(factor(year)),#<<  
+              young = ifelse(age < 26, "Yes", "No"), 
+              fefam_d = fct_recode(fefam,
+                                  Agree = "Strongly Agree",
+                                  Disagree = "Strongly Disagree"),
+              degree = factor(degree, 
+                             levels = levels(gss_sub$degree), 
+                             ordered = TRUE))
 ```
 
 ---
@@ -1249,7 +1249,7 @@ gss_sub <- gss_sub %>%
                           breaks = unique(age_quintiles), 
                           include.lowest = TRUE), 
             agequint = fct_relabel(agequint, convert_agegrp), 
-            year_f = droplevels(factor(year)),  
+            year_f = factor(year),  
             young = ifelse(age < 26, "Yes", "No"),#<< 
             fefam_d = fct_recode(fefam,
                                 Agree = "Strongly Agree",
@@ -1298,5 +1298,124 @@ gss_sub %>%
   pivot_wider(names_from = sex, values_from = n)
 ```
 
+---
 
+# More on .kjh-yellow[factors]
+
+We've already seen **`fct_relabel()`** and **`fct_recode()`** from forcats. 
+
+There are numerous other convenience functions for factors.
+
+--
+
+```{r}
+gss_sub %>% 
+  count(degree)
+```
+
+```{r}
+levels(gss_sub$degree)
+```
+
+---
+
+# More on .kjh-yellow[factors]
+
+Make the .kjh-red[NA] values an explicit level
+
+```{r}
+gss_sub %>% 
+  mutate(degree_na = fct_explicit_na(degree)) %>% 
+  count(degree_na)
+```
+
+---
+
+# More on .kjh-yellow[factors]
+
+Relevel by frequency
+
+```{r}
+gss_sub %>% 
+  mutate(degree_freq = fct_infreq(degree)) %>% 
+  count(degree_freq) 
+```
+
+---
+
+# More on .kjh-yellow[factors]
+
+Relevel manually
+
+```{r}
+is.ordered(gss_sub$sex)
+levels(gss_sub$sex)
+```
+
+---
+
+```{r}
+summary(lm(age ~ sex, data = gss_sub))
+```
+
+---
+
+# More on .kjh-yellow[factors]
+
+Relevel manually
+
+```{r}
+gss_sub <- gss_sub %>% 
+  mutate(sex = fct_relevel(sex, "Female"))
+
+levels(gss_sub$sex)
+```
+
+--
+
+```{r}
+summary(lm(age ~ sex, data = gss_sub))
+```
+
+---
+
+# More on .kjh-yellow[factors]
+
+Relevel manually
+
+```{r}
+gss_sub <- gss_sub %>% 
+  mutate(degree_by_race = fct_cross(race, degree))
+
+gss_sub %>% 
+  count(degree_by_race)
+```
+
+---
+
+# More on .kjh-yellow[factors]
+
+Relevel manually by lumping ... the least frequent n
+
+```{r}
+gss_sub %>% 
+  mutate(degree_n = fct_lump_n(degree, n = 3)) %>% 
+  count(degree_n)
+```
+
+---
+
+# More on .kjh-yellow[factors]
+
+Relevel manually by lumping ...to other, manually
+
+```{r}
+gss_sub %>% 
+  mutate(degree_o = fct_other(degree, 
+                              keep = c("Lt High School", 
+                                       "High School"))) %>% 
+  count(degree_o)
+```
+
+---
 
