@@ -108,13 +108,13 @@ class: title title-1
 
 When asking for help, make a .kjh-green[**reproducible example**]
 
-```{r}
+```{r 08-making-tidy-easier-1}
 library(reprex)
 ```
 
 .SMALL[
 
-```{r}
+```{r 08-making-tidy-easier-2}
 library(tidyverse)
 
 starwars %>% 
@@ -155,7 +155,7 @@ starwars %>%
 .pull-right[
 
 .small.expand2[
-```{r, echo=FALSE}
+```{r 08-making-tidy-easier-3, echo=FALSE}
 # Oh no, its the GSS
 gss_sm %>% 
   count(bigregion, religion) %>% 
@@ -173,7 +173,7 @@ gss_sm %>%
 
 The **[gtsummary](http://www.danieldsjoberg.com/gtsummary/)** package is very powerful. There are a number of other very good tidy table-making options too.
 
-```{r}
+```{r 08-making-tidy-easier-4}
 library(gtsummary)
 
 trial
@@ -185,7 +185,7 @@ trial
 
 The **[gtsummary](http://www.danieldsjoberg.com/gtsummary/)** package is very powerful. There are a number of other very good tidy table-making options too.
 
-```{r, eval = FALSE}
+```{r 08-making-tidy-easier-5, eval = FALSE}
 trial %>% 
   tbl_summary(
     by = trt, # split table by group
@@ -203,7 +203,7 @@ trial %>%
 
 .smaller.expand1[
 
-```{r, echo = FALSE}
+```{r 08-making-tidy-easier-6, echo = FALSE}
 trial %>% 
   tbl_summary(
     by = trt, # split table by group
@@ -223,7 +223,7 @@ trial %>%
 
 `gtsummary()` straight out of the box: 
 
-```{r, eval = FALSE}
+```{r 08-making-tidy-easier-7, eval = FALSE}
 gss_sm %>% 
   select(race, degree, marital) %>% 
   drop_na() %>% 
@@ -242,7 +242,7 @@ gss_sm %>%
 
 .smaller.expand1[
 
-```{r, echo = FALSE}
+```{r 08-making-tidy-easier-8, echo = FALSE}
 gss_sm %>% 
   select(race, degree, marital) %>% 
   drop_na() %>% 
@@ -264,7 +264,7 @@ gss_sm %>%
 With a bit more work ...
 
 
-```{r, eval = FALSE}
+```{r 08-making-tidy-easier-9, eval = FALSE}
 trial %>%
   select(trt, age, marker) %>%
   tbl_summary(
@@ -287,7 +287,7 @@ trial %>%
 
 .small.expand2[
 
-```{r, echo = FALSE}
+```{r 08-making-tidy-easier-10, echo = FALSE}
 trial %>%
   select(trt, age, marker) %>%
   tbl_summary(
@@ -310,7 +310,7 @@ trial %>%
 
 Similar to earlier, but simpler:
 
-```{r}
+```{r 08-making-tidy-easier-11}
 library(gapminder)
 
 ## Fit as a function, for clarity
@@ -335,7 +335,7 @@ out_le <- gapminder %>%
 
 # The power of .kjh-orange[lists]
 
-```{r}
+```{r 08-making-tidy-easier-12}
 out_le
 ```
 
@@ -344,7 +344,7 @@ out_le
 
 # The power of .kjh-orange[lists]
 
-```{r}
+```{r 08-making-tidy-easier-13}
 ## Nice formatting of the numbers
 ## There are many convenience packages
 ## like this; it's not too hard to write your own, either
@@ -368,7 +368,7 @@ text_ready <- out_le %>%
 # The power of .kjh-orange[lists]
 
 
-```{r}
+```{r 08-making-tidy-easier-14}
 text_ready
 ```
 
@@ -378,7 +378,7 @@ text_ready
 
 Now ...
 
-```{r}
+```{r 08-making-tidy-easier-15}
 
 stats <- text_ready %>% 
   mutate(term = janitor::make_clean_names(term)) %>%
@@ -392,7 +392,7 @@ stats <- text_ready %>%
 
 Why are we doing this?
 
-```{r}
+```{r 08-making-tidy-easier-16}
 stats
 ```
 

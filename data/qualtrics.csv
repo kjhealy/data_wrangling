@@ -1,0 +1,8 @@
+id,var1,var2,var3,var4
+I am a useless line of metadata that should not be here,,,,
+"I too am a useless line of metadata, who designed this file format",,,,
+1,a,45,3,z
+2,s,45,4,x
+3,d,3,5,cd
+4,e,2,6,f
+5,d,4,7,cd

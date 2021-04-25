@@ -1,0 +1,63 @@
+10:25:55 From Neil to Everyone : if the code did not start off with gss_sm and then the pipe (%>%), would it start off as relocate(gss_sm OR would it start with relocate(.gss_sm ?
+10:26:06 From Shireen to Everyone : I had the same question as Nupur, if we use relocate down the pipeline it seems it should overwrite the relocate earlier in the pipeline but it seems it hasn't. region is a factor and it's still in the beginning although we said numeric should come first
+10:26:22 From Ken Coburn to Everyone : Do tidyverse functions work with data.table datasets?
+10:31:10 From Ken Coburn to Everyone : Relative advantages / pros-cons of tibble vs data.table?
+10:37:51 From Sheena Tomko to Everyone : @Nupur and Shireen, relocate down the pipeline does make changes over earlier ones. Region appears at the beginning because the last thing we told it was to put variables containing “region” after year
+10:39:56 From Shireen to Everyone : Thank you Sheena.
+10:40:58 From Bryan L. Sykes (he/him/his) to Everyone : Is there a way to change where “here” points to?  My read_csv file is pointing to a different directory.
+10:41:57 From Tiffany Phu to Everyone : Session -> Set Working Directory, I think
+10:43:26 From dominic.nunag to Everyone : library(here)
+10:54:01 From Shireen to Everyone : is this code in a new version of 03-dplyr-basics.R? I don't have this code in my current version.
+10:54:18 From Andrea Howard to Everyone : Yes I think so. It’s not in my original one either.
+10:54:25 From Shireen to Everyone : ok
+10:55:27 From Shireen to Everyone : you can also fill it with NA instead of 0 correct?
+11:00:27 From Kieran Healy to Everyone : @Shireen Yes, sorry! It’s in the updated version of the package
+11:00:33 From Kieran Healy to Everyone : Of the packet, I mean.
+11:10:40 From Marina Milyavskaya to Everyone : so if we want to, for example, create a new variable by taking a mean of 5 items (e.g., a scale comprised of 5 items), would that be difficult in tidyverse?
+11:11:11 From Andrea Howard to Everyone : Yes but it’s also not super easy in base R
+11:12:49 From John McIntire to Everyone : ... with mutate(newindex = sum(weights*vars)) and then take the mean of newindex
+11:14:23 From Neil to Everyone : i’m calling the Hague
+11:17:07 From John McIntire to Everyone : Prof: One problem with pivot_longer is that if you have > 1 var (say all those selected by ends_with) then the selected vars must all be the same type; cant mix say numeric with character
+11:21:50 From Shireen to Everyone : what if we want to combine categories, for example secondary and higher education to secondary+
+11:28:00 From John McIntire to Everyone : can do with a mix of the functions mutate() and case_when()
+11:33:45 From Marina Milyavskaya to Everyone : what would have happened in the separate example if someone had a double last name (e.g., Wolfe-brown)?
+11:42:57 From Andrea Howard to Everyone : lol
+11:49:48 From Marina Milyavskaya to Everyone : in the first example with banana, it only highlighted the first 'an' in the word, not the second one - does it only highlights the first example in each string/variable, rather than all of them?
+11:49:53 From Shireen to Everyone : so if we didn't have the dot object, searching for a\.c and a.c would have searching for everything?
+11:54:41 From Yizhou Ma to Everyone : Can you show using str_view() in R? I do not get any output when I run the commands in the slides. Or I get a weird list output that I do not understand
+11:56:28 From Shireen to Everyone : I am using the R script for lesson 5 and seeing the output in the viewer
+11:56:51 From Marina Milyavskaya to Everyone : how do you make it not care about lower vs. upper case?
+11:57:26 From Brian Fairman to Everyone : How would you search for words that begin with "b" and end with "a" for example?
+11:58:20 From John McIntire to Everyone : to MM: case can be manipulated in character strings with toupper or tolower. But the function and objects are highly case sensitive by design and that cant be manipulated AFAIK
+12:17:55 From Shireen to Everyone : can anyone hear the Dr.Kieran? I cant hear anything
+12:18:12 From Henrik Hein Lauridsen (SDU) to Everyone : no
+12:18:13 From Andrea Howard to Everyone : He’s on mute but he doesn’t look like he’s talking
+12:18:24 From Shireen to Everyone : ok
+12:35:13 From Marina Milyavskaya to Everyone : is the example code that you have in the scratch .rmd in the updated course package? I don't see them in the code or the scratch document
+12:39:42 From Neil to Everyone : thanks Marina - I wondered too
+12:48:21 From Shireen to Everyone : but what if you have your data stored in another folder not in the same main folder as the R project?
+12:48:56 From Andrea Howard to Everyone : What about setwd() ?
+12:49:55 From Andrea Howard to Everyone : Oh nooooo
+12:50:18 From John McIntire to Everyone : double oh noooo ...
+12:50:47 From Mary Rigdon to Everyone : Almost always required for journal publication now
+12:51:16 From Shireen to Everyone : i have stored partial paths  in objects and use the command "source" to find the R script I want to run. Not sure if this works for everyone
+12:56:20 From Bryan L. Sykes (he/him/his) to Everyone : how can you change the “here” path? I get Error: Could not find associated project in working directory or any parent directory.- Path in project: code/06-getting-data-in.R- Current working directory: /Users/BryanSykes 1Please open the project associated with this file and try again.
+12:59:08 From John McIntire to Everyone : One trick is to create a list with list.files (pattern = "something") and set "recursive = T", which searches all the sub-directories of the working root.
+13:15:49 From Shireen to Everyone : would read_dta work the same way as the commands you are using with read_table?
+13:17:58 From Shireen to Everyone : what did the clean_names command do?
+13:21:50 From Marina Milyavskaya to Everyone : instead of removing the first 2 rows of the csv file, is there a way to remove the second two rows? In csv files downloaded from Qualtrics, the first line is variable names, but second two lines are descriptions of vars & some other non-useful info.
+13:22:52 From Andrea Howard to Everyone : The first row is treated as the “header” so it doesn’t count as a row I think
+13:29:09 From John McIntire to Everyone : the default for "header" in read_csv = T but if you've got data with no header for some reason then you'll lose the first data row unless you set header = F
+13:30:58 From Milan Seth to Everyone : January?
+13:39:50 From Andrea Howard to Everyone : Do you need to paste all of it or just the variables that are not working right?
+13:41:08 From Shweta Gore to Everyone : Is this problem unique to when loading from .csv files or could this happen when reading from say for example STATA?
+13:42:12 From Marina Milyavskaya to Everyone : what if date also has time in it? can you import it as character, but then separate into separate vars for date & time?
+13:52:58 From Shireen to Everyone : %in% is the same as &
+13:53:04 From Shireen to Everyone : can i use & instead?
+13:54:23 From Shireen to Everyone : oh never mind, it's selecting groups.
+13:58:23 From John McIntire to Everyone : in your 3 x # tibble with the NA in the first row of 'b' why doesn't the tibble think that b is a logical variable ?
+14:03:35 From John McIntire to Everyone : Can we summarize the use of the "." as (1) a transition term that references tidyverse in base R; (2) an object meaning "all" (as with the y vars in lm()); and (3) a prefix to disambiguate object names that might be confused with function names, as in your .before example ?
+14:03:47 From Marina Milyavskaya to Everyone : what if you wanted to drop any with missing on all other than year & id?
+14:04:24 From Andrea Howard to Everyone : Maybe drop_na(-c(year,id))?
+14:04:51 From joel Capellan to Everyone : Thank you!
+14:04:55 From Andrea Howard to Everyone : thanks

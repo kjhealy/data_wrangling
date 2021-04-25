@@ -91,7 +91,7 @@ class: title title-1
 
 .smaller[
 
-```{r}
+```{r 07-iterating-on-data-1}
 # A little trick from the fs package: 
 fs::dir_tree(here("data", "congress"))
 ```
@@ -104,7 +104,7 @@ fs::dir_tree(here("data", "congress"))
 
 .SMALL[Let's look at one.]
 
-```{r}
+```{r 07-iterating-on-data-2}
 read_csv(here("data", "congress", "17_95_congress.csv")) %>% 
   janitor::clean_names() %>% 
   head()
@@ -162,7 +162,7 @@ So in addition to the basic `map()`, which always returns a _list_, we also have
 
 The simplest cases are not that different from the vectorized arithmetic we're already familiar with. 
 
-```{r}
+```{r 07-iterating-on-data-3}
 a <- c(1:10)
 
 b <- 1
@@ -182,7 +182,7 @@ R's vectorized rules add `b` to every element of `a`. In a sense, the **`+`** op
 
 We can make this explicit by writing a function:
 
-```{r}
+```{r 07-iterating-on-data-4}
 add_b <- function(x) {
   b <- 1
   x + b # for any x
@@ -191,7 +191,7 @@ add_b <- function(x) {
 
 Now:
 
-```{r}
+```{r 07-iterating-on-data-5}
 add_b(x = a)
 ```
 
@@ -202,11 +202,11 @@ add_b(x = a)
 
 Again, R's vectorized approach means it automatically adds `b` to every element of the x we give it.
 
-```{r}
+```{r 07-iterating-on-data-6}
 add_b(x = 10)
 ```
 
-```{r}
+```{r 07-iterating-on-data-7}
 add_b(x = c(1, 99, 1000))
 ```
 
@@ -215,7 +215,7 @@ add_b(x = c(1, 99, 1000))
 # .kjh-green[Iterating] in a pipeline
 Some operations can't directly be vectorized in this way, which is why we need to manually iterate, or will want to write loops. 
 
-```{r}
+```{r 07-iterating-on-data-8}
 library(gapminder)
 gapminder %>% 
   summarize(n_distinct(country), 
@@ -233,7 +233,7 @@ That's tedious to write. Computers are supposed to allow us to avoid that sort o
 
 So how would we iterate this? What we want is to apply the `n_distinct()` function to each column of `gapminder`, but in a way that still allows us to use pipelines and so on. 
 
-```{r}
+```{r 07-iterating-on-data-9}
 library(gapminder)
 gapminder %>% 
   summarize(n_distinct(country), 
@@ -251,7 +251,7 @@ gapminder %>%
 
 You'd use _across()_, of course.
 
-```{r}
+```{r 07-iterating-on-data-10}
 gapminder %>% 
   summarize(across(everything(), n_distinct))
 ```
@@ -266,7 +266,7 @@ But you could also do this ...
 
 .SMALL[
 
-```{r}
+```{r 07-iterating-on-data-11}
   map(gapminder, n_distinct)
 ```
 ]
@@ -289,7 +289,7 @@ Read it as "Feed each column of `gapminder` to the `n_distinct()` function.
 
 Or, in pipeline form:
 
-```{r}
+```{r 07-iterating-on-data-12}
 gapminder %>% 
   map(n_distinct)
 ```
@@ -309,7 +309,7 @@ You can see we are getting a _list_ back.
 
 Or, in pipeline form:
 
-```{r}
+```{r 07-iterating-on-data-13}
 result <- gapminder %>% 
   map(n_distinct)
 
@@ -328,7 +328,7 @@ result[[2]]
 In this context, `n_distinct()` is always going to return an integer, though.
 
 
-```{r}
+```{r 07-iterating-on-data-14}
 gapminder %>% 
   map_int(n_distinct)
 ```
@@ -339,7 +339,7 @@ The thing about the `map()` family is that they can deal with all kinds of input
 
 # Get a vector of .kjh-pink[filenames]
 
-```{r}
+```{r 07-iterating-on-data-15}
 filenames <- dir(path = here("data", "congress"),
                  pattern = "*.csv",
                  full.names = TRUE)
@@ -354,7 +354,7 @@ filenames[1:15] # Just displaying the first 15, to save slide space
 
 .small.squish3[... using the variant of `map()` that returns data frames and tibbles.]
 
-```{r}
+```{r 07-iterating-on-data-16}
 df <- filenames %>% 
   map_dfr(read_csv, .id = "congress") %>% #<<
   janitor::clean_names()
@@ -380,7 +380,7 @@ class: title title-1
 
 # Cleaning up .kjh-yellow[congress]
 
-```{r}
+```{r 07-iterating-on-data-17}
 df %>% 
   select(born, death, start, end)
 ```
@@ -397,7 +397,7 @@ In particular it has many convenience functions to help with the many different 
 
 # Cleaning up .kjh-yellow[congress]
 
-```{r}
+```{r 07-iterating-on-data-18}
 library(lubridate)
 
 date_recodes <- c("born", "death", "start", "end")
@@ -414,7 +414,7 @@ df
 
 # Cleaning up .kjh-yellow[congress]
 
-```{r}
+```{r 07-iterating-on-data-19}
 sessions <- tibble(congress = 79:116,
                    start_year = seq(1945, 2019, by = 2),
                    end_year = seq(1947, 2021, by = 2)) %>% 
@@ -437,7 +437,7 @@ The big table
 
 .SMALL[
 
-```{r}
+```{r 07-iterating-on-data-20}
 df %>% 
   select(congress, last, born)
 
@@ -452,7 +452,7 @@ The smaller table
 
 .SMALL[
 
-```{r}
+```{r 07-iterating-on-data-21}
 sessions
 
 ```
@@ -468,7 +468,7 @@ sessions
 
 .SMALL[
 
-```{r, message = TRUE}
+```{r 07-iterating-on-data-22, message = TRUE}
 
 df <- left_join(df, sessions) %>% 
   relocate(start_year:end_year, .after = congress)  
@@ -556,7 +556,7 @@ class: title title-1
 
 The result of almost any operation involving a missing/unknown value will be missing/unknown.
 
-```{r}
+```{r 07-iterating-on-data-23}
 df <- tribble(
   ~subject, ~age,
   "A", 20,
@@ -575,7 +575,7 @@ df
 
 The result of almost any operation involving a missing/unknown value will be missing/unknown.
 
-```{r}
+```{r 07-iterating-on-data-24}
 # OK
 df %>% 
   filter(age == 25)
@@ -583,14 +583,14 @@ df %>%
 
 ---
 
-```{r}
+```{r 07-iterating-on-data-25}
 # Nope
 df %>% 
   filter(age == NA)
 ```
 
 
-```{r}
+```{r 07-iterating-on-data-26}
 # E.g.
 23 == NA
 ```
@@ -602,7 +602,7 @@ df %>%
 
 Always use `is.na()` instead
 
-```{r}
+```{r 07-iterating-on-data-27}
 # Yes
 df %>% 
   filter(is.na(age))
@@ -612,14 +612,14 @@ df %>%
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r}
+```{r 07-iterating-on-data-28}
 library(naniar)
 library(visdat)
 
 organdata
 ```
 
-```{r, fig.height=6, fig.width=8}
+```{r 07-iterating-on-data-29, fig.height=6, fig.width=8}
 gg_miss_var(organdata)
 ```
 
@@ -627,7 +627,7 @@ gg_miss_var(organdata)
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r, fig.height=6, fig.width=8}
+```{r 07-iterating-on-data-30, fig.height=6, fig.width=8}
 vis_dat(organdata)
 ```
 
@@ -635,7 +635,7 @@ vis_dat(organdata)
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r, fig.height=6, fig.width=8}
+```{r 07-iterating-on-data-31, fig.height=6, fig.width=8}
 miss_var_summary(organdata)
 ```
 
@@ -644,7 +644,7 @@ miss_var_summary(organdata)
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r}
+```{r 07-iterating-on-data-32}
 miss_case_summary(organdata)
 ```
 
@@ -652,7 +652,7 @@ miss_case_summary(organdata)
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r}
+```{r 07-iterating-on-data-33}
 organdata %>%
   select(consent_law, year, pubhealth, roads) %>%
   group_by(consent_law) %>%
@@ -664,7 +664,7 @@ organdata %>%
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r, fig.height=6, fig.width=8}
+```{r 07-iterating-on-data-34, fig.height=6, fig.width=8}
 vis_miss(organdata)
 ```
 
@@ -672,7 +672,7 @@ vis_miss(organdata)
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r, fig.height=6, fig.width=8}
+```{r 07-iterating-on-data-35, fig.height=6, fig.width=8}
 library(congress)
 gg_miss_upset(congress)
 ```
@@ -681,7 +681,7 @@ gg_miss_upset(congress)
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r, fig.height=6, fig.width=8}
+```{r 07-iterating-on-data-36, fig.height=6, fig.width=8}
 vis_miss(organdata, cluster = TRUE)
 ```
 
@@ -689,7 +689,7 @@ vis_miss(organdata, cluster = TRUE)
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r, fig.height=6, fig.width=8}
+```{r 07-iterating-on-data-37, fig.height=6, fig.width=8}
 gg_miss_upset(organdata)
 ```
 
@@ -703,7 +703,7 @@ gg_miss_upset(organdata)
 
 # .kjh-yellow[Upset plots] and a bit of wrangling
 
-```{r}
+```{r 07-iterating-on-data-38}
 symptoms <- c("Anosmia", "Cough", "Fatigue", 
               "Diarrhea", "Breath", "Fever")
 names(symptoms) <- symptoms
@@ -716,7 +716,7 @@ symptoms
 
 .SMALL[
 
-```{r}
+```{r 07-iterating-on-data-39}
 # An Excel file!
 dat <- readxl::read_xlsx(here("data", "symptoms.xlsx")) 
 dat %>% print(n = nrow(dat))
@@ -731,7 +731,7 @@ dat %>% print(n = nrow(dat))
 
 .SMALL[
 
-```{r}
+```{r 07-iterating-on-data-40}
 subsets <- dat %>% 
   pull(combination)
 
@@ -756,7 +756,7 @@ Now we have a table we can do something with.
 .SMALL[
 
 
-```{r}
+```{r 07-iterating-on-data-41}
 symptom_mat %>% print(n = nrow(symptom_mat))
 ```
 
@@ -769,7 +769,7 @@ Uncounting tables
 
 .SMALL[
 
-```{r}
+```{r 07-iterating-on-data-42}
 indvs <- symptom_mat %>%
     uncount(count) 
 
@@ -786,7 +786,7 @@ Now we've reconstructed the individual-level observations.
 # .kjh-yellow[Upset plots] and a bit of wrangling
 
 
-```{r, fig.width=16, fig.height=9, eval = FALSE}
+```{r 07-iterating-on-data-43, fig.width=16, fig.height=9, eval = FALSE}
 # devtools::install_github("krassowski/complex-upset")
 
 library(ComplexUpset)
@@ -806,7 +806,7 @@ upset(data = indvs, intersect = symptoms,
 # .kjh-yellow[Upset plots] and a bit of wrangling
 
 
-```{r, fig.width=12, fig.height=7, echo = FALSE}
+```{r 07-iterating-on-data-44, fig.width=12, fig.height=7, echo = FALSE}
 # devtools::install_github("krassowski/complex-upset")
 
 library(ComplexUpset)
@@ -845,7 +845,7 @@ Again, the principle is tidy incorporation of models and their output.
 
 # Tidy regression output with .kjh-yellow[broom]
 
-```{r}
+```{r 07-iterating-on-data-45}
 library(broom)
 library(gapminder)
 ```
@@ -902,7 +902,7 @@ out_conf
 
 .SMALL[
 
-```{r}
+```{r 07-iterating-on-data-46}
 out_conf %>%
     filter(term %nin% "(Intercept)") %>%
     mutate(nicelabs = prefix_strip(term, "continent")) %>%
@@ -984,7 +984,7 @@ out_le <- gapminder %>%
 # Grouped analysis and .kjh-orange[list columns]
 
 
-```{r}
+```{r 07-iterating-on-data-47}
 out_le
 ```
 
@@ -1016,7 +1016,7 @@ out_tidy <- gapminder %>%
 
 # Grouped analysis and .kjh-orange[list columns]
 
-```{r}
+```{r 07-iterating-on-data-48}
 out_tidy
 ```
 
@@ -1024,7 +1024,7 @@ out_tidy
 
 # Grouped analysis and .kjh-orange[list columns]
 
-```{r}
+```{r 07-iterating-on-data-49}
 out_tidy %>% 
     ungroup() %>%
     sample_n(5)
