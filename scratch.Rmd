@@ -5,10 +5,20 @@ date: "4/18/2021"
 output: html_document
 ---
 
-```{r}
-library(tidyverse)
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
 ```
 
+
+```{r}
+library(tidyverse)
+library(sociz)
+```
+
+# Broom for model summaries
 
 ```{r}
 as_tibble(mtcars) %>%
@@ -16,45 +26,15 @@ as_tibble(mtcars) %>%
   mutate(model = list(lm(mpg ~ wt, data = data))) %>%
   summarize(broom::glance(model))
 
-
 ```
 
-```{r 02-about-r-1}
-## Inside code chunks, lines beginning with a # character are comments
-## Comments are ignored by R
-
-my_numbers <- c(1, 1, 2, 4, 1, 3, 1, 5) # Anything after a # character is ignored as well
-
-```
-
-```{r}
-
-my_a <- my_b <- my_c <- my_d <- 1:10
-
-rm(list = ls(pattern = "my*"))
-
-```
-
-
-So perhaps you're making a note like this. About some code:
-
-```{r}
-# r code goes here
-mean(1:10)
-```
-
-More notes:
-
-```{r}
-library(socviz)
- 
-```
+## Basic summaries
 
 ```{r}
 
 gss_sm %>% 
-  group_by(bigregion, religion) %>% #<<
-  summarize(total = n()) %>% #<<
+  group_by(bigregion, religion) %>% 
+  summarize(total = n()) %>% 
   mutate(freq = total / sum(total),
          pct = round(freq*100, digits = 1)) 
 
@@ -72,18 +52,22 @@ gss_sm %>%
   print(n = 23)
 ```
 
-
+## Suvey-weighted estimates
 
 ```{r}
+# install.packages("survey")
+# install.packages("srvyr")
+
 library(survey)
 library(srvyr)
 
+## Unweighted estimates
 gss_sm %>% 
   group_by(race, sex, degree) %>% 
   tally() %>% 
   mutate(prop = n/sum(n))
 
-
+## gss_lon has the survey design vars
 gss_lon
 
 options(survey.lonely.psu = "adjust")
@@ -96,37 +80,15 @@ gss_wt <- subset(gss_lon, year > 1974) %>%
                      weights = wtssall,
                      nest = TRUE)
 
+## compare to the unweighted estimates above
 gss_wt %>% 
     filter(year == 2016) %>%
     group_by(race, sex, degree) %>%
     summarize(prop = survey_mean(na.rm = TRUE))
 
-
 ```
 
-
----
-title: "Data Wrangling with R and the tidyverse"
-description: |
-  A Short Course using R and the Tidyverse suite of tools.
-author:
-- name: Kieran Healy
-  url: https://kieranhealy.org
-date: "`r Sys.Date()`"
-output: distill::distill_article
----
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-
-
+# Parsing the Zoom chat file
 
 ```{r}
 library(stringr)
@@ -137,9 +99,12 @@ chat <- read_lines(here("data", "chat.txt"))
 chat %>% 
   
 chat_df <- tibble(  
-  time = as_datetime(paste(today(), str_extract(chat, "\\d{2}:\\d{2}:\\d{2}")), tz = "EST"),
-  from = str_replace(chat, "(\\d{2}:\\d{2}:\\d{2} From )(.+?)( to Everyone )(.+?$)", "\\2"),
-  message = str_replace(chat, "(\\d{2}:\\d{2}:\\d{2} From )(.+?)( to Everyone )(.+?$)", "\\4"))
+  time = as_datetime(paste(today(), 
+                           str_extract(chat, "\\d{2}:\\d{2}:\\d{2}")), tz = "EST"),
+  from = str_replace(chat, 
+                     "(\\d{2}:\\d{2}:\\d{2} From )(.+?)( to Everyone )(.+?$)", "\\2"),
+  message = str_replace(chat, 
+                     "(\\d{2}:\\d{2}:\\d{2} From )(.+?)( to Everyone )(.+?$)", "\\4"))
 
 chat_df
 
@@ -158,7 +123,7 @@ qualtrics <- readxl::read_xlsx(here("data", "qualtrics.xlsx")) %>%
 
 
 
-
+# Regexes for term counting
 
 ```{r}
 library(tidyverse)
@@ -182,10 +147,11 @@ df
 acad_goals <- c("gpa", "grade")
 fun_goals <- c("beer", "hotdogs", "cake")
 
-# Construct "any of these terms" regex using paste()
+## Construct "any of these terms" regex using paste()
 acad_regex <- paste(acad_goals, collapse = "|") # The `|` means "or"
 fun_regex <- paste(fun_goals, collapse = "|")
 
+## We can just detect terms, not meaning! Notice the false positive
 df %>% 
   mutate(acad_yn = str_detect(tolower(goal_statement), acad_regex), 
          fun_yn = str_detect(tolower(goal_statement), fun_regex), 
@@ -236,6 +202,60 @@ df %>%
 
 
 ```
+
+# Make a factor/categorical variable by cutting a continuous one
+
+```{r}
+c(0, 20, 40, 60, 80)
+
+## seq is surprisingly powerful btw
+seq(0, 80, by = 20)
+
+## creating random data 
+tmp <- tibble(
+  id = 1:1000,
+  age = sample(1:85, 1000, replace = TRUE)
+)
+
+tmp <-  tmp %>% 
+  mutate(agegrp = cut(age, 
+                      breaks = c(0, 20, 40, 60, 80, 110),
+                      ordered = TRUE)) # order your measure if you wish
+
+tmp %>% 
+  count(agegrp)
+
+```
+
+# Date lags
+
+- Date arithmetic is tricky! Read the vignettes in the `lubridate` package.
+
+```{r}
+
+library(tidyverse)
+library(lubridate)
+
+## Make some data:
+## Three subjects, each with five observations 
+## on random (but sequential within-subject) 
+## dates between Jan 1 2020 and Jan 1 2021
+df <- expand_grid(
+  subject = c("A", "B", "C"),
+  observation = 1:5) %>% 
+  group_by(subject) %>% 
+  mutate(date_obs = sort(sample(seq(as_date("2020-01-01"), 
+                       as_date("2021-01-01"), by="day"), 5))) %>% 
+  ungroup()
+
+## Use lag() to calculate days elapsed between 
+## observations within subject.
+df %>% 
+  group_by(subject) %>% 
+  mutate(gap = date_obs - lag(date_obs, order_by = observation)) 
+
+```
+
 
 
 
