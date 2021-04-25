@@ -36,7 +36,7 @@ Datasets we will use during the course.
 
 ### The `code/` folder
 
-All of the code snippets from the slides, in a form you can use.
+All of the code snippets from the slides, as R script files.
 
 ### The `pdf_slides/` folder
 
@@ -44,7 +44,7 @@ PDF versions of the slides from the course.
 
 ### The `slides/` folder
 
-RMarkdown files and various supporting files to generate HTML versions of the slides. The HTML versions can be viewed in a web browser. These RMarkdown files require supporting packages that I did not ask you to install beforehand, so do not expect them to work out of the box.
+RMarkdown files and various supporting files to generate HTML versions of the slides. The HTML versions can be viewed in a web browser. These RMarkdown files require supporting packages that I did not ask you to install beforehand, so do not expect them to work out of the box. But if you install the packages that RStudio asks you to when you load one of the slide files, you should be able to compile it and view it in an external browser. Click the "Show in new Window" icon from the Viewer tab---the one that looks like a tiny browser window with an arrow on top; it's to the right of the tiny broom icon---to launch the slides in your browser. When you first launch, give your browser a minute to organize everything, because (a) it’s going to be a large file, so this will be like waiting for a very big webpage to load, and (b) It will have to grab some fonts from the Google Fonts service. You may see things first appear in Times New Roman and then be replaced by the correct font once it gets cached. Press "o" on your keyboard to get an overview of all the slides.
 
 
 
