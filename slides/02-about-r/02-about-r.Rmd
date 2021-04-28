@@ -576,7 +576,7 @@ We can create an object with the `c()` function and the *assignment operator*, `
 
 ---
 
-# Assignment with `=`
+# Assignment with .kjh-green[`=`]
 
 - You can use "`=`" as well as "`<-`" for assignment
 
@@ -597,7 +597,7 @@ I'm going to use "`<-`" for assigment throughout. Just be consistent either way.
 
 ---
 
-# Assignment with `=`
+# Assignment with .kjh-green[`=`]
 
 .center[![:scale 100%](img/gordon_assignment.png)]
 
@@ -818,7 +818,7 @@ c(1:20) %>%
 
 ---
 
-# Piped operations make code more readable
+# Piped operations make code more .kjh-green[readable]
 
 Not great, Bob:
 
@@ -850,7 +850,7 @@ serve(
 
 ---
 
-# Piped operations make code more readable
+# Piped operations make code more .kjh-green[readable]
 
 Much nicer:
 
@@ -882,11 +882,12 @@ It's been so successful, a version of it will soon be incorporated into Base R.
 
 --
 
-It will be denoted by **`|>`** and should be a direct replacement for **`%>%`** in almost every case
+It will be denoted by **`|>`**. But! It will not _quite_ replace **`%>%`** in every case.\* 
 
---
 
-The magrittr pipe will continue to work, though.
+The magrittr pipe will continue to work as shown in these slides.
+
+.footnote.tiny[.kjh-darkgrey[\*With the new pipe, you can only pass an object to the _first_ argument in a function. This is fine for most tidyverse pipelines, where the first argument is usually (implicitly) the data. But it does mean that most Base R functions will continue not to be easily piped, as most of them do not follow the convention of passing the current data as the first argument]]
 
 ---
 
@@ -1047,7 +1048,7 @@ class(my_smry) # equivalent to the previous line
 
 ---
 
-# 5. .kjh-yellow[Objects come in types and classes]
+# 5. Objects come in ,kjh-yellow[types and classes]
 
 
 ```{r 02-about-r-51}
@@ -1061,7 +1062,7 @@ names(my_smry)
 
 ---
 
-# The most common types of vector
+# The most common types of .kjh-green[vector]
 
 .pull-left.tiny.kjh-darkgrey[
 
@@ -1095,7 +1096,7 @@ is.logical(my_lgl)
 
 ---
 
-# The most common types of vector
+# The most common types of .kjh-green[vector]
 
 .pull-left.tiny.kjh-darkgrey[
 
@@ -1110,13 +1111,14 @@ is.logical(my_lgl)
 .pull-right.small[
 
 ```{r 02-about-r-53}
+## Factors are for storing undordered or ordered categorical variables
 x <- factor(c("Yes", "No", "No", "Maybe", "Yes", "Yes", "Yes", "No"))
 x
 
-summary(x)
+summary(x) # Alphabetical order by default
 
-typeof(x)
-attributes(x)
+typeof(x)       # Underneath, a factor is a type of integer ...
+attributes(x)   # ... with labels for its numbers, or "levels" 
 class(x)
 levels(x)
 is.ordered(x)
@@ -1140,7 +1142,7 @@ Durations, which are stored in difftime vectors.
 ---
 
 
-# Some things can't be directly combined
+# Vector types can't be heterogenous 
 
 - .small[Objects can be manually or automatically coerced from one class to another. Take care.]
 
@@ -1152,7 +1154,7 @@ class(my_numbers)
 
 my_new_vector <- c(my_numbers, "Apple")
 
-my_new_vector # vectors are homogeneous
+my_new_vector # vectors are homogeneous/atomic
 
 class(my_new_vector)
 ```
@@ -1252,7 +1254,7 @@ gss_sm
 
 --
 
-.SMALL.squish2[Tidyverse tools are generally _type safe_, meaning their functions return the same type of thing every time, and often require the same type of input that they return as output. So it's good to know about the various data types.]
+.SMALL.squish2[Tidyverse tools are generally _type safe_, meaning their functions return the same type of thing every time, or fail if they cannot do this. So it's good to know about the various data types.]
 
 ---
 
