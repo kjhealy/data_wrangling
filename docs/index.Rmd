@@ -85,7 +85,7 @@ _Notes:_
 
 - Once you have downloaded the packet, _make sure you uncompress the zip file into a folder_. Some versions of the Windows file manager allow you to browse the contents of a zip file without actually uncompressing it. For the packet to be useful, make sure it is uncompressed.
 
-- There are still one or two files of additional slides and code to be added to the packet. I will update these during the course. However what is there now will not change.
+- At the end of the course, I will update the slides and working files as needed to reflect the material we covered. This will allow additional examples or cases that come up during the seminar to be incorporated into the course packet.
 
 
 # The Course Slack
