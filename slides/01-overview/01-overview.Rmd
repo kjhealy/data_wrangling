@@ -262,7 +262,7 @@ class: title title-1
 ---
 
 # Where statistical computing lives
-
++
 .pull-left[
 <figure>
   <img src="img/mac_and_imac.png" alt="iPhone and iPad" title="iPhone and iPad" width="70%">
