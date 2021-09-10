@@ -49,7 +49,7 @@ class: center middle main-title section-title-1
 **Session 1**
 
 .light[Kieran Healy<br>
-Statistical Horizons, April 2021]
+Statistical Horizons, September 2021]
 
 ]
 
@@ -72,15 +72,15 @@ class: title title-1
 
 ## Lab session from 5pm to 6pm US EST
 
+- On Thursday and Friday
+
 --
 
 ## .kjh-blue[Use the Zoom chat to ask questions, or raise a hand with ![:scale 5%](img/zoom_raise_hand.png)]
 
 ???
 
-- Very useful
--  I can pop questions up on screen for everyone to see.
-- breaks: 5 at 11, 15 at noon, 5 at 1
+- breaks: At 11am, around noon, and 1pm
 
 ---
 
@@ -357,7 +357,7 @@ class: title title-1
 
 - Formatted documents are real.
 
-- Intermediate outputs get pasted in.
+- Intermediate outputs are cut and pasted into documents.
 
 - Changes are tracked inside files.
 
@@ -373,7 +373,7 @@ class: title title-1
 
 - Plain-text files are real.
 
-- Intermediate outputs are incorporated via code.
+- Intermediate outputs are produced via code, often inside documents.
 
 - Changes are tracked outside files.
 
@@ -394,7 +394,7 @@ class: title title-1
 
 - Where did this table of results come from?.
 
-- .small[`Paper_Submission_Final_edits_FINAL_khcomments-1.docx`]
+- .small[`Paper_Submitted_Final_edits_FINAL_kh-1.docx`]
 
 ]
 
@@ -444,7 +444,7 @@ class: title title-1
 
 ---
 
-# An IDE for Meals
+# A kitchen is an IDE for Meals
 
 .center[![:scale 70% "Kitchen"](img/jp-pouring-oil1920.jpg)]
 

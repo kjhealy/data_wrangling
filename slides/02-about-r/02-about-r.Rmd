@@ -49,7 +49,7 @@ class: center middle main-title section-title-1
 **Session 2**
 
 .light[Kieran Healy<br>
-Statistical Horizons, April 2021]
+Statistical Horizons, September 2021]
 
 ]
 
@@ -872,17 +872,17 @@ We'll still use nested parentheses quite a bit, often in the context of a functi
 ---
 
 
-# Coming soon to an R near you: .kjh-yellow[|>]
+# Now showing at an R near you: .kjh-yellow[|>]
 
 The pipe operator **`%>%`** is not part of Base R. It was introduced in a package called `magrittr`. 
 
 --
 
-It's been so successful, a version of it will soon be incorporated into Base R.
+It's been so successful, a version of it has been incorporated into Base R.
 
 --
 
-It will be denoted by **`|>`**. But! It will not _quite_ replace **`%>%`** in every case.\* 
+It is denoted by **`|>`**. But! It does not _quite_ replace **`%>%`** in every case.\* 
 
 
 The magrittr pipe will continue to work as shown in these slides.
@@ -1010,7 +1010,7 @@ y
 
 ---
 
-# 5. .kjh-yellow[Objects come in types and classes]
+# 5. Objects come in .kjh-yellow[types] and .kjh-yellow[classes]
 
 I'm going to speak somewhat loosely here for now, and gloss over some distinctions between object classes and data structures, as well as kinds of objects and their attributes.
 
@@ -1030,7 +1030,7 @@ typeof(my_numbers)
 
 ---
 
-# 5. .kjh-yellow[Objects come in types and classes]
+# 5. Objects come in .kjh-yellow[types] and .kjh-yellow[classes]
 
 Objects can have more than one (nested) class:
 
@@ -1048,7 +1048,7 @@ class(my_smry) # equivalent to the previous line
 
 ---
 
-# 5. Objects come in ,kjh-yellow[types and classes]
+# 5. Objects come in .kjh-yellow[types] and .kjh-yellow[classes]
 
 
 ```{r 02-about-r-51}

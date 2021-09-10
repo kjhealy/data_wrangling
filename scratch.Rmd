@@ -257,5 +257,28 @@ df %>%
 ```
 
 
+```{r}
+library(dplyr)
+
+df <- tibble(sold_quotes = sample(1e6, 1e3, replace = TRUE))
+
+pctiles <- seq(0, 1, 0.001)
+
+df %>% 
+  arrange(desc(sold_quotes)) %>% 
+  mutate(percentile = cut(sold_quotes, 
+                      quantile(sold_quotes, 
+                               probs = pctiles), 
+                      labels = pctiles[2:length(pctiles)]*100)) 
+         
+
+
+```
+
+
+```{r}
+
+```
+
 
 

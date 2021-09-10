@@ -49,7 +49,7 @@ class: center middle main-title section-title-1
 **Session 5**
 
 .light[Kieran Healy<br>
-Statistical Horizons, April 2021]
+Statistical Horizons, September 2021]
 
 ]
 
