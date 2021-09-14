@@ -354,7 +354,7 @@ CDC/NCHS data: [Provisional COVID-19 Death Counts by Sex, Age, and State](https:
 
 
 ```{r 06-getting-data-in-11, warning = TRUE}
-nchs <- read_csv(here("data", "SAS_on_2021-04-13.csv"))
+nchs <- with_edition(1, read_csv(here("data", "SAS_on_2021-04-13.csv")))
 ```
 
 ---
@@ -522,7 +522,7 @@ In this case, this is due to the kind of data this is, mixing multiple reporting
 # OK, let's go back to the colspec!
 
 ```{r 06-getting-data-in-25, message = TRUE}
-nchs <- read_csv(here("data", "SAS_on_2021-04-13.csv")) 
+nchs <- with_edition(1, read_csv(here("data", "SAS_on_2021-04-13.csv"))) 
 ```
 
 We can just copy it from the console output! It's valid code.
@@ -532,7 +532,7 @@ We can just copy it from the console output! It's valid code.
 # We use it with .kjh-yellow[col_types]
 
 ```r
-nchs <- read_csv(here("data", "SAS_on_2021-04-13.csv"), 
+nchs <- with_edition(1, read_csv(here("data", "SAS_on_2021-04-13.csv"), 
            col_types = cols(
   `Data As Of` = col_character(),
   `Start Date` = col_character(),
@@ -550,7 +550,7 @@ nchs <- read_csv(here("data", "SAS_on_2021-04-13.csv"),
   `Influenza Deaths` = col_double(),
   `Pneumonia, Influenza, or COVID-19 Deaths` = col_double(),
   Footnote = col_character()
-)
+)))
 
 ```
 
@@ -570,7 +570,7 @@ Copying a _valid_ colspec is good practice if the underlying data changes!
 # Date format
 us_style <-  "%m/%d/%Y" #<<
 
-nchs <- read_csv(
+nchs <- with_edition(1, read_csv(
   here("data", "SAS_on_2021-04-13.csv"),
   col_types = cols(
     `Data As Of` = col_date(format = us_style),#<<
@@ -594,6 +594,7 @@ nchs <- read_csv(
   select(-footnote) %>%
   mutate(age_group = stringr::str_to_sentence(age_group)) %>%
   filter(!stringr::str_detect(state, "Total"))
+)
 ```
 ]
 ---

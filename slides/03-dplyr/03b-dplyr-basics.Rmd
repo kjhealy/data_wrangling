@@ -99,7 +99,7 @@ covnat_weekly
 
 ```{r 03-dplyr-basics-49}
 covnat_weekly %>% 
-  filter(cname == "United States") %>% 
+  filter(iso3 == "USA") %>% 
   select(date, cname, iso3, cases) %>% 
   mutate(cumulative = cumsum(cases)) 
 
@@ -114,7 +114,7 @@ covnat_weekly %>%
 ```{r 03-dplyr-basics-50}
 covnat_weekly %>% 
   select(date, cname, iso3, deaths) %>% 
-  filter(cname == "United States") %>% 
+  filter(iso3 == "USA") %>% 
   filter(cume_dist(desc(deaths)) < 0.1) # i.e. Top 10%
 
 ```
