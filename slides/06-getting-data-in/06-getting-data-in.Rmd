@@ -1114,7 +1114,10 @@ gss_sub
 
 ---
 
-```{r gss1, include = FALSE}
+# The GSS Panel: Recoding
+
+```{r gssproblem}
+
 gss_sub %>% 
   mutate(across(everything(), zap_missing)) %>% 
   mutate(across(all_of(wt_vars), as.numeric)) %>% 
@@ -1123,9 +1126,8 @@ gss_sub %>%
   mutate(across(all_of(cat_vars), fct_relabel, tolower)) %>% 
   mutate(across(all_of(cat_vars), fct_relabel, tools::toTitleCase)) %>% 
   mutate(income = stringr::str_replace(income, " - ", "-")) 
-```
 
-`r chunk_reveal("gss1", widths = c(35,65), title = "# The GSS panel: recoding")`
+```
 
 ---
 
@@ -1177,7 +1179,7 @@ gss_sub %>%
 
 ```
 
-We'll need clean up those labels.
+We'll need to clean up those labels.
 
 ---
 
@@ -1284,7 +1286,9 @@ gss_sub <- gss_sub %>%
 # GSS Panel
 
 ```{r 06-getting-data-in-64}
-gss_sub
+gss_sub %>% 
+  select(sex, year, year_f, age, young, fefam, fefam_d) %>% 
+  sample_n(15)
 ```
 
 ---
@@ -1422,5 +1426,4 @@ gss_sub %>%
   count(degree_o)
 ```
 
----
 
