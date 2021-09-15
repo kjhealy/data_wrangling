@@ -109,7 +109,7 @@ class: title title-1
 
 ---
 
-# This Morning's Goals
+# Goals for this first session
 
 &nbsp;
 
