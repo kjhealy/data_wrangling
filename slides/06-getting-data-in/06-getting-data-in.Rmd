@@ -244,7 +244,7 @@ Both are special cases of `read_delim()`
 
 # Also often useful ...
 
-- `read_table()` and `read_table2()` 
+- `read_table()`  
 
 Data that's separated by one (or more) columns of space.
 
@@ -322,7 +322,7 @@ They may guess incorrectly!
 
 ```{r 06-janitor-pipeline, include = FALSE}
 read_table(here("data", "mortality.txt"), 
-                      skip = 2, na = ".") %>% 
+           skip = 2, na = ".") %>% 
   janitor::clean_names() %>% 
   mutate(age = as.integer(recode(age, "110+" = "110")))
 ```
@@ -1386,7 +1386,7 @@ summary(lm(age ~ sex, data = gss_sub))
 
 # More on .kjh-yellow[factors]
 
-Relevel manually
+Interact or cross factors
 
 .SMALL[
 

@@ -378,6 +378,22 @@ class: title title-1
 
 ---
 
+# Note: .kjh-yellow[read_csv()] can do this directly now
+
+```{r 07-iterating-on-data-16a}
+tmp <- read_csv(filenames, id = "path",
+                name_repair = janitor::make_clean_names)
+
+tmp %>% 
+  mutate(congress = stringr::str_extract(path, "_\\d{2,3}_congress"), 
+         congress = stringr::str_extract(congress, "\\d{2,3}")) %>% 
+  relocate(congress)
+
+```
+
+
+---
+
 # Cleaning up .kjh-yellow[congress]
 
 ```{r 07-iterating-on-data-17}
@@ -401,7 +417,6 @@ In particular it has many convenience functions to help with the many different 
 library(lubridate)
 
 date_recodes <- c("born", "death", "start", "end")
-
 df <- df %>% 
     mutate(across(any_of(date_recodes), mdy), 
            congress = as.double(congress) + 78)
