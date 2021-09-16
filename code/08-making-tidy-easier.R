@@ -1,5 +1,5 @@
 ## ----setup, include=FALSE---------------------------------------------------------------------------------------------------------
-knitr::opts_chunk$set(warning = FALSE, message = FALSE,
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
                       fig.retina = 3, fig.align = "center")
 
 
@@ -33,18 +33,18 @@ library(reprex)
 ## ----08-making-tidy-easier-2------------------------------------------------------------------------------------------------------
 library(tidyverse)
 
-starwars %>%
-  count(homeworld, species) %>%
-  mutate(pct = n / sum(n) * 100) %>%
+starwars %>% 
+  count(homeworld, species) %>% 
+  mutate(pct = n / sum(n) * 100) %>% 
   arrange(desc(pct))
 
 
 ## ----08-making-tidy-easier-3, echo=FALSE------------------------------------------------------------------------------------------
 # Oh no, its the GSS
-gss_sm %>%
-  count(bigregion, religion) %>%
-  pivot_wider(names_from =  bigregion,
-              values_from  = n) %>%
+gss_sm %>% 
+  count(bigregion, religion) %>% 
+  pivot_wider(names_from =  bigregion, 
+              values_from  = n) %>% 
   knitr::kable()
 
 
@@ -67,7 +67,7 @@ trial
 
 
 ## ----08-making-tidy-easier-6, echo = FALSE----------------------------------------------------------------------------------------
-trial %>%
+trial %>% 
   tbl_summary(
     by = trt, # split table by group
     missing = "no" # don't list missing data separately
@@ -92,9 +92,9 @@ trial %>%
 
 
 ## ----08-making-tidy-easier-8, echo = FALSE----------------------------------------------------------------------------------------
-gss_sm %>%
-  select(race, degree, marital) %>%
-  drop_na() %>%
+gss_sm %>% 
+  select(race, degree, marital) %>% 
+  drop_na() %>% 
   tbl_summary(
     by = race, # split table by group
     missing = "no" # don't list missing data separately
@@ -126,8 +126,8 @@ trial %>%
     by = trt,
     type = all_continuous() ~ "continuous2",
     statistic = all_continuous() ~ c("{N_nonmiss}",
-                                     "{mean} ({sd})",
-                                     "{median} ({p25}, {p75})",
+                                     "{mean} ({sd})", 
+                                     "{median} ({p25}, {p75})", 
                                      "{min}, {max}"),
     missing = "no"
   ) %>%
@@ -144,7 +144,7 @@ fit_ols <- function(df) {
 
 
 out_le <- gapminder %>%
-  filter(continent %nin% "Oceania") %>%
+  filter(continent %nin% "Oceania") %>% 
   group_by(continent) %>%
   nest() %>%
   mutate(model = map(data, fit_ols),
@@ -173,7 +173,7 @@ text_ready <- out_le %>%
     ci = glue::glue("[{conf.low}, {conf.high}]")
   ) %>%
   select(continent, term, estimate, se, ci)
-
+  
 
 
 ## ----08-making-tidy-easier-14-----------------------------------------------------------------------------------------------------
@@ -182,7 +182,7 @@ text_ready
 
 ## ----08-making-tidy-easier-15-----------------------------------------------------------------------------------------------------
 
-stats <- text_ready %>%
+stats <- text_ready %>% 
   mutate(term = janitor::make_clean_names(term)) %>%
   printy::super_split(continent, term) # Thanks again, TJ Mahr
 
@@ -244,10 +244,10 @@ stmf_raw <- get_stmf(skip = 2) %>%
   mutate(age_group = stringr::str_replace(age_group, "_", "-"),
          age_group = stringr::str_replace(age_group, "p", "+")) %>%
   rename(death_count = d, death_rate = r) %>%
-  mutate(approx_date = paste0(year, "-", "W",
+  mutate(approx_date = paste0(year, "-", "W", 
                               stringr::str_pad(week, width = 2, pad = "0"), "-", "7"),
          approx_date = ISOweek::ISOweek2date(approx_date)) %>%
-  select(country_code:sex, split:forecast, approx_date,
+  select(country_code:sex, split:forecast, approx_date, 
          age_group:death_rate, deaths_total, rate_total) %>%
   mutate(country_code = replace(country_code, country_code == "AUS2", "AUS"),
          country_code = replace(country_code, country_code == "NZL_NP", "NZL"))
@@ -290,35 +290,47 @@ stmf
 
 ## ---------------------------------------------------------------------------------------------------------------------------------
 
-## countries
-test_that("countries conforms to spec", {
-  countries_colnames <- c("cname", "iso3", "iso2", "continent")
-  expect_equal(colnames(countries), countries_colnames)
-})
-
-
 ## stmf
-test_that("stmf conforms to spec", {
-  stmf_colnames <- c("country_code", "cname", "iso2", "continent", "iso3", "year",
+stmf_colnames <- c("country_code", "cname", "iso2", "continent", "iso3", "year",
                      "week", "sex", "split", "split_sex", "forecast", "approx_date",
                      "age_group", "death_count", "death_rate", "deaths_total", "rate_total")
-  expect_equal(colnames(stmf), stmf_colnames)
-})
+
+all.equal(colnames(stmf), stmf_colnames)
 
 
 
-## ----08-making-tidy-easier-test-8-------------------------------------------------------------------------------------------------
 
-testthat::test_dir(here("tests", "testthat"))
+## ---- eval = FALSE, echo = TRUE---------------------------------------------------------------------------------------------------
+## 
+## ## countries
+## test_that("countries conforms to spec", {
+##   countries_colnames <- c("cname", "iso3", "iso2", "continent")
+##   expect_equal(colnames(countries), countries_colnames)
+## })
+## 
+## 
+## ## stmf
+## test_that("stmf conforms to spec", {
+##   stmf_colnames <- c("country_code", "cname", "iso2", "continent", "iso3", "year",
+##                      "week", "sex", "split", "split_sex", "forecast", "approx_date",
+##                      "age_group", "death_count", "death_rate", "deaths_total", "rate_total")
+##   expect_equal(colnames(stmf), stmf_colnames)
+## })
+## 
 
-## ✓ |  OK F W S | Context
-##
-##- |   0       | stmf
-##- |   0       | Validating package data objects
-##✓ |   2       | Validating package data objects
-##
-## ══ Results ═════════════════════════════════════════════════════════════════════
-## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 2 ]
 
-
+## ----08-making-tidy-easier-test-8, eval = FALSE, echo = TRUE----------------------------------------------------------------------
+## 
+## testthat::test_dir(here("tests", "testthat"))
+## 
+## ## ✓ |  OK F W S | Context
+## ##
+## ## - |   0       | stmf
+## ## - |   0       | Validating package data objects
+## ## ✓ |   2       | Validating package data objects
+## ##
+## ## ══ Results ═════════════════════════════════════════════════════════════════════
+## ## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 2 ]
+## 
+## 
 

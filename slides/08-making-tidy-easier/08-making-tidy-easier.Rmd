@@ -542,6 +542,30 @@ stmf
 
 ---
 
+# For example, manually
+
+```{r}
+
+## stmf
+stmf_colnames <- c("country_code", "cname", "iso2", "continent", "iso3", "year",
+                     "week", "sex", "split", "split_sex", "forecast", "approx_date",
+                     "age_group", "death_count", "death_rate", "deaths_total", "rate_total")
+
+all.equal(colnames(stmf), stmf_colnames)
+
+
+```
+
+--
+
+- Imagine how you might build up a set of tests and checks
+
+--
+
+- But you don't have to manage this manually
+
+---
+
 # Use .kjh-green[testthat] to implement some checking
 
 ```{r, eval = FALSE, echo = TRUE}
