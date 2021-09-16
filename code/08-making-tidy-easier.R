@@ -334,3 +334,43 @@ all.equal(colnames(stmf), stmf_colnames)
 ## 
 ## 
 
+
+## ----skimr-1----------------------------------------------------------------------------------------------------------------------
+library(skimr)
+
+
+## ----skimr-2----------------------------------------------------------------------------------------------------------------------
+library(skimr)
+organdata <- read_csv(here("data", "organdonation.csv"))
+
+
+
+## ----skimr-3----------------------------------------------------------------------------------------------------------------------
+organdata %>% skim(where(is.numeric)) %>% partition()
+
+
+## ----skimr-4----------------------------------------------------------------------------------------------------------------------
+organdata %>% skim(!where(is.numeric)) %>% partition()
+
+
+## ---------------------------------------------------------------------------------------------------------------------------------
+stmf_country_years <- function(df = stmf) {
+
+  df %>%
+    dplyr::select(cname, year) %>%
+    dplyr::group_by(cname, year) %>%
+    dplyr::tally() %>%
+    dplyr::mutate(n = as.character(n),
+           n = dplyr::recode(n, "0" = "-", .default = "Y")) %>%
+    dplyr::group_by(year, cname) %>%
+    dplyr::arrange(year) %>%
+    tidyr::pivot_wider(names_from = year, values_from = n) %>%
+    dplyr::mutate(dplyr::across(where(is.character), dplyr::recode, .missing = "-")) %>%
+    dplyr::arrange(cname)
+}
+
+
+
+## ---------------------------------------------------------------------------------------------------------------------------------
+kable(stmf_country_years())
+
