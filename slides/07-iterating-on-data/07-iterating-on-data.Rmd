@@ -1,5 +1,5 @@
 ---
-title: "Data Wrangling - 7. .kjh-green[Iterating] on data"
+title: "Data Wrangling - 7. Iterating on data"
 author: "Kieran Healy"
 date: "`r Sys.Date()`"
 output:
