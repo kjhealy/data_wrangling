@@ -186,7 +186,7 @@ class: main-title main-title-inv
 
 --
 
-- .center.SMALL[_By far_ the best way to get a feel for R works, and to get comfortable with the cycle of<br/> try-fail-cry-fix-wail-retry that is a permanent part of writing any code.]
+- .center.SMALL[_By far_ the best way to get a feel for how R works, and to get comfortable with the cycle of<br/> try-fail-cry-fix-wail-retry that is a permanent part of writing any code.]
 
 
 ---
