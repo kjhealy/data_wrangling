@@ -70,9 +70,9 @@ class: title title-1
 
 --
 
-## Lab session from 5pm to 6pm US EST
+## Lab session from 4pm to 5pm US EST
 
-- On Thursday and Friday
+- On First and Second Days
 
 --
 
