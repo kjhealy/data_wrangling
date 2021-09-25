@@ -109,6 +109,20 @@ class: title title-1
 
 ---
 
+# My Setup and Yours
+
+&nbsp;
+
+--
+
+## Talking, Slides, and Live-Coding in RStudio 
+
+## Follow along with RStudio yourself if you can
+
+## The course packet is also an RStudio project and the place for your notes
+
+---
+
 # Goals for this first session
 
 &nbsp;

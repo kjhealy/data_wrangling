@@ -29,6 +29,8 @@ Some things to find:
 ```{r}
 ukvote2019 %>% 
   filter(constituency == "Dover")
+
+
 ```
 
 - How many candidates did each party run in the election as a whole?

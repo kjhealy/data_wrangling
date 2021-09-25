@@ -76,19 +76,29 @@ qualtrics2 <- read_csv(here("data", "qualtrics.csv")) %>%
 library(stringr)
 library(lubridate)
 
-chat <- read_lines(here("data", "chat.txt"))
+chat <- read_lines(here("data", "meeting_saved_chat.txt"))
 chat
 length(chat)
+
+chat[1]
 
 # Parsing the chat
 chat_df <- tibble(
     time = as_datetime(paste(today(), str_extract(chat, "\\d{2}:\\d{2}:\\d{2}")), tz = "EST"),
-    from = str_replace(chat, "(\\d{2}:\\d{2}:\\d{2} From )(.+?)( to Everyone .+?$)", "\\2"),
-    message = str_replace(chat, "(\\d{2}:\\d{2}:\\d{2} From )(.+?)( to Everyone : )(.+?$)", "\\4")
-)
+    from = str_replace(chat, "(\\d{2}:\\d{2}:\\d{2} From )(.+?)( to Everyone:\t.+?$)", "\\2"),
+    message = str_replace(chat, "(\\d{2}:\\d{2}:\\d{2} From )(.+?)( to Everyone:\t)(.+?$)", "\\4")
+    ) %>% 
+  mutate(first = str_extract(from, "^\\w+?(\\s|$)"),
+         first = str_trim(first),
+         pronouns = str_extract(from, "\\(.+?\\)"), 
+         pronouns = str_remove_all(pronouns, "(\\(|\\))")) %>% 
+  select(time, first, pronouns, message, from)
 
 chat_df %>% 
-  group_by(from) %>% 
+  print(n = "all")
+
+chat_df %>% 
+  group_by(first) %>% 
   tally() %>% 
   arrange(desc(n))
 

@@ -825,7 +825,7 @@ read_csv(here("data", "rfm_table.csv")) %>%
   select(-value) %>%
   pivot_wider(names_from = name, 
               values_from = lo:hi) %>%
-  mutate_if(is.integer, replace_na, 0) %>%
+  mutate(across(where(is.integer), replace_na, 0)) %>% 
   select(segment, 
          lo_r, hi_r, 
          lo_f, hi_f, 
@@ -850,7 +850,7 @@ rfm_table <- read_csv(here("data", "rfm_table.csv")) %>%
   select(-value) %>%
   pivot_wider(names_from = name, 
               values_from = lo:hi) %>%
-  mutate_if(is.integer, replace_na, 0) %>%
+  mutate(across(where(is.integer), replace_na, 0)) %>% 
   select(segment, 
          lo_r, hi_r, 
          lo_f, hi_f, 
