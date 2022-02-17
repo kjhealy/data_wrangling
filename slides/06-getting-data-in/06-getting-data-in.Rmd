@@ -213,13 +213,13 @@ See [the `here` project page](https://here.r-lib.org) for more details.
 # .kjh-yellow[read_csv()] comes in different varieties
 
 
-## `read_csv() `Field separator is **`,`**
+## `read_csv()` Field separator is a comma: .kjh-red[**`,`**]
 
 ```{r 06-getting-data-in-6}
 organs <- read_csv(file = here("data", "organdonation.csv"))
 ```
 
-## `read_csv2()` Field separator is **`,`**
+## `read_csv2()` Field separator is a semicolon: .kjh-red[**`;`**]
 
 ```r
 # Example only
@@ -294,7 +294,7 @@ engmort
 
 ---
 
-# Pay attention to the .kjh-yellow[column specification]
+# Attend to the .kjh-yellow[column specification]
 
 ```{r 06-getting-data-in-9, message=TRUE}
 engmort <- read_table(here("data", "mortality.txt"), 
@@ -312,7 +312,7 @@ Why is `age` imported in `character` format?
 
 ---
 
-# Pay attention to the .kjh-yellow[column specification]
+# Attend to the .kjh-yellow[column specification]
 
 Absent you giving them a column specification, the `read_` functions try to _guess_ what the type of each column is. They do this by looking at the first thousand rows of each column. 
 
@@ -794,10 +794,15 @@ What if we only want to drop all rows with _all_ missing cases?
 ```{r 06-getting-data-in-39}
 # 3
 df %>% 
-  filter(!(is.na(.))) # Pronoun
+  filter(!if_all(everything(), ~ is.na(.x))) # Pronoun
+
+# 4 Convenience function from janitor
+df %>% 
+  janitor::remove_empty("rows")
+
 ```
 
-Read **`.`** as "the thing we're looking at" or "the thing we're computing on right now".
+.small[Read **`.x`** as "the column we're looking at" or "the variable we're computing on right now".]
 
 ???
 
@@ -817,7 +822,7 @@ With that in mind ... Some marketing data
 
 read_csv(here("data", "rfm_table.csv")) %>% 
   janitor::clean_names() %>%
-  filter(!(is.na(.))) %>% #<<
+  janitor::remove_empty("rows") %>% 
   pivot_longer(cols = r:m) %>% 
   separate(col = value, into = c("lo", "hi"), 
            remove = FALSE, convert = TRUE, 
@@ -842,7 +847,7 @@ read_csv(here("data", "rfm_table.csv")) %>%
 ```{r 06-getting-data-in-41, echo = FALSE}
 rfm_table <- read_csv(here("data", "rfm_table.csv")) %>% 
   janitor::clean_names() %>%
-  filter(!(is.na(.))) %>% #<<
+  janitor::remove_empty("rows") %>% 
   pivot_longer(cols = r:m) %>% 
   separate(col = value, into = c("lo", "hi"), 
            remove = FALSE, convert = TRUE, 
@@ -928,7 +933,7 @@ rfm_table %>%
 
 ---
 
-# Rowwise operations aren't very efficient
+# Rowwise isn't very efficient
 
 In general, you'll want to see if some vectorized ("operating on columns, but elementwise") function exists, as it'll be faster. 
 
