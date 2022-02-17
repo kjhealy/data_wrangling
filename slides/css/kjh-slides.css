@@ -2,7 +2,7 @@
 Typography
 */
 .remark-slide-content {
-  font-size: 36px;
+  font-size: 32px;
   /* Base font size */
   padding: 1em 1em 1em 1em;
   background-color: #F6F6F6;
@@ -13,15 +13,16 @@ Typography
 }
 
 .remark-slide-content h1 {
-  font-weight: bold;
-  font-size: 1.7em;
+  font-size: 2.2em;
   line-height: 1;
   margin-top: 0;
   text-align: center;
 }
 
+
 .huge {
   font-size: 2.2em;
+  font-weight: 800;
 }
 
 .large {
@@ -201,7 +202,7 @@ Main title and section title slides
 }
 
 .main-title h1 {
-  font-weight: 800;
+  font-weight: 500;
   font-size: 2.8em;
   line-height: 1.2;
   margin-bottom: 2em;
