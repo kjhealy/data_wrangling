@@ -4,7 +4,7 @@
 .httr-oauth
 .DS_Store
 slides/*.html
-slides/*_files/
+slides/**/*_files/
 slides/libs/
 slides/*/libs/
-slides/*/*.html
+slides/**/*.html
