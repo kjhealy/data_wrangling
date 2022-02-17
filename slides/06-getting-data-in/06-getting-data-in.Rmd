@@ -28,6 +28,7 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE,
 
 ```{r packages-data, include=FALSE}
 library(flipbookr)
+
 library(cowplot)
 ggplot2::theme_set(theme_cowplot())
 
@@ -732,12 +733,12 @@ p_out <- nchs_fmt %>%
 # Result
 
 ```{r 06-getting-data-in-35, echo = FALSE}
-theme_set(cowplot::theme_minimal_grid())
+#theme_set(cowplot::theme_minimal_grid())
 ```
 
 
 ```{r 06-getting-data-in-36, fig.height=5, fig.width=12}
-print(p_out)
+p_out
 ```
 
 ---
@@ -842,7 +843,7 @@ read_csv(here("data", "rfm_table.csv")) %>%
 
 ---
 
-# Maybe a candidate for .kjh-yellow[rowwise]?
+# Maybe a candidate for .kjh-yellow[`rowwise()`]?
 
 ```{r 06-getting-data-in-41, echo = FALSE}
 rfm_table <- read_csv(here("data", "rfm_table.csv")) %>% 
@@ -870,7 +871,7 @@ rfm_table
 
 ---
 
-# Maybe a candidate for .kjh-yellow[rowwise]?
+# Maybe a candidate for .kjh-yellow[`rowwise()`]?
 
 This does what we expect:
 
@@ -885,7 +886,7 @@ This adds each column, elementwise.
 
 ---
 
-# Maybe a candidate for .kjh-yellow[rowwise]?
+# Maybe a candidate for .kjh-yellow[`rowwise()`]?
 
 .squish4[But this does not:]
 
@@ -902,7 +903,7 @@ rfm_table %>%
 
 ---
 
-# Maybe a candidate for .kjh-yellow[rowwise]?
+# Maybe a candidate for .kjh-yellow[`rowwise()`]?
 
 Similarly, this will not give the answer we probably expect:
 
@@ -918,7 +919,7 @@ rfm_table %>%
 
 ---
 
-# Maybe a candidate for .kjh-yellow[rowwise]?
+# Maybe a candidate for .kjh-yellow[`rowwise()`]?
 
 But this will:
 

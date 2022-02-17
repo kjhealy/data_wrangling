@@ -202,7 +202,7 @@ class: title title-1
 layout: false
 class: main-title main-title-inv
 
-# .middle.squish4[HOWEVER, WE _CAN_<br />MAKE IT _.kjh-green[WORK]_]
+# .middle.squish4[<br /><br />HOWEVER, WE _CAN_<br />MAKE IT _.kjh-green[WORK]_]
 
 --
 
@@ -276,10 +276,10 @@ class: title title-1
 ---
 
 # Where statistical computing lives
-+
+
 .pull-left[
 <figure>
-  <img src="img/mac_and_imac.png" alt="iPhone and iPad" title="iPhone and iPad" width="70%">
+  <img src="img/mac_and_imac.png" alt="Mac and iMac" title="Mac and iMac" width="70%">
 </figure>
 ]
 
@@ -430,7 +430,7 @@ class: title title-1
 
 --
 
-## .center[Each approach generates solutions to its own problems, too]
+## .center[Each approach generates solutions to its own problems]
 
 ---
 
@@ -522,6 +522,6 @@ SWITCH TO MAC HERE
 
 ---
 
-# Consider not showing your output inline
+# Consider not showing output inline
 
 .center[![:scale 45% "Uncheck inline"](img/rstudio_uncheck_inline.png)]
