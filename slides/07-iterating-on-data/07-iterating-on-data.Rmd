@@ -6,7 +6,7 @@ output:
   xaringan::moon_reader:
     lib_dir: "libs"
     chakra: "../libs/remark-latest.min.js"
-    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css"]
+    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css", "https://webfonts.fontstand.com/WF-071092-e97bd661c8fe9c078b574a351e1ff289.css"]
     seal: false
     anchor_sections: false
     nature:
@@ -378,7 +378,7 @@ class: title title-1
 
 ---
 
-# Note: .kjh-yellow[read_csv()] can do this directly now
+# .kjh-yellow[read_csv()] can do this directly now
 
 ```{r 07-iterating-on-data-16a}
 tmp <- read_csv(filenames, id = "path",
