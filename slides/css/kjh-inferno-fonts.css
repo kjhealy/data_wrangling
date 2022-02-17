@@ -1,15 +1,74 @@
+/*
+Body text slab
+*/
+
 @font-face {
-font-family: 'Solitas Slab';
-src:
-    local('Solitas Slab Norm Light'),
-    local('SolitasSlab-NorLig');
+    font-family: 'Solitas Slab';
+    src: url('fonts/SolitasSlab-NorLig.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Solitas Slab';
+    src: url('fonts/SolitasSlab-NorMed.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Solitas Slab';
+    src: url('fonts/SolitasSlab-NorLigIt.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Solitas Slab';
+    src: url('fonts/SolitasSlab-NorMedIt.woff2') format('woff2');
+    font-weight: bold;
+    font-style: italic;
 }
 
 @font-face {
-font-family: 'Solitas Slab Condensed';
-src:
-    local('Solitas Slab Cond Medium'),
-    local('SolitasSlab-ConReg');
+  font-family: 'Solitas Slab';
+  src: url('fonts/SolitasSlab-ConBol.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Solitas Slab';
+  src: url('fonts/SolitasSlab-ConDem.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+
+/*
+Monospace
+*/
+
+@font-face {
+    font-family: 'MonoLisa';
+    src: url('fonts/MonoLisa-Regular-altg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'MonoLisa';
+    src: url('fonts/MonoLisa-Bold-altg.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'MonoLisa';
+    src: url('fonts/MonoLisa-RegularItalic-altg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'MonoLisa';
+    src: url('fonts/MonoLisa-BoldItalic-altg.woff2') format('woff2');
+    font-weight: bold;
+    font-style: italic;
 }
 
 
@@ -19,15 +78,12 @@ body {
 }
 
 h1 {
-  font-family: 'Solitas Slab Condensed', sans;
-  font-weight: 200;
+  font-weight: 500;
 }
+
 
 h2, h3 {
-    font-family: 'Solitas Slab Condensed', sans;
-
 }
-
 
 .remark-code, .remark-inline-code {
   font-family: 'MonoLisa', monospace;

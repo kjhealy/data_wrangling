@@ -32,9 +32,10 @@ $colors-light: (
 Typography
 */
 .remark-slide-content {
-    font-size: 36px;  /* Base font size */
+    font-size: 32px;  /* Base font size */
     padding: 1em 1em 1em 1em;
     background-color: #F6F6F6;
+    color: #333333;
 }
 
 .remark-slide-content p {
@@ -52,6 +53,8 @@ Typography
 
 .huge {
     font-size: 2.2em;
+    font-weight: 800;
+
 }
 
 .large {
@@ -324,6 +327,8 @@ Slides with title bars at the top
 .title h1 {
     margin-top: -85px;
     margin-bottom: 50px;
+    font-size: 2em;
+    font-weight: 800;
 }
 
 // Change the color of the top bar. This generates the following CSS:
