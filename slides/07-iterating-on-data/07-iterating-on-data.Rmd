@@ -6,7 +6,7 @@ output:
   xaringan::moon_reader:
     lib_dir: "libs"
     chakra: "../libs/remark-latest.min.js"
-    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css", "https://webfonts.fontstand.com/WF-071092-e97bd661c8fe9c078b574a351e1ff289.css"]
+    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css"]
     seal: false
     anchor_sections: false
     nature:
@@ -264,28 +264,28 @@ But you could also do this ...
 
 .pull-left[
 
-.SMALL[
 
 ```{r 07-iterating-on-data-11}
   map(gapminder, n_distinct)
 ```
-]
 
 ]
 
 .pull-right[
 Read it as "Feed each column of `gapminder` to the `n_distinct()` function.
+
+(This is pretty much what `across()` is doing more nicely.)
 ]
 
-.footnote[(This is pretty much what `across()` is doing more nicely.)]
+
+
+
 
 ---
 
 # .kjh-green[Iterating] in a pipeline
 
 .pull-left[
-
-.SMALL[
 
 Or, in pipeline form:
 
@@ -294,7 +294,6 @@ gapminder %>%
   map(n_distinct)
 ```
 
-]
 ]
 
 .pull-right[
@@ -633,6 +632,11 @@ library(visdat)
 
 organdata
 ```
+
+---
+
+# A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
+
 
 ```{r 07-iterating-on-data-29, fig.height=6, fig.width=8}
 gg_miss_var(organdata)
