@@ -21,6 +21,29 @@ knitr::opts_chunk$set(warning = FALSE,
                       dev = "ragg_png")
 
 
+
+slide_colors <- c(
+  `slate` = "#242E3D",
+  `pink` = "#FC2290",
+  `red` =  "#FB0307",
+  `orange` =  "#EF9B2D",
+  `yellow` =  "#FFFF54",
+  `lightgrey` = "#F6F6F6",
+  `grey` =  "#CBCBCB",
+  `darkgrey` =  "#C0C0C0",
+  `blue` =  "#212E3E",
+  `lblue` =  "#4EAFF0",
+  `green` = "#1BB71C"
+)
+
+# Reordered Okabe-Ito
+slide_colors_opt <- unname(palette.colors()[c(2:4,6:8,5,1,9)])
+
+## NB UK spelling of colour here
+options(ggplot2.discrete.colour = slide_colors_opt,
+        ggplot2.discrete.fill = slide_colors_opt)
+
+
 theme_baselayer <- function (base_size = 14, base_family = "")
 {
   thm <- ggplot2::theme_grey(base_size = base_size, base_family = base_family)
@@ -42,20 +65,6 @@ theme_baselayer <- function (base_size = 14, base_family = "")
 
 
 theme_solitas <- function (base_size = 12, base_family = "Solitas Slab Slide") {
-  slide_colors <- c(
-    `slate` = "#242E3D",
-    `pink` = "#FC2290",
-    `red` =  "#FB0307",
-    `orange` =  "#EF9B2D",
-    `yellow` =  "#FFFF54",
-    `lightgrey` = "#F6F6F6",
-    `grey` =  "#CBCBCB",
-    `darkgrey` =  "#C0C0C0",
-    `blue` =  "#212E3E",
-    `lblue` =  "#4EAFF0",
-    `green` = "#53D52A"
-  )
-
   (ggthemes::theme_foundation(base_size = base_size, base_family = base_family) +
       ggplot2::theme(line = ggplot2::element_line(colour = slide_colors["slate"]),
             rect = ggplot2::element_rect(fill = slide_colors["lightgrey"],
@@ -63,7 +72,7 @@ theme_solitas <- function (base_size = 12, base_family = "Solitas Slab Slide") {
             text = ggplot2::element_text(colour = slide_colors["slate"]),
             axis.title = ggplot2::element_text(ggplot2::rel(1.15)),
             axis.text = ggplot2::element_text(size = ggplot2::rel(1.15)),
-            strip.text = ggplot2::element_text(size = ggplot2::rel(1.15),
+            strip.text = ggplot2::element_text(size = ggplot2::rel(1.35),
                                                face = "bold"),
             axis.ticks = ggplot2::element_line(),
             axis.line = ggplot2::element_line(),
