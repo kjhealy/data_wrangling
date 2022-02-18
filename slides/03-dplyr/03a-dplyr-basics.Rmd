@@ -86,28 +86,57 @@ library(tidyverse) # your friend and mine
 
 # Tidyverse components, again
 
-.center[![:scale 100%](img/dplyr_1.png)]
+.pull-left[
+
+- .kjh-green[**`library`**]`(tidyverse)`
+- `Loading tidyverse: ggplot2`
+- `Loading tidyverse: tibble`
+- `Loading tidyverse: tidyr`
+- `Loading tidyverse: readr`
+- `Loading tidyverse: purrr`
+- `Loading tidyverse: dplyr`
+]
+
+--
+
+.pull-right[
+- Call the package and ...
+- `<|` **Draw graphs**
+- `<|` **Nicer data tables**
+- `<|` **Tidy your data**
+- `<|` **Get data into R**
+- `<|` **Fancy Iteration**
+- `<|` **Action verbs for tables**
+
+]
 
 ---
 
-# Tidyverse components, again
-
-.center[![:scale 100%](img/dplyr_2.png)]
-
----
 
 # Other tidyverse components
 
-.center[![:scale 100%](img/dplyr_addnl_1.png)]
+.top[.pull-left-narrow[   
+- `forcats`
+- `haven`
+- `lubridate`
+- `readxl`
+- `stringr`
+- `reprex`
+]]
 
----
+--
 
-# Other tidyverse components
+.top[.pull-right-wide[
+- `<|` **Deal with factors**
+- `<|` **Import Stata, SPSS, etc**
+- `<|` **Dates, Durations, Times**
+- `<|` **Import from spreadsheets**
+- `<|` **Strings and Regular Expressions**
+- `<|` **Make reproducible examples**
+]]
 
-.center[![:scale 100%](img/dplyr_addnl_2.png)]
-
-
-- Not all of these are attached when we do `library(tidyverse)`
+--
+.left.bottom[.footnote[Not all of these are attached when we do `library(tidyverse)`]]
 
 ---
 

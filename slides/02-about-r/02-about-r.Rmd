@@ -22,14 +22,14 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
-                      fig.retina = 3, fig.align = "center")
+## Graphics options and theme-matching
+source("../R/ragg_and_theme.R")
 ```
 
 ```{r packages-data, include=FALSE}
 library(flipbookr)
-library(cowplot)
-ggplot2::theme_set(theme_cowplot())
+#library(cowplot)
+#ggplot2::theme_set(theme_cowplot())
 
 ```
 
@@ -221,13 +221,29 @@ We'll return to this message about Conflicts later.
 
 # Tidyverse components
 
-.center[![:scale 100% "Tidyverse loading"](img/tidyverse-first.png)]
+.pull-left[
 
----
+- .kjh-green[**`library`**]`(tidyverse)`
+- `Loading tidyverse: ggplot2`
+- `Loading tidyverse: tibble`
+- `Loading tidyverse: tidyr`
+- `Loading tidyverse: readr`
+- `Loading tidyverse: purrr`
+- `Loading tidyverse: dplyr`
+]
 
-# Tidyverse components
+--
 
-.center[![:scale 100% "Tidyverse loading 2"](img/tidyverse-first-captioned.png)]
+.pull-right[
+- Call the package and ...
+- `<|` **Draw graphs**
+- `<|` **Nicer data tables**
+- `<|` **Tidy your data**
+- `<|` **Get data into R**
+- `<|` **Fancy Iteration**
+- `<|` **Action verbs for tables**
+
+]
 
 ---
 
@@ -235,6 +251,8 @@ We'll return to this message about Conflicts later.
 
 
 Code you can type and run:
+
+.medium[
 
 ```{r 02-about-r-1}
 ## Inside code chunks, lines beginning with a # character are comments
@@ -244,23 +262,28 @@ my_numbers <- c(1, 1, 2, 4, 1, 3, 1, 5) # Anything after a # character is ignore
 
 ```
 
+]
+
 Output:
 
 .smaller[Equivalent to running the code above, typing `my_numbers` at the console, and hitting enter.]
 
+.medium[
 ```{r 02-about-r-2}
 my_numbers 
 ```
-
+]
 ---
 
 # What R looks like
 
 By convention, code output in documents is prefixed by `##`
 
+.medium[
 ```{r 02-about-r-3}
 my_numbers 
 ```
+]
 
 
 
@@ -268,10 +291,11 @@ my_numbers
 
 .small[Also by convention, outputting vectors, etc, gets a counter keeping track of the number of elements. For example,] 
 
+.medium[
 ```{r 02-about-r-4}
 letters
 ```
-
+]
 
 
 ---
@@ -279,7 +303,7 @@ letters
 layout: false
 class: main-title main-title-inv
 
-# .top.large.squish4[SOME THINGS<br />TO KNOW<br />ABOUT .kjh-orange[R]] 
+# .middle.large.squish4[<br />SOME THINGS<br />TO KNOW<br />ABOUT .kjh-orange[R]] 
 
 ---
 
@@ -294,7 +318,7 @@ class: title title-1
 
 - Arithmetic
 
-
+.less-medium[
 ```{r 02-about-r-5}
 (31 * 12) / 2^4
 ```
@@ -309,6 +333,7 @@ log(100)
 log10(100)
 
 ```
+]
 
 ]
 
@@ -317,13 +342,14 @@ log10(100)
 .pull-right[
 
 - Logic
-
+.less-medium[
 ```{r 02-about-r-8}
 4 < 10
 4 > 2 & 1 > 0.5 # The "&" means "and"
 4 < 2 | 1 > 0.5 # The "|" means "or"
 4 < 2 | 1 < 0.5
 ```
+]
 ]
 
 ---
@@ -332,10 +358,11 @@ log10(100)
 
 Logical equality and inequality (yielding a .kjh-green[`TRUE`] or .kjh-red[`FALSE`] result) is done with `==` and `!=`. Other logical operators include `<`, `>`, `<=`, `>=`, and `!` for negation.
 
-```{r 02-about-r-9}
+.medium[
 
+```{r 02-about-r-9}
 ## A logical test
-2 == 2
+2 == 2 # Write `=` twice
 ```
 
 ```{r 02-about-r-10, eval = FALSE}
@@ -346,19 +373,20 @@ Logical equality and inequality (yielding a .kjh-green[`TRUE`] or .kjh-red[`FALS
 ```
 
 ```{r 02-about-r-11}
-3 != 7
+3 != 7 # Write `!` and then `=` to make `!=`
 ```
-
+]
 ---
 
 # .kjh-red[Watch out!]
 
 Here's a gotcha. You might think you could write `3 < 5 & 7` and have it be interpreted as "Three is less than five and also less than seven [True or False?]":
 
+.medium[
 ```{r 02-about-r-12}
 3 < 5 & 7
 ```
-
+]
 --
 
 It seems to work!
@@ -371,26 +399,29 @@ But now try `3 < 5 & 1`, where your intention is "Three is less than five and al
 
 .pull-left[
 
+.medium[
 ```{r 02-about-r-13}
 3 < 5 & 1
 ```
-
+]
 .smaller.squish1[What's happening is that `3 < 5` is evaluated first, and resolves to .kjh-green[TRUE], leaving us with the expression .kjh-green[`TRUE`] `& 1`. R interprets this as .kjh-green[`TRUE`] `& as.logical(1)`. In Boolean algebra, `1` resolves to  .kjh-green[`TRUE`]. Any other number is .kjh-red[`FALSE`]. So,]
 
+.medium[
 ```{r 02-about-r-14}
 TRUE & as.logical(1)
 ```
-
+]
 ]
 
 --
 
 .pull-right[
 
+.medium[
 ```{r 02-about-r-15}
 3 < 5 & 3 < 1
 ```
-
+]
 - .smaller[You have to make your comparisons explicit.]
 
 
@@ -404,20 +435,22 @@ Let's evaluate `0.6 + 0.2 == 0.8`
 
 --
 
+.medium[
 ```{r 02-about-r-16}
 0.6 + 0.2 == 0.8
 ```
-
+]
 --
 
 Now let's try `0.6 + 0.3 == 0.9`
 
 --
 
+.medium[
 ```{r 02-about-r-17}
 0.6 + 0.3 == 0.9
 ```
-
+]
 --
 
 Er. That's not right.
@@ -443,14 +476,14 @@ Welcome to floating point math!
 When you do binary math on repeating numbers and convert back to decimals you get tiny leftovers, and this can mess up _logical_ comparisons of equality. The `all.equal()` function exists for this purpose.
 
 --
-
+.medium[
 ```{r 02-about-r-18}
 print(.1 + .2)
 print(.1 + .2, digits=18)
 
 all.equal(.1 + .2, 0.3)
 ```
-
+]
 --
 
 See e.g. [https://0.30000000000000004.com](https://0.30000000000000004.com) 
@@ -475,6 +508,7 @@ class: title title-1
 
 # 1. .kjh-yellow[Everything in R has a name]
 
+.medium[
 ```{r 02-about-r-19}
 my_numbers # We created this a few minutes ago
 
@@ -482,13 +516,14 @@ letters  # This one is built-in
 
 pi  # Also built-in
 ```
-
+]
 ---
 
 # Some names are forbidden
 
 Or it's a _really_ bad idea to try to use them 
 
+.medium[
 ```{r 02-about-r-20, eval = FALSE}
 TRUE
 FALSE
@@ -503,38 +538,40 @@ while
 break
 function
 ```
-
+]
 ---
 
 # 2. .kjh-yellow[Everything is an object]
 
 .SMALL[There are a few built-in objects]
 
-
+.medium[
 ```{r 02-about-r-21}
 letters
 ```
-
+]
 --
 
+.medium[
 ```{r 02-about-r-22}
 pi
 ```
-
+]
 --
 
+.medium[
 ```{r 02-about-r-23}
 
 LETTERS
 ```
-
+]
 ---
 
 # 3. .kjh-yellow[You can create objects] 
 
 --
 
-In fact, this is mostly what we will be doing
+In fact, this is mostly what we will be doing.
 
 --
 
@@ -580,12 +617,13 @@ We can create an object with the `c()` function and the *assignment operator*, `
 
 - You can use "`=`" as well as "`<-`" for assignment
 
+.medium[
 ```{r 02-about-r-25}
 my_numbers = c(1, 2, 3, 1, 3, 5, 25)
 
 my_numbers
 ```
-
+]
 
 --
 
@@ -612,7 +650,7 @@ class: title title-1
 
 # 4. .kjh-yellow[Do things to objects with functions]
 
-
+.medium[
 ```{r create_objects_again}
 
 ## this object... gets ... the output of this function
@@ -624,9 +662,11 @@ your_numbers <- c(5, 31, 71, 1, 3, 21, 6, 52)
 ```{r 02-get-started-3}
 my_numbers
 ```
+]
 
 - Functions can be identified by the parentheses after their names.
 
+.medium[
 ```{r 02-get-started-4}
 my_numbers 
 ```
@@ -636,7 +676,7 @@ my_numbers
 ## If you run this you'll get an error
 mean()
 ```
-
+]
 ---
 
 # What functions usually do
@@ -658,6 +698,7 @@ mean()
 
 # What functions usually do
 
+.medium[
 ```{r 02-about-r-26}
 ## Get the mean of what? Of x.
 ## You need to tell the function what x is
@@ -665,14 +706,16 @@ mean(x = my_numbers)
 
 mean(x = your_numbers)
 ```
-
+]
 --
 
 If you don't _name_ the arguments, R assumes you are providing them in the order the function expects.
 
+.medium[
 ```{r 02-about-r-27}
 mean(your_numbers)
 ```
+]
 
 ---
 
@@ -680,6 +723,7 @@ mean(your_numbers)
 
 What arguments? Which order? Read the function's help page
 
+.medium[
 ```{r 02-about-r-28, eval=FALSE}
 help(mean)
 ```
@@ -688,7 +732,7 @@ help(mean)
 ## quicker
 ?mean
 ```
-
+]
 --
 
 - How to read an R help page ... 
@@ -700,6 +744,7 @@ help(mean)
 
 - Arguments often tell the function what to do in specific circumstances
 
+.medium[
 ```{r 02-about-r-30}
 missing_numbers <- c(1:10, NA, 20, 32, 50, 104, 32, 147, 99, NA, 45)
 
@@ -707,16 +752,17 @@ mean(missing_numbers)
 
 mean(missing_numbers, na.rm = TRUE)
 ```
-
+]
 --
 
 Or select from one of several options
 
+.medium[
 ```{r 02-about-r-31}
 ## Look at ?mean to see what `trim` does
 mean(missing_numbers, na.rm = TRUE, trim = 0.1)
 ```
-
+]
 
 ---
 
@@ -725,26 +771,29 @@ mean(missing_numbers, na.rm = TRUE, trim = 0.1)
 
 There are all kinds of functions. They return different things.
 
+.medium[
 ```{r 02-about-r-32}
 summary(my_numbers)
 ```
-
+]
 --
 
 You can assign the output of a function to a name, which turns it into an object. (Otherwise it'll send its output to the console.)
 
+.medium[
 ```{r 02-about-r-33}
 my_summary <- summary(my_numbers)
 
 my_summary
 ```
-
+]
 ---
 
 # What functions usually do
 
 Objects hang around in your work environment until they are overwritten by you, or are deleted.
 
+.medium[
 ```{r 02-about-r-34, eval = FALSE}
 ## rm() function removes objects
 rm(my_summary)
@@ -753,23 +802,28 @@ my_summary
 
 ## Error: object 'my_summary' not found
 ```
+]
 
 ---
 
 # Functions can be .kjh-yellow[nested]
 
+.medium[
 ```{r 02-about-r-35}
 c(1:20)
 ```
+]
 
 --
 
+.medium[
 ```{r 02-about-r-36}
 mean(c(1:20))
 ```
-
+]
 --
 
+.medium[
 ```{r 02-about-r-37}
 summary(mean(c(1:20)))
 ```
@@ -777,7 +831,7 @@ summary(mean(c(1:20)))
 ```{r 02-about-r-38}
 names(summary(mean(c(1:20))))
 ```
-
+]
 --
 
 ```{r 02-about-r-39}
@@ -794,11 +848,11 @@ Nested functions are evaluated from the inside out.
 
 .SMALL[Instead of nesting functions in parentheses, we can use the _pipe operator_:]
 
-
+.medium[
 ```{r 02-about-r-40}
 c(1:20) %>% mean() %>% summary() %>% names() %>%  length()
 ```
-
+]
 --
 
 .SMALL[Read this operator as "_.kjh-green[**and then**]_"]
@@ -807,7 +861,7 @@ c(1:20) %>% mean() %>% summary() %>% names() %>%  length()
 
 .SMALL[Better, vertical space is free in R:]
 
-
+.medium[
 ```{r 02-about-r-41}
 c(1:20) %>% 
   mean() %>% 
@@ -815,12 +869,12 @@ c(1:20) %>%
   names() %>% 
   length()
 ```
-
+]
 ---
 
-# Piped operations make code more .kjh-green[readable]
+# Pipelines make code more .kjh-green[readable]
 
-Not great, Bob:
+- Not great, Bob:
 
 ```r
   serve(stir(pour_in_pan(whisk(crack_eggs(get_from_fridge(eggs), into = "bowl"), len = 40), temp = "med-high")))
@@ -828,12 +882,13 @@ Not great, Bob:
 
 --
 
-Notice how the first thing you read is the last operation performed.
+- Notice how the first thing you read is the last operation performed.
 
 --
 
 Really not much better:
 
+.medium[
 ```r
 serve(
   stir(
@@ -847,13 +902,14 @@ serve(
   )
 )
 ```
-
+]
 ---
 
-# Piped operations make code more .kjh-green[readable]
+# Pipelines make code more .kjh-green[readable]
 
-Much nicer:
+- Much nicer:
 
+.medium[
 ```r
 eggs %>% 
   get_from_fridge() %>% 
@@ -864,28 +920,28 @@ eggs %>%
   serve()
 
 ```
-
+]
 --
 
-We'll still use nested parentheses quite a bit, often in the context of a function working inside a pipeline. But it's good not to have too many levels of nesting.
+- We'll still use nested parentheses quite a bit, often in the context of a function working inside a pipeline. But it's good not to have too many levels of nesting.
 
 ---
 
 
-# Now showing at an R near you: .kjh-yellow[|>]
+# Now showing at an R near you: .kjh-yellow[`|>`]
 
-The pipe operator **`%>%`** is not part of Base R. It was introduced in a package called `magrittr`. 
-
---
-
-It's been so successful, a version of it has been incorporated into Base R.
+- The pipe operator .kjh-green[**`%>%`**] is not part of Base R. It was introduced in a package called `magrittr`. 
 
 --
 
-It is denoted by **`|>`**. But! It does not _quite_ replace **`%>%`** in every case.\* 
+- It's been so successful, a version of it has been incorporated into Base R.
+
+--
+
+- It is denoted by .kjh-green[**`|>`**]. Type .kjh-green[`|`] and then .kjh-green[`>`] to write it. It mostly but does not _quite_ replace .kjh-green[**`%>%`**] in every case.\* 
 
 
-The magrittr pipe will continue to work as shown in these slides.
+- The magrittr pipe will continue to work as shown in these slides.
 
 .footnote.tiny[.kjh-darkgrey[\*With the new pipe, you can only pass an object to the _first_ argument in a function. This is fine for most tidyverse pipelines, where the first argument is usually (implicitly) the data. But it does mean that most Base R functions will continue not to be easily piped, as most of them do not follow the convention of passing the current data as the first argument]]
 
@@ -899,13 +955,14 @@ Packages are loaded into your working environment using the `library()` function
 
 --
 
+.less-medium[
 ```{r 02-about-r-42}
 ## A package containing a dataset rather than functions
 library(gapminder)
 
 gapminder
 ```
-
+]
 ---
 
 # Functions are bundled into .kjh-yellow[packages]
@@ -945,10 +1002,10 @@ penguins
 
 ```{r 02-about-r-45, message = FALSE, echo = FALSE}
 gtsummary::theme_gtsummary_journal(journal = "jama")
-gtsummary::theme_gtsummary_compact()
+#gtsummary::theme_gtsummary_compact()
 ```
 
-.small[
+.less-medium[
 ```{r 02-about-r-46}
 ## A little glimpse of what we'll do soon
 penguins %>% 
@@ -1074,7 +1131,7 @@ names(my_smry)
 
 --
 
-.pull-right.small[
+.pull-right.normal[
 
 ```{r 02-about-r-52}
 my_int <- c(1, 3, 5, 6, 10)
