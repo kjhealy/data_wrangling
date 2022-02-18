@@ -24,7 +24,6 @@ editor_options:
 ```{r setup, include=FALSE}
 ## Graphics options and theme-matching
 source(here::here("slides", "R", "ragg_and_theme.R"))
-ggplot2::theme_set(theme_solitas())
 ```
 
 ```{r packages-data, include=FALSE}
@@ -447,7 +446,7 @@ More on `pivot_wider()` and `kable()` soon ...
 # Pass your pipeline on to ... a .kjh-yellow[graph]
 
 ```{r 03-dplyr-basics-13, echo = FALSE}
-theme_set(cowplot::theme_cowplot())
+# theme_set(cowplot::theme_cowplot())
 ```
 
 .SMALL[
@@ -641,7 +640,7 @@ rel_by_region %>%
 # Following a pipeline
 
 ```{r 03-dplyr-basics-25, echo = FALSE}
-theme_set(cowplot::theme_minimal_grid())
+#theme_set(cowplot::theme_minimal_grid())
 ```
 
 
