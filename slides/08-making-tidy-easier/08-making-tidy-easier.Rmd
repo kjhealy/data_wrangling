@@ -14,6 +14,7 @@ output:
       highlightStyle: default
       highlightLines: true
       countIncrementalSlides: false
+      slideNumberFormat: "%current%"
       ratio: "16:9"
       navigation:
         scroll: false
@@ -222,7 +223,7 @@ trial %>%
 
 # .kjh-orange[Tables], .kjh-yellow[tables], .kjh-green[tables]
 
-`gtsummary()` straight out of the box: 
+.kjh-green[**`gtsummary()`**] straight out of the box: 
 
 ```{r 08-making-tidy-easier-7, eval = FALSE}
 gss_sm %>% 
@@ -419,7 +420,7 @@ For more, see [this post by TJ Mahr](https://www.tjmahr.com/lists-knitr-secret-w
 
 ---
 
-# You should .kjh-orange[test] the output of your functions
+# .kjh-orange[Test] the output of your functions
 
 
 ```{r 08-making-tidy-easier-test-1}
@@ -433,7 +434,7 @@ countries
 
 ---
 
-# You should .kjh-orange[test] the output of your functions
+# .kjh-orange[Test] the output of your functions
 
 
 ```{r 08-making-tidy-easier-test-2}
@@ -467,7 +468,7 @@ get_stmf <- function(url = "https://www.mortality.org/Public/STMF/Outputs",
 
 ---
 
-# You should .kjh-orange[test] the output of your functions
+# .kjh-orange[Test] the output of your functions
 
 
 ```{r 08-making-tidy-easier-test-3}
@@ -496,7 +497,7 @@ stmf_raw <- get_stmf(skip = 2) %>%
 
 ---
 
-# You should .kjh-orange[test] the output of your functions
+# .kjh-orange[Test] the output of your functions
 
 ```{r 08-making-tidy-easier-test-4}
 stmf_raw
@@ -504,7 +505,7 @@ stmf_raw
 
 ---
 
-# You should .kjh-orange[test] the output of your functions
+# .kjh-orange[Test] the output of your functions
 
 ```{r 08-making-tidy-easier-test-5}
 md_ccodes <- tibble(country_code = unique(stmf_raw$country_code)) %>%
@@ -532,7 +533,7 @@ stmf <- left_join(stmf_raw, md_ccodes) %>%
 
 ---
 
-# You should .kjh-orange[test] the output of your functions
+# .kjh-orange[Test] the output of your functions
 
 
 ```{r 08-making-tidy-easier-test-6}

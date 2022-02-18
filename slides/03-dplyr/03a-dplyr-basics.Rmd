@@ -14,6 +14,7 @@ output:
       highlightStyle: default
       highlightLines: true
       countIncrementalSlides: false
+      slideNumberFormat: "%current%"
       ratio: "16:9"
       navigation:
         scroll: false
@@ -141,18 +142,21 @@ library(tidyverse) # your friend and mine
 
 # .kjh-yellow[dplyr] lets you work with tibbles
 
-Remember, tibbles are tables of data where the columns can be of different types, such as numeric, logical, character, factor, etc.
+.pull-left-wide[
+- Remember, tibbles are tables of data where the columns can be of different types, such as numeric, logical, character, factor, etc.]
 
 --
 
-We'll use dplyr to _transform_ and _summarize_ our data.
+.pull-left-wide[
+- We'll use dplyr to _transform_ and _summarize_ our data.
+]
 
 --
+.pull-left-wide[
 
-We'll use the pipe operator, **`%>%`**, to chain together sequences of actions on our tables.
+- We'll use the pipe operator, .kjh-pink[**`%>%`**], to chain together sequences of actions on our tables.
 
---
-
+]
 ---
 
 layout: false
@@ -171,39 +175,36 @@ class: title title-1
 
 --
 
-- **Group** the data at the level we want, such as “_Religion by Region_” or _“Children by School by District_”, so as to present data at that level.
-
---
-
-- **Subset** either the rows or columns of or table.
-
---
-
-- **Mutate**  the data. That is, change something at the _current_ level of grouping.  Mutating adds new columns to the table, or changes the content of an existing column. This won't change the number of rows.
-
---
-
-- **Summarize** or aggregate the data. That is, make something new at a _higher_ level of grouping. E.g., calculate means or counts by some grouping variable. This will generally result in a smaller, _summary_ table.
+.pull-left-wide[
+- .kjh-orange[**Group**] the data at the level we want, such as “_Religion by Region_” or _“Children by School_”.
+- .kjh-orange[**Subset**] either the rows or columns of or table.
+- .kjh-orange[**Mutate**] the data. That is, change something at the _current_ level of grouping.  Mutating adds new columns to the table, or changes the content of an existing column. It never changes the number of rows.
+- .kjh-orange[**Summarize**] or aggregate the data. That is, make something new at a _higher_ level of grouping. E.g., calculate means or counts by some grouping variable. This will generally result in a smaller, _summary_ table.
+]
 
 ---
 
 # Each .kjh-orange[action] is implemented by a .kjh-green[function] 
 
 --
-
-- **Group** using  `group_by()`.
-
---
-
-- **Subset** has one action for rows and one for columns. We `filter()` rows and `select()` columns. 
+.pull-left-wide[
+- **Group** using  .kjh-green[**`group_by()`**].
+]
 
 --
 
-- **Mutate** tables (i.e. add new columns, or re-make existing ones) using `mutate()`.
-
+.pull-left-wide[
+- **Subset** has one action for rows and one for columns. We .kjh-green[**`filter()`**] rows and .kjh-green[**`select()`**] columns. 
+]
+--
+.pull-left-wide[
+- **Mutate** tables (i.e. add new columns, or re-make existing ones) using .kjh-green[**`mutate()`**].
+]
 --
 
-- **Summarize** tables (i.e. perform aggregating calculations) using `summarize()`.
+.pull-left-wide[
+- **Summarize** tables (i.e. perform aggregating calculations) using .kjh-green[**`summarize()`**].
+]
 
 ---
 
@@ -263,7 +264,7 @@ gss_sm %>%
 
 --
 
-The function `n()` counts up the rows within each group.
+The function .kjh-green[**`n()`**] counts up the rows within each group.
 
 --
 
@@ -286,7 +287,7 @@ gss_sm %>%
 
 --
 
-The function `n()` counts up the rows within the _innermost_ (i.e. the rightmost) group.
+The function .kjh-green[**`n()`**] counts up the rows within the _innermost_ (i.e. the rightmost) group.
 
 ---
 
@@ -303,7 +304,7 @@ gss_sm %>%
 
 --
 
-The function `n()` counts up the rows 
+The function .kjh-green[**`n()`**] counts up the rows 
 
 --
 
@@ -347,7 +348,7 @@ gss_sm %>%
 ```
 ]
 
-`mutate()` is very clever. See how we can immediately use `freq`, even though we are creating it in the same `mutate()` expression.
+.kjh-green[**`mutate()`**] is quite clever. See how we can immediately use **`freq`**, even though we are creating it in the same .kjh-green[**`mutate()`**] expression.
 
 ---
 
@@ -364,7 +365,7 @@ gss_sm %>%
 ```
 ]
 
-We're going to be doing this `group_by()` ... `n()` step a lot. Some shorthand for it would be useful.
+We're going to be doing this .kjh-green[**`group_by()`**] ... .kjh-green[**`n()`**] step a lot. Some shorthand for it would be useful.
 
 ---
 
@@ -372,7 +373,7 @@ We're going to be doing this `group_by()` ... `n()` step a lot. Some shorthand f
 
 .pull-left-3[
 
-- .SMALL.squish3[Do it yourself]
+- .SMALL.squish3[Do it yourself with .kjh-green[**`n()`**]]
 
 .SMALL[
 ```{r 03-dplyr-basics-8}
@@ -389,7 +390,7 @@ gss_sm %>%
 
 .pull-middle-3[
 
-- .SMALL.squish3[use `tally()`]
+- .SMALL.squish3[use .kjh-green[**`tally()`**]]
 
 .SMALL[
 ```{r 03-dplyr-basics-9}
@@ -406,7 +407,7 @@ gss_sm %>%
 
 .pull-right-3[
 
-- .SMALL.squish3[use `count()`]
+- .SMALL.squish3[use .kjh-green[**`count()`**]]
 
 .SMALL[
 ```{r 03-dplyr-basics-10}
@@ -439,7 +440,7 @@ gss_sm %>%
 ```
 ]
 
-More on `pivot_wider()` and `kable()` soon ...
+More on .kjh-green[**`pivot_wider()`**] and .kjh-green[**`kable()`**] soon ...
 
 ---
 
@@ -456,8 +457,8 @@ gss_sm %>%
   tally() %>% 
   mutate(pct = round((n/sum(n))*100), 1) %>% 
   drop_na() %>% 
-  ggplot(mapping = aes(x = pct, y = reorder(religion, -pct), fill = religion)) + 
-  geom_col() +
+  ggplot(mapping = aes(x = pct, y = reorder(religion, -pct), fill = religion)) + #<<
+  geom_col() + #<<
     labs(x = "Percent", y = NULL) +
     guides(fill = "none") + 
     facet_wrap(~ bigregion, nrow = 1)
@@ -572,14 +573,14 @@ rel_by_region <- gss_sm %>%
   mutate(pct = round((n/sum(n))*100, 1)) 
 ```
 
-.SMALL.squish3[`count()` returns ungrouped results, so no groups carry forward to the `mutate()` step.]
+.SMALL.squish3[.kjh-green[**`count()`**] returns ungrouped results, so there are no groups carry forward to the .kjh-green[**`mutate()`**] step.]
 
 ```{r 03-dplyr-basics-22}
 rel_by_region %>% 
   summarize(total = sum(pct))
 ```
 
-.SMALL.squish3[With `count()`, the `pct` values here are the marginals for the whole table.]
+.SMALL.squish3[With .kjh-green[**`count()`**], the `pct` values here are the marginals for the whole table.]
 
 ]
 
@@ -655,7 +656,7 @@ gss_sm %>%
   drop_na() %>% 
   ggplot(mapping = aes(x = mean_kids, y = degree)) + # I'm sorry I can't talk more about the graphs
   geom_col() + facet_grid(sex ~ race) + 
-  labs(x = "Average number of Chidren", y = NULL)
+  labs(x = "Average number of Children", y = NULL)
 ```
 
 ---
@@ -704,13 +705,13 @@ organdata %>%
   select(country, year, where(is.integer)) #<<
 ```
 
-Use `where()` to test columns.
+Use .kjh-green[**`where()`**] to test columns.
 
 ---
 
 # Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
 
-When telling `where()` use `is.integer()` to test each column, we don't put parentheses at the end of its name. If we did, R would try to evaluate `is.integer()` right then, and fail:
+When telling .kjh-green[**`where()`**] use .kjh-green[**`is.integer()`**] to test each column, we don't put parentheses at the end of its name. If we did, R would try to evaluate .kjh-green[**`is.integer()`**] right then, and fail:
 
 ```r
 > organdata %>% 
@@ -730,7 +731,7 @@ organdata %>%
   select(country, year, where(is.character))
 ```
 
-We have functions like e.g. `is.character()`, `is.numeric()`, `is.logical()`, `is.factor()`, etc. All return either .kjh-green[`TRUE`] or .kjh-red[`FALSE`]. 
+We have functions like e.g. **`is.character()`**, **`is.numeric()`**, **`is.logical()`**, **`is.factor()`**, etc. All return either .kjh-green[`TRUE`] or .kjh-red[`FALSE`]. 
 
 ---
 
@@ -743,7 +744,7 @@ organdata %>%
   select(country, year, starts_with("gdp")) #<<
 ```
 
-We have `starts_with()`, `ends_with()`, `contains()`, `matches()`, and `num_range()`. Collectively these are "tidy selectors".
+We have **`starts_with()`**, **`ends_with()`**, **`contains()`**, **`matches()`**, and **`num_range()`**. Collectively these are ".kjh-pink[tidy selectors]".
 
 ---
 
@@ -769,7 +770,7 @@ organdata %>%
 
 ---
 
-# Negating .kjh-yellow[`%in%`] 
+# Negating .kjh-pink[`%in%`] 
 
 ```{r 03-dplyr-basics-34}
 my_countries <- c("Australia", "Canada", "United States", "Ireland")
@@ -783,7 +784,7 @@ Also a bit awkward. There's no built-in "Not in" operator.
 
 ---
 
-# Negating .kjh-yellow[`%in%`] 
+# Negating .kjh-pink[`%in%`] 
 
 We can make one!
 
@@ -840,7 +841,7 @@ This works, but it's really tedious. Also error-prone.
 
 ---
 
-# Do more than one thing with .kjh-yellow[`across()`]
+# Do more than one thing with .kjh-green[`across()`]
 
 .SMALL.squish3[Instead, use `across()` to apply a function to more than one column.]
 
@@ -862,11 +863,11 @@ organdata %>%
 
 `r chunk_reveal("03-across-pipeline-1", widths = c(40,60), title = "# Let's look at that again")`
 
-- .small.squish3[`my_vars` are selected by `across()`]
+- .small.squish3[`my_vars` are selected by .kjh-green[**`across()`**]
 
 --
 
-- .small.squish3[`list()` of the form `result = function` gives the new columns that will be calculated.]
+- .small.squish3[.kjh-green[**`list()`**] of the form `result = function` gives the new columns that will be calculated.]
 
 --
 
@@ -913,7 +914,7 @@ organdata %>%
 
 ---
 
-# Selection with .kjh-yellow[`across(where())`]
+# Selection with .kjh-green[`across(where())`]
 
 .SMALL[
 
@@ -932,7 +933,7 @@ organdata %>%
 
 ---
 
-# Name new columns with .kjh-yellow[`.names`]
+# Name new columns with .kjh-green[`.names`]
 
 .pull-left[
 
@@ -959,7 +960,7 @@ organdata %>%
 
 ---
 
-# This all works with .kjh-yellow[`mutate()`], too
+# This all works with .kjh-green[`mutate()`], too
 
 
 ```{r 03-dplyr-basics-44}
@@ -972,7 +973,7 @@ organdata %>%
 
 # Arrange rows and columns
 
-Sort rows with `arrange()`
+Sort rows with .kjh-green[**`arrange()`**]
 
 .pull-left[
 
@@ -998,7 +999,7 @@ organdata %>%
 
 ]
 
-Using `arrange()` to order rows in this way won't respect groupings.
+Using .kjh-green[**`arrange()`**] to order rows in this way won't respect groupings.
 
 ---
 
@@ -1011,7 +1012,7 @@ organdata %>%
   slice_max(donors, n = 5) #<<
 ```
 
-.small.squish3[You can see that `slice_max()` respects grouping.]
+.small.squish3[You can see that .kjh-green[**`slice_max()`**] respects grouping.]
 
-.small.squish3[There's `slice_min()`, `.slice_head()`, `slice_tail()`, `slice_sample()`, and the most general one, `slice()`.] 
+.small.squish3[There's **`slice_min()`**, **`.slice_head()`**, **`slice_tail()`**, **`slice_sample()`**, and the most general one, **`slice()`**.] 
 

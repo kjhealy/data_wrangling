@@ -63,7 +63,8 @@ theme_solitas <- function (base_size = 12, base_family = "Solitas Slab Slide") {
             text = ggplot2::element_text(colour = slide_colors["slate"]),
             axis.title = ggplot2::element_text(ggplot2::rel(1.15)),
             axis.text = ggplot2::element_text(size = ggplot2::rel(1.15)),
-            strip.text = ggplot2::element_text(size = ggplot2::rel(1.15)),
+            strip.text = ggplot2::element_text(size = ggplot2::rel(1.15),
+                                               face = "bold"),
             axis.ticks = ggplot2::element_line(),
             axis.line = ggplot2::element_line(),
             legend.background = ggplot2::element_rect(),
@@ -76,6 +77,12 @@ theme_solitas <- function (base_size = 12, base_family = "Solitas Slab Slide") {
             plot.title = ggplot2::element_text(hjust = 0,
                                       size = ggplot2::rel(1.5),
                                       face = "bold"),
+            plot.subtitle = ggplot2::element_text(hjust = 0,
+                                               size = ggplot2::rel(1.25),
+                                               face = "normal"),
+            plot.caption = ggplot2::element_text(hjust = 0,
+                                                 size = ggplot2::rel(0.8),
+                                                 face = "normal"),
             plot.margin = unit(c(5.5,12,5.5,5.5), "pt"),
             strip.background = ggplot2::element_rect()
             )

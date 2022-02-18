@@ -14,6 +14,7 @@ output:
       highlightStyle: default
       highlightLines: true
       countIncrementalSlides: false
+      slideNumberFormat: "%current%"
       ratio: "16:9"
       navigation:
         scroll: false
@@ -116,9 +117,9 @@ Then transform it back to something wider if needed.
 
 ---
 
-# This isn't an _iron_ rule
+# This isn't an .kjh-lblue[_iron_] rule
 
-As we'll see later, `dplyr` _is_ able to do _rowwise_ operations if you need them.
+As we'll see later, .kjh-orange[`dplyr`] _is_ able to do "rowwise" operations if you need them.
 
 --
 
@@ -131,7 +132,7 @@ edu %>%
 
 ---
 
-# This isn't an .kjh-red[_iron_] rule
+# This isn't an .kjh-lblue[_iron_] rule
 
 ```{r 04-tidy-data-4}
 edu %>% 
@@ -408,7 +409,7 @@ edu %>%
   
 ```
 
-.smaller.squish4[The argument order of `recode()` is inconsistent with other tidyverse functions and it may be superceded in the future.]
+.smaller.squish4[The argument order of .kjh-green[**`recode()`**] is inconsistent with other tidyverse functions and it may be superceded in the future.]
 
 ---
 
@@ -574,5 +575,5 @@ gss_sm %>%
 
 This one is a bit trickier, and our first glimpse of a _regular expression_. 
 
-We have to tell `separate()` to split on the period, not the space.
+We have to tell .kjh-green[**`separate()`**] to split on the period, not the space.
 

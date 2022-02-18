@@ -14,6 +14,7 @@ output:
       highlightStyle: default
       highlightLines: true
       countIncrementalSlides: false
+      slideNumberFormat: "%current%"
       ratio: "16:9"
       navigation:
         scroll: false
@@ -123,11 +124,11 @@ CSV is not really a proper format at all!
 
 --
 
-Base R has `read.csv()`
+Base R has .kjh-green[**`read.csv()`**]
 
 --
 
-As is often the case, the tidyverse has a corresponding "underscored" version, `read_csv()`.
+As is often the case, the tidyverse has a corresponding "underscored" version, .kjh-green[**`read_csv()`**].
 It is _much_ pickier and more talkative than the Base R version.
 
 ???
@@ -157,7 +158,7 @@ This makes it easier to share your work, move it around, etc. Projects should be
 
 # Where's the data? Using .kjh-yellow[here()]
 
-The `here` package, and `here()` function builds paths relative to the top level of your R project. 
+The `here` package, and .kjh-green[**`here()`**] function builds paths relative to the top level of your R project. 
 
 ```{r 06-getting-data-in-2}
 here() # this path will be different for you
@@ -214,38 +215,38 @@ See [the `here` project page](https://here.r-lib.org) for more details.
 # .kjh-yellow[read_csv()] comes in different varieties
 
 
-## `read_csv()` Field separator is a comma: .kjh-red[**`,`**]
+## .kjh-green[**`read_csv()`**] Field separator is a comma: .kjh-red[**`,`**]
 
 ```{r 06-getting-data-in-6}
 organs <- read_csv(file = here("data", "organdonation.csv"))
 ```
 
-## `read_csv2()` Field separator is a semicolon: .kjh-red[**`;`**]
+## .kjh-green[**`read_csv2()`**] Field separator is a semicolon: .kjh-red[**`;`**]
 
 ```r
 # Example only
 my_data <- read_csv2(file = here("data", "my_euro_file.csv))
 ```
 
-Both are special cases of `read_delim()`
+Both are special cases of .kjh-green[**`read_delim()`**]
 
 ---
 
 # Other species are also catered to
 
-- `read_tsv()` Tab separated.
+- .kjh-green[**`read_tsv()`**] Tab separated.
 
-- `read_fwf()` Fixed-width files.
+- .kjh-green[**`read_fwf()`**] Fixed-width files.
 
-- `read_log()` Log files (i.e. computer log files).
+- .kjh-green[**`read_log()`**] Log files (i.e. computer log files).
 
-- `read_lines()` Just read in lines, without trying to parse them.
+- .kjh-green[**`read_lines()`**] Just read in lines, without trying to parse them.
 
 ---
 
 # Also often useful ...
 
-- `read_table()`  
+- .kjh-green[**`read_table()`**]  
 
 Data that's separated by one (or more) columns of space.
 
@@ -418,7 +419,7 @@ Month 1!
 
 # Take a look with .kjh-yellow[slice()]
 
-Let's look at the rows `read_csv()` complained about.
+Let's look at the rows .kjh-green[**`read_csv()`**] complained about.
 
 ```{r 06-getting-data-in-16}
 nchs %>% 
@@ -630,11 +631,11 @@ I said at the start that it was no fun, but also weirdly satisfying.
 
 --
 
-When `read_csv()` warns you of a parsing failure _don't ignore it_.
+When .kjh-green[**`read_csv()`**] warns you of a parsing failure _don't ignore it_.
 
 --
 
-`read_lines()` lets you get the file in a nearly unprocessed form.
+.kjh-green[**`read_lines()`**] lets you get the file in a nearly unprocessed form.
 
 --
 
@@ -843,7 +844,7 @@ read_csv(here("data", "rfm_table.csv")) %>%
 
 ---
 
-# Maybe a candidate for .kjh-yellow[`rowwise()`]?
+# Maybe a candidate for .kjh-green[`rowwise()`]?
 
 ```{r 06-getting-data-in-41, echo = FALSE}
 rfm_table <- read_csv(here("data", "rfm_table.csv")) %>% 
@@ -871,7 +872,7 @@ rfm_table
 
 ---
 
-# Maybe a candidate for .kjh-yellow[`rowwise()`]?
+# Maybe a candidate for .kjh-green[`rowwise()`]?
 
 This does what we expect:
 
@@ -886,7 +887,7 @@ This adds each column, elementwise.
 
 ---
 
-# Maybe a candidate for .kjh-yellow[`rowwise()`]?
+# Maybe a candidate for .kjh-green[`rowwise()`]?
 
 .squish4[But this does not:]
 
@@ -903,7 +904,7 @@ rfm_table %>%
 
 ---
 
-# Maybe a candidate for .kjh-yellow[`rowwise()`]?
+# Maybe a candidate for .kjh-green[`rowwise()`]?
 
 Similarly, this will not give the answer we probably expect:
 
@@ -919,7 +920,7 @@ rfm_table %>%
 
 ---
 
-# Maybe a candidate for .kjh-yellow[`rowwise()`]?
+# Maybe a candidate for .kjh-green[`rowwise()`]?
 
 But this will:
 
@@ -940,11 +941,11 @@ In general, you'll want to see if some vectorized ("operating on columns, but el
 
 And most of the time, R and the tidyverse "wants" you to work in vectorized, columnar terms ... hence your first move will often be to pivot the data into long format. 
 
-So, `rowwise()` is not likely to see a whole lot of further development. 
+So, .kjh-green[**`rowwise()`**] is not likely to see a whole lot of further development. 
 
 ---
 
-# You probably want .kjh-yellow[`group_by()`] instead
+# You probably want .kjh-green[`group_by()`] instead
 
 ```{r 06-getting-data-in-47}
 rfm_table %>% 
@@ -957,7 +958,7 @@ rfm_table %>%
 
 ---
 
-# You probably want .kjh-yellow[`group_by()`] instead
+# You probably want .kjh-green[`group_by()`] instead
 
 
 ```{r 06-getting-data-in-48}
@@ -1313,7 +1314,7 @@ gss_sub %>%
 
 # More on .kjh-yellow[factors]
 
-We've already seen **`fct_relabel()`** and **`fct_recode()`** from forcats. 
+We've already seen .kjh-green[**`fct_relabel()`**] and .kjh-green[**`fct_recode()`**] from forcats. 
 
 There are numerous other convenience functions for factors.
 

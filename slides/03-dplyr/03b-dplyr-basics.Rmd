@@ -1,7 +1,7 @@
 ---
 title: "Data Wrangling - 3B. Manipulating tables with `dplyr`"
 author: "Kieran Healy"
-date: "`r Sys.Date()`"
+date: ".kjh-green[**`r Sys.Date()`**]"
 output:
   xaringan::moon_reader:
     lib_dir: "libs"
@@ -14,6 +14,7 @@ output:
       highlightStyle: default
       highlightLines: true
       countIncrementalSlides: false
+      slideNumberFormat: "%current%"
       ratio: "16:9"
       navigation:
         scroll: false
@@ -96,7 +97,7 @@ covnat_weekly
 
 # `dplyr`'s .kjh-yellow[window] functions 
 
- `cumsum()` gives cumulative sums
+.kjh-green[**`cumsum()`**] gives cumulative sums
 
 ```{r 03-dplyr-basics-49}
 covnat_weekly %>% 
@@ -110,7 +111,7 @@ covnat_weekly %>%
 
 # `dplyr`'s .kjh-yellow[window] functions 
 
-.SMALL[`cume_dist()` gives the proportion of values less than or equal to the current value.]
+.SMALL[.kjh-green[**`cume_dist()`**] gives the proportion of values less than or equal to the current value.]
 
 ```{r 03-dplyr-basics-50}
 covnat_weekly %>% 
@@ -140,7 +141,7 @@ covus %>%
 
 # An application 
 
-`dplyr` has `lead()` and `lag()` functions. These allow you to access the previous and next values in a vector. You can calculate offsets this way.
+.kjh-green[**`dplyr` has `lead()`**] and .kjh-green[**`lag()`**] functions. These allow you to access the previous and next values in a vector. You can calculate offsets this way.
 
 ```{r 03-dplyr-basics-52}
 my_vec <- c(1:20)
@@ -176,7 +177,7 @@ covus %>%
 
 But we could also write a function to do this. 
 
-We write functions using the special `function()` function.\*
+We write functions using the special .kjh-green[**`function()`**] function.\*
 
 .SMALL[
 
@@ -283,12 +284,12 @@ covus %>%
 
 Notice the Tidyverse-style `na_rm` argument rather than the usual base `na.rm`
 
-The package provides a lot of different functions, from general-purpose `slide_max()`, `slide_min()` to more specialized sliding functions. In particular note e.g. `slide_index_mean()` that addresses some subtleties in averaging over dates with gaps. 
+The package provides a lot of different functions, from general-purpose .kjh-green[**`slide_max()`**], .kjh-green[**`slide_min()`**] to more specialized sliding functions. In particular note e.g. .kjh-green[**`slide_index_mean()`**] that addresses some subtleties in averaging over dates with gaps. 
 ]
 
 ---
 
-# Tidying up after yourself with .kjh-yellow[`relocate()`]
+# Tidy up after yourself with .kjh-green[**`relocate()`**]
 
 ```{r 03-dplyr-basics-59}
 gss_sm
@@ -584,7 +585,7 @@ df %>%
 
 ---
 
-# Option 2: .kjh-yellow[ungroup()] and .kjh-green[complete()]
+# Option 2: .kjh-green[ungroup()] and .kjh-green[complete()]
 
 Maybe you don't want to deal with factors.
 
@@ -600,7 +601,7 @@ df_c <- df %>%
 
 ---
 
-# Option 2: .kjh-yellow[ungroup()] and .kjh-green[complete()]
+# Option 2: .kjh-green[ungroup()] and .kjh-green[complete()]
 
 
 ```{r}
@@ -609,7 +610,7 @@ df_c
 
 ---
 
-# Option 2: .kjh-yellow[ungroup()] and .kjh-green[complete()]
+# Option 2: .kjh-green[ungroup()] and .kjh-green[complete()]
 
 ```{r}
 p_out <- df_c %>% 
@@ -626,7 +627,7 @@ p_out <- df_c %>%
 
 ---
 
-# Option 2: .kjh-yellow[ungroup()] and .kjh-green[complete()]
+# Option 2: .kjh-green[ungroup()] and .kjh-green[complete()]
 
 ```{r, fig.height = 6, fig.width=9}
 p_out

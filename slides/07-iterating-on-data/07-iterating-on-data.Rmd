@@ -14,6 +14,7 @@ output:
       highlightStyle: default
       highlightLines: true
       countIncrementalSlides: false
+      slideNumberFormat: "%current%"
       ratio: "16:9"
       navigation:
         scroll: false
@@ -143,7 +144,7 @@ You may have noticed we have not written any loops, however.
 
 While loops are still lurking there underneath the surface, what we will do instead is to take advantage of the combination of vectors and functions and _map_ one to the other in order to generate results.
 
-Speaking loosely, think of `map()` as a way of .kjh-green[Iterating] without writing loops. You start with a vector of things and you feed it to the function one thing at a time. The function does whatever it does, and you get back output that is the same length as your input.
+Speaking loosely, think of .kjh-green[**`map()`**] as a way of .kjh-green[Iterating] without writing loops. You start with a vector of things and you feed it to the function one thing at a time. The function does whatever it does, and you get back output that is the same length as your input.
 
 ---
 
@@ -153,7 +154,7 @@ The `purrr` package provides a big family of mapping functions. One reason there
 
 --
 
-So in addition to the basic `map()`, which always returns a _list_, we also have `map_chr()`, `map_int()`, `map_dbl()`, `map_lgl()` and others. They always return the data type indicated by their suffix, or die trying.
+So in addition to the basic .kjh-green[**`map()`**], which always returns a _list_, we also have .kjh-green[**`map_chr()`**], .kjh-green[**`map_int()`**], .kjh-green[**`map_dbl()`**], .kjh-green[**`map_lgl()`**] and others. They always return the data type indicated by their suffix, or die trying.
 
 ---
 
@@ -230,7 +231,7 @@ That's tedious to write. Computers are supposed to allow us to avoid that sort o
 
 # .kjh-green[Iterating] in a pipeline
 
-So how would we iterate this? What we want is to apply the `n_distinct()` function to each column of `gapminder`, but in a way that still allows us to use pipelines and so on. 
+So how would we iterate this? What we want is to apply the .kjh-green[**`n_distinct()`**] function to each column of `gapminder`, but in a way that still allows us to use pipelines and so on. 
 
 ```{r 07-iterating-on-data-9}
 library(gapminder)
@@ -242,7 +243,7 @@ gapminder %>%
             n_distinct(population))
 ```
 
-.smaller.kjh-darkgrey[Using `n_distinct()` in this context is an idea I got from Rebecca Barter's discussion of `purrr`.]
+.smaller.kjh-darkgrey[Using .kjh-green[**`n_distinct()`**] in this context is an idea I got from Rebecca Barter's discussion of `purrr`.]
 
 ---
 
@@ -271,9 +272,9 @@ But you could also do this ...
 ]
 
 .pull-right[
-Read it as "Feed each column of `gapminder` to the `n_distinct()` function.
+Read it as "Feed each column of `gapminder` to the .kjh-green[**`n_distinct()`**] function.
 
-(This is pretty much what `across()` is doing more nicely.)
+(This is pretty much what .kjh-green[**`across()`**] is doing more nicely.)
 ]
 
 
@@ -323,7 +324,7 @@ result[[2]]
 
 # .kjh-green[Iterating] in a pipeline
 
-In this context, `n_distinct()` is always going to return an integer, though.
+In this context, .kjh-green[**`n_distinct()`**] is always going to return an integer, though.
 
 
 ```{r 07-iterating-on-data-14}
@@ -331,7 +332,7 @@ gapminder %>%
   map_int(n_distinct)
 ```
 
-The thing about the `map()` family is that they can deal with all kinds of input types and output types.
+The thing about the .kjh-green[**`map()`**] family is that they can deal with all kinds of input types and output types.
 
 ---
 
@@ -350,7 +351,7 @@ filenames[1:15] # Just displaying the first 15, to save slide space
 
 # And feed it to .kjh-yellow[read_csv()]
 
-.small.squish3[... using the variant of `map()` that returns data frames and tibbles.]
+.small.squish3[... using the variant of .kjh-green[**`map()`**] that returns data frames and tibbles.]
 
 ```{r 07-iterating-on-data-16}
 df <- filenames %>% 
@@ -477,7 +478,7 @@ sessions
 
 # We're going to .kjh-orange[join] these tables
 
-.SMALL.squish3[We will use **`left_join()`** which is what you want most of the time when you are looking to merge a smaller table with additional information into a larger main one. ]
+.SMALL.squish3[We will use .kjh-green[**`left_join()`**] which is what you want most of the time when you are looking to merge a smaller table with additional information into a larger main one. ]
 
 .SMALL[
 
@@ -549,7 +550,7 @@ df
 
 # Left join, .kjh-yellow[left_join()]
 
-Most of the time you will be looking to make a **`left_join()`**
+Most of the time you will be looking to make a .kjh-green[**`left_join()`**]
 
 ---
 
@@ -613,7 +614,7 @@ df %>%
 
 # Never test for missingness with .kjh-red[`==`]
 
-Always use `is.na()` instead
+Always use .kjh-green[**`is.na()`**] instead
 
 ```{r 07-iterating-on-data-27}
 # Yes
@@ -983,7 +984,7 @@ old_digits <- getOption("digits")
 options(digits = 3)
 ```
 
-Here we `map()` a custom function to every row in the `data` column.
+Here we .kjh-green[**`map()`**] a custom function to every row in the `data` column.
 
 ```{r 07-.kjh-green[Iterating]-25}
 

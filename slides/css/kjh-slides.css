@@ -263,6 +263,8 @@ Wider pull left/right
 .pull-left-wide {
   float: left;
   width: 65%;
+  padding: 0 2.5% 0 0;
+  margin: 0 0 0 0;
 }
 
 .pull-left-narrow {
@@ -273,6 +275,8 @@ Wider pull left/right
 .pull-right-wide {
   float: right;
   width: 65%;
+  padding: 0 0 0 2.5%;
+  margin: 0 0 0 0;
 }
 
 .pull-right-narrow {
@@ -685,6 +689,11 @@ ul {
   list-style-type: none;
 }
 
+li {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
+
 pre {
   margin-top: 0.35em;
   margin-bottom: 0.35em;
@@ -722,8 +731,12 @@ pre {
   color: #4EAFF0;
 }
 
-.kjh-green {
+/*.kjh-green {
   color: #53D52A;
+}
+*/
+.kjh-green {
+  color: #1BB71C;
 }
 
 /*# sourceMappingURL=kjh-slides.css.map */
