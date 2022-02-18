@@ -22,14 +22,15 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
-                      fig.retina = 3, fig.align = "center")
+## Graphics options and theme-matching
+source(here::here("slides", "R", "ragg_and_theme.R"))
+ggplot2::theme_set(theme_solitas())
 ```
 
 ```{r packages-data, include=FALSE}
 library(flipbookr)
-library(cowplot)
-ggplot2::theme_set(theme_cowplot())
+# library(cowplot)
+# ggplot2::theme_set(theme_cowplot())
 
 ```
 
@@ -158,7 +159,7 @@ class: title title-1
 
 ---
 
-# Each .kjh-orange[action] has a corresponding .kjh-green[function] 
+# Each .kjh-orange[action] is implemented by a .kjh-green[function] 
 
 --
 
@@ -199,7 +200,7 @@ Notice how the tibble already tells us a lot.
 
 ---
 
-# Summarizing a table
+# Summarizing a Table
 
 ```{r 03-dplyr-basics-3}
 ## Just take a look at the columns we will work on
@@ -286,7 +287,7 @@ The _innermost_ (i.e. the rightmost) group.
 
 ---
 
-# Pipelines carry some assumptions forward
+# Pipelines carry assumptions forward
 
 .small[
 ```{r 03-dplyr-basics-5}
@@ -306,7 +307,7 @@ Summary calculations are done on the innermost group, which then "disappears". (
 
 ---
 
-# Pipelines carry some assumptions forward
+# Pipelines carry assumptions forward
 
 .small[
 ```{r 03-dplyr-basics-6}
@@ -468,7 +469,7 @@ rel_by_region
 
 ---
 
-# .kjh-lblue[Right] assignmment is a thing, just like .kjh-red[Left]
+# .kjh-lblue[Right] assignmment is a thing, like .kjh-red[Left]
 
 .pull-left[
 
@@ -775,7 +776,7 @@ organdata %>%
 
 ---
 
-# Doing more than one thing 
+# Do more than one thing 
 
 Earlier we saw this:
 
@@ -789,7 +790,7 @@ gss_sm %>%
 
 ---
 
-# Doing more than one thing 
+# Do more than one thing 
 
 .SMALL.squish3[Similarly for `organdata` we might want to do:]
 
@@ -811,7 +812,7 @@ This works, but it's really tedious. Also error-prone.
 
 ---
 
-# Doing more than one thing with .kjh-yellow[`across()`]
+# Do more than one thing with .kjh-yellow[`across()`]
 
 .SMALL.squish3[Instead, use `across()` to apply a function to more than one column.]
 
@@ -884,7 +885,7 @@ organdata %>%
 
 ---
 
-# Conditionally select with .kjh-yellow[`across(where())`]
+# Selection with .kjh-yellow[`across(where())`]
 
 .SMALL[
 

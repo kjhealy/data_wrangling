@@ -22,14 +22,15 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
-                      fig.retina = 3, fig.align = "center")
+## Graphics options and theme-matching
+source(here::here("slides", "R", "ragg_and_theme.R"))
+ggplot2::theme_set(theme_solitas())
 ```
 
 ```{r packages-data, include=FALSE}
 library(flipbookr)
-library(cowplot)
-ggplot2::theme_set(theme_cowplot())
+# library(cowplot)
+# ggplot2::theme_set(theme_cowplot())
 
 ```
 

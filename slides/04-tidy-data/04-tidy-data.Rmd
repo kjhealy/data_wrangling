@@ -22,14 +22,15 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
-                      fig.retina = 3, fig.align = "center")
+## Graphics options and theme-matching
+source(here::here("slides", "R", "ragg_and_theme.R"))
+ggplot2::theme_set(theme_solitas())
 ```
 
 ```{r packages-data, include=FALSE}
 library(flipbookr)
-library(cowplot)
-ggplot2::theme_set(theme_cowplot())
+# library(cowplot)
+# ggplot2::theme_set(theme_cowplot())
 
 ```
 
@@ -117,7 +118,7 @@ Then transform it back to something wider if needed.
 
 # This isn't an _iron_ rule
 
-As we'll see later, `dplyr` has recently acquired the ability to do _rowwise_ operations 
+As we'll see later, `dplyr` _is_ able to do _rowwise_ operations if you need them.
 
 --
 
@@ -278,7 +279,7 @@ An excellent article by Karl Broman and Kara Woo:
 
 ---
 
-# Key recommendations from Broman & Woo
+# Key points from Broman & Woo
 
 .pull-left[![:scale 180%](img/broman_woo_inconsistent_dates.png)]
 
@@ -301,7 +302,7 @@ class: title title-1
 
 ---
 
-# Key recommendations from Broman & Woo
+# Key points from Broman & Woo
 
 
 ![:scale 180%](img/broman_woo_implicit_repeats_and_headers.png)
@@ -312,7 +313,7 @@ One row of headers only.
 
 ---
 
-# Key recommendations from Broman & Woo
+# Key points from Broman & Woo
 
 .pull-left[![:scale 110%](img/broman_woo_tidied_1.png)]
 
@@ -320,7 +321,7 @@ One row of headers only.
 
 ---
 
-# Key recommendations from Broman & Woo
+# Key points from Broman & Woo
 
 .pull-left[![:scale 170%](img/broman_woo_non_rectangular.png)]
 
@@ -328,7 +329,7 @@ One row of headers only.
 
 ---
 
-# Key recommendations from Broman & Woo
+# Key points from Broman & Woo
 
 .pull-left[![:scale 170%](img/broman_woo_5D_pair_tables.png)]
 
@@ -336,7 +337,7 @@ One row of headers only.
 
 ---
 
-# Key recommendations from Broman & Woo
+# Key points from Broman & Woo
 
 .pull-left[![:scale 120%](img/broman_woo_multi_header_rows.png)]
 
@@ -349,7 +350,7 @@ Needs a consistent naming scheme.]
 
 ---
 
-# Key recommendations from Broman & Woo
+# Key points from Broman & Woo
 
 .pull-left[![:scale 170%](img/broman_woo_tidied_2.png)]
 
@@ -373,7 +374,7 @@ This is fine for a compact table, but for us it should be a single measure, say,
 ]
 ---
 
-# From wide to long with .kjh-yellow[pivot-longer()]
+# From wide to long with .kjh-yellow[`pivot_longer()`]
 
 .SMALL.squish2[We're going to put the columns `elem4:coll4` into a new column, creating a new categorical measure named `education`. The numbers currently under each column will become a  new .kjh-green[value] column corresponding to that level of education. ]
 
@@ -384,7 +385,7 @@ edu %>%
 
 ---
 
-# From wide to long with .kjh-yellow[pivot-longer()]
+# From wide to long with .kjh-yellow[`pivot_longer()`]
 
 .SMALL.squish2[We can name the value column to whatever we like. Here it's a number of people.]
 

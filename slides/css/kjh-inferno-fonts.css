@@ -36,7 +36,7 @@ Body text slab
 
 @font-face {
   font-family: 'Solitas Slab';
-  src: url('fonts/SolitasSlab-ConDem.woff2') format('woff2');
+  src: url('fonts/SolitasSlab-ConMed.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
 }

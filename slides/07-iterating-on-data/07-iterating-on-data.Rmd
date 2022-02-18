@@ -22,14 +22,18 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
-                      fig.retina = 3, fig.align = "center")
+## Graphics options and theme-matching
+source("../R/ragg_and_theme.R")
 ```
 
 ```{r packages-data, include=FALSE}
 library(flipbookr)
-library(cowplot)
-ggplot2::theme_set(theme_cowplot())
+#library(cowplot)
+#ggplot2::theme_set(theme_cowplot())
+
+ggplot2::theme_set(theme_solitas())
+
+
 ```
 
 ```{r xaringanExtra, echo=FALSE}
@@ -594,7 +598,7 @@ df %>%
   filter(age == 25)
 ```
 
----
+--
 
 ```{r 07-iterating-on-data-25}
 # Nope
