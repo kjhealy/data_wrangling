@@ -1,12 +1,5 @@
 library(systemfonts)
 clear_registry()
-register_variant(
-  name = "Solitas Slab Slide",
-  family = "Solitas Slab",
-  weight = c("medium", "semibold"),
-  width = "semicondensed"
-)
-
 
 register_variant(
   name = "Tenso Slide",
@@ -67,40 +60,6 @@ theme_baselayer <- function (base_size = 14, base_family = "")
               text = ggplot2::element_text(colour = "black"))
 }
 
-
-theme_solitas <- function (base_size = 12, base_family = "Solitas Slab Slide") {
-  (ggthemes::theme_foundation(base_size = base_size, base_family = base_family) +
-      ggplot2::theme(line = ggplot2::element_line(colour = slide_colors["slate"]),
-            rect = ggplot2::element_rect(fill = slide_colors["lightgrey"],
-                                linetype = 0, colour = NA),
-            text = ggplot2::element_text(colour = slide_colors["slate"]),
-            axis.title = ggplot2::element_text(ggplot2::rel(1.15)),
-            axis.text = ggplot2::element_text(size = ggplot2::rel(1.15)),
-            strip.text = ggplot2::element_text(size = ggplot2::rel(1.35),
-                                               face = "bold"),
-            axis.ticks = ggplot2::element_line(),
-            axis.line = ggplot2::element_line(),
-            legend.background = ggplot2::element_rect(),
-            legend.position = "top",
-            legend.direction = "horizontal",
-            legend.box = "vertical",
-            panel.grid = ggplot2::element_line(colour = NULL),
-            panel.grid.major = ggplot2::element_line(colour = slide_colors["grey"]),
-            panel.grid.minor = ggplot2::element_blank(),
-            plot.title = ggplot2::element_text(hjust = 0,
-                                      size = ggplot2::rel(1.5),
-                                      face = "bold"),
-            plot.subtitle = ggplot2::element_text(hjust = 0,
-                                               size = ggplot2::rel(1.25),
-                                               face = "normal"),
-            plot.caption = ggplot2::element_text(hjust = 0,
-                                                 size = ggplot2::rel(0.8),
-                                                 face = "normal"),
-            plot.margin = unit(c(5.5,12,5.5,5.5), "pt"),
-            strip.background = ggplot2::element_rect()
-            )
-    )
-}
 
 
 theme_tenso <- function (base_size = 12, base_family = "Tenso Slide") {
