@@ -6,7 +6,7 @@ output:
   xaringan::moon_reader:
     lib_dir: "libs"
     chakra: "../libs/remark-latest.min.js"
-    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css"]
+    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css", "../css/widths.css"]
     seal: false
     anchor_sections: false
     nature:
@@ -57,7 +57,7 @@ Statistical Horizons, April 2022]
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4[Using RMarkdown to .kjh-orange[produce] and .kjh-green[reproduce] your work]
 
@@ -123,7 +123,7 @@ class: title title-1
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 .center[![:scale 90% "Covid example"](img/lorem-covid-markdown.png)]  
 
@@ -181,7 +181,7 @@ class: title title-1
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 ## .top.huge.squish4[TYPE OUT<br />YOUR CODE<br />.kjh-orange[BY HAND]]
 
@@ -197,7 +197,7 @@ class: main-title main-title-inv
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4[<br />GETTING <br />O.kjh-orange[R]IENTED]
 
@@ -302,7 +302,7 @@ letters
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.large.squish4[<br />SOME THINGS<br />TO KNOW<br />ABOUT .kjh-orange[R]] 
 
@@ -492,7 +492,7 @@ See e.g. [https://0.30000000000000004.com](https://0.30000000000000004.com)
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4[More later on why this might bite you, and how to deal with it]
 
@@ -939,7 +939,7 @@ eggs %>%
 
 --
 
-- It is denoted by .kjh-green[**`|>`**]. Type .kjh-green[`|`] and then .kjh-green[`>`] to write it. It mostly but does not _quite_ replace .kjh-green[**`%>%`**] in every case.\* 
+- It is denoted by .kjh-green[**`|>`**]. Type .kjh-green[**`|`**] and then .kjh-green[**`>`**] to write it. It mostly but does not _quite_ replace .kjh-green[**`%>%`**] in every case.\* 
 
 
 - The magrittr pipe will continue to work as shown in these slides.

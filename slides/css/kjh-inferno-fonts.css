@@ -2,6 +2,11 @@
 Body text slab
 */
 
+
+/*
+
+/* Solitas
+
 @font-face {
     font-family: 'Solitas Slab';
     src: url('fonts/SolitasSlab-NorLig.woff2') format('woff2');
@@ -40,6 +45,47 @@ Body text slab
   font-weight: 500;
   font-style: normal;
 }
+*/
+
+
+@font-face {
+    font-family: 'Tenso Slab';
+    src: url('fonts/03-tenso-slab-regular_42_ik.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Tenso Slab';
+    src: url('05_tenso-slab-medium_42_ik.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Tenso Slab';
+    src: url('fonts/04_tenso_slab_italic_42_ik.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Tenso Slab';
+    src: url('fonts/06_tenso-slab-mediumitalic_42_ik.woff2') format('woff2');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+  font-family: 'Tenso Slab';
+  src: url('fonts/07_tenso-slab-bold_42_ik.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Tenso Slab';
+  src: url('fonts/05_tenso-slab-medium_42_ik.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
 
 
 /*
@@ -73,7 +119,7 @@ Monospace
 
 
 body {
-  font-family: 'Solitas Slab', sans;
+  font-family: 'Tenso Slab', sans;
   font-weight: normal;
 }
 

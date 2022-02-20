@@ -6,7 +6,7 @@ output:
   xaringan::moon_reader:
     lib_dir: "libs"
     chakra: "../libs/remark-latest.min.js"
-    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css"]
+    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css", "../css/widths.css"]
     seal: false
     anchor_sections: false
     nature:
@@ -142,7 +142,7 @@ Maybe you're familiar with R already, but I don't assume it. So please bear with
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4[<br />.kjh-orange[DATA ANALYSIS]<br />is mostly<br />.kjh-red[DATA WRANGLING]]
 
@@ -201,7 +201,7 @@ class: title title-1
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4[<br /><br />HOWEVER, WE _CAN_<br />MAKE IT _.kjh-green[WORK]_]
 
@@ -233,7 +233,7 @@ class: title title-1
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4[Two revolutions<br/>in computing]
 
@@ -336,7 +336,7 @@ class: title title-1
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle[The research process is _.kjh-orange[intrinsically messy]_]
 --
@@ -436,7 +436,7 @@ class: title title-1
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle[<br />INTO THE KITCHEN]
 

@@ -6,7 +6,7 @@ output:
   xaringan::moon_reader:
     lib_dir: "libs"
     chakra: "../libs/remark-latest.min.js"
-    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css"]
+    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css", "../css/widths.css"]
     seal: false
     anchor_sections: false
     nature:
@@ -57,9 +57,9 @@ Statistical Horizons, April 2022]
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
-# .middle.squish4[Time to<br />play with<br />some .kjh-red[data]]
+# .huge.middle.squish4[Time to<br />play with<br />some .kjh-red[data]]
 
 --
 
@@ -160,7 +160,7 @@ library(tidyverse) # your friend and mine
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4[`dplyr` draws on the logic and language of  .kjh-green[database queries], where the focus is on manipulating tables]
 
@@ -175,10 +175,13 @@ class: title title-1
 
 --
 
-.pull-left-wide[
+.pull-left.w80[
 - .kjh-orange[**Group**] the data at the level we want, such as “_Religion by Region_” or _“Children by School_”.
+
 - .kjh-orange[**Subset**] either the rows or columns of or table.
+
 - .kjh-orange[**Mutate**] the data. That is, change something at the _current_ level of grouping.  Mutating adds new columns to the table, or changes the content of an existing column. It never changes the number of rows.
+
 - .kjh-orange[**Summarize**] or aggregate the data. That is, make something new at a _higher_ level of grouping. E.g., calculate means or counts by some grouping variable. This will generally result in a smaller, _summary_ table.
 ]
 

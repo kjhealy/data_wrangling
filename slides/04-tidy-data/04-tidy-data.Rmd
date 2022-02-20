@@ -6,7 +6,7 @@ output:
   xaringan::moon_reader:
     lib_dir: "libs"
     chakra: "../libs/remark-latest.min.js"
-    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css"]
+    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css", "../css/widths.css"]
     seal: false
     anchor_sections: false
     nature:
@@ -82,7 +82,7 @@ library(gapminder) # gapminder data
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4.large[.kjh-red[Tidy data]<br />is data in<br />.kjh-red[long] format]
 
@@ -145,7 +145,7 @@ edu %>%
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4.large[It is a<br />.kjh-orange[pretty good]<br />rule though]
 
@@ -289,7 +289,7 @@ Use a consistent date format
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4.huge[.kjh-green[ISO 8601]]
 

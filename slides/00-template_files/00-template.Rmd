@@ -6,7 +6,7 @@ output:
   xaringan::moon_reader:
     lib_dir: "libs"
     chakra: "../libs/remark-latest.min.js"
-    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css"]
+    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css", "../css/widths.css"]
     seal: false
     anchor_sections: false
     nature:
@@ -101,7 +101,7 @@ class: title title-1
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle[Most Data Analysis is .kjh-orange[Cleaning] and .kjh-red[Recoding]]
 ---

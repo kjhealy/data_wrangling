@@ -5,11 +5,15 @@ register_variant(
   family = "Solitas Slab",
   weight = c("medium", "semibold"),
   width = "semicondensed"
-  # plain = "/Users/kjhealy/Library/Fonts/insigne - SolitasSlab-ConReg.otf",
-  # bold = "/Users/kjhealy/Library/Fonts/insigne - SolitasSlab-ConDem.otf",
-  # italic = "/Users/kjhealy/Library/Fonts/insigne - SolitasSlab-ConRegIt.otf",
-  # bolditalic = "/Users/kjhealy/Library/Fonts/insigne - SolitasSlab-ConDemIt.otf"
 )
+
+
+register_variant(
+  name = "Tenso Slide",
+  family = "Tenso Slab",
+  weight = c("normal", "medium"),
+)
+
 
 ragg_png = function(..., res = 150) {
   ragg::agg_png(..., res = res, units = "in")
@@ -98,4 +102,42 @@ theme_solitas <- function (base_size = 12, base_family = "Solitas Slab Slide") {
     )
 }
 
-ggplot2::theme_set(theme_solitas())
+
+theme_tenso <- function (base_size = 12, base_family = "Tenso Slide") {
+  (ggthemes::theme_foundation(base_size = base_size, base_family = base_family) +
+     ggplot2::theme(line = ggplot2::element_line(colour = slide_colors["slate"]),
+                    rect = ggplot2::element_rect(fill = slide_colors["lightgrey"],
+                                                 linetype = 0, colour = NA),
+                    text = ggplot2::element_text(colour = slide_colors["slate"]),
+                    axis.title = ggplot2::element_text(ggplot2::rel(1.15)),
+                    axis.text = ggplot2::element_text(size = ggplot2::rel(1.15)),
+                    strip.text = ggplot2::element_text(size = ggplot2::rel(1.35),
+                                                       face = "bold"),
+                    axis.ticks = ggplot2::element_line(),
+                    axis.line = ggplot2::element_line(),
+                    legend.background = ggplot2::element_rect(),
+                    legend.position = "top",
+                    legend.direction = "horizontal",
+                    legend.box = "vertical",
+                    panel.grid = ggplot2::element_line(colour = NULL),
+                    panel.grid.major = ggplot2::element_line(colour = slide_colors["grey"]),
+                    panel.grid.minor = ggplot2::element_blank(),
+                    plot.title = ggplot2::element_text(hjust = 0,
+                                                       size = ggplot2::rel(1.5),
+                                                       face = "bold"),
+                    plot.subtitle = ggplot2::element_text(hjust = 0,
+                                                          size = ggplot2::rel(1.25),
+                                                          face = "normal"),
+                    plot.caption = ggplot2::element_text(hjust = 0,
+                                                         size = ggplot2::rel(0.8),
+                                                         face = "normal"),
+                    plot.margin = unit(c(5.5,12,5.5,5.5), "pt"),
+                    strip.background = ggplot2::element_rect()
+     )
+  )
+}
+
+
+
+#ggplot2::theme_set(theme_solitas())
+ggplot2::theme_set(theme_tenso())

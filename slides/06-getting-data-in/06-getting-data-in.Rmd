@@ -6,7 +6,7 @@ output:
   xaringan::moon_reader:
     lib_dir: "libs"
     chakra: "../libs/remark-latest.min.js"
-    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css"]
+    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css", "../css/widths.css"]
     seal: false
     anchor_sections: false
     nature:
@@ -76,7 +76,7 @@ library(haven)     # for Stata, SAS, and SPSS files
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4[.kjh-orange[We've put a lot of pieces in place at this point]]
 
@@ -745,7 +745,7 @@ p_out
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4.huge[.kjh-orange[Every dataset is different]]
 
@@ -973,7 +973,7 @@ rfm_table %>%
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4[.kjh-orange[What about Stata?]]
 

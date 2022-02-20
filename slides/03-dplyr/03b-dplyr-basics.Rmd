@@ -6,7 +6,7 @@ output:
   xaringan::moon_reader:
     lib_dir: "libs"
     chakra: "../libs/remark-latest.min.js"
-    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css"]
+    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css", "../css/widths.css"]
     seal: false
     anchor_sections: false
     nature:
@@ -58,7 +58,7 @@ Statistical Horizons, April 2022]
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4[.kjh-orange[Window functions] and .kjh-green[moving averages]]
 
@@ -319,7 +319,7 @@ gss_sm %>%
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4.large[Two dplyr .kjh-red[gotchas]]
 

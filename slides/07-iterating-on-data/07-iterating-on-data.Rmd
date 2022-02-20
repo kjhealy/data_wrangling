@@ -6,7 +6,7 @@ output:
   xaringan::moon_reader:
     lib_dir: "libs"
     chakra: "../libs/remark-latest.min.js"
-    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css"]
+    css: ["default", "../css/kjh-slides.css", "../css/kjh-inferno-fonts.css", "../css/animate.css", "../css/widths.css", "../css/widths.css"]
     seal: false
     anchor_sections: false
     nature:
@@ -73,7 +73,7 @@ library(tidyverse) # your friend and mine
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4.huge[.kjh-orange[Moar Data]]
 
@@ -366,7 +366,7 @@ df
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 .top[![:scale 100%](img/emperor-witness.png)]
 
@@ -555,7 +555,7 @@ Most of the time you will be looking to make a .kjh-green[**`left_join()`**]
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4.huge[.kjh-red[Missing Data]]
 
@@ -843,7 +843,7 @@ upset(data = indvs, intersect = symptoms,
 ---
 
 layout: false
-class: main-title main-title-inv
+class: center
 
 # .middle.squish4.huge[.kjh-green[Models]]
 
