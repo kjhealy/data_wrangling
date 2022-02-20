@@ -608,3 +608,16 @@ pre {
   color: #1BB71C;
 }
 
+
+.str_view ul, .str_view li {
+  list-style: none;
+  padding: 0;
+  margin: 0.5em 0;
+  font-family: monospace;
+}
+
+.str_view .match {
+  border: 1px solid #ccc;
+  background-color: #FFFF54;
+}
+
