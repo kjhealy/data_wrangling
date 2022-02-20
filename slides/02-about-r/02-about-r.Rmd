@@ -47,7 +47,7 @@ class: center middle main-title section-title-1
 
 .class-info[
 
-**Session 2**
+**Data Wrangling: Session 2**
 
 .light[Kieran Healy<br>
 Statistical Horizons, April 2022]
