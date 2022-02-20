@@ -78,7 +78,7 @@ library(haven)     # for Stata, SAS, and SPSS files
 layout: false
 class: center
 
-# .middle.squish4[.kjh-orange[We've put a lot of pieces in place at this point]]
+# .huge.middle.squish4[.kjh-orange[We've put a lot of pieces in place at this point]]
 
 Including several things we haven't fully exploited yet
 
@@ -975,7 +975,7 @@ rfm_table %>%
 layout: false
 class: center
 
-# .middle.squish4[.kjh-orange[What about Stata?]]
+# .huge.middle.squish4[.kjh-orange[What about Stata?]]
 
 ---
 

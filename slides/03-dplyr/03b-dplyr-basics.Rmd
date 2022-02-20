@@ -60,7 +60,7 @@ Statistical Horizons, April 2022]
 layout: false
 class: center
 
-# .middle.squish4[.kjh-orange[Window functions] and .kjh-green[moving averages]]
+# .huge.middle.squish4[.kjh-orange[Window functions] and .kjh-green[moving averages]]
 
 ---
 

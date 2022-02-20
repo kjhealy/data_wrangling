@@ -84,7 +84,7 @@ library(gapminder) # gapminder data
 layout: false
 class: center
 
-# .middle.squish4.large[.kjh-red[Tidy data]<br />is data in<br />.kjh-red[long] format]
+# .middle.squish4.huge[.kjh-red[Tidy data]<br />is data in<br />.kjh-red[long] format]
 
 ---
 
@@ -147,7 +147,7 @@ edu %>%
 layout: false
 class: center
 
-# .middle.squish4.large[It is a<br />.kjh-orange[pretty good]<br />rule though]
+# .middle.squish4.huge[It is a<br />.kjh-orange[pretty good]<br />rule though]
 
 ---
 

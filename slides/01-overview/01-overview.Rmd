@@ -144,7 +144,7 @@ Maybe you're familiar with R already, but I don't assume it. So please bear with
 layout: false
 class: center
 
-# .middle.squish4[<br />.kjh-orange[DATA ANALYSIS]<br />is mostly<br />.kjh-red[DATA WRANGLING]]
+# .huge.middle.squish4[<br />.kjh-orange[DATA ANALYSIS]<br />is mostly<br />.kjh-red[DATA WRANGLING]]
 
 ---
 
@@ -203,7 +203,7 @@ class: title title-1
 layout: false
 class: center
 
-# .middle.squish4[<br /><br />HOWEVER, WE _CAN_<br />MAKE IT _.kjh-green[WORK]_]
+# .huge.middle.squish4[<br /><br />HOWEVER, WE _CAN_<br />MAKE IT _.kjh-green[WORK]_]
 
 --
 
@@ -235,7 +235,7 @@ class: title title-1
 layout: false
 class: center
 
-# .middle.squish4[Two revolutions<br/>in computing]
+# .huge.middle.squish4[Two revolutions<br/>in computing]
 
 ---
 
@@ -338,7 +338,7 @@ class: title title-1
 layout: false
 class: center
 
-# .middle[The research process is _.kjh-orange[intrinsically messy]_]
+# .huge.middle[The research process is _.kjh-orange[intrinsically messy]_]
 --
 
 ## A rough distinction: "Office" vs "Engineering" approaches
@@ -438,7 +438,7 @@ class: title title-1
 layout: false
 class: center
 
-# .middle[<br />INTO THE KITCHEN]
+# .huge.middle[<br />INTO THE KITCHEN]
 
 ---
 

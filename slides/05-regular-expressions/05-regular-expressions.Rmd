@@ -85,7 +85,7 @@ library(stringr)
 layout: false
 class: center
 
-# .middle.squish4.large[.kjh-blue[Regular]<br />.kjh-blue[Expressions]]
+# .middle.squish4.huge[.kjh-blue[Regular]<br />.kjh-blue[Expressions]]
 
 _Or_, waiter, there appears to be a language inside my language
 

@@ -568,7 +568,7 @@ all.equal(colnames(stmf), stmf_colnames)
 
 ---
 
-# Use .kjh-green[testthat] to implement some checking
+# Use .kjh-green[testthat] to check things
 
 ```{r, eval = FALSE, echo = TRUE}
 
@@ -591,7 +591,7 @@ test_that("stmf conforms to spec", {
 
 ---
 
-# Use .kjh-green[testthat] to implement some checking
+# Use .kjh-green[testthat] to check things
 
 
 ```{r 08-making-tidy-easier-test-8, eval = FALSE, echo = TRUE}

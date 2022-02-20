@@ -162,7 +162,7 @@ library(tidyverse) # your friend and mine
 layout: false
 class: center
 
-# .middle.squish4[`dplyr` draws on the logic and language of  .kjh-green[database queries], where the focus is on manipulating tables]
+# .huge.middle.squish4[`dplyr` draws on the logic and language of  .kjh-green[database queries], where the focus is on manipulating tables]
 
 ---
 

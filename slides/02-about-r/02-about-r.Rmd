@@ -59,7 +59,7 @@ Statistical Horizons, April 2022]
 layout: false
 class: center
 
-# .middle.squish4[Using RMarkdown to .kjh-orange[produce] and .kjh-green[reproduce] your work]
+# .huge.middle.squish4[Using RMarkdown to .kjh-orange[produce] and .kjh-green[reproduce] your work]
 
 ---
 
@@ -199,7 +199,7 @@ class: center
 layout: false
 class: center
 
-# .middle.squish4[<br />GETTING <br />O.kjh-orange[R]IENTED]
+# .huge.middle.squish4[<br />GETTING <br />O.kjh-orange[R]IENTED]
 
 ---
 
@@ -494,7 +494,7 @@ See e.g. [https://0.30000000000000004.com](https://0.30000000000000004.com)
 layout: false
 class: center
 
-# .middle.squish4[More later on why this might bite you, and how to deal with it]
+# .huge.middle.squish4[More later on why this might bite you, and how to deal with it]
 
 --
 
