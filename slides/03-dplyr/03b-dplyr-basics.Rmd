@@ -25,7 +25,6 @@ editor_options:
 ```{r setup, include=FALSE}
 ## Graphics options and theme-matching
 source(here::here("slides", "R", "ragg_and_theme.R"))
-ggplot2::theme_set(theme_solitas())
 ```
 
 ```{r packages-data, include=FALSE}
@@ -141,7 +140,7 @@ covus %>%
 
 # An application 
 
-.kjh-green[**`dplyr` has `lead()`**] and .kjh-green[**`lag()`**] functions. These allow you to access the previous and next values in a vector. You can calculate offsets this way.
+`dplyr` has .kjh-green[**`lead()`**] and .kjh-green[**`lag()`**] functions. These allow you to access the previous and next values in a vector. You can calculate offsets this way.
 
 ```{r 03-dplyr-basics-52}
 my_vec <- c(1:20)

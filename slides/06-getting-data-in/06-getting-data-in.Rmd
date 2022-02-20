@@ -23,16 +23,12 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
-                      fig.retina = 3, fig.align = "center")
+## Graphics options and theme-matching
+source(here::here("slides", "R", "ragg_and_theme.R"))
 ```
 
 ```{r packages-data, include=FALSE}
 library(flipbookr)
-
-library(cowplot)
-ggplot2::theme_set(theme_cowplot())
-
 ```
 
 ```{r xaringanExtra, echo=FALSE}
@@ -631,7 +627,7 @@ I said at the start that it was no fun, but also weirdly satisfying.
 
 --
 
-When .kjh-green[**`read_csv()`**] warns you of a parsing failure _don't ignore it_.
+When .kjh-green[**`read_csv()`**] warns you of a parsing failure, **don't ignore it**.
 
 --
 
@@ -733,9 +729,6 @@ p_out <- nchs_fmt %>%
 
 # Result
 
-```{r 06-getting-data-in-35, echo = FALSE}
-#theme_set(cowplot::theme_minimal_grid())
-```
 
 
 ```{r 06-getting-data-in-36, fig.height=5, fig.width=12}
@@ -1365,6 +1358,8 @@ levels(gss_sub$sex)
 ```
 
 ---
+
+# More on .kjh-yellow[factors]
 
 ```{r}
 summary(lm(age ~ sex, data = gss_sub))

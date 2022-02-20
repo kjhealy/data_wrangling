@@ -25,7 +25,6 @@ editor_options:
 ```{r setup, include=FALSE}
 ## Graphics options and theme-matching
 source(here::here("slides", "R", "ragg_and_theme.R"))
-ggplot2::theme_set(theme_solitas())
 ```
 
 ```{r packages-data, include=FALSE}

@@ -23,15 +23,12 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
-                      fig.retina = 3, fig.align = "center")
+## Graphics options and theme-matching
+source(here::here("slides", "R", "ragg_and_theme.R"))
 ```
 
 ```{r packages-data, include=FALSE}
 library(flipbookr)
-library(cowplot)
-ggplot2::theme_set(theme_cowplot())
-
 ```
 
 ```{r xaringanExtra, echo=FALSE}
@@ -124,15 +121,15 @@ This book is a thing of beauty.
 
 # Searching for patterns
 
-.SMALL.squish2[A regular expression is a way of searching for a piece of text, or _pattern_, inside some larger body of text, called a _string_.] 
+.normal.w75[A regular expression is a way of searching for a piece of text, or _pattern_, inside some larger body of text, called a _string_.] 
 
 --
 
-.SMALL.squish2[The simplest sort of search is like the "Find" functionality in a Word Processor, where the pattern is a literal letter, number, punctuation mark, word or series of words and the text is a document that gets searched one line at a time. The next step up is "Find and Replace".]
+.normal.w75[The simplest sort of search is like the "Find" functionality in a Word Processor, where the pattern is a literal letter, number, punctuation mark, word or series of words and the text is a document that gets searched one line at a time. The next step up is "Find and Replace".]
 
 --
 
-.SMALL.squish2[Every pattern-searching function in `stringr` has the same basic form:]
+.normal.w75[Every pattern-searching function in `stringr` has the same basic form:]
 
 ```r
 str_view(<STRING>, <PATTERN>, [...]) # where [...] means "maybe some options"
@@ -140,7 +137,7 @@ str_view(<STRING>, <PATTERN>, [...]) # where [...] means "maybe some options"
 
 --
 
-.SMALL.squish2[Functions that _replace_ as well as _detect_ strings all have this form:]
+.normal.w75[Functions that _replace_ as well as _detect_ strings all have this form:]
 
 ```r
 str_replace(<STRING>, <PATTERN>, <REPLACEMENT>)
@@ -148,7 +145,7 @@ str_replace(<STRING>, <PATTERN>, <REPLACEMENT>)
 
 --
 
-.smaller.squish3[(If you think about it, .kjh-orange[`<STRING>`], .kjh-orange[`<PATTERN>`] and .kjh-orange[`<REPLACEMENT>`] above are all kinds of pattern: they are meant to "stand for" all kinds of text, not be taken literally.)]
+.small.squish3[(If you think about it, .kjh-orange[`<STRING>`], .kjh-orange[`<PATTERN>`] and .kjh-orange[`<REPLACEMENT>`] above are all kinds of pattern: they are meant to "stand for" all kinds of text, not be taken literally.)]
 
 ---
 
@@ -167,15 +164,15 @@ str_view(x, "an")
 # Searching for patterns
 
 
-.SMALL[Regular expressions get their real power from _wildcards_, i.e. tokens that match more than just literal strings, but also more general and more complex patterns.] 
+.pull-left.w80[- Regular expressions get their real power from _wildcards_, i.e. tokens that match more than just literal strings, but also more general and more complex patterns.]
 
 --
 
-.SMALL[The most general pattern-matching token is, "Match everything!". This is represented by the period, or **`.`**]
+- The most general pattern-matching token is, "Match everything!" This is represented by the period, or **`.`**]
 
 --
 
-.SMALL[But ... if “**`.`**” matches any character, how do you specifically match the character “**`.`**”?]
+- But ... if “**`.`**” matches any character, how do you specifically match the character “.kjh-pink[**`.`**]”?
 
 ---
 
@@ -218,7 +215,7 @@ We use strings to represent regular expressions, and \ is also used as an escape
 
 ---
   
-# But ... then how do you match a .kjh-yellow[literal] **`\`**?
+# But ... then how do you match a .kjh-yellow[literal] .kjh-pink[**`\`**]?
 
 ```{r 05-regular-expressions-6}
 
@@ -232,17 +229,17 @@ str_view(x, "\\\\") # you need four!
 
 ---
 
-# But ... then how do you match a .kjh-yellow[literal] **`\`**?
+# But ... then how do you match a .kjh-yellow[literal] .kjh-pink[**`\`**]?
 
 This is the price we pay for having to express searches for patterns using a language containing these same characters, which we may also want to search for. 
 
 ---
 
-# I promise this will pay off
+# I _promise_ this will pay off
 
-Use **`^`** to match the start of a string.
+Use .kjh-pink[**`^`**] to match the start of a string.
 
-Use **`$`** to match the end of a string.
+Use .kjh-pink[**`$`**] to match the end of a string.
 
 --
 
@@ -268,7 +265,7 @@ str_view(x, "a$")
 
 # Matching start and end
 
-To force a regular expression to only match a complete string, anchor it with both **`^ `** and **`$`**
+To force a regular expression to only match a complete string, anchor it with both .kjh-pink[**`^ `**] and .kjh-pink[**`$`**]
 
 --
 
@@ -295,13 +292,13 @@ str_view(x, "^apple$")
 
 # Matching character classes
 
-**`\d`** matches any digit.
+.kjh-pink[**`\d`**] matches any digit.
 
-**`\s`** matches any whitespace (e.g. space, tab, newline).
+.kjh-pink[**`\s`**] matches any whitespace (e.g. space, tab, newline).
 
-**`[abc]`** matches a, b, or c.
+.kjh-pink[**`[abc]`**] matches a, b, or c.
 
-**`[^abc]`** matches anything except a, b, or c.
+.kjh-pink[**`[^abc]`**] matches anything except a, b, or c.
 
 ???
 
@@ -339,7 +336,7 @@ This works for most (but not all) regex metacharacters: $ . | ? * + ( ) [ {. Unf
 
 # Alternation
 
-Use parentheses to make the precedence of **`|`** clear:
+Use parentheses to make the precedence of .kjh-pink[**`|`**] clear:
 
 ```{r 05-regular-expressions-13}
 str_view(c("groy", "grey", "griy", "gray"), "gr(e|a)y")
@@ -350,11 +347,11 @@ str_view(c("groy", "grey", "griy", "gray"), "gr(e|a)y")
 # Repeated patterns
 
 
-**`?`** is 0 or 1
+.kjh-pink[**`?`**] is 0 or 1
 
-**`+`** is 1 or more
+.kjh-pink[**`+`**] is 1 or more
 
-**`*`** is 0 or more
+.kjh-pink[**`*`**] is 0 or more
 
 ```{r 05-regular-expressions-14}
 x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
@@ -366,11 +363,11 @@ str_view(x, "CC?")
 # Repeated patterns
 
 
-**`?`** is 0 or 1
+.kjh-pink[**`?`**] is 0 or 1
 
-**`+`** is 1 or more
+.kjh-pink[**`+`**] is 1 or more
 
-**`*`** is 0 or more
+.kjh-pink[**`*`**] is 0 or more
 
 ```{r 05-regular-expressions-15}
 str_view(x, "CC+")
@@ -382,11 +379,11 @@ str_view(x, "CC+")
 # Repeated patterns
 
 
-**`?`** is 0 or 1
+.kjh-pink[**`?`**] is 0 or 1
 
-**`+`** is 1 or more
+.kjh-pink[**`+`**] is 1 or more
 
-**`*`** is 0 or more
+.kjh-pink[**`*`**] is 0 or more
 
 ```{r 05-regular-expressions-16}
 x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
@@ -397,13 +394,13 @@ str_view(x, 'C[LX]+')
 
 # Exact numbers of repetitions
 
-**`{n}`** is exactly n
+.kjh-pink[**`{n}`**] is exactly n
 
-**`{n,}`** is n or more
+.kjh-pink[**`{n,}`**] is n or more
 
-**`{,m}`** is at most m
+.kjh-pink[**`{,m}`**] is at most m
 
-**`{n,m}`** is between n and m
+.kjh-pink[**`{n,m}`**] is between n and m
 
 
 ```{r 05-regular-expressions-17}
@@ -415,13 +412,13 @@ str_view(x, "C{2}")
 
 # Exact numbers of repetitions
 
-**`{n}`** is exactly n
+.kjh-pink[**`{n}`**] is exactly n
 
-**`{n,}`** is n or more
+.kjh-pink[**`{n,}`**] is n or more
 
-**`{,m}`** is at most m
+.kjh-pink[**`{,m}`**] is at most m
 
-**`{n,m}`** is between n and m
+.kjh-pink[**`{n,m}`**] is between n and m
 
 
 ```{r 05-regular-expressions-18}
@@ -432,13 +429,13 @@ ___
 
 # Exact numbers of repetitions
 
-**`{n}`** is exactly n
+.kjh-pink[**`{n}`**] is exactly n
 
-**`{n,}`** is n or more
+.kjh-pink[**`{n,}`**] is n or more
 
-**`{,m}`** is at most m
+.kjh-pink[**`{,m}`**] is at most m
 
-**`{n,m}`** is between n and m
+.kjh-pink[**`{n,m}`**] is between n and m
 
 
 ```{r 05-regular-expressions-19}
@@ -449,16 +446,16 @@ ___
 
 # Exact numbers of repetitions
 
-**`{n}`** is exactly n
+.kjh-pink[**`{n}`**] is exactly n
 
-**`{n,}`** is n or more
+.kjh-pink[**`{n,}`**] is n or more
 
-**`{,m}`** is at most m
+.kjh-pink[**`{,m}`**] is at most m
 
-**`{n,m}`** is between n and m
+.kjh-pink[**`{n,m}`**] is between n and m
 
 
-By default these are _greedy_ matches. You can make them “lazy”, matching the shortest string possible by putting a **`?`** after them. 
+By default these are _greedy_ matches. You can make them “lazy”, matching the shortest string possible by putting a **`?`** after them. **This is often very useful!**
 
 ```{r 05-regular-expressions-20}
 str_view(x, 'C{2,3}?')
@@ -468,15 +465,15 @@ str_view(x, 'C{2,3}?')
 
 # Exact numbers of repetitions
 
-**`{n}`** is exactly n
+.kjh-pink[**`{n}`**] is exactly n
 
-**`{n,}`** is n or more
+.kjh-pink[**`{n,}`**] is n or more
 
-**`{,m}`** is at most m
+.kjh-pink[**`{,m}`**] is at most m
 
-**`{n,m}`** is between n and m
+.kjh-pink[**`{n,m}`**] is between n and m
 
-By default these are _greedy_ matches. You can make them “lazy”, matching the shortest string possible by putting a **`?`** after them. 
+By default these are _greedy_ matches. You can make them “lazy”, matching the shortest string possible by putting a **`?`** after them. **This is often very useful!**
 
 ```{r 05-regular-expressions-21}
 str_view(x, 'C[LX]+?')
@@ -486,11 +483,11 @@ str_view(x, 'C[LX]+?')
 
 # And .kjh-yellow[finally] ... backreferences
 
-.SMALL[
+
 ```{r 05-regular-expressions-22}
 fruit # built into stringr
 ```
-]
+
 ---
 
 # Grouping and backreferences

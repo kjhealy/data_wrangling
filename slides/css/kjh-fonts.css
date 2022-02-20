@@ -6,41 +6,49 @@ Body text Tenso Slab
 
 @font-face {
     font-family: 'Tenso Slab';
-    src: url('fonts/03-tenso-slab-regular_42_ik.woff2') format('woff2');
+    src: url('../fonts/03-tenso-slab-regular_42_ik.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'Tenso Slab';
-    src: url('05_tenso-slab-medium_42_ik.woff2') format('woff2');
+    src: url('../fonts/05_tenso-slab-medium_42_ik.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
 }
 @font-face {
     font-family: 'Tenso Slab';
-    src: url('fonts/04_tenso_slab_italic_42_ik.woff2') format('woff2');
+    src: url('../fonts/04_tenso_slab_italic_42_ik.woff2') format('woff2');
     font-weight: normal;
     font-style: italic;
 }
+
 @font-face {
     font-family: 'Tenso Slab';
-    src: url('fonts/06_tenso-slab-mediumitalic_42_ik.woff2') format('woff2');
+    src: url('../fonts/06_tenso-slab-mediumitalic_42_ik.woff2') format('woff2');
     font-weight: bold;
     font-style: italic;
 }
 
 @font-face {
   font-family: 'Tenso Slab';
-  src: url('fonts/07_tenso-slab-bold_42_ik.woff2') format('woff2');
+  src: url('../fonts/07_tenso-slab-bold_42_ik.woff2') format('woff2');
   font-weight: 800;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Tenso Slab';
-  src: url('fonts/05_tenso-slab-medium_42_ik.woff2') format('woff2');
+  src: url('../fonts/07_tenso-slab-bold_42_ik.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
+}
+
+@font-face {
+  font-family: 'Tenso Slab';
+  src: url('../fonts/08_tenso_slab_bolditalic_42_ik.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
 }
 
 
@@ -50,25 +58,25 @@ Monospace
 
 @font-face {
     font-family: 'MonoLisa';
-    src: url('fonts/MonoLisa-Regular-altg.woff2') format('woff2');
+    src: url('../fonts/MonoLisa-Regular-altg.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'MonoLisa';
-    src: url('fonts/MonoLisa-Bold-altg.woff2') format('woff2');
+    src: url('../fonts/MonoLisa-Bold-altg.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
 }
 @font-face {
     font-family: 'MonoLisa';
-    src: url('fonts/MonoLisa-RegularItalic-altg.woff2') format('woff2');
+    src: url('../fonts/MonoLisa-RegularItalic-altg.woff2') format('woff2');
     font-weight: normal;
     font-style: italic;
 }
 @font-face {
     font-family: 'MonoLisa';
-    src: url('fonts/MonoLisa-BoldItalic-altg.woff2') format('woff2');
+    src: url('../fonts/MonoLisa-BoldItalic-altg.woff2') format('woff2');
     font-weight: bold;
     font-style: italic;
 }

@@ -844,7 +844,7 @@ This works, but it's really tedious. Also error-prone.
 
 ---
 
-# Do more than one thing with .kjh-green[`across()`]
+# Do more than one thing with .kjh-green[**`across()`**]
 
 .SMALL.squish3[Instead, use `across()` to apply a function to more than one column.]
 
@@ -866,21 +866,21 @@ organdata %>%
 
 `r chunk_reveal("03-across-pipeline-1", widths = c(40,60), title = "# Let's look at that again")`
 
-- .small.squish3[`my_vars` are selected by .kjh-green[**`across()`**]
+- `my_vars` are selected by .kjh-green[**`across()`**]
 
 --
 
-- .small.squish3[.kjh-green[**`list()`**] of the form `result = function` gives the new columns that will be calculated.]
+- .kjh-green[**`list()`**] of the form `result = function` gives the new columns that will be calculated.
 
 --
 
-- .small.squish3[`na.rm = TRUE` is passed through to the functions inside the `list()`]
+- `na.rm = TRUE` is passed through to the functions inside the `list()`
 
 ---
 
 # We can calculate more than one thing
 
-.small[
+.SMALL[
 ```{r 03-dplyr-basics-40}
 
 my_vars <- c("gdp", "donors", "roads")
@@ -900,7 +900,7 @@ organdata %>%
 
 # It's OK to use the function names 
 
-.small[
+.SMALL[
 ```{r 03-dplyr-basics-41}
 
 my_vars <- c("gdp", "donors", "roads")
@@ -917,9 +917,9 @@ organdata %>%
 
 ---
 
-# Selection with .kjh-green[`across(where())`]
+# Selection with .kjh-green[**`across(where())`**]
 
-.SMALL[
+.normal[
 
 ```{r 03-dplyr-basics-42}
 organdata %>% 
@@ -936,7 +936,7 @@ organdata %>%
 
 ---
 
-# Name new columns with .kjh-green[`.names`]
+# Name new columns with .kjh-green[**`.names`**]
 
 .pull-left[
 
@@ -963,7 +963,7 @@ organdata %>%
 
 ---
 
-# This all works with .kjh-green[`mutate()`], too
+# This all works with .kjh-green[**`mutate()`**], too
 
 
 ```{r 03-dplyr-basics-44}
@@ -1017,5 +1017,5 @@ organdata %>%
 
 .small.squish3[You can see that .kjh-green[**`slice_max()`**] respects grouping.]
 
-.small.squish3[There's **`slice_min()`**, **`.slice_head()`**, **`slice_tail()`**, **`slice_sample()`**, and the most general one, **`slice()`**.] 
+.small.squish3[There's **`slice_min()`**, **`slice_head()`**, **`slice_tail()`**, **`slice_sample()`**, and the most general one, **`slice()`**.] 
 
