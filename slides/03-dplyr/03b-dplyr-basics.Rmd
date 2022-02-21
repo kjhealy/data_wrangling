@@ -80,7 +80,7 @@ library(tidyverse) # your friend and mine
 
 ---
 
-# `dplyr`'s .kjh-yellow[window] functions 
+# **`dplyr`**'s .kjh-yellow[window] functions 
 
 Ranking and cumulation within groups.  
 
@@ -94,7 +94,7 @@ covnat_weekly
 
 ---
 
-# `dplyr`'s .kjh-yellow[window] functions 
+# **`dplyr`**'s .kjh-yellow[window] functions 
 
 .kjh-green[**`cumsum()`**] gives cumulative sums
 
@@ -108,9 +108,9 @@ covnat_weekly %>%
 
 ---
 
-# `dplyr`'s .kjh-yellow[window] functions 
+# **`dplyr`**'s .kjh-yellow[window] functions 
 
-.SMALL[.kjh-green[**`cume_dist()`**] gives the proportion of values less than or equal to the current value.]
+.kjh-green[**`cume_dist()`**] gives the proportion of values less than or equal to the current value.
 
 ```{r 03-dplyr-basics-50}
 covnat_weekly %>% 
@@ -120,7 +120,7 @@ covnat_weekly %>%
 
 ```
 
-.SMALL.squish3[The `dplyr` vignette on Window functions is good.] 
+.squish3[The `dplyr` vignette on Window functions is good.] 
 
 ---
 
@@ -134,7 +134,7 @@ covus %>%
   filter(state %in% "NY")
 ```
 
-.SMALL.squish3[Here the `count` measure is _cumulative_ deaths. What if we want to recover the daily count for all the states in the data?]
+.squish3[Here the `count` measure is _cumulative_ deaths. What if we want to recover the daily count for all the states in the data?]
 
 ---
 
@@ -155,9 +155,8 @@ my_vec - lag(my_vec)
 
 # An application
 
-.SMALL.squish3[We can write the expression directly:]
+.squish3[We can write the expression directly:]
 
-.SMALL[
 ```{r 03-dplyr-basics-53}
 covus %>%
   select(-data_quality_grade) %>% 
@@ -169,7 +168,7 @@ covus %>%
   filter(state %in% "NY")
   
 ```
-]
+
 ---
 
 # Writing our own .kjh-orange[functions]
@@ -178,7 +177,6 @@ But we could also write a function to do this.
 
 We write functions using the special .kjh-green[**`function()`**] function.\*
 
-.SMALL[
 
 ```{r 03-dplyr-basics-54}
 my_fun <- function(x) {
@@ -192,7 +190,7 @@ my_fun(x = 1) # But we can supply it with an input!
 my_fun(10)
 ```
 
-]
+
 
 .smaller[.footnote[.kjh-darkgrey[\*Nerds love this sort of stuff.]]]
 
@@ -214,9 +212,8 @@ This function has no generality, error-handling, or anything else. It's a once-o
 
 # Writing our own .kjh-orange[functions]
 
-.SMALL.squish3[Now we can use it like any other:]
+.squish3[Now we can use it like any other:]
 
-.SMALL[
 ```{r 03-dplyr-basics-56}
 covus %>%
   filter(measure == "death") %>%
@@ -228,15 +225,15 @@ covus %>%
   filter(state %in% "NY")
   
 ```
-]
 
-.SMALL.squish3[Not super-useful quite yet, but if our task had more steps ...]
+
+.squish3[Not super-useful quite yet, but if our task had more steps ...]
 
 ---
 
 # Tidy moving averages with .kjh-orange[`slider`]  
 
-`dplyr`'s window functions don't include moving averages. 
+**`dplyr`**'s window functions don't include moving averages. 
 
 There are several options, notably [`RcppRoll`](https://cran.r-project.org/web/packages/RcppRoll/index.html)
 
@@ -250,8 +247,6 @@ library(slider)
 ---
 
 # Tidy moving averages with .kjh-orange[`slider`]  
-
-.SMALL[
 
 ```{r 03-dplyr-basics-58}
 covus %>%
@@ -268,23 +263,21 @@ covus %>%
   filter(state %in% "NY")
 ```
 
-]
+
 ---
 
 # Tidy moving averages with .kjh-orange[`slider`]  
 
 ```r
-    deaths7 = slide_mean(deaths_daily, #<<
-                         before = 7, #<<
-                         na_rm = TRUE)) %>% #<<
+    deaths7 = slide_mean(deaths_daily, 
+                         before = 7, 
+                         na_rm = TRUE)) %>% 
 ```
 
-.SMALL[
+.pull-left.w70[Notice the Tidyverse-style `na_rm` argument rather than the usual base `na.rm`]
 
-Notice the Tidyverse-style `na_rm` argument rather than the usual base `na.rm`
+.pull-left.w70[The package provides a lot of different functions, from general-purpose .kjh-green[**`slide_max()`**], .kjh-green[**`slide_min()`**] to more specialized sliding functions. In particular note e.g. .kjh-green[**`slide_index_mean()`**] that addresses some subtleties in averaging over dates with gaps. ]
 
-The package provides a lot of different functions, from general-purpose .kjh-green[**`slide_max()`**], .kjh-green[**`slide_min()`**] to more specialized sliding functions. In particular note e.g. .kjh-green[**`slide_index_mean()`**] that addresses some subtleties in averaging over dates with gaps. 
-]
 
 ---
 
@@ -360,7 +353,7 @@ df %>%
   filter(prop1 + prop2 > 0.3)
 ```
 
-`A` shouldn't have been included there.
+The row with `id` .kjh-orange[**`A`**] shouldn't have been included there.
 
 --
 
@@ -376,7 +369,7 @@ df %>%
   filter(prop1 + prop2 == 0.3)
 ```
 
-`A` _should_ have been included here!
+The row with `id` .kjh-orange[**`A`**] _should_ have been included here!
 
 ---
 
@@ -428,8 +421,6 @@ sex_colors <- c("#E69F00", "#993300")
 
 ## Group labels
 mf_labs <- tibble(M = "Men", F = "Women")
-
-theme_set(cowplot::theme_cowplot())
 
 ```
 
