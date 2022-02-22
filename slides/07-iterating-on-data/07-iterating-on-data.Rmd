@@ -497,13 +497,13 @@ df
 
 .footnote[*Spiffy Join Animatations courtesy [Garrick Aden-Buie](github.com/gadenbuie/join-animations-with-gganimate.R)]
 
-.top[![:scale 40%](img/original-dfs.png)]
+.top[![:scale 35%](img/original-dfs.png)]
 
 ---
 
 # Left join, .kjh-yellow[left_join()]
 
-.top[![:scale 40%](img/left-join.gif)]
+.top[![:scale 35%](img/left-join.gif)]
 
 .SMALL[All rows from x, and all columns from x and y. Rows in x with no match in y will have NA values in the new columns.]
 
@@ -511,7 +511,7 @@ df
 
 # Left join (contd), .kjh-yellow[left_join()]
 
-.top[![:scale 40%](img/left-join-extra.gif)]
+.top[![:scale 35%](img/left-join-extra.gif)]
 
 .SMALL[If there are multiple matches between x and y, all combinations of the matches are returned.]
 
@@ -520,28 +520,28 @@ df
 # Inner join, .kjh-yellow[inner_join()]
 
 
-.top[![:scale 40%](img/inner-join.gif)]
+.top[![:scale 35%](img/inner-join.gif)]
 
 .SMALL[All rows from x where there are matching values in y, and all columns from x and y.]
 ---
 
 # Full join, .kjh-yellow[full_join()]
 
-.top[![:scale 40%](img/full-join.gif)]
+.top[![:scale 35%](img/full-join.gif)]
 
 .SMALL[All rows and all columns from both x and y. Where there are not matching values, returns NA for the one missing.]
 ---
 
 # Semi join, .kjh-yellow[semi_join()]
 
-.top[![:scale 40%](img/semi-join.gif)]
+.top[![:scale 35%](img/semi-join.gif)]
 
 .SMALL[All rows from x where there are matching values in y, keeping just columns from x.]
 ---
 
 # Anti join, .kjh-yellow[anti_join()]
 
-.top[![:scale 40%](img/anti-join.gif)]
+.top[![:scale 35%](img/anti-join.gif)]
 
 .SMALL[All rows from x where there are not matching values in y, keeping just columns from x.]
 ---
