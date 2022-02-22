@@ -762,4 +762,13 @@ pre {
   background-color: #FFFF54;
 }
 
+/* Flipbookr Fixes */
+pre code {
+  font-size: 12px !important;
+}
+
+.remark-code, .remark-inline-code {
+  font-size: 1em;
+}
+
 /*# sourceMappingURL=kjh-slides.css.map */
