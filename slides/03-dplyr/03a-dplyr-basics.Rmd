@@ -279,7 +279,7 @@ Your original .kjh-pink[`gss_sm`] table is untouched
 
 ---
 
-`r chunk_reveal("03-dplyr-twocol-summary", widths = c(25,75), title = "# Group and summarize by .kjh-orange[_two_] columns")`
+`r chunk_reveal("03-dplyr-twocol-summary", widths = c(40,55), title = "# Group and summarize by .kjh-orange[_two_] columns")`
 
 
 ```{r 03-dplyr-twocol-summary, include = FALSE}
@@ -294,7 +294,7 @@ The function .kjh-green[**`n()`**] counts up the rows within the _innermost_ (i.
 
 ---
 
-`r chunk_reveal("03-dplyr-freq", widths = c(30,70), title = "# Calculate frequencies")`
+`r chunk_reveal("03-dplyr-freq", widths = c(40,60), title = "# Calculate frequencies")`
 
 
 ```{r 03-dplyr-freq, include = FALSE}
