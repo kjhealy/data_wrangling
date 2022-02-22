@@ -172,7 +172,7 @@ a + b
 
 --
 
-R's vectorized rules add `b` to every element of `a`. In a sense, the **`+`** operation can be thought of as a function that takes each element of `a` and does something with it. In this case "add `b`".  
+R's vectorized rules add `b` to every element of `a`. In a sense, the .kjh-green[**`+`**] operation can be thought of as a function that takes each element of `a` and does something with it. In this case "add `b`".  
 
 ---
 
