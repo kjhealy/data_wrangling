@@ -86,7 +86,7 @@ library(tidyverse) # your friend and mine
 
 # Tidyverse components, again
 
-.pull-left[
+.pull-left.w45[
 
 - .kjh-green[**`library`**]`(tidyverse)`
 - `Loading tidyverse: ggplot2`
@@ -99,7 +99,7 @@ library(tidyverse) # your friend and mine
 
 --
 
-.pull-right[
+.pull-right.w55[
 - Call the package and ...
 - `<|` **Draw graphs**
 - `<|` **Nicer data tables**
@@ -115,7 +115,7 @@ library(tidyverse) # your friend and mine
 
 # Other tidyverse components
 
-.top[.pull-left-narrow[   
+.top[.pull-left.w15[   
 - `forcats`
 - `haven`
 - `lubridate`
@@ -126,7 +126,7 @@ library(tidyverse) # your friend and mine
 
 --
 
-.top[.pull-right-wide[
+.top[.pull-right.w85[
 - `<|` **Deal with factors**
 - `<|` **Import Stata, SPSS, etc**
 - `<|` **Dates, Durations, Times**
