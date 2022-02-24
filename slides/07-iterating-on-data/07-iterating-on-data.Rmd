@@ -142,7 +142,7 @@ You may have noticed we have not written any loops, however.
 
 While loops are still lurking there underneath the surface, what we will do instead is to take advantage of the combination of vectors and functions and _map_ one to the other in order to generate results.
 
-Speaking loosely, think of .kjh-green[**`map()`**] as a way of .kjh-green[Iterating] without writing loops. You start with a vector of things and you feed it to the function one thing at a time. The function does whatever it does, and you get back output that is the same length as your input.
+Speaking loosely, think of .kjh-green[**`map()`**] as a way of .kjh-orange[iterating] without writing loops. You start with a vector of things. You feed it one thing at a time to some function. The function does whatever it does. You get back output that is the same length as your input, and of a specific type.
 
 ---
 
@@ -216,14 +216,14 @@ Some operations can't directly be vectorized in this way, which is why we need t
 ```{r 07-iterating-on-data-8}
 library(gapminder)
 gapminder %>% 
-  summarize(n_distinct(country), 
-            n_distinct(continent), 
-            n_distinct(year), 
-            n_distinct(lifeExp), 
-            n_distinct(population))
+  summarize(country_n = n_distinct(country), 
+            continent_n = n_distinct(continent), 
+            year_n = n_distinct(year), 
+            lifeExp_n = n_distinct(lifeExp), 
+            population_n = n_distinct(population))
 ```
 
-That's tedious to write. Computers are supposed to allow us to avoid that sort of thing.
+That's tedious to write! Computers are supposed to allow us to avoid that sort of thing.
 
 ---
 
@@ -247,7 +247,7 @@ gapminder %>%
 
 # .kjh-green[Iterating] in a pipeline
 
-You'd use _across()_, of course.
+You'd use .kjh-green[**across()**], like this:
 
 ```{r 07-iterating-on-data-10}
 gapminder %>% 
@@ -322,7 +322,7 @@ result[[2]]
 
 # .kjh-green[Iterating] in a pipeline
 
-In this context, .kjh-green[**`n_distinct()`**] is always going to return an integer, though.
+But we know .kjh-green[**`n_distinct()`**] should always return an integer. So we use .kjh-green[**`map_int()`**] instead of the generic .kjh-green[**`map()`**].
 
 
 ```{r 07-iterating-on-data-14}
