@@ -386,7 +386,7 @@ gss_sm %>%
 ```
 ]
 
-- .small.squish3[Result is a grouped tibble]
+- .small.squish3[Result is a grouped tibble.]
 ]
 
 --
@@ -403,7 +403,7 @@ gss_sm %>%
 ```
 ]
 
-- .small.squish3[Group it yourself; output is grouped]
+- .small.squish3[Group it yourself; result is grouped.]
 ]
 
 --
@@ -419,7 +419,7 @@ gss_sm %>%
 ```
 ]
 
-- .small.squish3[One step; result is not grouped]
+- .small.squish3[One step; result is not grouped.]
 ]
 
 ---

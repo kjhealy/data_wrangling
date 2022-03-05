@@ -63,7 +63,7 @@ Monospace
     font-style: normal;
 }
 @font-face {
-    font-family: 'MonoLisa';
+    font-family: 'BerkeleyMono';
     src: url('../fonts/BerkeleyMono-Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
