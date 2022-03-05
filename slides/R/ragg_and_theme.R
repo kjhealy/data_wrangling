@@ -8,7 +8,7 @@ register_variant(
 )
 
 
-ragg_png = function(..., res = 150) {
+ragg_png <- function(..., res = 150) {
   ragg::agg_png(..., res = res, units = "in")
 }
 knitr::opts_chunk$set(warning = FALSE,

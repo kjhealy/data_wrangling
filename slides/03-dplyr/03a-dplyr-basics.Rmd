@@ -6,7 +6,7 @@ output:
   xaringan::moon_reader:
     lib_dir: "libs"
     chakra: "../libs/remark-latest.min.js"
-    css: ["default", "../css/kjh-slides.css", "../css/kjh-fonts.css", "../css/animate.css", "../css/widths.css"]
+    css: ["default", "../css/kjh-slides.css", "../css/tenso-berkeley.css", "../css/animate.css", "../css/widths.css"]
     seal: false
     anchor_sections: false
     nature:
@@ -681,7 +681,7 @@ gss_sm %>%
 
 ---
 
-# Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
+# Conditionals in .kjh-green[`select()`] and .kjh-green[`filter()`]
 
 Some new data, this time on national rates of cadaveric organ donation:
 
@@ -692,7 +692,7 @@ organdata
 
 ---
 
-# Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
+# Conditionals in .kjh-green[`select()`] and .kjh-green[`filter()`]
 
 ```{r 03-dplyr-basics-28}
 organdata %>% 
@@ -701,7 +701,7 @@ organdata %>%
 
 ---
 
-# Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
+# Conditionals in .kjh-green[`select()`] and .kjh-green[`filter()`]
 
 ```{r 03-dplyr-basics-29}
 organdata %>% 
@@ -712,7 +712,7 @@ Use .kjh-green[**`where()`**] to test columns.
 
 ---
 
-# Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
+# Conditionals in .kjh-green[`select()`] and .kjh-green[`filter()`]
 
 When telling .kjh-green[**`where()`**] use .kjh-green[**`is.integer()`**] to test each column, we don't put parentheses at the end of its name. If we did, R would try to evaluate .kjh-green[**`is.integer()`**] right then, and fail:
 
@@ -727,18 +727,18 @@ This is true in similar situations elsewhere as well.
 
 ---
 
-# Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
+# Conditionals in .kjh-green[`select()`] and .kjh-green[`filter()`]
 
 ```{r 03-dplyr-basics-30}
 organdata %>% 
   select(country, year, where(is.character))
 ```
 
-We have functions like e.g. **`is.character()`**, **`is.numeric()`**, **`is.logical()`**, **`is.factor()`**, etc. All return either .kjh-green[`TRUE`] or .kjh-red[`FALSE`]. 
+We have functions like e.g. .kjh-green[**`is.character()`**], .kjh-green[**`is.numeric()`**], .kjh-green[**`is.logical()`**], .kjh-green[**`is.factor()`**], etc. All return either .kjh-green[`TRUE`] or .kjh-red[`FALSE`]. 
 
 ---
 
-# Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
+# Conditionals in .kjh-green[`select()`] and .kjh-green[`filter()`]
 
 Sometimes we don't pass a function, but do want to use the result of one:
 
@@ -747,11 +747,11 @@ organdata %>%
   select(country, year, starts_with("gdp")) #<<
 ```
 
-We have **`starts_with()`**, **`ends_with()`**, **`contains()`**, **`matches()`**, and **`num_range()`**. Collectively these are ".kjh-pink[tidy selectors]".
+We have .kjh-green[**`starts_with()`**], .kjh-green[**`ends_with()`**], .kjh-green[**`contains()`**], .kjh-green[**`matches()`**], and .kjh-green[**`num_range()`**]. Collectively these are ".kjh-pink[tidy selectors]".
 
 ---
 
-# Conditionals in .kjh-yellow[`select()`] and .kjh-yellow[`filter()`]
+# Conditionals in .kjh-green[`select()`] and .kjh-green[`filter()`]
 
 ```{r 03-dplyr-basics-32}
 organdata %>% 
@@ -762,7 +762,7 @@ This could get cumbersome fast.
 
 ---
 
-# Use .kjh-yellow[`%in%`] for multiple selections
+# Use .kjh-pink[`%in%`] for multiple selections
 
 ```{r 03-dplyr-basics-33}
 my_countries <- c("Australia", "Canada", "United States", "Ireland")
@@ -870,11 +870,7 @@ organdata %>%
 
 --
 
-- .kjh-green[**`list()`**] of the form `result = function` gives the new columns that will be calculated.
-
---
-
-- `na.rm = TRUE` is passed through to the functions inside the `list()`
+- .kjh-green[**`list()`**] of the form `result = function` gives the new columns that will be calculated. `na.rm = TRUE` is passed through to the functions inside the `list()`
 
 ---
 
@@ -1017,5 +1013,5 @@ organdata %>%
 
 .small.squish3[You can see that .kjh-green[**`slice_max()`**] respects grouping.]
 
-.small.squish3[There's **`slice_min()`**, **`slice_head()`**, **`slice_tail()`**, **`slice_sample()`**, and the most general one, **`slice()`**.] 
+.small.squish3[There's .kjh-green[**`slice_min()`**], .kjh-green[**`slice_head()`**], .kjh-green[**`slice_tail()`**], .kjh-green[**`slice_sample()`**], and the most general one, .kjh-green[**`slice()`**.]]
 
