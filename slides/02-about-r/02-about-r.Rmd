@@ -627,9 +627,9 @@ We can create an object with the `c()` function and the *assignment operator*, `
 
 ---
 
-# Assignment with .kjh-green[`=`]
+# Assignment with .kjh-green[**`=`**]
 
-- You can use "`=`" as well as "`<-`" for assignment
+- You can use .kjh-pink[**`=`**] as well as .kjh-pink[**`<-`**] for assignment.
 
 .medium[
 ```{r 02-about-r-25}
@@ -641,15 +641,18 @@ my_numbers
 
 --
 
-On the other hand, "`=`" has a different meaning when used in functions.
+- On the other hand, .kjh-pink[**`=`**] has a different meaning when used in functions.
 
 --
 
-I'm going to use "`<-`" for assigment throughout. Just be consistent either way.
+- I'm going to use .kjh-pink[**`<-`**] for assigment throughout. 
+
+
+- Be consistent either way.
 
 ---
 
-# Assignment with .kjh-green[`=`]
+# Assignment with .kjh-green[**`=`**]
 
 .center[![:scale 100%](img/gordon_assignment.png)]
 
