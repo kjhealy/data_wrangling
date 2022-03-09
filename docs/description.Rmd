@@ -1,0 +1,125 @@
+---
+title: "Data Wrangling with R and the tidyverse"
+description: |
+  A Short Course using R and the Tidyverse suite of tools.
+author:
+- name: Kieran Healy
+  url: https://kieranhealy.org
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Course Description
+
+R is a free and open-source package for statistical analysis that is widely used in the social, health, physical, and computational sciences. R is powerful, flexible, and has excellent graphics capabilities. It also has a large and rapidly growing community of users. Although there are a variety of approaches to working with data in R, in recent years, the "[tidyverse](https://www.tidyverse.org)" has emerged as a cohesive and consistent approach to the everyday tasks of data wrangling and analysis. The [tidyverse](https://www.tidyverse.org) is a suite of tools for data management, manipulation, analysis, and visualization within the R software environment for statistical computing. This seminar provides an intensive, hands-on introduction to using tidyverse tools for doing your own work. 
+
+The course is not focused on particular statistical methods or modeling techniques. Rather, you will learn how to accomplish everyday tasks that statistical analysis depends on but which are rarely taught in detail in their own right. These include topics such as getting your own data into R, exploring the structure of your data, recoding variables and reshaping tables, and presenting summary tabulations and graphs of this work. Throughout the course we will emphasize how R and the tidyverse "thinks". Every dataset is different, especially at stage where it still needs further cleaning or arranging before it can be easily analyzed or effectively presented. This course will teach you the logic and implicit "flow of action" behind the tidyverse's tools, giving you the ability to apply and extend this way of thinking when working with your own data and its particular challenges. 
+
+# Computing 
+
+We will be working with the most recent stable versions of R and RStudio, as well as with a number of additional packages. You will need to install R, RStudio, and the necessary packages on your own computer.
+
+If you’d like to take this course but are concerned that you don’t know enough R, there are excellent online resources for learning the basics. [Here](https://stathorizons.flywheelsites.com/resources/free-web-books-for-learning-r/) are our recommendations.
+
+
+# Who Should Register?
+
+You should take this course if you are interested in answering questions like these:
+
+- How can I properly get my data into R?
+- How should I deal with different types of data?
+- How can I explore the structure of my data?
+- How can I manipulate, summarize, and tabulate my data?
+- How can I efficiently clean my data?
+- How can I reshape or reconfigure my data?
+- How can I quickly graph or report on my data?
+
+The course does not presume any prior experience with R. However, if you are an R user and have been annoyed with questions like these:
+
+- How can I get these 50 CSV files into R?
+- Why can’t I get the right answer when summarizing this grouped data?
+- How can I tell R that my categorical measure is ordered?
+- How can I clean up this textual data?
+- How can I neatly calculate summary statistics for all the measures in my data?
+- How can I arrange this table to print in a nice way?
+- How can I get my Stata data files into R?
+- Why doesn’t the answer I found on Stack Overflow work properly?
+- Why _does_ the answer I found on Stack Overflow work properly?
+- Why does R keep telling me “Object of type ‘closure’ is not subsettable”?
+
+… then this course will be worthwhile for you, too.
+
+
+# What You Will Learn
+
+## 1. Get in the right frame of mind
+
+- Why plain-text data analysis?
+- Why R got that way
+- The RStudio IDE and how it works
+- Pipelining your code
+- First examples
+
+## 2. Understand R and how it thinks
+
+- Reproduce your own research with RMarkdown
+- Make the RStudio work for you
+- What is "tidy" about the tidyverse?
+- The nuts and bolts of R
+- How to pipeline your code, and why
+- R's objects, functions, packages, and environments
+
+## 3. View, tabulate and summarize data with `dplyr`
+
+- Filter, select, mutate, and summarize tables
+- Understand grouping and the logic of working with grouped data
+- Perform calcualtions on the columns of tables, and on the rows
+- Work `across()` columns
+- Manipulate column names, arrange rows
+- Write functions to quickly summarize data
+
+## 4. Reshape your data with `tidyr`
+
+- What's tidy about tidy data?
+- Move back and forth between wide and long data
+- Split, separate, and recode your observations
+- Make your life easier before you reshape your data
+- Expand and complete datasets
+
+## 5. Undersand the power of regular expressions
+
+- String manipulation with `stringr`
+- The language of rexeps and why it is useful
+
+## 6. Get your data into R with `readr` and `haven`, and clean it
+
+- Read in different plain-text formats
+- Import from Stata
+- Import multiple files using `map()` and its friends
+- Clean awkward or messy data 
+- Manage and visualize missing values
+- Work with categorical data and factors using `forcats`
+
+## 7. Iterate on data with `dplyr`, `purrr`, and `broom`
+
+- Learn how to compactly analyze subsets of your data
+- Learn the elements of table joins
+- Extend tidy principles to modeling with `broom`
+- Efficiently fit models and summarize their output in tables or graphs
+
+## 9. Be tidy without tears
+
+- Get help from the `janitor` package
+- Make your life easier with `usethis` 
+- Make it easier for others to help you with `reprex` 
+- How to document your data as you go
+- Explore the wider world of tidyverse-friendly packages and tools
