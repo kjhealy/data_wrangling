@@ -82,7 +82,7 @@ The course does not presume any prior experience with R. However, if you are an 
 
 - Filter, select, mutate, and summarize tables
 - Understand grouping and the logic of working with grouped data
-- Perform calcualtions on the columns of tables, and on the rows
+- Perform calculations on the columns of tables, and on the rows
 - Work `across()` columns
 - Manipulate column names, arrange rows
 - Write functions to quickly summarize data
