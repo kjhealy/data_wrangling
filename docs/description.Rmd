@@ -95,7 +95,7 @@ The course does not presume any prior experience with R. However, if you are an 
 - Make your life easier before you reshape your data
 - Expand and complete datasets
 
-## 5. Undersand the power of regular expressions
+## 5. Understand the power of regular expressions
 
 - String manipulation with `stringr`
 - The language of rexeps and why it is useful
@@ -116,7 +116,7 @@ The course does not presume any prior experience with R. However, if you are an 
 - Extend tidy principles to modeling with `broom`
 - Efficiently fit models and summarize their output in tables or graphs
 
-## 9. Be tidy without tears
+## 8. Be tidy without tears
 
 - Get help from the `janitor` package
 - Make your life easier with `usethis` 
