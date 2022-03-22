@@ -94,68 +94,65 @@ During the seminar we will use a [Slack](https://slack.com) to provide an additi
 
 # Course Outline
 
--- Subject to change.
+## 1. Get in the right frame of mind
 
-## 1. Overview and motivation
-
-- Plain-text data analysis
-- How R works and why it got that way
+- Why plain-text data analysis?
+- Why R got that way
 - The RStudio IDE and how it works
 - Pipelining your code
 - First examples
 
-## 2. R and how it thinks
+## 2. Understand R and how it thinks
 
-- Reproducible research with RMarkdown
-- Making the IDE work for you
-- What's "tidy" about the tidyverse?
+- Reproduce your own research with RMarkdown
+- Make the RStudio work for you
+- What is "tidy" about the tidyverse?
 - The nuts and bolts of R
-- Pipelining your code
-- Objects, functions, packages, environments
-- The right frame of mind
+- How to pipeline your code, and why
+- R's objects, functions, packages, and environments
 
+## 3. View, tabulate and summarize data with `dplyr`
 
-## 3. Viewing, tabulating and summarizing data with `dplyr`
+- Filter, select, mutate, and summarize tables
+- Understand grouping and the logic of working with grouped data
+- Perform calculations on the columns of tables, and on the rows
+- Work `across()` columns
+- Manipulate column names, arrange rows
+- Write functions to quickly summarize data
 
-- Filtering, selecting, mutating, and summarizing a single table
-- Groups and the logic of working with grouped data
-- Calculating on the columns of a table, and on the rows
-- Working `across()` columns
-- Manipulating column names and arranging rows
+## 4. Reshape your data with `tidyr`
 
-## 4. Reshaping data with `tidyr`
+- What's tidy about tidy data?
+- Move back and forth between wide and long data
+- Split, separate, and recode your observations
+- Make your life easier before you reshape your data
+- Expand and complete datasets
 
-- What's tidy about tidy data
-- Moving back and forth between wide and long data
-- Splitting, separating, and recoding observations
-- Best practices before having to reshape
-- Expanding and completing datasets
+## 5. Undersand the power of regular expressions
 
-## 5. A brief introduction to regular expressions
+- String manipulation with `stringr`
+- The language of rexeps and why it is useful
 
-- String manipulation and `stringr`
-- The language of rexeps
+## 6. Get your data into R with `readr` and `haven`, and clean it
 
-## 6. Getting data into R with `readr` and `haven`, and cleaning it
+- Read in different plain-text formats
+- Import from Stata
+- Import multiple files using `map()` and its friends
+- Clean awkward or messy data 
+- Manage and visualize missing values
+- Work with categorical data and factors using `forcats`
 
-- Reading in different plain-text formats
-- Importing from Stata
-- Importing multiple files using `map()` and its friends
-- Cleaning awkward data (`tidyr` and `stringr` return)
-- Managing and visualizing missing values
-- Categorical data and `forcats`
+## 7. Iterate on data with `dplyr`, `purrr`, and `broom`
 
-## 7. Iterating on data with `dplyr`, `purrr`, and `broom`
+- Learn how to compactly analyze subsets of your data
+- Learn the elements of table joins
+- Extend tidy principles to modeling with `broom`
+- Efficiently fit models and summarize their output in tables or graphs
 
-- Reading in multiple data files
-- Joining tables
-- Extending tidy principles to models
-- Fitting and summarizing model output
+## 9. Be tidy without tears
 
-## 9. Making it easier to be tidy
-
-- The `janitor` package
-- Working with the `usethis` and `reprex` helper packages
-- Documenting your data
-- Using a package to store your data
-- The wider world of tidyverse-friendly packages and tools
+- Get help from the `janitor` package
+- Make your life easier with `usethis` 
+- Make it easier for others to help you with `reprex` 
+- How to document your data as you go
+- Explore the wider world of tidyverse-friendly packages and tools
