@@ -645,7 +645,7 @@ my_numbers
 
 --
 
-- I'm going to use .kjh-pink[**`<-`**] for assigment throughout. 
+- I'm going to use .kjh-pink[**`<-`**] for assignment throughout. 
 
 
 - Be consistent either way.
