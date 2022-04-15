@@ -77,7 +77,7 @@ In addition to installing the software above, we will work with a packet of mate
 
 The course packet is available as a zip file at this link:
 
-[Download the Data Wrangling Course Packet](https://github.com/kjhealy/data_wrangling/archive/refs/heads/master.zip)
+[Download the Data Wrangling Course Packet](https://github.com/kjhealy/data_wrangling/archive/refs/heads/main.zip)
 
 _Notes:_ 
 
