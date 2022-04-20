@@ -5,6 +5,7 @@ register_variant(
   name = "Tenso Slide",
   family = "Tenso Slab",
   weight = c("normal", "medium"),
+  width = "normal"
 )
 
 
@@ -87,10 +88,10 @@ theme_tenso <- function (base_size = 12, base_family = "Tenso Slide") {
                                                        face = "bold"),
                     plot.subtitle = ggplot2::element_text(hjust = 0,
                                                           size = ggplot2::rel(1.25),
-                                                          face = "normal"),
+                                                          face = "plain"),
                     plot.caption = ggplot2::element_text(hjust = 0,
                                                          size = ggplot2::rel(0.8),
-                                                         face = "normal"),
+                                                         face = "plain"),
                     plot.margin = unit(c(5.5,12,5.5,5.5), "pt"),
                     strip.background = ggplot2::element_rect()
      )
