@@ -29,9 +29,6 @@ source(here::here("slides", "R", "ragg_and_theme.R"))
 
 ```{r packages-data, include=FALSE}
 library(flipbookr)
-# library(cowplot)
-# ggplot2::theme_set(theme_cowplot())
-
 ```
 
 ```{r xaringanExtra, echo=FALSE}
@@ -448,10 +445,6 @@ More on .kjh-green[**`pivot_wider()`**] and .kjh-green[**`kable()`**] soon ...
 ---
 
 # Pass your pipeline on to ... a .kjh-yellow[graph]
-
-```{r 03-dplyr-basics-13, echo = FALSE}
-# theme_set(cowplot::theme_cowplot())
-```
 
 .SMALL[
 ```{r 03-dplyr-basics-14, fig.height=4, fig.width=15}

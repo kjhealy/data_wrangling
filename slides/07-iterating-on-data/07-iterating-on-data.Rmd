@@ -24,7 +24,7 @@ editor_options:
 
 ```{r setup, include=FALSE}
 ## Graphics options and theme-matching
-source("../R/ragg_and_theme.R")
+source(here::here("slides", "R", "ragg_and_theme.R"))
 ```
 
 ```{r packages-data, include=FALSE}
@@ -351,15 +351,13 @@ filenames[1:15] # Just displaying the first 15, to save slide space
 
 .small.squish3[... using the variant of .kjh-green[**`map()`**] that returns data frames and tibbles.]
 
-```{r 07-iterating-on-data-16}
+```{r 07-iterating-on-data-161}
 df <- filenames %>% 
   map_dfr(read_csv, .id = "congress") %>% #<<
   janitor::clean_names()
 
 df
 ```
-
-
 
 ---
 
@@ -388,12 +386,164 @@ tmp %>%
 
 ```
 
+---
+
+# Iterating on the .kjh-yellow[US Census]
+
+- Not just for local files!
+
+```{r 07-itrerating-on-census-1}
+## Register for a free Census API key
+library(tidycensus)
+```
+
+```{r, message=FALSE, results='hide'}
+out <- get_acs(geography = "county", 
+                    variables = "B19013_001",
+                    state = "NY", 
+                    county = "New York", 
+                    survey = "acs1",
+                    year = 2005)
+```
+
+```{r}
+out
+```
+
+
+---
+
+# Iterating on the .kjh-yellow[US Census]
+
+- All counties in New York State for a specific year
+
+```{r 07-iterating-on-census-2, message=FALSE, results='hide'}
+out <- get_acs(geography = "county", 
+                    variables = "B19013_001",
+                    state = "NY", 
+                    survey = "acs1",
+                    year = 2005)
+```
+
+```{r}
+out
+```
+
+---
+
+# Iterating on the .kjh-yellow[US Census]
+
+- What if we want the results for _every_ available year?
+- First, a handy function: .kjh-green[**`set_names()`**]
+
+```{r, 07-itrerating-on-census-3}
+x <- c(1:10)
+
+x
+
+x <- set_names(x, nm = letters[1:10])
+
+x
+```
+
+---
+
+# Iterating on the .kjh-yellow[US Census]
+
+- By default, .kjh-green[**`set_names()`**] will label a vector with that vector’s values:
+
+```{r, 07-iterating-on-census-4}
+c(1:10) %>% 
+  set_names()
+
+```
+
+---
+
+# Iterating on the .kjh-yellow[US Census]
+
+- Meanwhile, .kjh-green[**`map_dfr()`**] has an `.id` argument that lets you add a
+row-identifier to whatever you are binding. Like this:
+
+```{r 07-itrerating-on-census-5, message=FALSE, results='hide'}
+df <- 2005:2019 %>% 
+  map_dfr(~ get_acs(geography = "county", 
+                    variables = "B19013_001",
+                    state = "NY", 
+                    county = "New York", 
+                    survey = "acs1",
+                    year = .x), 
+        .id = "id")
+```
+
+```{r}
+df
+```
+
+---
+
+# Iterating on the .kjh-yellow[US Census]
+
+- Our `id` column tracks the year. But we’d like it to *be* the year. So,
+we use .kjh-green[**`set_names()`**], and also name it `year` when we create it:
+
+
+```{r 07-itrerating-on-census-6, message=FALSE, results='hide'}
+df <- 2005:2019 %>% 
+  set_names() %>% 
+  map_dfr(~ get_acs(geography = "county", 
+                    variables = "B19013_001",
+                    state = "NY", 
+                    county = "New York", 
+                    survey = "acs1",
+                    year = .x), 
+        .id = "year") %>% 
+  mutate(year = as.integer(year))
+
+df
+
+```
+
+- Now `year` is just the year. The `year` column will be created as a
+character vector, so we convert it back to an integer again at the end.
+
+---
+
+# Iterating on the .kjh-yellow[US Census]
+```{r 07-itrerating-on-census-7, message=FALSE, results='hide', fig.width=8, fig.height=4}
+2005:2019 %>% 
+  set_names() %>% 
+  map_dfr(~ get_acs(geography = "county", variables = "B19013_001",
+                    state = "NY", survey = "acs1", year = .x), .id = "year") %>% 
+  mutate(year = as.integer(year)) %>% 
+  ggplot(mapping = aes(x = year, y = estimate, group = year)) + 
+  geom_boxplot(fill = "lightblue", alpha = 0.5, outlier.alpha = 0) + 
+  geom_jitter(position = position_jitter(width = 0.1), shape = 1) +
+  scale_y_continuous(labels = scales::label_dollar()) + labs(x = "Year", y = "Dollars", 
+  title = "Median Household Income by County in New York State, 2005-2019", 
+  subtitle = "ACS 1-year estimates", caption = "Data: U.S. Census Bureau.") 
+
+```
+
+---
+
+layout: false
+class: center
+
+---
+
+layout: true
+class: title title-1
 
 ---
 
 # Cleaning up .kjh-yellow[congress]
 
-```{r 07-iterating-on-data-17}
+```{r 07-iterating-on-data-16}
+df <- filenames %>% 
+  map_dfr(read_csv, .id = "congress") %>% #<<
+  janitor::clean_names()
+
 df %>% 
   select(born, death, start, end)
 ```

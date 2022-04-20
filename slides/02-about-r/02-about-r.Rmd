@@ -698,7 +698,7 @@ mean()
 
 # What functions usually do
 
-- They take .kjh-orange[**inputs**] to .kjh-pink[**arguments**]
+- They take .kjh-pink[**inputs**] to .kjh-orange[**arguments**]
 
 - They perform .kjh-red[**actions**]
 
