@@ -18,6 +18,10 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Office Hour Examples
+
+**Day 1.** [Some practice questions with UK Election Data](day1.html)
+
 # Course Description
 
 R is a free and open-source package for statistical analysis that is widely used in the social, health, physical, and computational sciences. R is powerful, flexible, and has excellent graphics capabilities. It also has a large and rapidly growing community of users. Although there are a variety of approaches to working with data in R, in recent years, the "[tidyverse](https://www.tidyverse.org)" has emerged as a cohesive and consistent approach to the everyday tasks of data wrangling and analysis. The [tidyverse](https://www.tidyverse.org) is a suite of tools for data management, manipulation, analysis, and visualization within the R software environment for statistical computing. This seminar provides an intensive, hands-on introduction to using tidyverse tools for doing your own work. 

@@ -26,21 +26,21 @@ library(socviz)
 
 # Selecting, Mutating and Summarizing
 
-The `ukelection2019` package has a tibble called `ukvote2019` that contains the results of the UK's 2019 general election, by candidate. 
+*Note*: The `ukelection2019` package was updated on April 21st 2022. Please re-install it:
+
+```{r, echo = TRUE, eval=FALSE}
+remotes::install_github("kjhealy/ukelection2019")
+```
+
+The package contains a tibble called `ukvote2019` that contains the results of the UK's 2019 general election, by candidate. 
 
 ```{r}
 library(ukelection2019)
 ukvote2019
 ```
 
-The data are (accidentally) grouped by candidate, so let's ungroup it first.
 
-```{r}
-ukvote2019 <- ukvote2019 %>% 
-  ungroup()
-```
-
-## Some things to find
+## Some things to find using `dplyr` verbs
 
 - What were the results in the Dover constituency?
 
