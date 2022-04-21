@@ -18,19 +18,21 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Setup 
 
 ```{r}
 library(tidyverse)
 library(socviz)
 ```
 
-# Selecting, Mutating and Summarizing
-
 *Note*: The `ukelection2019` package was updated on April 21st 2022. Please re-install it:
 
 ```{r, echo = TRUE, eval=FALSE}
 remotes::install_github("kjhealy/ukelection2019")
 ```
+
+
+# Selecting, Mutating and Summarizing
 
 The package contains a tibble called `ukvote2019` that contains the results of the UK's 2019 general election, by candidate. 
 
