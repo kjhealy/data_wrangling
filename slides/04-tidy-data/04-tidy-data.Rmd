@@ -374,7 +374,7 @@ This is fine for a compact table, but for us it should be a single measure, say,
 ]
 ---
 
-# From wide to long with .kjh-yellow[`pivot_longer()`]
+# From wide to long with .kjh-green[`pivot_longer()`]
 
 .SMALL.squish2[We're going to put the columns `elem4:coll4` into a new column, creating a new categorical measure named `education`. The numbers currently under each column will become a  new .kjh-green[value] column corresponding to that level of education. ]
 
@@ -385,7 +385,7 @@ edu %>%
 
 ---
 
-# From wide to long with .kjh-yellow[`pivot_longer()`]
+# From wide to long with .kjh-green[`pivot_longer()`]
 
 .SMALL.squish2[We can name the value column to whatever we like. Here it's a number of people.]
 
@@ -412,7 +412,7 @@ edu %>%
 
 ---
 
-# .kjh-yellow[pivot_longer()] implies .kjh-yellow[pivot_wider()]
+# .kjh-green[pivot_longer()] implies .kjh-green[pivot_wider()]
 
 ```{r 04-tidy-data-13}
 gapminder
@@ -420,7 +420,7 @@ gapminder
 
 ---
 
-# .kjh-yellow[pivot_longer()] implies .kjh-yellow[pivot_wider()]
+# .kjh-green[pivot_longer()] implies .kjh-green[pivot_wider()]
 
 ```{r 04-tidy-data-14}
 gapminder %>% 
@@ -517,7 +517,7 @@ In this case, everthing outside (or to the left of) `stratum` is untouched.
 
 ---
 
-# .kjh-yellow[separate()] and .kjh-yellow[unite()] columns
+# .kjh-green[separate()] and .kjh-green[unite()] columns
 
 ```{r 04-tidy-data-19}
 ## tribble() lets you make tibbles by hand

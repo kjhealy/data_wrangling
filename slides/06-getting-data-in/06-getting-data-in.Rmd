@@ -120,12 +120,12 @@ CSV is not really a proper format at all!
 
 --
 
-Base R has .kjh-green[**`read.csv()`**]
+Base R has .kjh-green[`read.csv()`]
 
 --
 
-As is often the case, the tidyverse has a corresponding "underscored" version, .kjh-green[**`read_csv()`**].
-It is _much_ pickier and more talkative than the Base R version.
+As is often the case, the tidyverse has a corresponding "underscored" version, .kjh-green[`read_csv()`].
+It is pickier and more talkative than the Base R version.
 
 ???
 
@@ -133,7 +133,7 @@ It's very hazily defined. This makes it surprisingly difficult to parse! Yet is 
 
 ---
 
-# Where's the data? Using .kjh-yellow[here()]
+# Where's the data? Using .kjh-green[here()]
 
 If we're loading a file, it's coming from _somewhere_.
 
@@ -152,7 +152,7 @@ This makes it easier to share your work, move it around, etc. Projects should be
 
 ---
 
-# Where's the data? Using .kjh-yellow[here()]
+# Where's the data? Using .kjh-green[here()]
 
 The `here` package, and .kjh-green[**`here()`**] function builds paths relative to the top level of your R project. 
 
@@ -162,7 +162,7 @@ here() # this path will be different for you
 
 ---
 
-# Where's the data? Using .kjh-yellow[here()]
+# Where's the data? Using .kjh-green[here()]
 
 This seminar's files all live in an RStudio project. It looks like this:
 
@@ -174,7 +174,7 @@ I want to load files from the `data` folder, but I also want _you_ to be able to
 
 ---
 
-# Where's the data? Using .kjh-yellow[here()]
+# Where's the data? Using .kjh-green[here()]
 
  So:
 
@@ -196,7 +196,7 @@ organs
 
 ---
 
-# Where's the data? Using .kjh-yellow[here()]
+# Where's the data? Using .kjh-green[here()]
 
 Get in the habit of putting this at the top of your files:
 
@@ -208,7 +208,7 @@ See [the `here` project page](https://here.r-lib.org) for more details.
 
 ---
 
-# .kjh-yellow[read_csv()] comes in different varieties
+# .kjh-green[`read_csv()`] comes in different varieties
 
 
 ## .kjh-green[**`read_csv()`**] Field separator is a comma: .kjh-red[**`,`**]
