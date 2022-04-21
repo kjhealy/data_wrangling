@@ -347,7 +347,7 @@ filenames[1:15] # Just displaying the first 15, to save slide space
 
 ---
 
-# And feed it to .kjh-yellow[read_csv()]
+# And feed it to .kjh-green[`read_csv()`]
 
 .small.squish3[... using the variant of .kjh-green[**`map()`**] that returns data frames and tibbles.]
 
@@ -373,7 +373,7 @@ class: title title-1
 
 ---
 
-# .kjh-yellow[read_csv()] can do this directly now
+# .kjh-green[`read_csv()`] can do this directly now
 
 ```{r 07-iterating-on-data-16a}
 tmp <- read_csv(filenames, id = "path",
@@ -388,7 +388,7 @@ tmp %>%
 
 ---
 
-# Iterating on the .kjh-yellow[US Census]
+# Example: Iterating on the .kjh-yellow[US Census]
 
 - Not just for local files!
 
@@ -413,7 +413,7 @@ out
 
 ---
 
-# Iterating on the .kjh-yellow[US Census]
+# Example: Iterating on the .kjh-yellow[US Census]
 
 - All counties in New York State for a specific year
 
@@ -431,7 +431,7 @@ out
 
 ---
 
-# Iterating on the .kjh-yellow[US Census]
+# Example: Iterating on the .kjh-yellow[US Census]
 
 - What if we want the results for _every_ available year?
 - First, a handy function: .kjh-green[**`set_names()`**]
@@ -448,7 +448,7 @@ x
 
 ---
 
-# Iterating on the .kjh-yellow[US Census]
+# Example: Iterating on the .kjh-yellow[US Census]
 
 - By default, .kjh-green[**`set_names()`**] will label a vector with that vector’s values:
 
@@ -460,7 +460,7 @@ c(1:10) %>%
 
 ---
 
-# Iterating on the .kjh-yellow[US Census]
+# Example: Iterating on the .kjh-yellow[US Census]
 
 - Meanwhile, .kjh-green[**`map_dfr()`**] has an `.id` argument that lets you add a
 row-identifier to whatever you are binding. Like this:
@@ -482,7 +482,7 @@ df
 
 ---
 
-# Iterating on the .kjh-yellow[US Census]
+# Example: Iterating on the .kjh-yellow[US Census]
 
 - Our `id` column tracks the year. But we’d like it to *be* the year. So,
 we use .kjh-green[**`set_names()`**], and also name it `year` when we create it:
@@ -509,7 +509,7 @@ character vector, so we convert it back to an integer again at the end.
 
 ---
 
-# Iterating on the .kjh-yellow[US Census]
+# Example: Iterating on the .kjh-yellow[US Census]
 ```{r 07-itrerating-on-census-7, message=FALSE, results='hide', fig.width=8, fig.height=4}
 2005:2019 %>% 
   set_names() %>% 
