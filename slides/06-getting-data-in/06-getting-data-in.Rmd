@@ -124,7 +124,8 @@ Base R has .kjh-green[`read.csv()`]
 
 --
 
-As is often the case, the tidyverse has a corresponding "underscored" version, .kjh-green[`read_csv()`].
+Corresponding tidyverse "underscored" version: .kjh-green[`read_csv()`].
+
 It is pickier and more talkative than the Base R version.
 
 ???
@@ -268,7 +269,7 @@ organ_remote
 
 ---
 
-# An example: .kjh-yellow[read_table()]
+# An example: .kjh-green[**`read_table()`**]
 
 .pull-left[
 ![:scale 100%](img/mortality-top.png)
@@ -325,7 +326,7 @@ read_table(here("data", "mortality.txt"),
   mutate(age = as.integer(recode(age, "110+" = "110")))
 ```
 
-`r chunk_reveal("06-janitor-pipeline", widths = c(40,60), title = "# Normalizing names and recoding")`
+`r chunk_reveal("06-janitor-pipeline", widths = c(60,40), title = "# Normalizing names and recoding")`
 
 --
 
@@ -386,7 +387,7 @@ head(nchs)
 
 ---
 
-# Take a look with .kjh-yellow[tail()]
+# Take a look with .kjh-green[`tail()`]
 
 ```{r 06-getting-data-in-14}
 tail(nchs)
@@ -394,7 +395,7 @@ tail(nchs)
 
 ---
 
-# Take a look with .kjh-yellow[slice_sample()]
+# Take a look with .kjh-green[`slice_sample()`]
 
 ```{r 06-getting-data-in-15}
 nchs %>% 
@@ -413,7 +414,7 @@ Month 1!
 
 ---
 
-# Take a look with .kjh-yellow[slice()]
+# Take a look with .kjh-green[`slice()`]
 
 Let's look at the rows .kjh-green[**`read_csv()`**] complained about.
 
@@ -424,7 +425,7 @@ nchs %>%
 
 ---
 
-# Take a look with .kjh-yellow[slice()]
+# Take a look with .kjh-green[`slice()`]
 
 ```{r 06-getting-data-in-17}
 nchs %>% 
@@ -436,7 +437,7 @@ Hm, something to do with the transition to national numbers maybe?
 
 ---
 
-# Take a look  with .kjh-yellow[select()] and .kjh-yellow[filter()]
+# Take a look  with .kjh-green[`select()`] and .kjh-green[`filter()`]
 
 
 ```{r 06-getting-data-in-18}
@@ -448,7 +449,7 @@ nchs %>%
 
 ---
 
-# Take a look with .kjh-yellow[is.na()]
+# Take a look with .kjh-green[`is.na()`]
 
 ```{r 06-getting-data-in-19}
 nchs %>% 
@@ -462,7 +463,7 @@ That doesn't seem like it can be right.
 
 ---
 
-# Take a look with .kjh-yellow[distinct()]
+# Take a look with .kjh-green[`distinct()`]
 
 ```{r 06-getting-data-in-20}
 nchs %>% 
@@ -475,7 +476,7 @@ Again, it's been read in as a completely empty column.
 
 ---
 
-# Take a look with .kjh-yellow[read_lines()]
+# Take a look with .kjh-green[`read_lines()`]
 
 Time to reach for a different kitchen knife.
 
@@ -509,7 +510,7 @@ raw_file[2753:2758]
 
 --
 
-There you are, you little bastard.
+_There_ you are, you bastard.
 
 --
 
