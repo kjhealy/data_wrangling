@@ -1,0 +1,314 @@
+---
+title: "Data Wrangling - 7b. Safe Iteration"
+author: "Kieran Healy"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: "libs"
+    chakra: "../libs/remark-latest.min.js"
+    css: ["default", "../css/kjh-slides.css", "../css/tenso-berkeley.css", "../css/animate.css", "../css/widths.css", "../css/widths.css"]
+    seal: false
+    anchor_sections: false
+    nature:
+      beforeInit: "../js/kjh-macros.js"
+      highlightStyle: default
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+      ratio: "16:9"
+      navigation:
+        scroll: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+## Graphics options and theme-matching
+source(here::here("slides", "R", "ragg_and_theme.R"))
+```
+
+```{r packages-data, include=FALSE}
+library(flipbookr)
+```
+
+```{r xaringanExtra, echo=FALSE}
+xaringanExtra::use_xaringan_extra(c("tile_view"))
+xaringanExtra::use_animate_css()
+xaringanExtra::use_animate_all("fade")
+xaringanExtra::use_clipboard()
+```
+
+class: center middle main-title section-title-1
+
+# .kjh-green[Safely] iterating with .kjh-yellow[purrr] and .kjh-yellow[map]  
+
+.class-info[
+
+**Data Wrangling: Session 7b**
+
+.light[Kieran Healy<br>
+Statistical Horizons, April 2022]
+
+]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# Load the packages, as always
+
+.SMALL[
+```{r 06-getting-data-in-1, message = TRUE}
+library(here)      # manage file paths
+library(socviz)    # data and some useful functions
+library(tidyverse) # your friend and mine
+```
+]
+
+---
+
+# Additional libraries
+
+```{r}
+library(survey)
+library(srvyr)
+library(broom)
+library(gssr) # https://kjhealy.github.io/gssr
+```
+
+
+---
+
+# The complete GSS
+
+```{r}
+data(gss_all)
+
+gss_all
+
+
+```
+
+---
+
+# Set up our analysis
+
+```{r}
+cont_vars <- c("year", "id", "ballot", "age")
+cat_vars <- c("race", "sex", "fefam")
+wt_vars <- c("vpsu",
+             "vstrat",
+             "oversamp",
+             "formwt",              # weight to deal with experimental randomization
+             "wtssall",             # main weight variable
+             "sampcode",            # sampling error code
+             "sample")              # sampling frame and method
+my_vars <- c(cont_vars, cat_vars, wt_vars)
+
+```
+
+---
+
+# Clean the labeled variables
+
+```{r}
+gss_df <- gss_all %>%
+  filter(year > 1974 & year < 2021) %>% 
+  select(all_of(my_vars)) %>% 
+  mutate(across(everything(), haven::zap_missing), # Convert labeled missing to regular NA
+         across(all_of(wt_vars), as.numeric),
+         across(all_of(cat_vars), as_factor), 
+         across(all_of(cat_vars), fct_relabel, tolower),
+         across(all_of(cat_vars), fct_relabel, tools::toTitleCase),
+         compwt = oversamp * formwt * wtssall)
+
+```
+
+---
+
+# Working dataset
+
+```{r}
+gss_df
+```
+
+---
+
+
+# The `fefam` question
+
+```{r}
+gss_df %>% 
+  count(fefam) 
+```
+
+---
+
+# Recoding
+
+```{r}
+gss_df <- gss_df %>% 
+  mutate(fefam_d = forcats::fct_recode(fefam,
+                                  Agree = "Strongly Agree",
+                                  Disagree = "Strongly Disagree"),
+    fefam_n = recode(fefam_d, "Agree" = 1, "Disagree" = 0))
+
+# factor version
+gss_df %>% 
+  count(fefam_d) 
+
+# numeric version, 1 is "Agree"
+gss_df %>% 
+  count(fefam_n) 
+
+```
+
+---
+
+# Unweighted model
+
+```{r}
+out_all <- glm(fefam_n ~ age + sex + race, 
+              data = gss_df, 
+              family="binomial", 
+              na.action = na.omit)
+
+summary(out_all)
+
+```
+
+---
+
+# Tidied output
+
+```{r}
+tidy(out_all)
+```
+
+---
+
+# .kjh-green[`group_map()`] and .kjh-green[`possibly()`]
+
+- Model each year
+
+```{r}
+out_yr <- gss_df %>% 
+  group_by(year) %>% 
+  group_map_dfr(possibly(~ tidy(glm(fefam_n ~ age + sex + race, 
+                       data = .x, 
+                       family = "binomial", 
+                       na.action = na.omit), 
+                       conf.int = TRUE), 
+                     otherwise = NULL))
+
+out_yr
+
+```
+
+---
+
+# .kjh-green[`group_map()`] and .kjh-green[`possibly()`]
+
+```{r, echo = TRUE, eval = FALSE}
+possibly(~ tidy(glm(...)), otherwise = NULL)
+```
+
+---
+
+# .kjh-green[`group_map()`] and .kjh-green[`possibly()`]
+
+```{r, fig.width=12, fig.height=5}
+out_yr %>% 
+  filter(term == "sexFemale") %>% 
+  ggplot(mapping = aes(x = year, y = estimate,
+                       ymin = conf.low, ymax = conf.high)) +
+  geom_hline(yintercept = 0, linetype = "dotted") + 
+  geom_line() + 
+  geom_pointrange()
+```
+
+---
+
+# Survey-weighted estimates
+
+```{r}
+options(survey.lonely.psu = "adjust")
+options(na.action="na.pass")
+
+gss_svy <- gss_df %>%
+  filter(year > 1974) %>%  
+  mutate(stratvar = interaction(year, vstrat)) %>%
+  as_survey_design(id = vpsu,
+                     strata = stratvar,
+                     weights = compwt,
+                     nest = TRUE)
+gss_svy
+
+```
+
+---
+
+
+# Survey-weighted estimates
+
+```{r}
+gss_svy %>%
+  drop_na(fefam_d) %>% 
+  group_by(year, sex, race, fefam_d) %>%
+  summarize(prop = survey_mean(na.rm = TRUE, 
+                               vartype = "ci"))
+
+```
+
+---
+
+# Survey-weighted estimates
+
+
+```{r}
+out_svy_all <- svyglm(fefam_n ~ age + sex + race, 
+                  design = gss_svy, 
+                  family = quasibinomial(),
+                  na.action = na.omit)
+
+tidy(out_svy_all)
+```
+
+---
+
+# Survey-weighted estimates
+
+```{r}
+out_svy_yrs <- gss_svy %>% 
+  group_by(year) %>% 
+  group_map_dfr(possibly(~ tidy(svyglm(fefam_n ~ age + sex + race, 
+                       design = .x, 
+                       family = quasibinomial(),
+                       na.action = na.omit),
+                       conf.int = TRUE), 
+                     otherwise = NULL))
+
+out_svy_yrs
+
+```
+
+---
+
+# Survey-weighted estimates
+
+```{r, fig.height=5, fig.width=12}
+out_svy_yrs %>% 
+  filter(term == "sexFemale") %>% 
+  ggplot(mapping = aes(x = year, 
+                       y = estimate,
+                       ymin = conf.low,
+                       ymax = conf.high)) +
+  geom_hline(yintercept = 0, linetype = "dotted") + 
+  geom_line() + 
+  geom_pointrange()
+```
+
+

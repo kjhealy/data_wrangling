@@ -522,10 +522,78 @@ The regex engine or "flavor" used by `stringr` is Perl- or PCRE-like.
 
 ---
 
-# What was the point of that?
 
-We use basic or slightly fancy regexps _very often_ when importing and cleaning data.
+layout: true
+class: title title-1
 
---
+---
 
-As we'll soon see! It's time to read in a bunch of data.
+`r chunk_reveal("05-election-01", widths = c(60,40), title = "# Example: Politics and Placenames")`
+
+
+```{r 05-election-01, include=FALSE}
+library(ukelection2019)
+
+ukvote2019 %>% 
+  group_by(constituency) %>% 
+  slice_max(votes) %>% 
+  ungroup() %>% 
+  select(constituency, party_name) %>% 
+  mutate(shire = str_detect(constituency, "shire"),
+         field = str_detect(constituency, "field"),
+         dale = str_detect(constituency, "dale"),
+         pool = str_detect(constituency, "pool"),
+         ton = str_detect(constituency, "(ton$)|(ton )"),
+         wood = str_detect(constituency, "(wood$)|(wood )"),
+         saint = str_detect(constituency, "(St )|(Saint)"),
+         port = str_detect(constituency, "(Port)|(port)"),
+         ford = str_detect(constituency, "(ford$)|(ford )"),
+         by = str_detect(constituency, "(by$)|(by )"),
+         boro = str_detect(constituency, "(boro$)|(boro )|(borough$)|(borough )"),
+         ley = str_detect(constituency, "(ley$)|(ley )|(leigh$)|(leigh )")) %>% 
+  pivot_longer(shire:ley, names_to = "toponym")
+```
+
+
+---
+
+# Example: Politics and Placenames
+
+```{r}
+place_tab <- ukvote2019 %>% 
+  group_by(constituency) %>% 
+  slice_max(votes) %>% 
+  ungroup() %>% 
+  select(constituency, party_name) %>% 
+  mutate(shire = str_detect(constituency, "shire"),
+         field = str_detect(constituency, "field"),
+         dale = str_detect(constituency, "dale"),
+         pool = str_detect(constituency, "pool"),
+         ton = str_detect(constituency, "(ton$)|(ton )"),
+         wood = str_detect(constituency, "(wood$)|(wood )"),
+         saint = str_detect(constituency, "(St )|(Saint)"),
+         port = str_detect(constituency, "(Port)|(port)"),
+         ford = str_detect(constituency, "(ford$)|(ford )"),
+         by = str_detect(constituency, "(by$)|(by )"),
+         boro = str_detect(constituency, "(boro$)|(boro )|(borough$)|(borough )"),
+         ley = str_detect(constituency, "(ley$)|(ley )|(leigh$)|(leigh )")) %>% 
+  pivot_longer(shire:ley, names_to = "toponym")
+```
+
+---
+
+```{r 05-election-02, include=FALSE}
+place_tab %>% 
+  group_by(party_name, toponym) %>% 
+  filter(party_name %in% c("Conservative", "Labour")) %>% 
+  group_by(toponym, party_name) %>% 
+  summarize(freq = sum(value)) %>% 
+  mutate(pct = freq/sum(freq)) %>% 
+  filter(party_name == "Conservative") %>% 
+  arrange(desc(pct))
+  
+```
+
+`r chunk_reveal("05-election-02", widths = c(45,55), title = "# Example: Politics and Placenames")`
+
+---
