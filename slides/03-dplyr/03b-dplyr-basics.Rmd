@@ -307,6 +307,128 @@ gss_sm %>%
 
 `r chunk_reveal("03-relocate-pipeline", widths = c(35,65), title = "# Shuffle columns around")`
 
+---
+
+# Recapping the Office Hour
+
+```{r, office-hour-1}
+library(ukelection2019)
+
+ukvote2019
+```
+
+---
+
+
+# Recapping the Office Hour
+
+Use .kjh-green[**`sample_n()`**] to sample `n` rows of your tibble.
+
+```{r, office-hour-1a}
+library(ukelection2019)
+
+ukvote2019 %>% 
+  sample_n(10)
+```
+
+---
+
+
+# Recapping the Office Hour
+
+- A vector of unique constituency names
+
+```{r}
+ukvote2019 %>% 
+  distinct(constituency)
+```
+
+
+---
+
+# Recapping the Office Hour
+
+- Tally them up
+
+```{r}
+ukvote2019 %>% 
+  distinct(constituency) %>% 
+  tally()
+```
+
+```{r}
+# Base R / non-pipeline version
+
+length(unique(ukvote2019$constituency))
+```
+
+
+---
+
+# Recapping the Office Hour
+
+```{r}
+ukvote2019 %>% 
+  count(party_name) %>% 
+  arrange(desc(n))
+```
+
+---
+
+# Recapping the Office Hour
+
+.pull-left[
+- .SMALL.squish3[Top 5]
+```{r}
+ukvote2019 %>% 
+  count(party_name) %>% 
+  slice_max(order_by = n, n = 5)
+
+```
+]
+
+--
+
+.pull-right[
+- .SMALL.squish3[Bottom 5]
+```{r}
+ukvote2019 %>% 
+  count(party_name) %>% 
+  slice_min(order_by = n, n = 5)
+
+```
+]
+
+
+---
+
+# Recapping the Office Hour
+
+
+```{r}
+ukvote2019 %>% 
+  count(constituency) 
+```
+
+---
+
+# Counting Twice Over
+
+```{r}
+ukvote2019 %>% 
+  count(constituency) %>% 
+  count(n)
+```
+
+---
+
+```{r 03-recap-nn, include = FALSE}
+ukvote2019 %>% 
+  count(constituency, name = "n_cands") %>% 
+  count(n_cands, name = "n_const")
+```
+
+`r chunk_reveal("03-recap-nn", widths = c(35,65), title = "# Counting Twice Over")`
 
 ---
 
