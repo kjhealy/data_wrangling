@@ -130,3 +130,59 @@ fruit # built into stringr
 ## ----05-regular-expressions-23-----------------------------------------------------------------------------------------------------------------------------
 str_view(fruit, "(..)\\1", match = TRUE)
 
+
+## ----05-election-01, include=FALSE-------------------------------------------------------------------------------------------------------------------------
+library(ukelection2019)
+
+ukvote2019 %>% 
+  group_by(constituency) %>% 
+  slice_max(votes) %>% 
+  ungroup() %>% 
+  select(constituency, party_name) %>% 
+  mutate(shire = str_detect(constituency, "shire"),
+         field = str_detect(constituency, "field"),
+         dale = str_detect(constituency, "dale"),
+         pool = str_detect(constituency, "pool"),
+         ton = str_detect(constituency, "(ton$)|(ton )"),
+         wood = str_detect(constituency, "(wood$)|(wood )"),
+         saint = str_detect(constituency, "(St )|(Saint)"),
+         port = str_detect(constituency, "(Port)|(port)"),
+         ford = str_detect(constituency, "(ford$)|(ford )"),
+         by = str_detect(constituency, "(by$)|(by )"),
+         boro = str_detect(constituency, "(boro$)|(boro )|(borough$)|(borough )"),
+         ley = str_detect(constituency, "(ley$)|(ley )|(leigh$)|(leigh )")) %>% 
+  pivot_longer(shire:ley, names_to = "toponym")
+
+
+## ----------------------------------------------------------------------------------------------------------------------------------------------------------
+place_tab <- ukvote2019 %>% 
+  group_by(constituency) %>% 
+  slice_max(votes) %>% 
+  ungroup() %>% 
+  select(constituency, party_name) %>% 
+  mutate(shire = str_detect(constituency, "shire"),
+         field = str_detect(constituency, "field"),
+         dale = str_detect(constituency, "dale"),
+         pool = str_detect(constituency, "pool"),
+         ton = str_detect(constituency, "(ton$)|(ton )"),
+         wood = str_detect(constituency, "(wood$)|(wood )"),
+         saint = str_detect(constituency, "(St )|(Saint)"),
+         port = str_detect(constituency, "(Port)|(port)"),
+         ford = str_detect(constituency, "(ford$)|(ford )"),
+         by = str_detect(constituency, "(by$)|(by )"),
+         boro = str_detect(constituency, "(boro$)|(boro )|(borough$)|(borough )"),
+         ley = str_detect(constituency, "(ley$)|(ley )|(leigh$)|(leigh )")) %>% 
+  pivot_longer(shire:ley, names_to = "toponym")
+
+
+## ----05-election-02, include=FALSE-------------------------------------------------------------------------------------------------------------------------
+place_tab %>% 
+  group_by(party_name, toponym) %>% 
+  filter(party_name %in% c("Conservative", "Labour")) %>% 
+  group_by(toponym, party_name) %>% 
+  summarize(freq = sum(value)) %>% 
+  mutate(pct = freq/sum(freq)) %>% 
+  filter(party_name == "Conservative") %>% 
+  arrange(desc(pct))
+  
+
