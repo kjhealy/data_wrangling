@@ -373,7 +373,9 @@ class: title title-1
 
 ---
 
-# .kjh-green[`read_csv()`] can do this directly now
+# .kjh-green[`read_csv()`] can do this directly now!
+
+No `map_df()` required
 
 ```{r 07-iterating-on-data-16a}
 tmp <- read_csv(filenames, id = "path",
@@ -390,9 +392,9 @@ tmp %>%
 
 # Example: Iterating on the .kjh-yellow[US Census]
 
-- Not just for local files!
+- But mapped iteration is not just for local files!
 
-```{r 07-itrerating-on-census-1}
+```{r 07-iterating-on-census-1}
 ## Register for a free Census API key
 library(tidycensus)
 ```
@@ -436,7 +438,7 @@ out
 - What if we want the results for _every_ available year?
 - First, a handy function: .kjh-green[**`set_names()`**]
 
-```{r, 07-itrerating-on-census-3}
+```{r, 07-iterating-on-census-3}
 x <- c(1:10)
 
 x
@@ -465,7 +467,7 @@ c(1:10) %>%
 - Meanwhile, .kjh-green[**`map_dfr()`**] has an `.id` argument that lets you add a
 row-identifier to whatever you are binding. Like this:
 
-```{r 07-itrerating-on-census-5, message=FALSE, results='hide'}
+```{r 07-iterating-on-census-5, message=FALSE, results='hide'}
 df <- 2005:2019 %>% 
   map_dfr(~ get_acs(geography = "county", 
                     variables = "B19013_001",
@@ -488,7 +490,7 @@ df
 we use .kjh-green[**`set_names()`**], and also name it `year` when we create it:
 
 
-```{r 07-itrerating-on-census-6, message=FALSE, results='hide'}
+```{r 07-iterating-on-census-6, message=FALSE, results='hide'}
 df <- 2005:2019 %>% 
   set_names() %>% 
   map_dfr(~ get_acs(geography = "county", 
@@ -499,19 +501,25 @@ df <- 2005:2019 %>%
                     year = .x), 
         .id = "year") %>% 
   mutate(year = as.integer(year))
-
-df
-
 ```
-
-- Now `year` is just the year. The `year` column will be created as a
-character vector, so we convert it back to an integer again at the end.
 
 ---
 
 # Example: Iterating on the .kjh-yellow[US Census]
-```{r 07-itrerating-on-census-7, message=FALSE, results='hide', fig.width=8, fig.height=4}
-2005:2019 %>% 
+
+```{r}
+df
+```
+
+
+- Now `year` is just the year. The `year` column will be created as a
+character vector, so we converted it back to an integer again at the end.
+
+---
+
+# Example: Iterating on the .kjh-yellow[US Census]
+```{r 07-iterating-on-census-7, message=FALSE, results='hide'}
+p_out <- 2005:2019 %>% 
   set_names() %>% 
   map_dfr(~ get_acs(geography = "county", variables = "B19013_001",
                     state = "NY", survey = "acs1", year = .x), .id = "year") %>% 
@@ -527,10 +535,20 @@ character vector, so we convert it back to an integer again at the end.
 
 ---
 
+# Example: Iterating on the .kjh-yellow[US Census]
+
+```{r 07-iterating-on-census-7a, fig.width=12, fig.height=5}
+print(p_out)
+```
+
+---
+
+
 layout: false
 class: center
 
 ---
+
 
 layout: true
 class: title title-1

@@ -1306,6 +1306,7 @@ gss_sub %>%
 
 ---
 
+
 # More on .kjh-yellow[factors]
 
 We've already seen .kjh-green[**`fct_relabel()`**] and .kjh-green[**`fct_recode()`**] from forcats. 
