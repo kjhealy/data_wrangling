@@ -24,7 +24,7 @@ editor_options:
 
 
 
-```{r packages, include=FALSE}
+```{r 07-iterating-on-data-1, include=FALSE}
 library(flipbookr)
 library(here)
 library(tidyverse)
@@ -68,7 +68,7 @@ class: title title-1
 # Load the packages, as always
 
 .SMALL[
-```{r 06-getting-data-in-1, message = TRUE}
+```{r 07-iterating-on-data-2, message = TRUE}
 library(here)      # manage file paths
 library(socviz)    # data and some useful functions
 library(tidyverse) # your friend and mine
@@ -96,7 +96,7 @@ class: title title-1
 
 .smaller[
 
-```{r 07-iterating-on-data-1}
+```{r 07-iterating-on-data-3 }
 # A little trick from the fs package: 
 fs::dir_tree(here("data", "congress"))
 ```
@@ -109,7 +109,7 @@ fs::dir_tree(here("data", "congress"))
 
 .SMALL[Let's look at one.]
 
-```{r 07-iterating-on-data-2}
+```{r 07-iterating-on-data-4 }
 read_csv(here("data", "congress", "17_95_congress.csv")) %>% 
   janitor::clean_names() %>% 
   head()
@@ -167,7 +167,7 @@ So in addition to the basic .kjh-green[**`map()`**], which always returns a _lis
 
 The simplest cases are not that different from the vectorized arithmetic we're already familiar with. 
 
-```{r 07-iterating-on-data-3}
+```{r 07-iterating-on-data-5 }
 a <- c(1:10)
 
 b <- 1
@@ -187,7 +187,7 @@ R's vectorized rules add `b` to every element of `a`. In a sense, the .kjh-green
 
 We can make this explicit by writing a function:
 
-```{r 07-iterating-on-data-4}
+```{r 07-iterating-on-data-6 }
 add_b <- function(x) {
   b <- 1
   x + b # for any x
@@ -196,7 +196,7 @@ add_b <- function(x) {
 
 Now:
 
-```{r 07-iterating-on-data-5}
+```{r 07-iterating-on-data-7 }
 add_b(x = a)
 ```
 
@@ -207,11 +207,11 @@ add_b(x = a)
 
 Again, R's vectorized approach means it automatically adds `b` to every element of the x we give it.
 
-```{r 07-iterating-on-data-6}
+```{r 07-iterating-on-data-8 }
 add_b(x = 10)
 ```
 
-```{r 07-iterating-on-data-7}
+```{r 07-iterating-on-data-9 }
 add_b(x = c(1, 99, 1000))
 ```
 
@@ -220,7 +220,7 @@ add_b(x = c(1, 99, 1000))
 # .kjh-green[Iterating] in a pipeline
 Some operations can't directly be vectorized in this way, which is why we need to manually iterate, or will want to write loops. 
 
-```{r 07-iterating-on-data-8}
+```{r 07-iterating-on-data-10 }
 library(gapminder)
 gapminder %>% 
   summarize(country_n = n_distinct(country), 
@@ -238,7 +238,7 @@ That's tedious to write! Computers are supposed to allow us to avoid that sort o
 
 So how would we iterate this? What we want is to apply the .kjh-green[**`n_distinct()`**] function to each column of `gapminder`, but in a way that still allows us to use pipelines and so on. 
 
-```{r 07-iterating-on-data-9}
+```{r 07-iterating-on-data-11 }
 library(gapminder)
 gapminder %>% 
   summarize(n_distinct(country), 
@@ -256,7 +256,7 @@ gapminder %>%
 
 You'd use .kjh-green[**across()**], like this:
 
-```{r 07-iterating-on-data-10}
+```{r 07-iterating-on-data-12 }
 gapminder %>% 
   summarize(across(everything(), n_distinct))
 ```
@@ -270,7 +270,7 @@ But you could also do this ...
 .pull-left[
 
 
-```{r 07-iterating-on-data-11}
+```{r 07-iterating-on-data-13 }
   map(gapminder, n_distinct)
 ```
 
@@ -294,7 +294,7 @@ Read it as "Feed each column of `gapminder` to the .kjh-green[**`n_distinct()`**
 
 Or, in pipeline form:
 
-```{r 07-iterating-on-data-12}
+```{r 07-iterating-on-data-14 }
 gapminder %>% 
   map(n_distinct)
 ```
@@ -313,7 +313,7 @@ You can see we are getting a _list_ back.
 
 Or, in pipeline form:
 
-```{r 07-iterating-on-data-13}
+```{r 07-iterating-on-data-15 }
 result <- gapminder %>% 
   map(n_distinct)
 
@@ -332,7 +332,7 @@ result[[2]]
 But we know .kjh-green[**`n_distinct()`**] should always return an integer. So we use .kjh-green[**`map_int()`**] instead of the generic .kjh-green[**`map()`**].
 
 
-```{r 07-iterating-on-data-14}
+```{r 07-iterating-on-data-16 }
 gapminder %>% 
   map_int(n_distinct)
 ```
@@ -343,7 +343,7 @@ The thing about the .kjh-green[**`map()`**] family is that they can deal with al
 
 # Get a vector of .kjh-pink[filenames]
 
-```{r 07-iterating-on-data-15}
+```{r 07-iterating-on-data-17 }
 filenames <- dir(path = here("data", "congress"),
                  pattern = "*.csv",
                  full.names = TRUE)
@@ -358,7 +358,7 @@ filenames[1:15] # Just displaying the first 15, to save slide space
 
 .small.squish3[... using the variant of .kjh-green[**`map()`**] that returns data frames and tibbles.]
 
-```{r 07-iterating-on-data-161}
+```{r 07-iterating-on-data-18 }
 df <- filenames %>% 
   map_dfr(read_csv, .id = "congress") %>% #<<
   janitor::clean_names()
@@ -384,7 +384,7 @@ class: title title-1
 
 No `map_df()` required
 
-```{r 07-iterating-on-data-16a}
+```{r 07-iterating-on-data-19 }
 tmp <- read_csv(filenames, id = "path",
                 name_repair = janitor::make_clean_names)
 
@@ -401,12 +401,12 @@ tmp %>%
 
 - But mapped iteration is not just for local files!
 
-```{r 07-iterating-on-census-1}
+```{r 07-iterating-on-data-20 }
 ## Register for a free Census API key
 library(tidycensus)
 ```
 
-```{r, message=FALSE, results='hide'}
+```{r 07-iterating-on-data-21, message=FALSE, results='hide'}
 out <- get_acs(geography = "county", 
                     variables = "B19013_001",
                     state = "NY", 
@@ -415,7 +415,7 @@ out <- get_acs(geography = "county",
                     year = 2005)
 ```
 
-```{r}
+```{r 07-iterating-on-data-22}
 out
 ```
 
@@ -426,7 +426,7 @@ out
 
 - All counties in New York State for a specific year
 
-```{r 07-iterating-on-census-2, message=FALSE, results='hide'}
+```{r 07-iterating-on-data-23, message=FALSE, results='hide'}
 out <- get_acs(geography = "county", 
                     variables = "B19013_001",
                     state = "NY", 
@@ -434,7 +434,7 @@ out <- get_acs(geography = "county",
                     year = 2005)
 ```
 
-```{r}
+```{r 07-iterating-on-data-24}
 out
 ```
 
@@ -445,7 +445,7 @@ out
 - What if we want the results for _every_ available year?
 - First, a handy function: .kjh-green[**`set_names()`**]
 
-```{r, 07-iterating-on-census-3}
+```{r 07-iterating-on-data-25, 07-iterating-on-census-3}
 x <- c(1:10)
 
 x
@@ -461,7 +461,7 @@ x
 
 - By default, .kjh-green[**`set_names()`**] will label a vector with that vector’s values:
 
-```{r, 07-iterating-on-census-4}
+```{r 07-iterating-on-data-26, 07-iterating-on-census-4}
 c(1:10) %>% 
   set_names()
 
@@ -474,7 +474,7 @@ c(1:10) %>%
 - Meanwhile, .kjh-green[**`map_dfr()`**] has an `.id` argument that lets you add a
 row-identifier to whatever you are binding. Like this:
 
-```{r 07-iterating-on-census-5, message=FALSE, results='hide'}
+```{r 07-iterating-on-data-27, message=FALSE, results='hide'}
 df <- 2005:2019 %>% 
   map_dfr(~ get_acs(geography = "county", 
                     variables = "B19013_001",
@@ -485,7 +485,7 @@ df <- 2005:2019 %>%
         .id = "id")
 ```
 
-```{r}
+```{r 07-iterating-on-data-28}
 df
 ```
 
@@ -497,7 +497,7 @@ df
 we use .kjh-green[**`set_names()`**], and also name it `year` when we create it:
 
 
-```{r 07-iterating-on-census-6, message=FALSE, results='hide'}
+```{r 07-iterating-on-data-29, message=FALSE, results='hide'}
 df <- 2005:2019 %>% 
   set_names() %>% 
   map_dfr(~ get_acs(geography = "county", 
@@ -514,7 +514,7 @@ df <- 2005:2019 %>%
 
 # Example: Iterating on the .kjh-yellow[US Census]
 
-```{r}
+```{r 07-iterating-on-data-30}
 df
 ```
 
@@ -525,7 +525,7 @@ character vector, so we converted it back to an integer again at the end.
 ---
 
 # Example: Iterating on the .kjh-yellow[US Census]
-```{r 07-iterating-on-census-7, message=FALSE, results='hide'}
+```{r 07-iterating-on-data-31, message=FALSE, results='hide'}
 p_out <- 2005:2019 %>% 
   set_names() %>% 
   map_dfr(~ get_acs(geography = "county", variables = "B19013_001",
@@ -544,7 +544,7 @@ p_out <- 2005:2019 %>%
 
 # Example: Iterating on the .kjh-yellow[US Census]
 
-```{r 07-iterating-on-census-7a, fig.width=12, fig.height=5}
+```{r 07-iterating-on-data-32, fig.width=12, fig.height=5}
 print(p_out)
 ```
 
@@ -564,7 +564,7 @@ class: title title-1
 
 # Cleaning up .kjh-yellow[congress]
 
-```{r 07-iterating-on-data-16}
+```{r 07-iterating-on-data-33 }
 df <- filenames %>% 
   map_dfr(read_csv, .id = "congress") %>% #<<
   janitor::clean_names()
@@ -585,7 +585,7 @@ In particular it has many convenience functions to help with the many different 
 
 # Cleaning up .kjh-yellow[congress]
 
-```{r 07-iterating-on-data-18}
+```{r 07-iterating-on-data-34 }
 library(lubridate)
 
 date_recodes <- c("born", "death", "start", "end")
@@ -601,7 +601,7 @@ df
 
 # Cleaning up .kjh-yellow[congress]
 
-```{r 07-iterating-on-data-19}
+```{r 07-iterating-on-data-35 }
 sessions <- tibble(congress = 79:116,
                    start_year = seq(1945, 2019, by = 2),
                    end_year = seq(1947, 2021, by = 2)) %>% 
@@ -624,7 +624,7 @@ The big table
 
 .SMALL[
 
-```{r 07-iterating-on-data-20}
+```{r 07-iterating-on-data-36 }
 df %>% 
   select(congress, last, born)
 
@@ -639,7 +639,7 @@ The smaller table
 
 .SMALL[
 
-```{r 07-iterating-on-data-21}
+```{r 07-iterating-on-data-37 }
 sessions
 
 ```
@@ -655,7 +655,7 @@ sessions
 
 .SMALL[
 
-```{r 07-iterating-on-data-22, message = TRUE}
+```{r 07-iterating-on-data-38, message = TRUE}
 
 df <- left_join(df, sessions) %>% 
   relocate(start_year:end_year, .after = congress)  
@@ -743,7 +743,7 @@ class: title title-1
 
 The result of almost any operation involving a missing/unknown value will be missing/unknown.
 
-```{r 07-iterating-on-data-23}
+```{r 07-iterating-on-data-39 }
 df <- tribble(
   ~subject, ~age,
   "A", 20,
@@ -762,7 +762,7 @@ df
 
 The result of almost any operation involving a missing/unknown value will be missing/unknown.
 
-```{r 07-iterating-on-data-24}
+```{r 07-iterating-on-data-40 }
 # OK
 df %>% 
   filter(age == 25)
@@ -770,14 +770,14 @@ df %>%
 
 --
 
-```{r 07-iterating-on-data-25}
+```{r 07-iterating-on-data-41 }
 # Nope
 df %>% 
   filter(age == NA)
 ```
 
 
-```{r 07-iterating-on-data-26}
+```{r 07-iterating-on-data-42 }
 # E.g.
 23 == NA
 ```
@@ -789,7 +789,7 @@ df %>%
 
 Always use .kjh-green[**`is.na()`**] instead
 
-```{r 07-iterating-on-data-27}
+```{r 07-iterating-on-data-43 }
 # Yes
 df %>% 
   filter(is.na(age))
@@ -799,7 +799,7 @@ df %>%
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r 07-iterating-on-data-28}
+```{r 07-iterating-on-data-44 }
 library(naniar)
 library(visdat)
 
@@ -811,7 +811,7 @@ organdata
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
 
-```{r 07-iterating-on-data-29, fig.height=6, fig.width=8}
+```{r 07-iterating-on-data-45, fig.height=6, fig.width=8}
 gg_miss_var(organdata)
 ```
 
@@ -819,7 +819,7 @@ gg_miss_var(organdata)
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r 07-iterating-on-data-30, fig.height=6, fig.width=8}
+```{r 07-iterating-on-data-46, fig.height=6, fig.width=8}
 vis_dat(organdata)
 ```
 
@@ -827,7 +827,7 @@ vis_dat(organdata)
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r 07-iterating-on-data-31, fig.height=6, fig.width=8}
+```{r 07-iterating-on-data-47, fig.height=6, fig.width=8}
 miss_var_summary(organdata)
 ```
 
@@ -836,7 +836,7 @@ miss_var_summary(organdata)
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r 07-iterating-on-data-32}
+```{r 07-iterating-on-data-48 }
 miss_case_summary(organdata)
 ```
 
@@ -844,7 +844,7 @@ miss_case_summary(organdata)
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r 07-iterating-on-data-33}
+```{r 07-iterating-on-data-49 }
 organdata %>%
   select(consent_law, year, pubhealth, roads) %>%
   group_by(consent_law) %>%
@@ -856,7 +856,7 @@ organdata %>%
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r 07-iterating-on-data-34, fig.height=6, fig.width=8}
+```{r 07-iterating-on-data-50, fig.height=6, fig.width=8}
 vis_miss(organdata)
 ```
 
@@ -864,7 +864,7 @@ vis_miss(organdata)
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r 07-iterating-on-data-35, fig.height=6, fig.width=8}
+```{r 07-iterating-on-data-51, fig.height=6, fig.width=8}
 library(congress)
 gg_miss_upset(congress)
 ```
@@ -873,7 +873,7 @@ gg_miss_upset(congress)
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r 07-iterating-on-data-36, fig.height=6, fig.width=8}
+```{r 07-iterating-on-data-52, fig.height=6, fig.width=8}
 vis_miss(organdata, cluster = TRUE)
 ```
 
@@ -881,7 +881,7 @@ vis_miss(organdata, cluster = TRUE)
 
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
-```{r 07-iterating-on-data-37, fig.height=6, fig.width=8}
+```{r 07-iterating-on-data-53, fig.height=6, fig.width=8}
 gg_miss_upset(organdata)
 ```
 
@@ -895,7 +895,7 @@ gg_miss_upset(organdata)
 
 # .kjh-yellow[Upset plots] and a bit of wrangling
 
-```{r 07-iterating-on-data-38}
+```{r 07-iterating-on-data-54 }
 symptoms <- c("Anosmia", "Cough", "Fatigue", 
               "Diarrhea", "Breath", "Fever")
 names(symptoms) <- symptoms
@@ -908,7 +908,7 @@ symptoms
 
 .SMALL[
 
-```{r 07-iterating-on-data-39}
+```{r 07-iterating-on-data-55 }
 # An Excel file!
 dat <- readxl::read_xlsx(here("data", "symptoms.xlsx")) 
 dat %>% print(n = nrow(dat))
@@ -923,7 +923,7 @@ dat %>% print(n = nrow(dat))
 
 .SMALL[
 
-```{r 07-iterating-on-data-40}
+```{r 07-iterating-on-data-56 }
 subsets <- dat %>% 
   pull(combination)
 
@@ -948,7 +948,7 @@ Now we have a table we can do something with.
 .SMALL[
 
 
-```{r 07-iterating-on-data-41}
+```{r 07-iterating-on-data-57 }
 symptom_mat %>% print(n = nrow(symptom_mat))
 ```
 
@@ -961,7 +961,7 @@ Uncounting tables
 
 .SMALL[
 
-```{r 07-iterating-on-data-42}
+```{r 07-iterating-on-data-58 }
 indvs <- symptom_mat %>%
     uncount(count) 
 
@@ -978,7 +978,7 @@ Now we've reconstructed the individual-level observations.
 # .kjh-yellow[Upset plots] and a bit of wrangling
 
 
-```{r 07-iterating-on-data-43, fig.width=16, fig.height=9, eval = FALSE}
+```{r 07-iterating-on-data-59, fig.width=16, fig.height=9, eval = FALSE}
 # devtools::install_github("krassowski/complex-upset")
 
 library(ComplexUpset)
@@ -998,7 +998,7 @@ upset(data = indvs, intersect = symptoms,
 # .kjh-yellow[Upset plots] and a bit of wrangling
 
 
-```{r 07-iterating-on-data-44, fig.width=12, fig.height=7, echo = FALSE}
+```{r 07-iterating-on-data-60, fig.width=12, fig.height=7, echo = FALSE}
 # devtools::install_github("krassowski/complex-upset")
 
 library(ComplexUpset)
@@ -1037,13 +1037,13 @@ Again, the principle is tidy incorporation of models and their output.
 
 # Tidy regression output with .kjh-yellow[broom]
 
-```{r 07-iterating-on-data-45}
+```{r 07-iterating-on-data-61 }
 library(broom)
 library(gapminder)
 ```
 
 
-```{r 07-.kjh-green[Iterating]-2}
+```{r r 07-.kjh-green[Iterating]-2}
 out <- lm(formula = lifeExp ~ gdpPercap + pop + continent,
           data = gapminder)
 ```
@@ -1056,7 +1056,7 @@ We can't _do_ anything with this, programatically.
 
 .SMALL[
 
-```{r 07-.kjh-green[Iterating]-3}
+```{r r 07-.kjh-green[Iterating]-3}
 summary(out)
 ```
 
@@ -1065,11 +1065,11 @@ summary(out)
 
 # Tidy regression output with .kjh-yellow[broom]
 
-```{r 07-.kjh-green[Iterating]-8}
+```{r r 07-.kjh-green[Iterating]-8}
 library(broom)
 ```
 
-```{r 07-.kjh-green[Iterating]-9}
+```{r r 07-.kjh-green[Iterating]-9}
 tidy(out)
 ```
 
@@ -1081,7 +1081,7 @@ That's a _lot_ nicer. Now it's just a tibble. We know those.
 
 .SMALL[
 
-```{r 07-.kjh-green[Iterating]-11}
+```{r r 07-.kjh-green[Iterating]-11}
 out_conf <- tidy(out, conf.int = TRUE)
 out_conf 
 ```
@@ -1094,7 +1094,7 @@ out_conf
 
 .SMALL[
 
-```{r 07-iterating-on-data-46}
+```{r 07-iterating-on-data-62 }
 out_conf %>%
     filter(term %nin% "(Intercept)") %>%
     mutate(nicelabs = prefix_strip(term, "continent")) %>%
@@ -1107,14 +1107,14 @@ out_conf %>%
 
 # Grouped analysis and .kjh-orange[list columns]
 
-```{r 07-.kjh-green[Iterating]-20}
+```{r r 07-.kjh-green[Iterating]-20}
 eu77 <- gapminder %>% filter(continent == "Europe", year == 1977)
 fit <- lm(lifeExp ~ log(gdpPercap), data = eu77)
 ```
 
 .SMALL[
 
-```{r 07-.kjh-green[Iterating]-21}
+```{r r 07-.kjh-green[Iterating]-21}
 
 summary(fit)
 ```
@@ -1125,7 +1125,7 @@ summary(fit)
 
 # Grouped analysis and .kjh-orange[list columns]
 
-```{r 07-.kjh-green[Iterating]-22}
+```{r r 07-.kjh-green[Iterating]-22}
 
 out_le <- gapminder %>%
     group_by(continent, year) %>%
@@ -1143,7 +1143,7 @@ Think of nesting as a kind of "super-grouping". Look in the object inspector.
 
 It's still in there.
 
-```{r 07-.kjh-green[Iterating]-23}
+```{r r 07-.kjh-green[Iterating]-23}
 out_le %>% filter(continent == "Europe" & year == 1977) %>% 
     unnest(cols = c(data))
 ```
@@ -1152,14 +1152,14 @@ out_le %>% filter(continent == "Europe" & year == 1977) %>%
 
 # Grouped analysis and .kjh-orange[list columns]
 
-```{r 07-.kjh-green[Iterating]-24, echo = FALSE}
+```{r r 07-.kjh-green[Iterating]-24, echo = FALSE}
 old_digits <- getOption("digits")
 options(digits = 3)
 ```
 
 Here we .kjh-green[**`map()`**] a custom function to every row in the `data` column.
 
-```{r 07-.kjh-green[Iterating]-25}
+```{r r 07-.kjh-green[Iterating]-25}
 
 fit_ols <- function(df) {
     lm(lifeExp ~ log(gdpPercap), data = df)
@@ -1176,7 +1176,7 @@ out_le <- gapminder %>%
 # Grouped analysis and .kjh-orange[list columns]
 
 
-```{r 07-iterating-on-data-47}
+```{r 07-iterating-on-data-63 }
 out_le
 ```
 
@@ -1187,7 +1187,7 @@ out_le
 
 We can tidy the nested models, too.
 
-```{r 07-.kjh-green[Iterating]-26}
+```{r r 07-.kjh-green[Iterating]-26}
 
 fit_ols <- function(df) {
     lm(lifeExp ~ log(gdpPercap), data = df)
@@ -1208,7 +1208,7 @@ out_tidy <- gapminder %>%
 
 # Grouped analysis and .kjh-orange[list columns]
 
-```{r 07-iterating-on-data-48}
+```{r 07-iterating-on-data-64 }
 out_tidy
 ```
 
@@ -1216,14 +1216,14 @@ out_tidy
 
 # Grouped analysis and .kjh-orange[list columns]
 
-```{r 07-iterating-on-data-49}
+```{r 07-iterating-on-data-65 }
 out_tidy %>% 
     ungroup() %>%
     sample_n(5)
 ```
 
 
-```{r 07-.kjh-green[Iterating]-27, echo = FALSE}
+```{r r 07-.kjh-green[Iterating]-27, echo = FALSE}
 options(digits = old_digits)
 ```
 

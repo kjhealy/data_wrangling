@@ -23,7 +23,7 @@ editor_options:
 ---
 
 
-```{r packages, include=FALSE}
+```{r 00-template-1, include=FALSE}
 library(flipbookr)
 library(here)
 library(tidyverse)
@@ -100,7 +100,7 @@ class: title title-1
 
 ---
 
-```{r load_penguins, include = FALSE}
+```{r 00-template-2, include = FALSE}
 
 library(palmerpenguins)
 
@@ -108,7 +108,7 @@ library(palmerpenguins)
 
 `r chunk_reveal("penguin_tabs", widths = c(35,65), title = "# Breaks")`
 
-```{r penguin_tabs, include = FALSE}
+```{r 00-template-3, include = FALSE}
 penguins %>% 
   filter(year != 2007) %>% 
   group_by(species) %>% 
@@ -121,7 +121,7 @@ penguins %>%
 
 ---
 
-```{r my_cars, include = FALSE}
+```{r 00-template-4, include = FALSE}
 as_tibble(cars) %>%
   filter(speed > 4) %>%
   ggplot() +

@@ -1,18 +1,18 @@
-## ----setup, include=FALSE-----------------------------------------------------------------------------------------------------------------
-knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
-                      fig.retina = 3, fig.align = "center")
-
-
-## ----packages-data, include=FALSE---------------------------------------------------------------------------------------------------------
+## ----01-overview-1, include=FALSE---------------------------------------------------------------------------------------------------------
 library(flipbookr)
-library(cowplot)
-ggplot2::theme_set(theme_cowplot())
+library(here)
+library(tidyverse)
+library(kjhslides)
 
 
+## ----setup, include=FALSE-----------------------------------------------------------------------------------------------------------------
 
-## ----xaringanExtra, echo=FALSE------------------------------------------------------------------------------------------------------------
-xaringanExtra::use_xaringan_extra(c("tile_view"))
-xaringanExtra::use_animate_css()
-xaringanExtra::use_animate_all("fade")
-xaringanExtra::use_clipboard()
+kjh_register_tenso()
+
+kjh_set_knitr_opts()
+
+kjh_set_slide_theme()
+
+kjh_set_xaringnan_opts()
+
 

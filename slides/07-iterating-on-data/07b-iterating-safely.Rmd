@@ -24,7 +24,7 @@ editor_options:
 
 
 
-```{r packages, include=FALSE}
+```{r 07b-iterating-safely-1, include=FALSE}
 library(flipbookr)
 library(here)
 library(tidyverse)
@@ -68,7 +68,7 @@ class: title title-1
 # Load the packages, as always
 
 .SMALL[
-```{r 06-getting-data-in-1, message = TRUE}
+```{r 07b-iterating-safely-2, message = TRUE}
 library(here)      # manage file paths
 library(socviz)    # data and some useful functions
 library(tidyverse) # your friend and mine
@@ -79,7 +79,7 @@ library(tidyverse) # your friend and mine
 
 # Additional libraries
 
-```{r}
+```{r 07b-iterating-safely-3}
 library(survey)
 library(srvyr)
 library(broom)
@@ -91,7 +91,7 @@ library(gssr) # https://kjhealy.github.io/gssr
 
 # The complete GSS
 
-```{r}
+```{r 07b-iterating-safely-4}
 data(gss_all)
 
 gss_all
@@ -103,7 +103,7 @@ gss_all
 
 # Set up our analysis
 
-```{r}
+```{r 07b-iterating-safely-5}
 cont_vars <- c("year", "id", "ballot", "age")
 cat_vars <- c("race", "sex", "fefam")
 wt_vars <- c("vpsu",
@@ -121,7 +121,7 @@ my_vars <- c(cont_vars, cat_vars, wt_vars)
 
 # Clean the labeled variables
 
-```{r}
+```{r 07b-iterating-safely-6}
 gss_df <- gss_all %>%
   filter(year > 1974 & year < 2021) %>% 
   select(all_of(my_vars)) %>% 
@@ -138,7 +138,7 @@ gss_df <- gss_all %>%
 
 # Working dataset
 
-```{r}
+```{r 07b-iterating-safely-7}
 gss_df
 ```
 
@@ -147,7 +147,7 @@ gss_df
 
 # The `fefam` question
 
-```{r}
+```{r 07b-iterating-safely-8}
 gss_df %>% 
   count(fefam) 
 ```
@@ -156,7 +156,7 @@ gss_df %>%
 
 # Recoding
 
-```{r}
+```{r 07b-iterating-safely-9}
 gss_df <- gss_df %>% 
   mutate(fefam_d = forcats::fct_recode(fefam,
                                   Agree = "Strongly Agree",
@@ -177,7 +177,7 @@ gss_df %>%
 
 # Unweighted model
 
-```{r}
+```{r 07b-iterating-safely-10}
 out_all <- glm(fefam_n ~ age + sex + race, 
               data = gss_df, 
               family="binomial", 
@@ -191,7 +191,7 @@ summary(out_all)
 
 # Tidied output
 
-```{r}
+```{r 07b-iterating-safely-11}
 tidy(out_all)
 ```
 
@@ -201,7 +201,7 @@ tidy(out_all)
 
 - Model each year
 
-```{r}
+```{r 07b-iterating-safely-12}
 out_yr <- gss_df %>% 
   group_by(year) %>% 
   group_map_dfr(possibly(~ tidy(glm(fefam_n ~ age + sex + race, 
@@ -219,7 +219,7 @@ out_yr
 
 # .kjh-green[**`group_map()`**] and .kjh-green[**`possibly()`**]
 
-```{r, echo = TRUE, eval = FALSE}
+```{r 07b-iterating-safely-13, echo = TRUE, eval = FALSE}
 possibly(~ tidy(glm(...)), otherwise = NULL)
 ```
 
@@ -227,7 +227,7 @@ possibly(~ tidy(glm(...)), otherwise = NULL)
 
 # .kjh-green[**`group_map()`**] and .kjh-green[**`possibly()`**]
 
-```{r, fig.width=12, fig.height=5}
+```{r 07b-iterating-safely-14, fig.width=12, fig.height=5}
 out_yr %>% 
   filter(term == "sexFemale") %>% 
   ggplot(mapping = aes(x = year, y = estimate,
@@ -241,7 +241,7 @@ out_yr %>%
 
 # Survey-weighted estimates
 
-```{r}
+```{r 07b-iterating-safely-15}
 options(survey.lonely.psu = "adjust")
 options(na.action="na.pass")
 
@@ -261,7 +261,7 @@ gss_svy
 
 # Survey-weighted estimates
 
-```{r}
+```{r 07b-iterating-safely-16}
 gss_svy %>%
   drop_na(fefam_d) %>% 
   group_by(year, sex, race, fefam_d) %>%
@@ -275,7 +275,7 @@ gss_svy %>%
 # Survey-weighted estimates
 
 
-```{r}
+```{r 07b-iterating-safely-17}
 out_svy_all <- svyglm(fefam_n ~ age + sex + race, 
                   design = gss_svy, 
                   family = quasibinomial(),
@@ -288,7 +288,7 @@ tidy(out_svy_all)
 
 # Survey-weighted estimates
 
-```{r}
+```{r 07b-iterating-safely-18}
 out_svy_yrs <- gss_svy %>% 
   group_by(year) %>% 
   group_map_dfr(possibly(~ tidy(svyglm(fefam_n ~ age + sex + race, 
@@ -306,7 +306,7 @@ out_svy_yrs
 
 # Survey-weighted estimates
 
-```{r, fig.height=5, fig.width=12}
+```{r 07b-iterating-safely-19, fig.height=5, fig.width=12}
 out_svy_yrs %>% 
   filter(term == "sexFemale") %>% 
   ggplot(mapping = aes(x = year, 

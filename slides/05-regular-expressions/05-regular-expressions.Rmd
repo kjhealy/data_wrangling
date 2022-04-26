@@ -24,7 +24,7 @@ editor_options:
 
 
 
-```{r packages, include=FALSE}
+```{r 05-regular-expressions-1, include=FALSE}
 library(flipbookr)
 library(here)
 library(tidyverse)
@@ -69,7 +69,7 @@ class: title title-1
 # Load the packages, as always
 
 .SMALL[
-```{r 05-regular-expressions-1, message = FALSE}
+```{r 05-regular-expressions-2, message = FALSE}
 library(here)      # manage file paths
 library(socviz)    # data and some useful functions
 ```
@@ -77,7 +77,7 @@ library(socviz)    # data and some useful functions
 
 .SMALL[
 
-```{r 05-regular-expressions-2, message = TRUE}
+```{r 05-regular-expressions-3, message = TRUE}
 library(tidyverse) # your friend and mine
 library(gapminder) # gapminder data
 library(stringr)
@@ -103,7 +103,7 @@ class: title title-1
 
 # .kjh-yellow[stringr] is your gateway to regexps
 
-```{r 05-regular-expressions-3}
+```{r 05-regular-expressions-4 }
 library(stringr)
 ```
 
@@ -161,7 +161,7 @@ str_replace(<STRING>, <PATTERN>, <REPLACEMENT>)
 
 .SMALL[Here I'll follow the exposition in Wickham & Grolemund (2017).]
 
-```{r 05-regular-expressions-4}
+```{r 05-regular-expressions-5 }
 x <- c("apple", "banana", "pear")
 
 str_view(x, "an")
@@ -206,7 +206,7 @@ You need to use an “escape” to tell the regular expression you want to match
 
 .small.squish3[We use strings to represent regular expressions. **`\`** is also used as an escape symbol in strings. So to create the regular expression **`\.`** we need the string "**`\\.`**"]
 
-```{r 05-regular-expressions-5}
+```{r 05-regular-expressions-6 }
 # To create the regular expression, we need \\
 dot <- "\\."
 
@@ -225,7 +225,7 @@ We use strings to represent regular expressions, and \ is also used as an escape
   
 # But ... then how do you match a .kjh-yellow[literal] .kjh-pink[**`\`**]?
 
-```{r 05-regular-expressions-6}
+```{r 05-regular-expressions-7 }
 
 x <- "a\\b"
 writeLines(x)
@@ -253,7 +253,7 @@ Use .kjh-pink[**`$`**] to match the end of a string.
 
 .pull-left[
 
-```{r 05-regular-expressions-7}
+```{r 05-regular-expressions-8 }
 x <- c("apple", "banana", "pear")
 str_view(x, "^a")
 ```
@@ -263,7 +263,7 @@ str_view(x, "^a")
 
 .pull-right[
 
-```{r 05-regular-expressions-8}
+```{r 05-regular-expressions-9 }
 str_view(x, "a$")
 ```
 
@@ -279,7 +279,7 @@ To force a regular expression to only match a complete string, anchor it with bo
 
 .pull-left[
 
-```{r 05-regular-expressions-9}
+```{r 05-regular-expressions-10 }
 x <- c("apple pie", "apple", "apple cake")
 str_view(x, "apple")
 
@@ -291,7 +291,7 @@ str_view(x, "apple")
 
 .pull-right[
 
-```{r 05-regular-expressions-10}
+```{r 05-regular-expressions-11 }
 str_view(x, "^apple$")
 ```
 ]
@@ -319,7 +319,7 @@ Remember, to create a regular expression containing \d or \s, you’ll need to e
 Look for a literal character that normally has special meaning in a regex
 
 .pull-left[
-```{r 05-regular-expressions-11}
+```{r 05-regular-expressions-12 }
 
 str_view(c("abc", "a.c", "a*c", "a c"), "a[.]c")
 
@@ -330,7 +330,7 @@ str_view(c("abc", "a.c", "a*c", "a c"), "a[.]c")
 
 .pull-right[
 
-```{r 05-regular-expressions-12}
+```{r 05-regular-expressions-13 }
 str_view(c("abc", "a.c", "a*c", "a c"), ".[*]c")
 ```
 
@@ -346,7 +346,7 @@ This works for most (but not all) regex metacharacters: $ . | ? * + ( ) [ {. Unf
 
 Use parentheses to make the precedence of .kjh-pink[**`|`**] clear:
 
-```{r 05-regular-expressions-13}
+```{r 05-regular-expressions-14 }
 str_view(c("groy", "grey", "griy", "gray"), "gr(e|a)y")
 ```
 
@@ -361,7 +361,7 @@ str_view(c("groy", "grey", "griy", "gray"), "gr(e|a)y")
 
 .kjh-pink[**`*`**] is 0 or more
 
-```{r 05-regular-expressions-14}
+```{r 05-regular-expressions-15 }
 x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
 str_view(x, "CC?")
 ```
@@ -377,7 +377,7 @@ str_view(x, "CC?")
 
 .kjh-pink[**`*`**] is 0 or more
 
-```{r 05-regular-expressions-15}
+```{r 05-regular-expressions-16 }
 str_view(x, "CC+")
 ```
 
@@ -393,7 +393,7 @@ str_view(x, "CC+")
 
 .kjh-pink[**`*`**] is 0 or more
 
-```{r 05-regular-expressions-16}
+```{r 05-regular-expressions-17 }
 x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
 str_view(x, 'C[LX]+')
 ```
@@ -411,7 +411,7 @@ str_view(x, 'C[LX]+')
 .kjh-pink[**`{n,m}`**] is between n and m
 
 
-```{r 05-regular-expressions-17}
+```{r 05-regular-expressions-18 }
 str_view(x, "C{2}")
 ```
 
@@ -429,7 +429,7 @@ str_view(x, "C{2}")
 .kjh-pink[**`{n,m}`**] is between n and m
 
 
-```{r 05-regular-expressions-18}
+```{r 05-regular-expressions-19 }
 str_view(x, "C{2,}")
 ```
 
@@ -446,7 +446,7 @@ ___
 .kjh-pink[**`{n,m}`**] is between n and m
 
 
-```{r 05-regular-expressions-19}
+```{r 05-regular-expressions-20 }
 str_view(x, "C{2,3}")
 ```
 
@@ -465,7 +465,7 @@ ___
 
 By default these are _greedy_ matches. You can make them “lazy”, matching the shortest string possible by putting a **`?`** after them. **This is often very useful!**
 
-```{r 05-regular-expressions-20}
+```{r 05-regular-expressions-21 }
 str_view(x, 'C{2,3}?')
 ```
 
@@ -483,7 +483,7 @@ str_view(x, 'C{2,3}?')
 
 By default these are _greedy_ matches. You can make them “lazy”, matching the shortest string possible by putting a **`?`** after them. **This is often very useful!**
 
-```{r 05-regular-expressions-21}
+```{r 05-regular-expressions-22 }
 str_view(x, 'C[LX]+?')
 ```
 
@@ -492,7 +492,7 @@ str_view(x, 'C[LX]+?')
 # And .kjh-yellow[finally] ... backreferences
 
 
-```{r 05-regular-expressions-22}
+```{r 05-regular-expressions-23 }
 fruit # built into stringr
 ```
 
@@ -502,7 +502,7 @@ fruit # built into stringr
 
 Find all fruits that have a repeated pair of letters:
 
-```{r 05-regular-expressions-23}
+```{r 05-regular-expressions-24 }
 str_view(fruit, "(..)\\1", match = TRUE)
 ```
 
@@ -539,7 +539,7 @@ class: title title-1
 `r chunk_reveal("05-election-01", widths = c(60,40), title = "# Example: Politics and Placenames")`
 
 
-```{r 05-election-01, include=FALSE}
+```{r 05-regular-expressions-25, include=FALSE}
 library(ukelection2019)
 
 ukvote2019 %>% 
@@ -567,7 +567,7 @@ ukvote2019 %>%
 
 # Example: Politics and Placenames
 
-```{r}
+```{r 05-regular-expressions-26}
 place_tab <- ukvote2019 %>% 
   group_by(constituency) %>% 
   slice_max(votes) %>% 
@@ -590,7 +590,7 @@ place_tab <- ukvote2019 %>%
 
 ---
 
-```{r 05-election-02, include=FALSE}
+```{r 05-regular-expressions-27, include=FALSE}
 place_tab %>% 
   group_by(party_name, toponym) %>% 
   filter(party_name %in% c("Conservative", "Labour")) %>% 
