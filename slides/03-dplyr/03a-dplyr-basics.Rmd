@@ -28,10 +28,11 @@ library(flipbookr)
 library(here)
 library(tidyverse)
 library(kjhslides)
+library(xaringanExtra)
 ```
 
 
-```{r setup, include=FALSE}
+```{r setup, echo=FALSE}
 
 kjh_register_tenso()
 

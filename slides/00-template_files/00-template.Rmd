@@ -86,7 +86,7 @@ class: title title-1
 layout: false
 class: center
 
-# .middle[Most Data Analysis is .kjh-orange[Cleaning] and .kjh-red[Recoding]]
+# .middle.huge[Most Data Analysis is .kjh-orange[Cleaning] and .kjh-red[Recoding]]
 ---
 
 layout: false
@@ -106,7 +106,7 @@ library(palmerpenguins)
 
 ```
 
-`r chunk_reveal("penguin_tabs", widths = c(35,65), title = "# Breaks")`
+`r chunk_reveal("00-template-2", widths = c(35,65), title = "# Breaks")`
 
 ```{r 00-template-3, include = FALSE}
 penguins %>% 
@@ -134,7 +134,7 @@ as_tibble(cars) %>%
   aes(size = speed) #BREAK
 ```
 
-`r chunk_reveal("my_cars", break_type = "auto", title = "# Chunk Breaks")`
+`r chunk_reveal("00-template-4", break_type = "auto", title = "# Chunk Breaks")`
 
 ---
 
