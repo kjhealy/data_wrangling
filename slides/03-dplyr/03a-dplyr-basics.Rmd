@@ -260,7 +260,7 @@ Grouping just changes the logical structure of the tibble.
 
 ---
 
-`r chunk_reveal("03-dplyr-onecol-summary", widths = c(25,75), title = "# Group and summarize by .kjh-orange[_one_] column")`
+`r chunk_reveal("03a-dplyr-basics-6", widths = c(25,75), title = "# Group and summarize by .kjh-orange[_one_] column")`
 
 
 ```{r 03a-dplyr-basics-6, include = FALSE}
@@ -283,7 +283,7 @@ Your original .kjh-pink[`gss_sm`] table is untouched
 
 ---
 
-`r chunk_reveal("03-dplyr-twocol-summary", widths = c(40,55), title = "# Group and summarize by .kjh-orange[_two_] columns")`
+`r chunk_reveal("03a-dplyr-basics-7", widths = c(40,55), title = "# Group and summarize by .kjh-orange[_two_] columns")`
 
 
 ```{r 03a-dplyr-basics-7, include = FALSE}
@@ -298,7 +298,7 @@ The function .kjh-green[**`n()`**] counts up the rows within the _innermost_ (i.
 
 ---
 
-`r chunk_reveal("03-dplyr-freq", widths = c(40,60), title = "# Calculate frequencies")`
+`r chunk_reveal("03a-dplyr-basics-8", widths = c(40,60), title = "# Calculate frequencies")`
 
 
 ```{r 03a-dplyr-basics-8, include = FALSE}
@@ -664,7 +664,7 @@ gss_sm %>%
 
 ---
 
-`r chunk_reveal("03-kid-pipeline", widths = c(40,60), title = "# Following a pipeline")`
+`r chunk_reveal("03a-dplyr-basics-30", widths = c(40,60), title = "# Following a pipeline")`
 
 
 ```{r 03a-dplyr-basics-30, include = FALSE }
@@ -864,7 +864,7 @@ organdata %>%
 
 ---
 
-`r chunk_reveal("03-across-pipeline-1", widths = c(40,60), title = "# Let's look at that again")`
+`r chunk_reveal("03a-dplyr-basics-43", widths = c(40,60), title = "# Let's look at that again")`
 
 - `my_vars` are selected by .kjh-green[**`across()`**]
 

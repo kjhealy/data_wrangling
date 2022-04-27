@@ -309,7 +309,7 @@ gss_sm %>%
            .after = year) 
 ```
 
-`r chunk_reveal("03-relocate-pipeline", widths = c(35,65), title = "# Shuffle columns around")`
+`r chunk_reveal("03b-dplyr-basics-15", widths = c(35,65), title = "# Shuffle columns around")`
 
 ---
 
@@ -432,7 +432,7 @@ ukvote2019 %>%
   count(n_cands, name = "n_const")
 ```
 
-`r chunk_reveal("03-recap-nn", widths = c(35,65), title = "# Counting Twice Over")`
+`r chunk_reveal("03b-dplyr-basics-26", widths = c(35,65), title = "# Counting Twice Over")`
 
 ---
 

@@ -511,7 +511,7 @@ df %>%
     ungroup()
 ```
 
-`r chunk_reveal("04-pivot-pipeline-case", widths = c(40,60), title = "# Pivot wider while summarizing")`
+`r chunk_reveal("04-tidy-data-20", widths = c(40,60), title = "# Pivot wider while summarizing")`
 
 --
 
@@ -548,7 +548,7 @@ df %>%
 
 ```
 
-`r chunk_reveal("04-separate-pipe-1", widths = c(40,60), title = "# Separate and unite")`
+`r chunk_reveal("04-tidy-data-22", widths = c(40,60), title = "# Separate and unite")`
 
 ---
 
@@ -560,7 +560,7 @@ df %>%
 
 ```
 
-`r chunk_reveal("04-separate-pipe-2", widths = c(40,60), title = "# Separate and unite")`
+`r chunk_reveal("04-tidy-data-23", widths = c(40,60), title = "# Separate and unite")`
 
 The underscore, `_`, is the default uniting character.
 ---
@@ -574,7 +574,7 @@ gss_sm %>%
     separate(racedeg, sep = "\\.", into = c("race", "degree"))
 ```
 
-`r chunk_reveal("04-separate-pipe-3", widths = c(50,50), title = "# Separate and unite")`
+`r chunk_reveal("04-tidy-data-24", widths = c(50,50), title = "# Separate and unite")`
 
 This one is a bit trickier, and our first glimpse of a _regular expression_. 
 

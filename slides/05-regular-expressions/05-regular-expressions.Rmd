@@ -536,7 +536,7 @@ class: title title-1
 
 ---
 
-`r chunk_reveal("05-election-01", widths = c(60,40), title = "# Example: Politics and Placenames")`
+`r chunk_reveal("05-regular-expressions-25", widths = c(60,40), title = "# Example: Politics and Placenames")`
 
 
 ```{r 05-regular-expressions-25, include=FALSE}
@@ -602,6 +602,6 @@ place_tab %>%
   
 ```
 
-`r chunk_reveal("05-election-02", widths = c(45,55), title = "# Example: Politics and Placenames")`
+`r chunk_reveal("05-regular-expressions-27", widths = c(45,55), title = "# Example: Politics and Placenames")`
 
 ---

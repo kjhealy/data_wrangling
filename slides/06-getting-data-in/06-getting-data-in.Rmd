@@ -333,7 +333,7 @@ read_table(here("data", "mortality.txt"),
   mutate(age = as.integer(recode(age, "110+" = "110")))
 ```
 
-`r chunk_reveal("06-janitor-pipeline", widths = c(60,40), title = "# Normalizing names and recoding")`
+`r chunk_reveal("06-getting-data-in-11", widths = c(60,40), title = "# Normalizing names and recoding")`
 
 --
 
@@ -672,7 +672,7 @@ nchs %>%
          outcome = str_replace(outcome, "(C|c)ovid 19", "COVID-19"))
 ```
 
-`r chunk_reveal("nchs-pipeline-02", widths = c(50,50), title = "# If we wanted to ...")`
+`r chunk_reveal("06-getting-data-in-31", widths = c(50,50), title = "# If we wanted to ...")`
 
 
 --
@@ -841,7 +841,7 @@ read_csv(here("data", "rfm_table.csv")) %>%
          description)
 ```
 
-`r chunk_reveal("06-clean-table-pipeline", widths = c(40,60), title = "# Cleaning a table")`
+`r chunk_reveal("06-getting-data-in-40", widths = c(40,60), title = "# Cleaning a table")`
 
 ---
 
@@ -1228,7 +1228,7 @@ gss_sub %>%
                            ordered = TRUE))#<<
 ```
 
-`r chunk_reveal("gss-recode-pipeline-2", widths = c(45,55), title = "# The GSS panel: more recoding")`
+`r chunk_reveal("06-getting-data-in-61", widths = c(45,55), title = "# The GSS panel: more recoding")`
 
 ---
 
