@@ -2,29 +2,13 @@
 title: "Data Wrangling - 7. Iterating on data"
 author: "Kieran Healy"
 date: "`r Sys.Date()`"
-output:
-  xaringan::moon_reader:
-    lib_dir: "libs"
-    chakra: "../libs/remark-latest.min.js"
-    css: ["default", "../css/kjh-slides.css", "../css/tenso-berkeley.css", "../css/animate.css", "../css/widths.css", "../css/widths.css"]
-    seal: false
-    anchor_sections: false
-    nature:
-      beforeInit: "../js/kjh-macros.js"
-      highlightStyle: default
-      highlightLines: true
-      countIncrementalSlides: false
-      slideNumberFormat: "%current%"
-      ratio: "16:9"
-      navigation:
-        scroll: false
+output: kjhslides::kjh_slides_reader
 editor_options: 
   chunk_output_type: console
 ---
 
 
-
-```{r 07-iterating-on-data-1, include=FALSE}
+```{r packages, include=FALSE}
 library(flipbookr)
 library(here)
 library(tidyverse)
@@ -35,11 +19,8 @@ library(kjhslides)
 ```{r setup, include=FALSE}
 
 kjh_register_tenso()
-
 kjh_set_knitr_opts()
-
 kjh_set_slide_theme()
-
 kjh_set_xaringan_opts()
 
 ```
