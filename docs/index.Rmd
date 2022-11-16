@@ -18,10 +18,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Office Hour Examples
-
-**Day 1.** [Some practice questions with UK Election Data](day1.html)
-
 # Course Description
 
 R is a free and open-source package for statistical analysis that is widely used in the social, health, physical, and computational sciences. R is powerful, flexible, and has excellent graphics capabilities. It also has a large and rapidly growing community of users. Although there are a variety of approaches to working with data in R, in recent years, the "[tidyverse](https://www.tidyverse.org)" has emerged as a cohesive and consistent approach to the everyday tasks of data wrangling and analysis. The [tidyverse](https://www.tidyverse.org) is a suite of tools for data management, manipulation, analysis, and visualization within the R software environment for statistical computing. This seminar provides an intensive, hands-on introduction to using tidyverse tools for doing your own work. 
@@ -34,14 +30,30 @@ This remote seminar is held via [Zoom](https://zoom.us/), a free video conferenc
 
 We will be working with the most recent stable versions of R and RStudio, as well as with a number of additional packages. You will need to install R, RStudio, and the necessary packages on your own computer.
 
-### Installing R and RStudio on your computer
+### Install R on your computer
 
-- Begin by installing R (<http://cloud.r-project.org>). Choose the version appropriate for your computing platform: [macOS](https://cloud.r-project.org/bin/macosx/R-4.0.5.pkg), [Windows](https://cloud.r-project.org/bin/windows/base/R-4.0.5-win.exe), or [Linux](https://cloud.r-project.org/bin/linux/).
-- Next, install RStudio (<http://rstudio.com>). Follow the links to download the [free RStudio Desktop edition](https://rstudio.com/products/rstudio/download/#download) recommended for your system.
+Begin by installing R (<http://cloud.r-project.org>). Choose the version appropriate for your computing platform: 
+
+
+- If you use macOS with an Apple Silicon processor (i.e. and M1 or M2 processor), then install [R for macOS's Apple Silicon build](https://cloud.r-project.org/bin/macosx/big-sur-arm64/base/R-4.2.2-arm64.pkg). This version does not work on older, Intel-based Macs.
+
+- If you use macOS with an Intel processor, then install [R for macOS's Intel build](https://cloud.r-project.org/bin/macosx/base/R-4.2.2.pkg). 
+
+- If you use Microsoft Windows, then install [R for Windows](https://cloud.r-project.org/bin/windows/base/R-4.2.2-win.exe)
+
+- If you use Linux, [choose a distribution](https://cloud.r-project.org/bin/linux/) and install it.
+
+### Install RStudio on your computer
+
+- If you use macOS (whether Apple Silicon or Intel), [install this version of RStudio](https://download1.rstudio.org/desktop/macos/RStudio-2022.07.2-576.dmg)
+
+- If you use Windows, [install this version of RStudio](https://download1.rstudio.org/desktop/windows/RStudio-2022.07.2-576.exe)
+
+- If you use Linux, [choose your distribution from the download page](https://posit.co/download/rstudio-desktop/)
 
 ### Installing some additional packages
 
-- Once the applications are installed, launch RStudio. Either carefully type in or copy-and-paste the following lines of code at R’s command prompt, located in the RStudio window named “Console”, and then hit return. In the code below, the `<-` arrow is made up of two keystrokes, first `<` and then the short dash or minus symbol, `-`.
+- Once R and RStudio are installed, launch RStudio. Either carefully type in or copy-and-paste the following lines of code at R’s command prompt, located in the RStudio window named “Console”, and then hit return. In the code below, the `<-` arrow is made up of two keystrokes, first `<` and then the short dash or minus symbol, `-`.
 
 
 ```R
@@ -79,7 +91,7 @@ Again, setting up a GitHub account is _not required_ to fully participate in the
 In addition to installing the software above, we will work with a packet of material that includes all the slides for the course, all the code we will write, and additional, relatively unprocessed or otherwise awkward datasets that we will use as examples. 
 
 
-The course packet is available as a zip file at this link:
+I recommend waiting until shortly before the course begins to download the course packet, as it may change before we begin. The course packet is available as a zip file at this link:
 
 [Download the Data Wrangling Course Packet](https://github.com/kjhealy/data_wrangling/archive/refs/heads/main.zip)
 
