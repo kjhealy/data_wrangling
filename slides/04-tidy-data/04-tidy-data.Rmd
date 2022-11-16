@@ -205,7 +205,7 @@ library(palmerpenguins)
 penguins %>% 
   group_by(species, island, year) %>% 
   summarize(bill = round(mean(bill_length_mm, na.rm = TRUE),2)) %>% 
-  kable()
+  knitr::kable()
 ```
 ]
 
@@ -221,7 +221,7 @@ penguins %>%
   group_by(species, island, year) %>% 
   summarize(bill = round(mean(bill_length_mm, na.rm = TRUE), 2)) %>% 
   pivot_wider(names_from = year, values_from = bill) %>% 
-  kable()
+  knitr::kable()
 ```
 ]
 
