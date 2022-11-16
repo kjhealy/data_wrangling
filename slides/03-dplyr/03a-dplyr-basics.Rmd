@@ -416,7 +416,7 @@ gss_sm %>%
 gss_sm %>% 
   count(bigregion, religion) %>% 
   pivot_wider(names_from = bigregion, values_from = n) %>%  #<<
-  kable()  
+  knitr::kable()  
 ```
 
 
@@ -425,7 +425,7 @@ gss_sm %>%
 gss_sm %>% 
   count(bigregion, religion) %>% 
   pivot_wider(names_from = bigregion, values_from = n) %>% 
-  kable()  
+  knitr::kable()  
 ```
 ]
 
