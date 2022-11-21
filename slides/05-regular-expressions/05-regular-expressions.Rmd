@@ -85,10 +85,8 @@ class: title title-1
 # .kjh-yellow[stringr] is your gateway to regexps
 
 ```{r 05-regular-expressions-4 }
-library(stringr)
+library(stringr) # It's loaded by default with library(tidyverse)
 ```
-
-Part of the tidyverse, but not loaded by default.
 
 ---
 
@@ -523,11 +521,11 @@ class: title title-1
 ```{r 05-regular-expressions-25, include=FALSE}
 library(ukelection2019)
 
-ukvote2019 %>% 
-  group_by(constituency) %>% 
-  slice_max(votes) %>% 
-  ungroup() %>% 
-  select(constituency, party_name) %>% 
+ukvote2019 |> 
+  group_by(constituency) |> 
+  slice_max(votes) |> 
+  ungroup() |> 
+  select(constituency, party_name) |> 
   mutate(shire = str_detect(constituency, "shire"),
          field = str_detect(constituency, "field"),
          dale = str_detect(constituency, "dale"),
@@ -539,7 +537,7 @@ ukvote2019 %>%
          ford = str_detect(constituency, "(ford$)|(ford )"),
          by = str_detect(constituency, "(by$)|(by )"),
          boro = str_detect(constituency, "(boro$)|(boro )|(borough$)|(borough )"),
-         ley = str_detect(constituency, "(ley$)|(ley )|(leigh$)|(leigh )")) %>% 
+         ley = str_detect(constituency, "(ley$)|(ley )|(leigh$)|(leigh )")) |> 
   pivot_longer(shire:ley, names_to = "toponym")
 ```
 
@@ -549,11 +547,11 @@ ukvote2019 %>%
 # Example: Politics and Placenames
 
 ```{r 05-regular-expressions-26}
-place_tab <- ukvote2019 %>% 
-  group_by(constituency) %>% 
-  slice_max(votes) %>% 
-  ungroup() %>% 
-  select(constituency, party_name) %>% 
+place_tab <- ukvote2019 |> 
+  group_by(constituency) |> 
+  slice_max(votes) |> 
+  ungroup() |> 
+  select(constituency, party_name) |> 
   mutate(shire = str_detect(constituency, "shire"),
          field = str_detect(constituency, "field"),
          dale = str_detect(constituency, "dale"),
@@ -565,20 +563,20 @@ place_tab <- ukvote2019 %>%
          ford = str_detect(constituency, "(ford$)|(ford )"),
          by = str_detect(constituency, "(by$)|(by )"),
          boro = str_detect(constituency, "(boro$)|(boro )|(borough$)|(borough )"),
-         ley = str_detect(constituency, "(ley$)|(ley )|(leigh$)|(leigh )")) %>% 
+         ley = str_detect(constituency, "(ley$)|(ley )|(leigh$)|(leigh )")) |> 
   pivot_longer(shire:ley, names_to = "toponym")
 ```
 
 ---
 
 ```{r 05-regular-expressions-27, include=FALSE}
-place_tab %>% 
-  group_by(party_name, toponym) %>% 
-  filter(party_name %in% c("Conservative", "Labour")) %>% 
-  group_by(toponym, party_name) %>% 
-  summarize(freq = sum(value)) %>% 
-  mutate(pct = freq/sum(freq)) %>% 
-  filter(party_name == "Conservative") %>% 
+place_tab |> 
+  group_by(party_name, toponym) |> 
+  filter(party_name %in% c("Conservative", "Labour")) |> 
+  group_by(toponym, party_name) |> 
+  summarize(freq = sum(value)) |> 
+  mutate(pct = freq/sum(freq)) |> 
+  filter(party_name == "Conservative") |> 
   arrange(desc(pct))
   
 ```

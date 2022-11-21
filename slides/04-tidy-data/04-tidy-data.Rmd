@@ -109,7 +109,7 @@ As we'll see later, .kjh-orange[`dplyr`] _is_ able to do "rowwise" operations if
 
 ```{r 04-tidy-data-4 }
 # Sneak peek
-edu %>% 
+edu |> 
   select(year, elem4:coll4)
 
 ```
@@ -119,9 +119,9 @@ edu %>%
 # This isn't an .kjh-lblue[_iron_] rule
 
 ```{r 04-tidy-data-5 }
-edu %>% 
-  select(year, elem4:coll4) %>% 
-  rowwise() %>% #<<
+edu |> 
+  select(year, elem4:coll4) |> 
+  rowwise() |> #<<
   mutate(mean_of_row = mean(c_across(elem4:coll4)))
 
 ```
@@ -188,8 +188,8 @@ Storing data in long form is often _inefficient_
 
 ```{r 04-tidy-data-7 }
 library(covdata)
-covus %>% 
-  filter(state == "NY") %>% 
+covus |> 
+  filter(state == "NY") |> 
   select(date:fips, measure:count)
 ```
 
@@ -202,9 +202,9 @@ Storing data in wide form is _easier to display_ in a printed table
 .small[
 ```{r 04-tidy-data-8 }
 library(palmerpenguins)
-penguins %>% 
-  group_by(species, island, year) %>% 
-  summarize(bill = round(mean(bill_length_mm, na.rm = TRUE),2)) %>% 
+penguins |> 
+  group_by(species, island, year) |> 
+  summarize(bill = round(mean(bill_length_mm, na.rm = TRUE),2)) |> 
   knitr::kable()
 ```
 ]
@@ -217,10 +217,10 @@ Storing data in wide form is _easier to display_ in a printed table
 
 .small[
 ```{r 04-tidy-data-9 }
-penguins %>% 
-  group_by(species, island, year) %>% 
-  summarize(bill = round(mean(bill_length_mm, na.rm = TRUE), 2)) %>% 
-  pivot_wider(names_from = year, values_from = bill) %>% 
+penguins |> 
+  group_by(species, island, year) |> 
+  summarize(bill = round(mean(bill_length_mm, na.rm = TRUE), 2)) |> 
+  pivot_wider(names_from = year, values_from = bill) |> 
   knitr::kable()
 ```
 ]
@@ -364,7 +364,7 @@ This is fine for a compact table, but for us it should be a single measure, say,
 .SMALL.squish2[We're going to put the columns `elem4:coll4` into a new column, creating a new categorical measure named `education`. The numbers currently under each column will become a  new .kjh-green[value] column corresponding to that level of education. ]
 
 ```{r 04-tidy-data-11 }
-edu %>% 
+edu |> 
   pivot_longer(elem4:coll4, names_to = "education")
 ```
 
@@ -375,17 +375,17 @@ edu %>%
 .SMALL.squish2[We can name the value column to whatever we like. Here it's a number of people.]
 
 ```{r 04-tidy-data-12 }
-edu %>% 
+edu |> 
   pivot_longer(elem4:coll4, names_to = "education", values_to = "n")
 ```
 
 ---
 
-# Let's .kjh-yellow[recode()] it while we're here
+# Let's .kjh-green[recode()] it while we're here
 
 ```{r 04-tidy-data-13 }
-edu %>% 
-  pivot_longer(elem4:coll4, names_to = "education", values_to = "n") %>% 
+edu |> 
+  pivot_longer(elem4:coll4, names_to = "education", values_to = "n") |> 
   mutate(education = recode(education, 
                             elem4 = "Elementary 4", elem8 = "Elementary 8", 
                             hs3 = "High School 3", hs4 = "High School 4",
@@ -408,8 +408,8 @@ gapminder
 # .kjh-green[pivot_longer()] implies .kjh-green[pivot_wider()]
 
 ```{r 04-tidy-data-15 }
-gapminder %>% 
-  select(country, continent, year, lifeExp) %>% 
+gapminder |> 
+  select(country, continent, year, lifeExp) |> 
   pivot_wider(names_from = year, values_from = lifeExp) #<<
 ```
 
@@ -423,7 +423,7 @@ This is a pretty common problem.
 Our first thought ("Just don't mention the other columns") isn't it:
 ]
 ```{r 04-tidy-data-16 }
-gapminder %>% 
+gapminder |> 
   pivot_wider(names_from = year, values_from = lifeExp) 
 ```
 
@@ -438,8 +438,8 @@ gapminder %>%
 
 .SMALL[
 ```{r 04-tidy-data-17 }
-gapminder %>% 
-  select(country, continent, year, lifeExp, gdpPercap) %>% 
+gapminder |> 
+  select(country, continent, year, lifeExp, gdpPercap) |> 
   pivot_wider(names_from = year, values_from = c(lifeExp, gdpPercap)) #<<
 ```
 ]
@@ -483,12 +483,12 @@ Let’s say we want to transform this to a wider format, specifically by widenin
 ---
 
 ```{r 04-tidy-data-20, include = FALSE}
-df %>%
-    group_by(sex, race, stratum, educ) %>% 
+df |>
+    group_by(sex, race, stratum, educ) |> 
     summarize(mean_inc = mean(income),
-              n = n()) %>%
+              n = n()) |>
     pivot_wider(names_from = (educ),
-                values_from = c(mean_inc, n)) %>% 
+                values_from = c(mean_inc, n)) |> 
     ungroup()
 ```
 
@@ -521,9 +521,9 @@ df
 ---
 
 ```{r 04-tidy-data-22, include=FALSE}
-df %>% 
-  separate(name, into = c("first", "last")) %>% 
-  unite("full_name", first:last, sep = " ") %>% 
+df |> 
+  separate(name, into = c("first", "last")) |> 
+  unite("full_name", first:last, sep = " ") |> 
   unite("both_together", full_name:occupation, 
         sep = ", ", remove = FALSE)
 
@@ -534,9 +534,9 @@ df %>%
 ---
 
 ```{r 04-tidy-data-23, include=FALSE}
-df %>% 
-  separate(name, into = c("first", "last")) %>% 
-  unite("full_name", first:last) %>% 
+df |> 
+  separate(name, into = c("first", "last")) |> 
+  unite("full_name", first:last) |> 
   separate(full_name, into = c("first", "last"))
 
 ```
@@ -547,11 +547,11 @@ The underscore, `_`, is the default uniting character.
 ---
 
 ```{r 04-tidy-data-24, include=FALSE}
-gss_sm %>%
-    select(race, degree) %>% 
-    mutate(racedeg = interaction(race, degree)) %>%
-    group_by(racedeg) %>% 
-    tally() %>% 
+gss_sm |>
+    select(race, degree) |> 
+    mutate(racedeg = interaction(race, degree)) |>
+    group_by(racedeg) |> 
+    tally() |> 
     separate(racedeg, sep = "\\.", into = c("race", "degree"))
 ```
 
