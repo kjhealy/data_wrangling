@@ -84,9 +84,9 @@ covnat_weekly
 .kjh-green[**`cumsum()`**] gives cumulative sums
 
 ```{r 03b-dplyr-basics-4 }
-covnat_weekly %>% 
-  filter(iso3 == "USA") %>% 
-  select(date, cname, iso3, cases) %>% 
+covnat_weekly |> 
+  filter(iso3 == "USA") |> 
+  select(date, cname, iso3, cases) |> 
   mutate(cumulative = cumsum(cases)) 
 
 ```
@@ -98,9 +98,9 @@ covnat_weekly %>%
 .kjh-green[**`cume_dist()`**] gives the proportion of values less than or equal to the current value.
 
 ```{r 03b-dplyr-basics-5 }
-covnat_weekly %>% 
-  select(date, cname, iso3, deaths) %>% 
-  filter(iso3 == "USA") %>% 
+covnat_weekly |> 
+  select(date, cname, iso3, deaths) |> 
+  filter(iso3 == "USA") |> 
   filter(cume_dist(desc(deaths)) < 0.1) # i.e. Top 10%
 
 ```
@@ -112,10 +112,10 @@ covnat_weekly %>%
 # An application 
 
 ```{r 03b-dplyr-basics-6 }
-covus %>% 
-  filter(measure == "death") %>% 
-  group_by(state) %>% 
-  arrange(state, desc(date)) %>% 
+covus |> 
+  filter(measure == "death") |> 
+  group_by(state) |> 
+  arrange(state, desc(date)) |> 
   filter(state %in% "NY")
 ```
 
@@ -143,13 +143,13 @@ my_vec - lag(my_vec)
 .squish3[We can write the expression directly:]
 
 ```{r 03b-dplyr-basics-8 }
-covus %>%
-  select(-data_quality_grade) %>% 
-  filter(measure == "death") %>%
-  group_by(state) %>%
-  arrange(date) %>% 
-  mutate(deaths_daily = count - lag(count, order_by = date)) %>% 
-  arrange(state, desc(date)) %>% 
+covus |>
+  select(-data_quality_grade) |> 
+  filter(measure == "death") |>
+  group_by(state) |>
+  arrange(date) |> 
+  mutate(deaths_daily = count - lag(count, order_by = date)) |> 
+  arrange(state, desc(date)) |> 
   filter(state %in% "NY")
   
 ```
@@ -200,13 +200,13 @@ This function has no generality, error-handling, or anything else. It's a once-o
 .squish3[Now we can use it like any other:]
 
 ```{r 03b-dplyr-basics-11 }
-covus %>%
-  filter(measure == "death") %>%
-  select(-data_quality_grade) %>% 
-  group_by(state) %>%
-  arrange(date) %>% 
-  mutate(deaths_daily = get_daily_count(count, date)) %>% 
-  arrange(state, desc(date)) %>% 
+covus |>
+  filter(measure == "death") |>
+  select(-data_quality_grade) |> 
+  group_by(state) |>
+  arrange(date) |> 
+  mutate(deaths_daily = get_daily_count(count, date)) |> 
+  arrange(state, desc(date)) |> 
   filter(state %in% "NY")
   
 ```
@@ -234,17 +234,17 @@ library(slider)
 # Tidy moving averages with .kjh-orange[`slider`]  
 
 ```{r 03b-dplyr-basics-13 }
-covus %>%
-  filter(measure == "death") %>%
-  select(-data_quality_grade) %>% 
-  group_by(state) %>%
-  arrange(date) %>% 
+covus |>
+  filter(measure == "death") |>
+  select(-data_quality_grade) |> 
+  group_by(state) |>
+  arrange(date) |> 
   mutate(
     deaths_daily = get_daily_count(count, date), 
     deaths7 = slide_mean(deaths_daily, #<<
                          before = 7, #<<
-                         na_rm = TRUE)) %>% #<<
-  arrange(state, desc(date)) %>% 
+                         na_rm = TRUE)) |> #<<
+  arrange(state, desc(date)) |> 
   filter(state %in% "NY")
 ```
 
@@ -256,7 +256,7 @@ covus %>%
 ```r
     deaths7 = slide_mean(deaths_daily, 
                          before = 7, 
-                         na_rm = TRUE)) %>% 
+                         na_rm = TRUE)) |> 
 ```
 
 .pull-left.w70[Notice the Tidyverse-style `na_rm` argument rather than the usual base `na.rm`]
@@ -275,17 +275,17 @@ gss_sm
 ---
 
 ```{r 03b-dplyr-basics-15, include = FALSE}
-gss_sm %>% 
+gss_sm |> 
   select(region, bigregion, year, 
          id:region, 
          starts_with("p"), 
-         contains("income")) %>% 
+         contains("income")) |> 
   rename(children = childs, 
-         siblings = sibs) %>% 
-  relocate(id) %>% 
-  select(-ballot) %>% 
+         siblings = sibs) |> 
+  relocate(id) |> 
+  select(-ballot) |> 
   relocate(where(is.numeric), 
-           .before = where(is.factor)) %>% 
+           .before = where(is.factor)) |> 
   relocate(contains("region"), 
            .after = year) 
 ```
@@ -312,7 +312,7 @@ Use .kjh-green[**`sample_n()`**] to sample `n` rows of your tibble.
 ```{r 03b-dplyr-basics-17 }
 library(ukelection2019)
 
-ukvote2019 %>% 
+ukvote2019 |> 
   sample_n(10)
 ```
 
@@ -324,7 +324,7 @@ ukvote2019 %>%
 - A vector of unique constituency names
 
 ```{r 03b-dplyr-basics-18}
-ukvote2019 %>% 
+ukvote2019 |> 
   distinct(constituency)
 ```
 
@@ -336,8 +336,8 @@ ukvote2019 %>%
 - Tally them up
 
 ```{r 03b-dplyr-basics-19}
-ukvote2019 %>% 
-  distinct(constituency) %>% 
+ukvote2019 |> 
+  distinct(constituency) |> 
   tally()
 ```
 
@@ -353,8 +353,8 @@ length(unique(ukvote2019$constituency))
 # Recapping the Office Hour
 
 ```{r 03b-dplyr-basics-21}
-ukvote2019 %>% 
-  count(party_name) %>% 
+ukvote2019 |> 
+  count(party_name) |> 
   arrange(desc(n))
 ```
 
@@ -365,8 +365,8 @@ ukvote2019 %>%
 .pull-left[
 - .SMALL.squish3[Top 5]
 ```{r 03b-dplyr-basics-22}
-ukvote2019 %>% 
-  count(party_name) %>% 
+ukvote2019 |> 
+  count(party_name) |> 
   slice_max(order_by = n, n = 5)
 
 ```
@@ -377,8 +377,8 @@ ukvote2019 %>%
 .pull-right[
 - .SMALL.squish3[Bottom 5]
 ```{r 03b-dplyr-basics-23}
-ukvote2019 %>% 
-  count(party_name) %>% 
+ukvote2019 |> 
+  count(party_name) |> 
   slice_min(order_by = n, n = 5)
 
 ```
@@ -391,7 +391,7 @@ ukvote2019 %>%
 
 
 ```{r 03b-dplyr-basics-24}
-ukvote2019 %>% 
+ukvote2019 |> 
   count(constituency) 
 ```
 
@@ -400,16 +400,16 @@ ukvote2019 %>%
 # Counting Twice Over
 
 ```{r 03b-dplyr-basics-25}
-ukvote2019 %>% 
-  count(constituency) %>% 
+ukvote2019 |> 
+  count(constituency) |> 
   count(n)
 ```
 
 ---
 
 ```{r 03b-dplyr-basics-26, include = FALSE}
-ukvote2019 %>% 
-  count(constituency, name = "n_cands") %>% 
+ukvote2019 |> 
+  count(constituency, name = "n_cands") |> 
   count(n_cands, name = "n_const")
 ```
 
@@ -456,7 +456,7 @@ And you want to focus on cases where `prop1` _plus_ `prop2` is greater than 0.3:
 --
 
 ```{r 03b-dplyr-basics-29}
-df %>% 
+df |> 
   filter(prop1 + prop2 > 0.3)
 ```
 
@@ -472,7 +472,7 @@ This is not dlpyr's fault. It's our floating point friend again.
 
 
 ```{r 03b-dplyr-basics-30}
-df %>% 
+df |> 
   filter(prop1 + prop2 == 0.3)
 ```
 
@@ -485,8 +485,8 @@ The row with `id` .kjh-orange[**`A`**] _should_ have been included here!
 This won't give the right behavior either:
 
 ```{r 03b-dplyr-basics-31}
-df %>% 
-  mutate(prop3 = prop1 + prop2) %>% 
+df |> 
+  mutate(prop3 = prop1 + prop2) |> 
   filter(prop3 == 0.3)
 ```
 
@@ -497,14 +497,14 @@ df %>%
 So, beware.
 
 ```{r 03b-dplyr-basics-32}
-df %>% 
+df |> 
   filter(prop1*100 + prop2*100 == 0.3*100)
 ```
 
 Better:
 
 ```{r 03b-dplyr-basics-33}
-df %>% 
+df |> 
   filter(near(prop1 + prop2, 0.3))
 ```
 
@@ -533,9 +533,9 @@ mf_labs <- tibble(M = "Men", F = "Women")
 
 
 ```{r 03b-dplyr-basics-36}
-df %>%
-    group_by(start_year, party, sex) %>%
-    summarize(N = n()) %>%
+df |>
+    group_by(start_year, party, sex) |>
+    summarize(N = n()) |>
     mutate(freq = N / sum(N))
 
 ```
@@ -546,10 +546,10 @@ df %>%
 
 
 ```{r 03b-dplyr-basics-37}
-p_col <- df %>%
-    group_by(start_year, party, sex) %>%
-    summarize(N = n()) %>%
-    mutate(freq = N / sum(N)) %>%
+p_col <- df |>
+    group_by(start_year, party, sex) |>
+    summarize(N = n()) |>
+    mutate(freq = N / sum(N)) |>
     ggplot(aes(x = start_year,
                y = freq,
                fill = sex)) +
@@ -573,10 +573,10 @@ p_col
 #  .kjh-orange[Zero Counts] in dplyr
 
 ```{r 03b-dplyr-basics-39}
-p_line <- df %>%
-    group_by(start_year, party, sex) %>%
-    summarize(N = n()) %>%
-    mutate(freq = N / sum(N)) %>%
+p_line <- df |>
+    group_by(start_year, party, sex) |>
+    summarize(N = n()) |>
+    mutate(freq = N / sum(N)) |>
     ggplot(aes(x = start_year,
                y = freq,
                color = sex)) +
@@ -605,7 +605,7 @@ Factors are for categorical variables and are stored differently from characters
 This can matter when modeling, and also now.
 
 ```{r 03b-dplyr-basics-41}
-df_f <- df %>% 
+df_f <- df |> 
   mutate(party_f = factor(party))
 
 df_f
@@ -616,8 +616,8 @@ df_f
 # Option 1: .kjh-orange[factors] and .kjh-red[`.drop`]
 
 ```{r 03b-dplyr-basics-42}
-df_f %>% 
-  group_by(party_f) %>% 
+df_f |> 
+  group_by(party_f) |> 
   tally()
 ```
 
@@ -637,13 +637,13 @@ By default, unused levels won't display:
 
 
 ```{r 03b-dplyr-basics-44}
-df_f <- df %>% 
+df_f <- df |> 
   mutate(party_f = factor(party, 
                           levels = c("Democrat", 
                                      "Republican", 
                                      "Libertarian")))
-df_f %>% 
-  group_by(party_f) %>% 
+df_f |> 
+  group_by(party_f) |> 
   tally()
 
 levels(df_f$party_f)
@@ -657,10 +657,10 @@ levels(df_f$party_f)
 By default, unused levels won't display:
 
 ```{r 03b-dplyr-basics-45}
-df %>% 
-  mutate(across(where(is.character), as_factor)) %>% 
-  group_by(start_year, party, sex) %>%
-  summarize(N = n()) %>%
+df |> 
+  mutate(across(where(is.character), as_factor)) |> 
+  group_by(start_year, party, sex) |>
+  summarize(N = n()) |>
   mutate(freq = N / sum(N))
 
 ```
@@ -672,10 +672,10 @@ df %>%
 You can make `dplyr` keep empty factor levels though:
 
 ```{r 03b-dplyr-basics-46}
-df %>% 
-  mutate(across(where(is.character), as_factor)) %>% 
-  group_by(start_year, party, sex, .drop = FALSE) %>% #<<
-  summarize(N = n()) %>%
+df |> 
+  mutate(across(where(is.character), as_factor)) |> 
+  group_by(start_year, party, sex, .drop = FALSE) |> #<<
+  summarize(N = n()) |>
   mutate(freq = N / sum(N))
   
 ```
@@ -687,11 +687,11 @@ df %>%
 Maybe you don't want to deal with factors.
 
 ```{r 03b-dplyr-basics-47}
-df_c <- df %>%
-    group_by(start_year, party, sex) %>%
-    summarize(N = n()) %>%
-    mutate(freq = N / sum(N)) %>%
-    ungroup() %>%#<<
+df_c <- df |>
+    group_by(start_year, party, sex) |>
+    summarize(N = n()) |>
+    mutate(freq = N / sum(N)) |>
+    ungroup() |>#<<
     complete(start_year, party, sex,#<<
              fill = list(N = 0, freq = 0))#<<
 ```
@@ -710,7 +710,7 @@ df_c
 # Option 2: .kjh-green[ungroup()] and .kjh-green[complete()]
 
 ```{r 03b-dplyr-basics-49}
-p_out <- df_c %>% 
+p_out <- df_c |> 
   ggplot(aes(x = start_year,
                y = freq,
                color = sex)) +
