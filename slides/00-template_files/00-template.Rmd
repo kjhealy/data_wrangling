@@ -53,7 +53,7 @@ class: center middle main-title section-title-1
 **Data Wrangling: Session 1**
 
 .light[Kieran Healy<br>
-Statistical Horizons, April 2022
+Statistical Horizons, December 2022
 ]
 
 ]

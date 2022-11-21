@@ -7,7 +7,7 @@ author:
   url: https://kieranhealy.org
   affiliation: Duke University
   affiliation_url: https://sociology.duke.edu
-date: "`Statistical Horizons, April 2022`"
+date: "`Statistical Horizons, December 2022`"
 output: md_document
 ---
 

@@ -35,7 +35,7 @@ class: center middle main-title section-title-1
 **Data Wrangling: Session 2**
 
 .light[Kieran Healy<br>
-Statistical Horizons, April 2022]
+Statistical Horizons, December 2022]
 
 ]
 
@@ -272,7 +272,7 @@ my_numbers
 
 --
 
-.small[Also by convention, outputting vectors, etc, gets a counter keeping track of the number of elements. For example,] 
+Also by convention, outputting vectors, etc, gets a counter keeping track of the number of elements. For example,
 
 .medium[
 ```{r 02-about-r-6 }
@@ -387,7 +387,11 @@ But now try `3 < 5 & 1`, where your intention is "Three is less than five and al
 3 < 5 & 1
 ```
 ]
-.smaller.squish1[What's happening is that `3 < 5` is evaluated first, and resolves to .kjh-green[TRUE], leaving us with the expression .kjh-green[`TRUE`] `& 1`. R interprets this as .kjh-green[`TRUE`] `& as.logical(1)`. In Boolean algebra, `1` resolves to  .kjh-green[`TRUE`]. Any other number is .kjh-red[`FALSE`]. So,]
+.small.squish1[What's happening is that `3 < 5` is evaluated first, and resolves to .kjh-green[TRUE], leaving us with the expression .kjh-green[`TRUE`] `& 1`. 
+
+R interprets this as .kjh-green[`TRUE`] `& as.logical(1)`. 
+
+In Boolean algebra, `1` resolves to  .kjh-green[`TRUE`]. Any other number is .kjh-red[`FALSE`]. So,]
 
 .medium[
 ```{r 02-about-r-16 }
@@ -405,7 +409,7 @@ TRUE & as.logical(1)
 3 < 5 & 3 < 1
 ```
 ]
-- .smaller[You have to make your comparisons explicit.]
+- .small[You have to make your comparisons explicit.]
 
 
 ]
@@ -845,13 +849,13 @@ Nested functions are evaluated from the inside out.
 
 ---
 
-# Use the pipe operator: .kjh-yellow[%>%]
+# Use the pipe operator: .kjh-green[|>]
 
 .SMALL[Instead of nesting functions in parentheses, we can use the _pipe operator_:]
 
 .medium[
 ```{r 02-about-r-46 }
-c(1:20) %>% mean() %>% summary() %>% names() %>%  length()
+c(1:20) |> mean() |> summary() |> names() |>  length()
 ```
 ]
 --
@@ -864,10 +868,10 @@ c(1:20) %>% mean() %>% summary() %>% names() %>%  length()
 
 .medium[
 ```{r 02-about-r-47 }
-c(1:20) %>% 
-  mean() %>% 
-  summary() %>% 
-  names() %>% 
+c(1:20) |> 
+  mean() |> 
+  summary() |> 
+  names() |> 
   length()
 ```
 ]
@@ -912,12 +916,12 @@ serve(
 
 .medium[
 ```r
-eggs %>% 
-  get_from_fridge() %>% 
-  crack_eggs(into = "bowl") %>% 
-  whisk(len = 40) %>% 
-  pour_in_pan(temp = "med-high") %>% 
-  stir() %>% 
+eggs |> 
+  get_from_fridge() |> 
+  crack_eggs(into = "bowl") |> 
+  whisk(len = 40) |> 
+  pour_in_pan(temp = "med-high") |> 
+  stir() |> 
   serve()
 
 ```
@@ -929,9 +933,11 @@ eggs %>%
 ---
 
 
-# Now showing at an R near you: .kjh-yellow[`|>`]
+# The other pipe: .kjh-green[`%>%`]
 
-- The pipe operator .kjh-green[**`%>%`**] is not part of Base R. It was introduced in a package called `magrittr`. 
+- The Base R pipe operator, .kjh-green[**`|>`**] is a relatively recent addition to R. 
+
+- Piping operations were originally introduced in a package called called `magrittr`, where it took the form .kjh-green[**`%>%`**]
 
 --
 
@@ -939,12 +945,12 @@ eggs %>%
 
 --
 
-- It is denoted by .kjh-green[**`|>`**]. Type .kjh-green[**`|`**] and then .kjh-green[**`>`**] to write it. It mostly but does not _quite_ replace .kjh-green[**`%>%`**] in every case.\* 
+- The Base R pipe _mostly_ but does not _quite_ work the same way as .kjh-green[**`%>%`**] in every case.
 
 
-- The magrittr pipe will continue to work as shown in these slides.
+- We'll use the Base R pipe in this course, but you'll see the Magrittr pipe a lot out in the world.
 
-.footnote.tiny[.kjh-darkgrey[\*With the new pipe, you can only pass an object to the _first_ argument in a function. This is fine for most tidyverse pipelines, where the first argument is usually (implicitly) the data. But it does mean that most Base R functions will continue not to be easily piped, as most of them do not follow the convention of passing the current data as the first argument]]
+.footnote.tiny[.kjh-darkgrey[\*With the Base R pipe, you can only pass an object to the _first_ argument in a function. This is fine for most tidyverse pipelines, where the first argument is usually (implicitly) the data. But it does mean that most Base R functions will continue not to be easily piped, as most of them do not follow the convention of passing the current data as the first argument]]
 
 ---
 
@@ -1009,8 +1015,8 @@ gtsummary::theme_gtsummary_journal(journal = "jama")
 .less-medium[
 ```{r 02-about-r-52 }
 ## A little glimpse of what we'll do soon
-penguins %>% 
-  select(species, body_mass_g, sex) %>% 
+penguins |> 
+  select(species, body_mass_g, sex) |> 
   gtsummary::tbl_summary(by = species) #<<
 ```
 ]
@@ -1245,7 +1251,7 @@ typeof(gapminder) # hmm
 ```
 ]
 
-.small[Underneath, most complex R objects are some kind of list with different components.]
+.small[Lists _can_ be heterogenous. Underneath, most complex R objects are some kind of list with different components.]
 
 
 ???
@@ -1281,7 +1287,6 @@ class(titanic)
 titanic$percent  
 ```
 ]
-
 ]
 
 --
@@ -1300,6 +1305,13 @@ class(titanic_tb)
 ```
  ]
 ]
+
+--
+
+- A data frame and a tibble are both fundamentally a list of vectors of the same length, where the vectors can be of different types (e.g. numeric, character, logical, etc)
+
+
+
 ---
 
 # All of this will matter later on
@@ -1318,7 +1330,7 @@ gss_sm
 
 # 6. .kjh-yellow[Arithmetic on vectors]
 
-In R, all numbers are vectors of different sorts. Even single numbers ("scalars") are conceptually vectors of length 1.
+- In R, all numbers are vectors of different sorts. Even single numbers ("scalars") are conceptually vectors of length 1.
 
 --
 
