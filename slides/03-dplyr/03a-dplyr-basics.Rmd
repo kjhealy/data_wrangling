@@ -140,7 +140,7 @@ library(tidyverse) # your friend and mine
 --
 .pull-left-wide[
 
-- We'll use the pipe operator, .kjh-pink[**`%>%`**], to chain together sequences of actions on our tables.
+- We'll use the pipe operator, .kjh-pink[**`|>`**], to chain together sequences of actions on our tables.
 
 ]
 ---
@@ -222,7 +222,7 @@ Notice how the tibble already tells us a lot.
 
 ```{r 03a-dplyr-basics-4 }
 ## Just take a look at the columns we will work on
-gss_sm %>% 
+gss_sm |> 
   select(id, bigregion, religion)
 ```
 
@@ -234,7 +234,7 @@ We're just taking a look at the relevant columns here.
 
 ```{r 03a-dplyr-basics-5 }
 
-gss_sm %>% 
+gss_sm |> 
   group_by(bigregion)
 ```
 
@@ -246,8 +246,8 @@ Grouping just changes the logical structure of the tibble.
 
 
 ```{r 03a-dplyr-basics-6, include = FALSE}
-gss_sm %>% 
-  group_by(bigregion) %>% 
+gss_sm |> 
+  group_by(bigregion) |> 
   summarize(total = n())
 ```
 
@@ -269,8 +269,8 @@ Your original .kjh-pink[`gss_sm`] table is untouched
 
 
 ```{r 03a-dplyr-basics-7, include = FALSE}
-gss_sm %>% 
-  group_by(bigregion, religion) %>% 
+gss_sm |> 
+  group_by(bigregion, religion) |> 
   summarize(total = n())
 ```
 
@@ -284,9 +284,9 @@ The function .kjh-green[**`n()`**] counts up the rows within the _innermost_ (i.
 
 
 ```{r 03a-dplyr-basics-8, include = FALSE}
-gss_sm %>% 
-  group_by(bigregion, religion) %>% 
-  summarize(total = n()) %>% 
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  summarize(total = n()) |> 
   mutate(freq = total / sum(total),
            pct = round((freq*100), 1))
 ```
@@ -309,9 +309,9 @@ The _innermost_ (i.e. the rightmost) group.
 
 .small[
 ```{r 03a-dplyr-basics-9 }
-gss_sm %>% 
-  group_by(bigregion, religion) %>% #<<
-  summarize(total = n()) %>% 
+gss_sm |> 
+  group_by(bigregion, religion) |> #<<
+  summarize(total = n()) |> 
   mutate(freq = total / sum(total),
            pct = round((freq*100), 1))
 ```
@@ -329,9 +329,9 @@ Summary calculations are done on the innermost group, which then "disappears". (
 
 .small[
 ```{r 03a-dplyr-basics-10 }
-gss_sm %>% 
-  group_by(bigregion, religion) %>% 
-  summarize(total = n()) %>% 
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  summarize(total = n()) |> 
   mutate(freq = total / sum(total),
            pct = round((freq*100), 1)) #<<
 ```
@@ -346,9 +346,9 @@ gss_sm %>%
 .small[
 
 ```{r 03a-dplyr-basics-11 }
-gss_sm %>% 
-  group_by(bigregion, religion) %>% #<<
-  summarize(total = n()) %>% #<<
+gss_sm |> 
+  group_by(bigregion, religion) |> #<<
+  summarize(total = n()) |> #<<
   mutate(freq = total / sum(total),
            pct = round((freq*100), 1)) 
 ```
@@ -366,8 +366,8 @@ We're going to be doing this .kjh-green[**`group_by()`**] ... .kjh-green[**`n()`
 
 .SMALL[
 ```{r 03a-dplyr-basics-12 }
-gss_sm %>% 
-  group_by(bigregion, religion) %>% #<<
+gss_sm |> 
+  group_by(bigregion, religion) |> #<<
   summarize(n = n()) #<<
 ```
 ]
@@ -383,8 +383,8 @@ gss_sm %>%
 
 .SMALL[
 ```{r 03a-dplyr-basics-13 }
-gss_sm %>% 
-  group_by(bigregion, religion) %>% 
+gss_sm |> 
+  group_by(bigregion, religion) |> 
   tally() #<<
 ```
 ]
@@ -400,7 +400,7 @@ gss_sm %>%
 
 .SMALL[
 ```{r 03a-dplyr-basics-14 }
-gss_sm %>% 
+gss_sm |> 
   count(bigregion, religion) #<<
 ```
 ]
@@ -413,18 +413,18 @@ gss_sm %>%
 # Pass your pipeline on to ... a .kjh-yellow[table]
 
 ```{r 03a-dplyr-basics-15, eval = FALSE}
-gss_sm %>% 
-  count(bigregion, religion) %>% 
-  pivot_wider(names_from = bigregion, values_from = n) %>%  #<<
+gss_sm |> 
+  count(bigregion, religion) |> 
+  pivot_wider(names_from = bigregion, values_from = n) |>  #<<
   knitr::kable()  
 ```
 
 
 .small[
 ```{r 03a-dplyr-basics-16, echo = FALSE}
-gss_sm %>% 
-  count(bigregion, religion) %>% 
-  pivot_wider(names_from = bigregion, values_from = n) %>% 
+gss_sm |> 
+  count(bigregion, religion) |> 
+  pivot_wider(names_from = bigregion, values_from = n) |> 
   knitr::kable()  
 ```
 ]
@@ -437,11 +437,11 @@ More on .kjh-green[**`pivot_wider()`**] and .kjh-green[**`kable()`**] soon ...
 
 .SMALL[
 ```{r 03a-dplyr-basics-17, fig.height=4, fig.width=15}
-gss_sm %>% 
-  group_by(bigregion, religion) %>% 
-  tally() %>% 
-  mutate(pct = round((n/sum(n))*100), 1) %>% 
-  drop_na() %>% 
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  tally() |> 
+  mutate(pct = round((n/sum(n))*100), 1) |> 
+  drop_na() |> 
   ggplot(mapping = aes(x = pct, y = reorder(religion, -pct), fill = religion)) + #<<
   geom_col() + #<<
     labs(x = "Percent", y = NULL) +
@@ -457,8 +457,8 @@ gss_sm %>%
 .pull-left[
 - .SMALL.squish3[You can do it like this ...]
 ```{r 03a-dplyr-basics-18 }
-rel_by_region <- gss_sm %>% #<<
-  count(bigregion, religion) %>% 
+rel_by_region <- gss_sm |> #<<
+  count(bigregion, religion) |> 
   mutate(pct = round((n/sum(n))*100, 1)) 
 
 rel_by_region
@@ -471,8 +471,8 @@ rel_by_region
 
 - .SMALL.squish3[Or like this!]
 ```{r 03a-dplyr-basics-19 }
-gss_sm %>% 
-  count(bigregion, religion) %>% 
+gss_sm |> 
+  count(bigregion, religion) |> 
   mutate(pct = round((n/sum(n))*100, 1)) -> #<<
 rel_by_region #<<
 
@@ -490,7 +490,7 @@ rel_by_region
 - .kjh-red[Left] assignment is standard
 
 ```{r 03a-dplyr-basics-20 }
-gss_tab <- gss_sm %>% 
+gss_tab <- gss_sm |> 
   count(bigregion, religion) 
 ```
 
@@ -505,7 +505,7 @@ gss_tab <- gss_sm %>%
 - .kjh-lblue[Right] assignment also works!
 
 ```{r 03a-dplyr-basics-21 }
-gss_sm %>% 
+gss_sm |> 
   count(bigregion, religion) -> gss_tab  
   
 ```
@@ -520,8 +520,8 @@ gss_sm %>%
 .pull-left[
 
 ```{r 03a-dplyr-basics-22 }
-rel_by_region <- gss_sm %>% 
-  count(bigregion, religion) %>% 
+rel_by_region <- gss_sm |> 
+  count(bigregion, religion) |> 
   mutate(pct = round((n/sum(n))*100, 1)) 
 
 rel_by_region
@@ -536,8 +536,8 @@ Hm, did I sum over right group?
 
 ```{r 03a-dplyr-basics-23 }
 ## Each region should sum to ~100
-rel_by_region %>% 
-  group_by(bigregion) %>% 
+rel_by_region |> 
+  group_by(bigregion) |> 
   summarize(total = sum(pct)) 
 
 ```
@@ -553,15 +553,15 @@ No! What has gone wrong here?
 .pull-left[
 
 ```{r 03a-dplyr-basics-24 }
-rel_by_region <- gss_sm %>% 
-  count(bigregion, religion) %>% #<< 
+rel_by_region <- gss_sm |> 
+  count(bigregion, religion) |> #<< 
   mutate(pct = round((n/sum(n))*100, 1)) 
 ```
 
 .SMALL.squish3[.kjh-green[**`count()`**] returns ungrouped results, so there are no groups carry forward to the .kjh-green[**`mutate()`**] step.]
 
 ```{r 03a-dplyr-basics-25 }
-rel_by_region %>% 
+rel_by_region |> 
   summarize(total = sum(pct))
 ```
 
@@ -573,16 +573,16 @@ rel_by_region %>%
 .pull-right[
 
 ```{r 03a-dplyr-basics-26 }
-rel_by_region <- gss_sm %>% 
-  group_by(bigregion, religion) %>% #<<
-  tally() %>% #<<
+rel_by_region <- gss_sm |> 
+  group_by(bigregion, religion) |> #<<
+  tally() |> #<<
   mutate(pct = round((n/sum(n))*100, 1)) 
 ```
 
 ```{r 03a-dplyr-basics-27 }
 # Check
-rel_by_region %>% 
-  group_by(bigregion) %>% 
+rel_by_region |> 
+  group_by(bigregion) |> 
   summarize(total = sum(pct))
 
 ```
@@ -631,14 +631,14 @@ rel_by_region %>%
 
 
 ```{r 03a-dplyr-basics-29, fig.height = 4, fig.width=10 }
-gss_sm %>% 
-  group_by(race, sex, degree) %>% 
+gss_sm |> 
+  group_by(race, sex, degree) |> 
   summarize(n = n(), 
             mean_age = mean(age, na.rm = TRUE), 
-            mean_kids = mean(childs, na.rm = TRUE)) %>% 
-  mutate(pct = n/sum(n)*100) %>% 
-  filter(race !="Other") %>% 
-  drop_na() %>% 
+            mean_kids = mean(childs, na.rm = TRUE)) |> 
+  mutate(pct = n/sum(n)*100) |> 
+  filter(race !="Other") |> 
+  drop_na() |> 
   ggplot(mapping = aes(x = mean_kids, y = degree)) + # I'm sorry I can't talk more about the graphs
   geom_col() + facet_grid(sex ~ race) + 
   labs(x = "Average number of Children", y = NULL)
@@ -650,14 +650,14 @@ gss_sm %>%
 
 
 ```{r 03a-dplyr-basics-30, include = FALSE }
-gss_sm %>% 
-  group_by(race, sex, degree) %>% 
+gss_sm |> 
+  group_by(race, sex, degree) |> 
   summarize(n = n(), 
             mean_age = mean(age, na.rm = TRUE), 
-            mean_kids = mean(childs, na.rm = TRUE)) %>% 
-  mutate(pct = n/sum(n)*100) %>% 
-  filter(race !="Other") %>% 
-  drop_na() %>% 
+            mean_kids = mean(childs, na.rm = TRUE)) |> 
+  mutate(pct = n/sum(n)*100) |> 
+  filter(race !="Other") |> 
+  drop_na() |> 
   summarize(grp_totpct = sum(pct))
 ```
 
@@ -677,7 +677,7 @@ organdata
 # Conditionals in .kjh-green[`select()`] and .kjh-green[`filter()`]
 
 ```{r 03a-dplyr-basics-32 }
-organdata %>% 
+organdata |> 
   filter(consent_law == "Informed" & donors > 15) 
 ```
 
@@ -686,7 +686,7 @@ organdata %>%
 # Conditionals in .kjh-green[`select()`] and .kjh-green[`filter()`]
 
 ```{r 03a-dplyr-basics-33 }
-organdata %>% 
+organdata |> 
   select(country, year, where(is.integer)) #<<
 ```
 
@@ -699,7 +699,7 @@ Use .kjh-green[**`where()`**] to test columns.
 When telling .kjh-green[**`where()`**] use .kjh-green[**`is.integer()`**] to test each column, we don't put parentheses at the end of its name. If we did, R would try to evaluate .kjh-green[**`is.integer()`**] right then, and fail:
 
 ```r
-> organdata %>% 
+> organdata |> 
 +   select(country, year, where(is.integer()))
 Error: 0 arguments passed to 'is.integer' which requires 1
 Run `rlang::last_error()` to see where the error occurred.
@@ -712,7 +712,7 @@ This is true in similar situations elsewhere as well.
 # Conditionals in .kjh-green[`select()`] and .kjh-green[`filter()`]
 
 ```{r 03a-dplyr-basics-34 }
-organdata %>% 
+organdata |> 
   select(country, year, where(is.character))
 ```
 
@@ -725,7 +725,7 @@ We have functions like e.g. .kjh-green[**`is.character()`**], .kjh-green[**`is.n
 Sometimes we don't pass a function, but do want to use the result of one:
 
 ```{r 03a-dplyr-basics-35 }
-organdata %>% 
+organdata |> 
   select(country, year, starts_with("gdp")) #<<
 ```
 
@@ -736,7 +736,7 @@ We have .kjh-green[**`starts_with()`**], .kjh-green[**`ends_with()`**], .kjh-gre
 # Conditionals in .kjh-green[`select()`] and .kjh-green[`filter()`]
 
 ```{r 03a-dplyr-basics-36 }
-organdata %>% 
+organdata |> 
   filter(country == "Australia" | country == "Canada") 
 ```
 
@@ -749,7 +749,7 @@ This could get cumbersome fast.
 ```{r 03a-dplyr-basics-37 }
 my_countries <- c("Australia", "Canada", "United States", "Ireland")
 
-organdata %>% 
+organdata |> 
   filter(country %in% my_countries) #<<
 ```
 
@@ -760,7 +760,7 @@ organdata %>%
 ```{r 03a-dplyr-basics-38 }
 my_countries <- c("Australia", "Canada", "United States", "Ireland")
 
-organdata %>% 
+organdata |> 
   filter(!(country %in% my_countries)) #<<
 ```
 
@@ -782,7 +782,7 @@ We can make one!
 --
 .SMALL[
 ```{r 03a-dplyr-basics-40 }
-organdata %>% 
+organdata |> 
   filter(country %nin% my_countries) #<<
 ```
 ]
@@ -795,8 +795,8 @@ organdata %>%
 Earlier we saw this:
 
 ```{r 03a-dplyr-basics-41 }
-gss_sm %>% 
-  group_by(race, sex, degree) %>% 
+gss_sm |> 
+  group_by(race, sex, degree) |> 
   summarize(n = n(), 
             mean_age = mean(age, na.rm = TRUE), 
             mean_kids = mean(childs, na.rm = TRUE))
@@ -811,8 +811,8 @@ gss_sm %>%
 .small[
 
 ```{r 03a-dplyr-basics-42 }
-organdata %>%  
-  group_by(consent_law, country) %>%
+organdata |>  
+  group_by(consent_law, country) |>
   summarize(donors_mean = mean(donors, na.rm = TRUE),
             donors_sd = sd(donors, na.rm = TRUE),
             gdp_mean = mean(gdp, na.rm = TRUE),
@@ -836,8 +836,8 @@ This works, but it's really tedious. Also error-prone.
 my_vars <- c("gdp", "donors", "roads")
 
 ## nested parens again, but it's worth it
-organdata %>% 
-  group_by(consent_law, country) %>%
+organdata |> 
+  group_by(consent_law, country) |>
   summarize(across(my_vars,           
                    list(avg = mean),  
                    na.rm = TRUE))     
@@ -863,8 +863,8 @@ organdata %>%
 
 my_vars <- c("gdp", "donors", "roads")
 
-organdata %>% 
-  group_by(consent_law, country) %>%
+organdata |> 
+  group_by(consent_law, country) |>
   summarize(across(my_vars,           
                    list(avg = mean, #<<
                         sd = var, #<<
@@ -883,8 +883,8 @@ organdata %>%
 
 my_vars <- c("gdp", "donors", "roads")
 
-organdata %>% 
-  group_by(consent_law, country) %>%
+organdata |> 
+  group_by(consent_law, country) |>
   summarize(across(my_vars,           
                    list(mean = mean, #<<
                         var = var, #<<
@@ -900,13 +900,13 @@ organdata %>%
 .normal[
 
 ```{r 03a-dplyr-basics-46 }
-organdata %>% 
-  group_by(consent_law, country) %>%
+organdata |> 
+  group_by(consent_law, country) |>
   summarize(across(where(is.numeric), #<<       
                    list(mean = mean, 
                         var = var, 
                         median = median),
-                   na.rm = TRUE)) %>% 
+                   na.rm = TRUE)) |> 
     print(n = 3) # just to save slide space
 ```
 ]
@@ -920,14 +920,14 @@ organdata %>%
 
 .SMALL[
 ```{r 03a-dplyr-basics-47 }
-organdata %>% 
-  group_by(consent_law, country) %>%
+organdata |> 
+  group_by(consent_law, country) |>
   summarize(across(where(is.numeric),        
                    list(mean = mean, 
                         var = var, 
                         median = median),
                    na.rm = TRUE, 
-                   .names = "{fn}_{col}")) %>% #<<
+                   .names = "{fn}_{col}")) |> #<<
   print(n = 3) 
 ```
 ]
@@ -945,8 +945,8 @@ organdata %>%
 
 
 ```{r 03a-dplyr-basics-48 }
-organdata %>% 
-  mutate(across(where(is.character), toupper)) %>% 
+organdata |> 
+  mutate(across(where(is.character), toupper)) |> 
   select(where(is.character))
 ```
 
@@ -959,10 +959,10 @@ Sort rows with .kjh-green[**`arrange()`**]
 .pull-left[
 
 ```{r 03a-dplyr-basics-49 }
-organdata %>% 
-  group_by(consent_law, country) %>%
-  summarize(donors = mean(donors, na.rm = TRUE)) %>% 
-  arrange(donors) %>% ##< 
+organdata |> 
+  group_by(consent_law, country) |>
+  summarize(donors = mean(donors, na.rm = TRUE)) |> 
+  arrange(donors) |> ##< 
   print(n = 5)
 ```
 
@@ -971,10 +971,10 @@ organdata %>%
 .pull-right[
 
 ```{r 03a-dplyr-basics-50 }
-organdata %>% 
-  group_by(consent_law, country) %>%
-  summarize(donors = mean(donors, na.rm = TRUE)) %>% 
-  arrange(desc(donors)) %>%  ##<
+organdata |> 
+  group_by(consent_law, country) |>
+  summarize(donors = mean(donors, na.rm = TRUE)) |> 
+  arrange(desc(donors)) |>  ##<
   print(n = 5)
 ```
 
@@ -987,9 +987,9 @@ Using .kjh-green[**`arrange()`**] to order rows in this way won't respect groupi
 # More generally ...
 
 ```{r 03a-dplyr-basics-51 }
-organdata %>% 
-  group_by(consent_law, country) %>%
-  summarize(donors = mean(donors, na.rm = TRUE)) %>% 
+organdata |> 
+  group_by(consent_law, country) |>
+  summarize(donors = mean(donors, na.rm = TRUE)) |> 
   slice_max(donors, n = 5) #<<
 ```
 
