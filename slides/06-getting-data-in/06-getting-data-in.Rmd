@@ -310,8 +310,8 @@ They may guess incorrectly!
 
 ```{r 06-getting-data-in-11, include = FALSE}
 read_table(here("data", "mortality.txt"), 
-           skip = 2, na = ".") %>% 
-  janitor::clean_names() %>% 
+           skip = 2, na = ".") |> 
+  janitor::clean_names() |> 
   mutate(age = as.integer(recode(age, "110+" = "110")))
 ```
 
@@ -387,7 +387,7 @@ tail(nchs)
 # Take a look with .kjh-green[`slice_sample()`]
 
 ```{r 06-getting-data-in-16 }
-nchs %>% 
+nchs |> 
   slice_sample(n = 10)
 ```
 
@@ -408,7 +408,7 @@ Month 1!
 Let's look at the rows .kjh-green[**`read_csv()`**] complained about.
 
 ```{r 06-getting-data-in-17 }
-nchs %>% 
+nchs |> 
   slice(2750:2760) 
 ```
 
@@ -417,8 +417,8 @@ nchs %>%
 # Take a look with .kjh-green[`slice()`]
 
 ```{r 06-getting-data-in-18 }
-nchs %>% 
-  slice(2750:2760) %>% 
+nchs |> 
+  slice(2750:2760) |> 
   select(Year, Month, State)
 ```
 
@@ -430,8 +430,8 @@ Hm, something to do with the transition to national numbers maybe?
 
 
 ```{r 06-getting-data-in-19 }
-nchs %>% 
-  select(Year, Month, State) %>% 
+nchs |> 
+  select(Year, Month, State) |> 
   filter(State == "New York")
 
 ```
@@ -441,8 +441,8 @@ nchs %>%
 # Take a look with .kjh-green[`is.na()`]
 
 ```{r 06-getting-data-in-20 }
-nchs %>% 
-  select(Year, Month, State) %>% 
+nchs |> 
+  select(Year, Month, State) |> 
   filter(!is.na(Year)) #<<
 ```
 
@@ -455,8 +455,8 @@ That doesn't seem like it can be right.
 # Take a look with .kjh-green[`distinct()`]
 
 ```{r 06-getting-data-in-21 }
-nchs %>% 
-  select(Year) %>% 
+nchs |> 
+  select(Year) |> 
   distinct(Year)
 
 ```
@@ -577,10 +577,10 @@ nchs <- with_edition(1, read_csv(
     `Influenza Deaths` = col_integer(),
     `Pneumonia, Influenza, or COVID-19 Deaths` = col_integer(),
     Footnote = col_character()
-  )) %>% 
-  janitor::clean_names() %>% 
-  select(-footnote) %>%
-  mutate(age_group = stringr::str_to_sentence(age_group)) %>%
+  )) |> 
+  janitor::clean_names() |> 
+  select(-footnote) |>
+  mutate(age_group = stringr::str_to_sentence(age_group)) |>
   filter(!stringr::str_detect(state, "Total"))
 )
 ```
@@ -592,8 +592,8 @@ nchs <- with_edition(1, read_csv(
 ```{r 06-getting-data-in-28 }
 dim(nchs)
 
-nchs %>% 
-  select(year, month, state) %>% 
+nchs |> 
+  select(year, month, state) |> 
   filter(!is.na(year)) #<<
 ```
 
@@ -602,7 +602,7 @@ nchs %>%
 # Now let's look again
 
 ```{r 06-getting-data-in-29 }
-nchs %>% 
+nchs |> 
   distinct(year) #<<
 
 ```
@@ -630,11 +630,11 @@ The `colspec` output is your friend.
 ---
 
 ```{r 06-getting-data-in-30, echo = FALSE}
-nchs_fmt <- nchs %>% 
-  select(-year, -month) %>% 
+nchs_fmt <- nchs |> 
+  select(-year, -month) |> 
   pivot_longer(covid_19_deaths:pneumonia_influenza_or_covid_19_deaths, 
                names_to = "outcome", 
-               values_to = "n") %>% 
+               values_to = "n") |> 
   mutate(outcome = str_to_sentence(outcome), 
          outcome = str_replace_all(outcome, "_", " "),
          outcome = str_replace(outcome, "(C|c)ovid 19", "COVID-19"))
@@ -644,11 +644,11 @@ nchs_fmt <- nchs %>%
 ```{r 06-getting-data-in-31, include=FALSE}
 library(stringr) # it's back!
 
-nchs %>% 
-  select(!(c(data_as_of:end_date, year, month))) %>% 
+nchs |> 
+  select(!(c(data_as_of:end_date, year, month))) |> 
   pivot_longer(covid_19_deaths:pneumonia_influenza_or_covid_19_deaths, 
                names_to = "outcome", 
-               values_to = "n") %>% 
+               values_to = "n") |> 
   mutate(outcome = str_to_sentence(outcome), 
          outcome = str_replace_all(outcome, "_", " "),
          outcome = str_replace(outcome, "(C|c)ovid 19", "COVID-19"))
@@ -666,7 +666,7 @@ Put this in `nchs_fmt`
 # ... we could make a table or graph
 
 ```{r 06-getting-data-in-32 }
-nchs_fmt %>% 
+nchs_fmt |> 
   select(state, age_group, outcome, n)
 ```
 
@@ -676,7 +676,7 @@ nchs_fmt %>%
 
 .pull-left[
 ```{r 06-getting-data-in-33 }
-nchs_fmt %>% 
+nchs_fmt |> 
   distinct(group)
 ```
 ]
@@ -685,7 +685,7 @@ nchs_fmt %>%
 
 .pull-right[
 ```{r 06-getting-data-in-34 }
-nchs_fmt %>% 
+nchs_fmt |> 
   distinct(age_group)
 ```
 ]
@@ -695,7 +695,7 @@ nchs_fmt %>%
 # Make our plot
 
 ```{r 06-getting-data-in-35 }
-p_out <- nchs_fmt %>% 
+p_out <- nchs_fmt |> 
   filter(group %in% "By Total", 
          sex %in% "All Sexes", 
          state %in% "United States", 
@@ -706,10 +706,10 @@ p_out <- nchs_fmt %>%
                           "50-64 years",
                           "65-74 years",
                           "85 years and over"),  
-         outcome %in% "COVID-19 deaths") %>%
+         outcome %in% "COVID-19 deaths") |>
   mutate(age_group = str_replace(age_group, "years", "yrs"),#<<
          age_group = str_replace(age_group, " and over", ""),#<<
-         age_group = str_replace(age_group, "85", "85+")) %>% #<<
+         age_group = str_replace(age_group, "85", "85+")) |> #<<
   ggplot(mapping = aes(x = n, y = age_group)) +
   geom_col() + scale_x_continuous(labels = scales::comma) + 
   labs(x = "Deaths", y = NULL, title = "U.S. COVID-19 mortality totals by age group")
@@ -758,12 +758,8 @@ df
 # Dropping .kjh-orange[missing values]: a quick demo
 
 ```{r 06-getting-data-in-38 }
-# 1 Write it yourself
-df %>% 
-  filter(complete.cases(.))
-
 # 2 Convenience function
-df %>% 
+df |> 
   drop_na()
 
 ```
@@ -778,11 +774,11 @@ What if we only want to drop all rows with _all_ missing cases?
 
 ```{r 06-getting-data-in-39 }
 # 3
-df %>% 
+df |> 
   filter(!if_all(everything(), ~ is.na(.x))) # Pronoun
 
 # 4 Convenience function from janitor
-df %>% 
+df |> 
   janitor::remove_empty("rows")
 
 ```
@@ -805,17 +801,17 @@ With that in mind ... Some marketing data
 
 ```{r 06-getting-data-in-40, include = FALSE}
 
-read_csv(here("data", "rfm_table.csv")) %>% 
-  janitor::clean_names() %>%
-  janitor::remove_empty("rows") %>% 
-  pivot_longer(cols = r:m) %>% 
+read_csv(here("data", "rfm_table.csv")) |> 
+  janitor::clean_names() |>
+  janitor::remove_empty("rows") |> 
+  pivot_longer(cols = r:m) |> 
   separate(col = value, into = c("lo", "hi"), 
            remove = FALSE, convert = TRUE, 
-           fill = "left") %>%
-  select(-value) %>%
+           fill = "left") |>
+  select(-value) |>
   pivot_wider(names_from = name, 
-              values_from = lo:hi) %>%
-  mutate(across(where(is.integer), replace_na, 0)) %>% 
+              values_from = lo:hi) |>
+  mutate(across(where(is.integer), replace_na, 0)) |> 
   select(segment, 
          lo_r, hi_r, 
          lo_f, hi_f, 
@@ -830,17 +826,17 @@ read_csv(here("data", "rfm_table.csv")) %>%
 # Maybe a candidate for .kjh-green[`rowwise()`]?
 
 ```{r 06-getting-data-in-41, echo = FALSE}
-rfm_table <- read_csv(here("data", "rfm_table.csv")) %>% 
-  janitor::clean_names() %>%
-  janitor::remove_empty("rows") %>% 
-  pivot_longer(cols = r:m) %>% 
+rfm_table <- read_csv(here("data", "rfm_table.csv")) |> 
+  janitor::clean_names() |>
+  janitor::remove_empty("rows") |> 
+  pivot_longer(cols = r:m) |> 
   separate(col = value, into = c("lo", "hi"), 
            remove = FALSE, convert = TRUE, 
-           fill = "left") %>%
-  select(-value) %>%
+           fill = "left") |>
+  select(-value) |>
   pivot_wider(names_from = name, 
-              values_from = lo:hi) %>%
-  mutate(across(where(is.integer), replace_na, 0)) %>% 
+              values_from = lo:hi) |>
+  mutate(across(where(is.integer), replace_na, 0)) |> 
   select(segment, 
          lo_r, hi_r, 
          lo_f, hi_f, 
@@ -860,9 +856,9 @@ rfm_table
 This does what we expect:
 
 ```{r 06-getting-data-in-43 }
-rfm_table %>% 
+rfm_table |> 
   mutate(sum_lo = lo_r + lo_f + lo_m,#<<
-         sum_hi = hi_r + hi_f + hi_m) %>% #<<
+         sum_hi = hi_r + hi_f + hi_m) |> #<<
   select(segment, sum_lo, sum_hi, everything())
 ```
 
@@ -875,9 +871,9 @@ This adds each column, elementwise.
 .squish4[But this does not:]
 
 ```{r 06-getting-data-in-44 }
-rfm_table %>% 
+rfm_table |> 
   mutate(sum_lo = sum(lo_r, lo_f, lo_m),#<<
-         sum_hi = sum(hi_r, hi_f, hi_m)) %>%#<< 
+         sum_hi = sum(hi_r, hi_f, hi_m)) |>#<< 
   select(segment, sum_lo, sum_hi, everything())
 
 
@@ -892,9 +888,9 @@ rfm_table %>%
 Similarly, this will not give the answer we probably expect:
 
 ```{r 06-getting-data-in-45 }
-rfm_table %>% 
+rfm_table |> 
   mutate(mean_lo = mean(c(lo_r, lo_f, lo_m)),#<<
-         mean_hi = mean(c(hi_r, hi_f, hi_m))) %>%#<< 
+         mean_hi = mean(c(hi_r, hi_f, hi_m))) |>#<< 
   select(segment, mean_lo, mean_hi, everything())
 
 
@@ -908,10 +904,10 @@ rfm_table %>%
 But this will:
 
 ```{r 06-getting-data-in-46 }
-rfm_table %>% 
-  rowwise() %>% #<<
+rfm_table |> 
+  rowwise() |> #<<
   mutate(mean_lo = mean(c(lo_r, lo_f, lo_m)),#<<
-         mean_hi = mean(c(hi_r, hi_f, hi_m))) %>%#<< 
+         mean_hi = mean(c(hi_r, hi_f, hi_m))) |>#<< 
   select(segment, mean_lo, mean_hi, everything())
 
 ```
@@ -931,10 +927,10 @@ So, .kjh-green[**`rowwise()`**] is not likely to see a whole lot of further deve
 # You probably want .kjh-green[`group_by()`] instead
 
 ```{r 06-getting-data-in-47 }
-rfm_table %>% 
-  group_by(segment) %>% 
+rfm_table |> 
+  group_by(segment) |> 
   mutate(mean_lo = mean(c(lo_r, lo_f, lo_m)),#<<
-         mean_hi = mean(c(hi_r, hi_f, hi_m))) %>%#<< 
+         mean_hi = mean(c(hi_r, hi_f, hi_m))) |>#<< 
   select(segment, mean_lo, mean_hi, everything())
 
 ```
@@ -945,10 +941,10 @@ rfm_table %>%
 
 
 ```{r 06-getting-data-in-48 }
-rfm_table %>% 
-  group_by(segment) %>% 
+rfm_table |> 
+  group_by(segment) |> 
   mutate(sum_lo = sum(lo_r, lo_f, lo_m),#<<
-         sum_hi = sum(hi_r, hi_f, hi_m)) %>%#<< 
+         sum_hi = sum(hi_r, hi_f, hi_m)) |>#<< 
   select(segment, sum_lo, sum_hi, everything())
 
 ```
@@ -1010,9 +1006,9 @@ Data types are things like `dbl+lbl` indicating that Stata's numeric values and 
 You can see the labeling system at work:
 
 ```{r 06-getting-data-in-51 }
-gss_panel %>% 
-  select(degree) %>% 
-  group_by(degree) %>% 
+gss_panel |> 
+  select(degree) |> 
+  group_by(degree) |> 
   tally()
 ```
 
@@ -1023,10 +1019,10 @@ gss_panel %>%
 Values get pivoted, not labels, though.
 
 ```{r 06-getting-data-in-52 }
-gss_panel %>% 
-  select(sex, degree) %>% 
-  group_by(sex, degree) %>% 
-  tally() %>% 
+gss_panel |> 
+  select(sex, degree) |> 
+  group_by(sex, degree) |> 
+  tally() |> 
   pivot_wider(names_from = sex, values_from = n)
 ```
 
@@ -1039,8 +1035,8 @@ gss_panel %>%
 .SMALL[
 
 ```{r 06-getting-data-in-53 }
-gss_panel %>% 
-  zap_missing() %>% 
+gss_panel |> 
+  zap_missing() |> 
   zap_labels()
 ```
 
@@ -1095,7 +1091,7 @@ class: title title-1
 # Cut down the dataset
 
 ```{r 06-getting-data-in-55 }
-gss_sub <- gss_panel %>% 
+gss_sub <- gss_panel |> 
   select(all_of(my_gss_vars))
 
 gss_sub
@@ -1108,13 +1104,13 @@ gss_sub
 
 ```{r 06-getting-data-in-56 }
 
-gss_sub %>% 
-  mutate(across(everything(), zap_missing)) %>% 
-  mutate(across(all_of(wt_vars), as.numeric)) %>% 
-  mutate(across(all_of(int_vars), as.integer)) %>% 
-  mutate(across(all_of(cat_vars), as_factor)) %>%
-  mutate(across(all_of(cat_vars), fct_relabel, tolower)) %>% 
-  mutate(across(all_of(cat_vars), fct_relabel, tools::toTitleCase)) %>% 
+gss_sub |> 
+  mutate(across(everything(), zap_missing)) |> 
+  mutate(across(all_of(wt_vars), as.numeric)) |> 
+  mutate(across(all_of(int_vars), as.integer)) |> 
+  mutate(across(all_of(cat_vars), as_factor)) |>
+  mutate(across(all_of(cat_vars), fct_relabel, tolower)) |> 
+  mutate(across(all_of(cat_vars), fct_relabel, tools::toTitleCase)) |> 
   mutate(income = stringr::str_replace(income, " - ", "-")) 
 
 ```
@@ -1124,7 +1120,7 @@ gss_sub %>%
 # How we'd actually write this
 
 ```{r 06-getting-data-in-57 }
-gss_sub <- gss_sub %>% 
+gss_sub <- gss_sub |> 
   mutate(across(everything(), zap_missing), 
          across(all_of(wt_vars), as.numeric), 
          across(all_of(int_vars), as.integer), 
@@ -1160,11 +1156,11 @@ Age quintiles: create the quintile variable
 
 ```{r 06-getting-data-in-59 }
 ## Apply the cut
-gss_sub %>% 
+gss_sub |> 
   mutate(agequint = cut(x = age, 
                           breaks = unique(age_quintiles), 
-                          include.lowest = TRUE)) %>% 
-  pull(agequint) %>% # grab a column and make it an ordinary vector
+                          include.lowest = TRUE)) |> 
+  pull(agequint) |> # grab a column and make it an ordinary vector
   table()
 
 ```
@@ -1195,16 +1191,16 @@ convert_agegrp <- function(x){
 ---
 
 ```{r 06-getting-data-in-61, include = FALSE}
-gss_sub %>%
+gss_sub |>
     mutate(agequint = cut(x = age, 
                           breaks = unique(age_quintiles), 
-                          include.lowest = TRUE)) %>% 
-    mutate(agequint = fct_relabel(agequint, convert_agegrp)) %>% 
-    mutate(year_f = droplevels(factor(year))) %>% 
-    mutate(young = ifelse(age < 26, "Yes", "No")) %>% 
+                          include.lowest = TRUE)) |> 
+    mutate(agequint = fct_relabel(agequint, convert_agegrp)) |> 
+    mutate(year_f = droplevels(factor(year))) |> 
+    mutate(young = ifelse(age < 26, "Yes", "No")) |> 
     mutate(fefam_d = fct_recode(fefam,
                                 Agree = "Strongly Agree",
-                                Disagree = "Strongly Disagree")) %>% 
+                                Disagree = "Strongly Disagree")) |> 
     mutate(degree = factor(degree, 
                            levels = levels(gss_sub$degree), #<<
                            ordered = TRUE))#<<
@@ -1217,7 +1213,7 @@ gss_sub %>%
 # How we'd actually write this
 
 ```{r 06-getting-data-in-62 }
-gss_sub <- gss_sub %>%
+gss_sub <- gss_sub |>
       mutate(agequint = cut(x = age, 
                             breaks = unique(age_quintiles), 
                             include.lowest = TRUE), 
@@ -1237,7 +1233,7 @@ gss_sub <- gss_sub %>%
 # How we'd actually write this
 
 ```{r 06-getting-data-in-63 }
-gss_sub <- gss_sub %>%
+gss_sub <- gss_sub |>
     mutate(agequint = cut(x = age, 
                           breaks = unique(age_quintiles), 
                           include.lowest = TRUE), 
@@ -1256,7 +1252,7 @@ gss_sub <- gss_sub %>%
 # How we'd actually write this
 
 ```{r 06-getting-data-in-64 }
-gss_sub <- gss_sub %>%
+gss_sub <- gss_sub |>
     mutate(agequint = cut(x = age, 
                           breaks = unique(age_quintiles), 
                           include.lowest = TRUE), 
@@ -1276,8 +1272,8 @@ gss_sub <- gss_sub %>%
 # GSS Panel
 
 ```{r 06-getting-data-in-65 }
-gss_sub %>% 
-  select(sex, year, year_f, age, young, fefam, fefam_d) %>% 
+gss_sub |> 
+  select(sex, year, year_f, age, young, fefam, fefam_d) |> 
   sample_n(15)
 ```
 
@@ -1286,10 +1282,10 @@ gss_sub %>%
 # GSS Panel
 
 ```{r 06-getting-data-in-66 }
-gss_sub %>% 
-  select(sex, degree) %>% 
-  group_by(sex, degree) %>% 
-  tally() %>% 
+gss_sub |> 
+  select(sex, degree) |> 
+  group_by(sex, degree) |> 
+  tally() |> 
   pivot_wider(names_from = sex, values_from = n)
 ```
 
@@ -1305,7 +1301,7 @@ There are numerous other convenience functions for factors.
 --
 
 ```{r 06-getting-data-in-67}
-gss_sub %>% 
+gss_sub |> 
   count(degree)
 ```
 
@@ -1320,8 +1316,8 @@ levels(gss_sub$degree)
 Make the .kjh-red[NA] values an explicit level
 
 ```{r 06-getting-data-in-69}
-gss_sub %>% 
-  mutate(degree_na = fct_explicit_na(degree)) %>% 
+gss_sub |> 
+  mutate(degree_na = fct_explicit_na(degree)) |> 
   count(degree_na)
 ```
 
@@ -1332,8 +1328,8 @@ gss_sub %>%
 Relevel by frequency
 
 ```{r 06-getting-data-in-70}
-gss_sub %>% 
-  mutate(degree_freq = fct_infreq(degree)) %>% 
+gss_sub |> 
+  mutate(degree_freq = fct_infreq(degree)) |> 
   count(degree_freq) 
 ```
 
@@ -1363,7 +1359,7 @@ summary(lm(age ~ sex, data = gss_sub))
 Relevel manually
 
 ```{r 06-getting-data-in-73}
-gss_sub <- gss_sub %>% 
+gss_sub <- gss_sub |> 
   mutate(sex = fct_relevel(sex, "Female"))
 
 levels(gss_sub$sex)
@@ -1384,10 +1380,10 @@ Interact or cross factors
 .SMALL[
 
 ```{r 06-getting-data-in-75}
-gss_sub <- gss_sub %>% 
+gss_sub <- gss_sub |> 
   mutate(degree_by_race = fct_cross(race, degree))
 
-gss_sub %>% 
+gss_sub |> 
   count(degree_by_race)
 ```
 
@@ -1400,8 +1396,8 @@ gss_sub %>%
 Relevel manually by lumping ... the least frequent n
 
 ```{r 06-getting-data-in-76}
-gss_sub %>% 
-  mutate(degree_n = fct_lump_n(degree, n = 3)) %>% 
+gss_sub |> 
+  mutate(degree_n = fct_lump_n(degree, n = 3)) |> 
   count(degree_n)
 ```
 
@@ -1412,10 +1408,10 @@ gss_sub %>%
 Relevel manually by lumping ...to other, manually
 
 ```{r 06-getting-data-in-77}
-gss_sub %>% 
+gss_sub |> 
   mutate(degree_o = fct_other(degree, 
                               keep = c("Lt High School", 
-                                       "High School"))) %>% 
+                                       "High School"))) |> 
   count(degree_o)
 ```
 
