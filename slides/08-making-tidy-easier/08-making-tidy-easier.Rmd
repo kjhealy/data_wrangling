@@ -422,7 +422,6 @@ countries
 
 
 ```{r 08-making-tidy-easier-20 }
-
 get_stmf <- function(url = "https://www.mortality.org/File/GetDocument/Public/STMF/Outputs",
                      fname = "stmf",
                      date = lubridate::today(),
@@ -456,7 +455,8 @@ get_stmf <- function(url = "https://www.mortality.org/File/GetDocument/Public/ST
 
 
 ```{r 08-making-tidy-easier-21 }
-stmf_raw <- get_stmf(skip = 2) |>
+stmf_raw <- read_csv(here("data", "stmf.csv"), skip = 2) |>
+  janitor::clean_names() |> 
   rename(deaths_total = d_total, rate_total = r_total) |>
   select(country_code:sex, deaths_total, rate_total, split:forecast, everything()) |>
   pivot_longer(
@@ -680,7 +680,7 @@ stmf_country_years <- function(df = stmf) {
 .tiny[
 
 ```{r 08-making-tidy-easier-33}
-kable(stmf_country_years())
+knitr::kable(stmf_country_years())
 ```
 
 ]
