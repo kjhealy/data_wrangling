@@ -1,44 +1,21 @@
-## ----05-regular-expressions-1, include=FALSE----------------------------------------------------------------------------------------------
-library(flipbookr)
-library(here)
-library(tidyverse)
-library(kjhslides)
 
-
-## ----setup, include=FALSE-----------------------------------------------------------------------------------------------------------------
-
-kjh_register_tenso()
-
-kjh_set_knitr_opts()
-
-kjh_set_slide_theme()
-
-kjh_set_xaringnan_opts()
-
-
-
-## ----05-regular-expressions-2, message = FALSE--------------------------------------------------------------------------------------------
-library(here)      # manage file paths
-library(socviz)    # data and some useful functions
-
-
-## ----05-regular-expressions-3, message = TRUE---------------------------------------------------------------------------------------------
+## ----05-regular-expressions-3, message = TRUE---------------------------------
 library(tidyverse) # your friend and mine
 library(gapminder) # gapminder data
 library(stringr)
 
 
-## ----05-regular-expressions-4-------------------------------------------------------------------------------------------------------------
-library(stringr)
+## ----05-regular-expressions-4-------------------------------------------------
+library(stringr) # It's loaded by default with library(tidyverse)
 
 
-## ----05-regular-expressions-5-------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-5-------------------------------------------------
 x <- c("apple", "banana", "pear")
 
 str_view(x, "an")
 
 
-## ----05-regular-expressions-6-------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-6-------------------------------------------------
 # To create the regular expression, we need \\
 dot <- "\\."
 
@@ -49,7 +26,7 @@ writeLines(dot)
 str_view(c("abc", "a.c", "bef"), "a\\.c")
 
 
-## ----05-regular-expressions-7-------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-7-------------------------------------------------
 
 x <- "a\\b"
 writeLines(x)
@@ -59,89 +36,89 @@ str_view(x, "\\\\") # you need four!
 
 
 
-## ----05-regular-expressions-8-------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-8-------------------------------------------------
 x <- c("apple", "banana", "pear")
 str_view(x, "^a")
 
 
-## ----05-regular-expressions-9-------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-9-------------------------------------------------
 str_view(x, "a$")
 
 
-## ----05-regular-expressions-10------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-10------------------------------------------------
 x <- c("apple pie", "apple", "apple cake")
 str_view(x, "apple")
 
 
 
-## ----05-regular-expressions-11------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-11------------------------------------------------
 str_view(x, "^apple$")
 
 
-## ----05-regular-expressions-12------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-12------------------------------------------------
 
 str_view(c("abc", "a.c", "a*c", "a c"), "a[.]c")
 
 
 
-## ----05-regular-expressions-13------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-13------------------------------------------------
 str_view(c("abc", "a.c", "a*c", "a c"), ".[*]c")
 
 
-## ----05-regular-expressions-14------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-14------------------------------------------------
 str_view(c("groy", "grey", "griy", "gray"), "gr(e|a)y")
 
 
-## ----05-regular-expressions-15------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-15------------------------------------------------
 x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
 str_view(x, "CC?")
 
 
-## ----05-regular-expressions-16------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-16------------------------------------------------
 str_view(x, "CC+")
 
 
-## ----05-regular-expressions-17------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-17------------------------------------------------
 x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
 str_view(x, 'C[LX]+')
 
 
-## ----05-regular-expressions-18------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-18------------------------------------------------
 str_view(x, "C{2}")
 
 
-## ----05-regular-expressions-19------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-19------------------------------------------------
 str_view(x, "C{2,}")
 
 
-## ----05-regular-expressions-20------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-20------------------------------------------------
 str_view(x, "C{2,3}")
 
 
-## ----05-regular-expressions-21------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-21------------------------------------------------
 str_view(x, 'C{2,3}?')
 
 
-## ----05-regular-expressions-22------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-22------------------------------------------------
 str_view(x, 'C[LX]+?')
 
 
-## ----05-regular-expressions-23------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-23------------------------------------------------
 fruit # built into stringr
 
 
-## ----05-regular-expressions-24------------------------------------------------------------------------------------------------------------
+## ----05-regular-expressions-24------------------------------------------------
 str_view(fruit, "(..)\\1", match = TRUE)
 
 
-## ----05-regular-expressions-25, include=FALSE---------------------------------------------------------------------------------------------
+## ----05-regular-expressions-25, include=FALSE---------------------------------
 library(ukelection2019)
 
-ukvote2019 %>% 
-  group_by(constituency) %>% 
-  slice_max(votes) %>% 
-  ungroup() %>% 
-  select(constituency, party_name) %>% 
+ukvote2019 |> 
+  group_by(constituency) |> 
+  slice_max(votes) |> 
+  ungroup() |> 
+  select(constituency, party_name) |> 
   mutate(shire = str_detect(constituency, "shire"),
          field = str_detect(constituency, "field"),
          dale = str_detect(constituency, "dale"),
@@ -153,16 +130,16 @@ ukvote2019 %>%
          ford = str_detect(constituency, "(ford$)|(ford )"),
          by = str_detect(constituency, "(by$)|(by )"),
          boro = str_detect(constituency, "(boro$)|(boro )|(borough$)|(borough )"),
-         ley = str_detect(constituency, "(ley$)|(ley )|(leigh$)|(leigh )")) %>% 
+         ley = str_detect(constituency, "(ley$)|(ley )|(leigh$)|(leigh )")) |> 
   pivot_longer(shire:ley, names_to = "toponym")
 
 
-## ----05-regular-expressions-26------------------------------------------------------------------------------------------------------------
-place_tab <- ukvote2019 %>% 
-  group_by(constituency) %>% 
-  slice_max(votes) %>% 
-  ungroup() %>% 
-  select(constituency, party_name) %>% 
+## ----05-regular-expressions-26------------------------------------------------
+place_tab <- ukvote2019 |> 
+  group_by(constituency) |> 
+  slice_max(votes) |> 
+  ungroup() |> 
+  select(constituency, party_name) |> 
   mutate(shire = str_detect(constituency, "shire"),
          field = str_detect(constituency, "field"),
          dale = str_detect(constituency, "dale"),
@@ -174,18 +151,18 @@ place_tab <- ukvote2019 %>%
          ford = str_detect(constituency, "(ford$)|(ford )"),
          by = str_detect(constituency, "(by$)|(by )"),
          boro = str_detect(constituency, "(boro$)|(boro )|(borough$)|(borough )"),
-         ley = str_detect(constituency, "(ley$)|(ley )|(leigh$)|(leigh )")) %>% 
+         ley = str_detect(constituency, "(ley$)|(ley )|(leigh$)|(leigh )")) |> 
   pivot_longer(shire:ley, names_to = "toponym")
 
 
-## ----05-regular-expressions-27, include=FALSE---------------------------------------------------------------------------------------------
-place_tab %>% 
-  group_by(party_name, toponym) %>% 
-  filter(party_name %in% c("Conservative", "Labour")) %>% 
-  group_by(toponym, party_name) %>% 
-  summarize(freq = sum(value)) %>% 
-  mutate(pct = freq/sum(freq)) %>% 
-  filter(party_name == "Conservative") %>% 
+## ----05-regular-expressions-27, include=FALSE---------------------------------
+place_tab |> 
+  group_by(party_name, toponym) |> 
+  filter(party_name %in% c("Conservative", "Labour")) |> 
+  group_by(toponym, party_name) |> 
+  summarize(freq = sum(value)) |> 
+  mutate(pct = freq/sum(freq)) |> 
+  filter(party_name == "Conservative") |> 
   arrange(desc(pct))
   
 

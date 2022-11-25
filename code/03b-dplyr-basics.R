@@ -1,60 +1,37 @@
-## ----03b-dplyr-basics-1, include=FALSE----------------------------------------------------------------------------------------------------
-library(flipbookr)
-library(here)
-library(tidyverse)
-library(kjhslides)
 
 
-## ----setup, include=FALSE-----------------------------------------------------------------------------------------------------------------
-
-kjh_register_tenso()
-
-kjh_set_knitr_opts()
-
-kjh_set_slide_theme()
-
-kjh_set_xaringnan_opts()
-
-
-
-## ----03b-dplyr-basics-2, message = TRUE---------------------------------------------------------------------------------------------------
-library(here)      # manage file paths
-library(socviz)    # data and some useful functions
-library(tidyverse) # your friend and mine
-
-
-## ----03b-dplyr-basics-3-------------------------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-3-------------------------------------------------------
 ## Data on COVID-19
 library(covdata)
 
 covnat_weekly 
 
 
-## ----03b-dplyr-basics-4-------------------------------------------------------------------------------------------------------------------
-covnat_weekly %>% 
-  filter(iso3 == "USA") %>% 
-  select(date, cname, iso3, cases) %>% 
+## ----03b-dplyr-basics-4-------------------------------------------------------
+covnat_weekly |> 
+  filter(iso3 == "USA") |> 
+  select(date, cname, iso3, cases) |> 
   mutate(cumulative = cumsum(cases)) 
 
 
 
-## ----03b-dplyr-basics-5-------------------------------------------------------------------------------------------------------------------
-covnat_weekly %>% 
-  select(date, cname, iso3, deaths) %>% 
-  filter(iso3 == "USA") %>% 
+## ----03b-dplyr-basics-5-------------------------------------------------------
+covnat_weekly |> 
+  select(date, cname, iso3, deaths) |> 
+  filter(iso3 == "USA") |> 
   filter(cume_dist(desc(deaths)) < 0.1) # i.e. Top 10%
 
 
 
-## ----03b-dplyr-basics-6-------------------------------------------------------------------------------------------------------------------
-covus %>% 
-  filter(measure == "death") %>% 
-  group_by(state) %>% 
-  arrange(state, desc(date)) %>% 
+## ----03b-dplyr-basics-6-------------------------------------------------------
+covus |> 
+  filter(measure == "death") |> 
+  group_by(state) |> 
+  arrange(state, desc(date)) |> 
   filter(state %in% "NY")
 
 
-## ----03b-dplyr-basics-7-------------------------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-7-------------------------------------------------------
 my_vec <- c(1:20)
 my_vec
 lag(my_vec) # first element has no lag
@@ -63,19 +40,19 @@ my_vec - lag(my_vec)
 
 
 
-## ----03b-dplyr-basics-8-------------------------------------------------------------------------------------------------------------------
-covus %>%
-  select(-data_quality_grade) %>% 
-  filter(measure == "death") %>%
-  group_by(state) %>%
-  arrange(date) %>% 
-  mutate(deaths_daily = count - lag(count, order_by = date)) %>% 
-  arrange(state, desc(date)) %>% 
+## ----03b-dplyr-basics-8-------------------------------------------------------
+covus |>
+  select(-data_quality_grade) |> 
+  filter(measure == "death") |>
+  group_by(state) |>
+  arrange(date) |> 
+  mutate(deaths_daily = count - lag(count, order_by = date)) |> 
+  arrange(state, desc(date)) |> 
   filter(state %in% "NY")
   
 
 
-## ----03b-dplyr-basics-9-------------------------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-9-------------------------------------------------------
 my_fun <- function(x) {
   x + 1
 }
@@ -87,132 +64,132 @@ my_fun(x = 1) # But we can supply it with an input!
 my_fun(10)
 
 
-## ----03b-dplyr-basics-10------------------------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-10------------------------------------------------------
 get_daily_count <- function(count, date){
   count - lag(count, order_by = date)
 }
 
 
-## ----03b-dplyr-basics-11------------------------------------------------------------------------------------------------------------------
-covus %>%
-  filter(measure == "death") %>%
-  select(-data_quality_grade) %>% 
-  group_by(state) %>%
-  arrange(date) %>% 
-  mutate(deaths_daily = get_daily_count(count, date)) %>% 
-  arrange(state, desc(date)) %>% 
+## ----03b-dplyr-basics-11------------------------------------------------------
+covus |>
+  filter(measure == "death") |>
+  select(-data_quality_grade) |> 
+  group_by(state) |>
+  arrange(date) |> 
+  mutate(deaths_daily = get_daily_count(count, date)) |> 
+  arrange(state, desc(date)) |> 
   filter(state %in% "NY")
   
 
 
-## ----03b-dplyr-basics-12------------------------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-12------------------------------------------------------
 # install.packages("slider")
 library(slider)
 
 
-## ----03b-dplyr-basics-13------------------------------------------------------------------------------------------------------------------
-covus %>%
-  filter(measure == "death") %>%
-  select(-data_quality_grade) %>% 
-  group_by(state) %>%
-  arrange(date) %>% 
+## ----03b-dplyr-basics-13------------------------------------------------------
+covus |>
+  filter(measure == "death") |>
+  select(-data_quality_grade) |> 
+  group_by(state) |>
+  arrange(date) |> 
   mutate(
     deaths_daily = get_daily_count(count, date), 
     deaths7 = slide_mean(deaths_daily, #<<
                          before = 7, #<<
-                         na_rm = TRUE)) %>% #<<
-  arrange(state, desc(date)) %>% 
+                         na_rm = TRUE)) |> #<<
+  arrange(state, desc(date)) |> 
   filter(state %in% "NY")
 
 
-## ----03b-dplyr-basics-14------------------------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-14------------------------------------------------------
 gss_sm
 
 
-## ----03b-dplyr-basics-15, include = FALSE-------------------------------------------------------------------------------------------------
-gss_sm %>% 
+## ----03b-dplyr-basics-15, include = FALSE-------------------------------------
+gss_sm |> 
   select(region, bigregion, year, 
          id:region, 
          starts_with("p"), 
-         contains("income")) %>% 
+         contains("income")) |> 
   rename(children = childs, 
-         siblings = sibs) %>% 
-  relocate(id) %>% 
-  select(-ballot) %>% 
+         siblings = sibs) |> 
+  relocate(id) |> 
+  select(-ballot) |> 
   relocate(where(is.numeric), 
-           .before = where(is.factor)) %>% 
+           .before = where(is.factor)) |> 
   relocate(contains("region"), 
            .after = year) 
 
 
-## ----03b-dplyr-basics-16------------------------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-16------------------------------------------------------
 library(ukelection2019)
 
 ukvote2019
 
 
-## ----03b-dplyr-basics-17------------------------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-17------------------------------------------------------
 library(ukelection2019)
 
-ukvote2019 %>% 
+ukvote2019 |> 
   sample_n(10)
 
 
-## ----03b-dplyr-basics-18------------------------------------------------------------------------------------------------------------------
-ukvote2019 %>% 
+## ----03b-dplyr-basics-18------------------------------------------------------
+ukvote2019 |> 
   distinct(constituency)
 
 
-## ----03b-dplyr-basics-19------------------------------------------------------------------------------------------------------------------
-ukvote2019 %>% 
-  distinct(constituency) %>% 
+## ----03b-dplyr-basics-19------------------------------------------------------
+ukvote2019 |> 
+  distinct(constituency) |> 
   tally()
 
 
-## ----03b-dplyr-basics-20------------------------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-20------------------------------------------------------
 # Base R / non-pipeline version
 
 length(unique(ukvote2019$constituency))
 
 
-## ----03b-dplyr-basics-21------------------------------------------------------------------------------------------------------------------
-ukvote2019 %>% 
-  count(party_name) %>% 
+## ----03b-dplyr-basics-21------------------------------------------------------
+ukvote2019 |> 
+  count(party_name) |> 
   arrange(desc(n))
 
 
-## ----03b-dplyr-basics-22------------------------------------------------------------------------------------------------------------------
-ukvote2019 %>% 
-  count(party_name) %>% 
+## ----03b-dplyr-basics-22------------------------------------------------------
+ukvote2019 |> 
+  count(party_name) |> 
   slice_max(order_by = n, n = 5)
 
 
 
-## ----03b-dplyr-basics-23------------------------------------------------------------------------------------------------------------------
-ukvote2019 %>% 
-  count(party_name) %>% 
+## ----03b-dplyr-basics-23------------------------------------------------------
+ukvote2019 |> 
+  count(party_name) |> 
   slice_min(order_by = n, n = 5)
 
 
 
-## ----03b-dplyr-basics-24------------------------------------------------------------------------------------------------------------------
-ukvote2019 %>% 
+## ----03b-dplyr-basics-24------------------------------------------------------
+ukvote2019 |> 
   count(constituency) 
 
 
-## ----03b-dplyr-basics-25------------------------------------------------------------------------------------------------------------------
-ukvote2019 %>% 
-  count(constituency) %>% 
+## ----03b-dplyr-basics-25------------------------------------------------------
+ukvote2019 |> 
+  count(constituency) |> 
   count(n)
 
 
-## ----03b-dplyr-basics-26, include = FALSE-------------------------------------------------------------------------------------------------
-ukvote2019 %>% 
-  count(constituency, name = "n_cands") %>% 
+## ----03b-dplyr-basics-26, include = FALSE-------------------------------------
+ukvote2019 |> 
+  count(constituency, name = "n_cands") |> 
   count(n_cands, name = "n_const")
 
 
-## ----03b-dplyr-basics-27, echo = FALSE----------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-27, echo = FALSE----------------------------------------
 
 # Make some sample data with tribb
 df <- tribble(~id, ~ prop1, ~prop2,
@@ -222,43 +199,43 @@ df <- tribble(~id, ~ prop1, ~prop2,
               "D", 0.1,      0.1)
 
 
-## ----03b-dplyr-basics-28------------------------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-28------------------------------------------------------
 df
 
 
-## ----03b-dplyr-basics-29------------------------------------------------------------------------------------------------------------------
-df %>% 
+## ----03b-dplyr-basics-29------------------------------------------------------
+df |> 
   filter(prop1 + prop2 > 0.3)
 
 
-## ----03b-dplyr-basics-30------------------------------------------------------------------------------------------------------------------
-df %>% 
+## ----03b-dplyr-basics-30------------------------------------------------------
+df |> 
   filter(prop1 + prop2 == 0.3)
 
 
-## ----03b-dplyr-basics-31------------------------------------------------------------------------------------------------------------------
-df %>% 
-  mutate(prop3 = prop1 + prop2) %>% 
+## ----03b-dplyr-basics-31------------------------------------------------------
+df |> 
+  mutate(prop3 = prop1 + prop2) |> 
   filter(prop3 == 0.3)
 
 
-## ----03b-dplyr-basics-32------------------------------------------------------------------------------------------------------------------
-df %>% 
+## ----03b-dplyr-basics-32------------------------------------------------------
+df |> 
   filter(prop1*100 + prop2*100 == 0.3*100)
 
 
-## ----03b-dplyr-basics-33------------------------------------------------------------------------------------------------------------------
-df %>% 
+## ----03b-dplyr-basics-33------------------------------------------------------
+df |> 
   filter(near(prop1 + prop2, 0.3))
 
 
-## ----03b-dplyr-basics-34------------------------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-34------------------------------------------------------
 df <- read_csv(here("data", "first_terms.csv"))
 
 df
 
 
-## ----03b-dplyr-basics-35, echo = FALSE----------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-35, echo = FALSE----------------------------------------
 ## Hex colors for sex
 sex_colors <- c("#E69F00", "#993300")
 
@@ -267,19 +244,19 @@ mf_labs <- tibble(M = "Men", F = "Women")
 
 
 
-## ----03b-dplyr-basics-36------------------------------------------------------------------------------------------------------------------
-df %>%
-    group_by(start_year, party, sex) %>%
-    summarize(N = n()) %>%
+## ----03b-dplyr-basics-36------------------------------------------------------
+df |>
+    group_by(start_year, party, sex) |>
+    summarize(N = n()) |>
     mutate(freq = N / sum(N))
 
 
 
-## ----03b-dplyr-basics-37------------------------------------------------------------------------------------------------------------------
-p_col <- df %>%
-    group_by(start_year, party, sex) %>%
-    summarize(N = n()) %>%
-    mutate(freq = N / sum(N)) %>%
+## ----03b-dplyr-basics-37------------------------------------------------------
+p_col <- df |>
+    group_by(start_year, party, sex) |>
+    summarize(N = n()) |>
+    mutate(freq = N / sum(N)) |>
     ggplot(aes(x = start_year,
                y = freq,
                fill = sex)) +
@@ -290,15 +267,15 @@ p_col <- df %>%
     facet_wrap(~ party)
 
 
-## ----03b-dplyr-basics-38, fig.height = 6, fig.width=10------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-38, fig.height = 6, fig.width=10------------------------
 p_col
 
 
-## ----03b-dplyr-basics-39------------------------------------------------------------------------------------------------------------------
-p_line <- df %>%
-    group_by(start_year, party, sex) %>%
-    summarize(N = n()) %>%
-    mutate(freq = N / sum(N)) %>%
+## ----03b-dplyr-basics-39------------------------------------------------------
+p_line <- df |>
+    group_by(start_year, party, sex) |>
+    summarize(N = n()) |>
+    mutate(freq = N / sum(N)) |>
     ggplot(aes(x = start_year,
                y = freq,
                color = sex)) +
@@ -310,77 +287,77 @@ p_line <- df %>%
     facet_wrap(~ party)
 
 
-## ----03b-dplyr-basics-40, fig.height = 6, fig.width=9-------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-40, fig.height = 6, fig.width=9-------------------------
 p_line
 
 
-## ----03b-dplyr-basics-41------------------------------------------------------------------------------------------------------------------
-df_f <- df %>% 
+## ----03b-dplyr-basics-41------------------------------------------------------
+df_f <- df |> 
   mutate(party_f = factor(party))
 
 df_f
 
 
-## ----03b-dplyr-basics-42------------------------------------------------------------------------------------------------------------------
-df_f %>% 
-  group_by(party_f) %>% 
+## ----03b-dplyr-basics-42------------------------------------------------------
+df_f |> 
+  group_by(party_f) |> 
   tally()
 
 
-## ----03b-dplyr-basics-43------------------------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-43------------------------------------------------------
 typeof(df_f$party_f)
 levels(df_f$party_f)
 
 
 
-## ----03b-dplyr-basics-44------------------------------------------------------------------------------------------------------------------
-df_f <- df %>% 
+## ----03b-dplyr-basics-44------------------------------------------------------
+df_f <- df |> 
   mutate(party_f = factor(party, 
                           levels = c("Democrat", 
                                      "Republican", 
                                      "Libertarian")))
-df_f %>% 
-  group_by(party_f) %>% 
+df_f |> 
+  group_by(party_f) |> 
   tally()
 
 levels(df_f$party_f)
 
 
 
-## ----03b-dplyr-basics-45------------------------------------------------------------------------------------------------------------------
-df %>% 
-  mutate(across(where(is.character), as_factor)) %>% 
-  group_by(start_year, party, sex) %>%
-  summarize(N = n()) %>%
+## ----03b-dplyr-basics-45------------------------------------------------------
+df |> 
+  mutate(across(where(is.character), as_factor)) |> 
+  group_by(start_year, party, sex) |>
+  summarize(N = n()) |>
   mutate(freq = N / sum(N))
 
 
 
-## ----03b-dplyr-basics-46------------------------------------------------------------------------------------------------------------------
-df %>% 
-  mutate(across(where(is.character), as_factor)) %>% 
-  group_by(start_year, party, sex, .drop = FALSE) %>% #<<
-  summarize(N = n()) %>%
+## ----03b-dplyr-basics-46------------------------------------------------------
+df |> 
+  mutate(across(where(is.character), as_factor)) |> 
+  group_by(start_year, party, sex, .drop = FALSE) |> #<<
+  summarize(N = n()) |>
   mutate(freq = N / sum(N))
   
 
 
-## ----03b-dplyr-basics-47------------------------------------------------------------------------------------------------------------------
-df_c <- df %>%
-    group_by(start_year, party, sex) %>%
-    summarize(N = n()) %>%
-    mutate(freq = N / sum(N)) %>%
-    ungroup() %>%#<<
+## ----03b-dplyr-basics-47------------------------------------------------------
+df_c <- df |>
+    group_by(start_year, party, sex) |>
+    summarize(N = n()) |>
+    mutate(freq = N / sum(N)) |>
+    ungroup() |>#<<
     complete(start_year, party, sex,#<<
              fill = list(N = 0, freq = 0))#<<
 
 
-## ----03b-dplyr-basics-48------------------------------------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-48------------------------------------------------------
 df_c
 
 
-## ----03b-dplyr-basics-49------------------------------------------------------------------------------------------------------------------
-p_out <- df_c %>% 
+## ----03b-dplyr-basics-49------------------------------------------------------
+p_out <- df_c |> 
   ggplot(aes(x = start_year,
                y = freq,
                color = sex)) +
@@ -392,6 +369,6 @@ p_out <- df_c %>%
     facet_wrap(~ party)
 
 
-## ----03b-dplyr-basics-50, fig.height = 6, fig.width=9-------------------------------------------------------------------------------------
+## ----03b-dplyr-basics-50, fig.height = 6, fig.width=9-------------------------
 p_out
 

@@ -1,91 +1,68 @@
-## ----04-tidy-data-1, include=FALSE--------------------------------------------------------------------------------------------------------
-library(flipbookr)
-library(here)
-library(tidyverse)
-library(kjhslides)
 
-
-## ----setup, include=FALSE-----------------------------------------------------------------------------------------------------------------
-
-kjh_register_tenso()
-
-kjh_set_knitr_opts()
-
-kjh_set_slide_theme()
-
-kjh_set_xaringnan_opts()
-
-
-
-## ----04-tidy-data-2, message = FALSE------------------------------------------------------------------------------------------------------
-library(here)      # manage file paths
-library(socviz)    # data and some useful functions
-
-
-## ----04-tidy-data-3, message = TRUE-------------------------------------------------------------------------------------------------------
+## ----04-tidy-data-3, message = TRUE-------------------------------------------
 library(tidyverse) # your friend and mine
 library(gapminder) # gapminder data
 
 
-## ----04-tidy-data-4-----------------------------------------------------------------------------------------------------------------------
+## ----04-tidy-data-4-----------------------------------------------------------
 # Sneak peek
-edu %>% 
+edu |> 
   select(year, elem4:coll4)
 
 
 
-## ----04-tidy-data-5-----------------------------------------------------------------------------------------------------------------------
-edu %>% 
-  select(year, elem4:coll4) %>% 
-  rowwise() %>% #<<
+## ----04-tidy-data-5-----------------------------------------------------------
+edu |> 
+  select(year, elem4:coll4) |> 
+  rowwise() |> #<<
   mutate(mean_of_row = mean(c_across(elem4:coll4)))
 
 
 
-## ----04-tidy-data-6-----------------------------------------------------------------------------------------------------------------------
+## ----04-tidy-data-6-----------------------------------------------------------
 gapminder
 
 
-## ----04-tidy-data-7-----------------------------------------------------------------------------------------------------------------------
+## ----04-tidy-data-7-----------------------------------------------------------
 library(covdata)
-covus %>% 
-  filter(state == "NY") %>% 
+covus |> 
+  filter(state == "NY") |> 
   select(date:fips, measure:count)
 
 
-## ----04-tidy-data-8-----------------------------------------------------------------------------------------------------------------------
+## ----04-tidy-data-8-----------------------------------------------------------
 library(palmerpenguins)
-penguins %>% 
-  group_by(species, island, year) %>% 
-  summarize(bill = round(mean(bill_length_mm, na.rm = TRUE),2)) %>% 
-  kable()
+penguins |> 
+  group_by(species, island, year) |> 
+  summarize(bill = round(mean(bill_length_mm, na.rm = TRUE),2)) |> 
+  knitr::kable()
 
 
-## ----04-tidy-data-9-----------------------------------------------------------------------------------------------------------------------
-penguins %>% 
-  group_by(species, island, year) %>% 
-  summarize(bill = round(mean(bill_length_mm, na.rm = TRUE), 2)) %>% 
-  pivot_wider(names_from = year, values_from = bill) %>% 
-  kable()
+## ----04-tidy-data-9-----------------------------------------------------------
+penguins |> 
+  group_by(species, island, year) |> 
+  summarize(bill = round(mean(bill_length_mm, na.rm = TRUE), 2)) |> 
+  pivot_wider(names_from = year, values_from = bill) |> 
+  knitr::kable()
 
 
-## ----04-tidy-data-10----------------------------------------------------------------------------------------------------------------------
+## ----04-tidy-data-10----------------------------------------------------------
 edu
 
 
-## ----04-tidy-data-11----------------------------------------------------------------------------------------------------------------------
-edu %>% 
+## ----04-tidy-data-11----------------------------------------------------------
+edu |> 
   pivot_longer(elem4:coll4, names_to = "education")
 
 
-## ----04-tidy-data-12----------------------------------------------------------------------------------------------------------------------
-edu %>% 
+## ----04-tidy-data-12----------------------------------------------------------
+edu |> 
   pivot_longer(elem4:coll4, names_to = "education", values_to = "n")
 
 
-## ----04-tidy-data-13----------------------------------------------------------------------------------------------------------------------
-edu %>% 
-  pivot_longer(elem4:coll4, names_to = "education", values_to = "n") %>% 
+## ----04-tidy-data-13----------------------------------------------------------
+edu |> 
+  pivot_longer(elem4:coll4, names_to = "education", values_to = "n") |> 
   mutate(education = recode(education, 
                             elem4 = "Elementary 4", elem8 = "Elementary 8", 
                             hs3 = "High School 3", hs4 = "High School 4",
@@ -93,28 +70,28 @@ edu %>%
   
 
 
-## ----04-tidy-data-14----------------------------------------------------------------------------------------------------------------------
+## ----04-tidy-data-14----------------------------------------------------------
 gapminder
 
 
-## ----04-tidy-data-15----------------------------------------------------------------------------------------------------------------------
-gapminder %>% 
-  select(country, continent, year, lifeExp) %>% 
+## ----04-tidy-data-15----------------------------------------------------------
+gapminder |> 
+  select(country, continent, year, lifeExp) |> 
   pivot_wider(names_from = year, values_from = lifeExp) #<<
 
 
-## ----04-tidy-data-16----------------------------------------------------------------------------------------------------------------------
-gapminder %>% 
+## ----04-tidy-data-16----------------------------------------------------------
+gapminder |> 
   pivot_wider(names_from = year, values_from = lifeExp) 
 
 
-## ----04-tidy-data-17----------------------------------------------------------------------------------------------------------------------
-gapminder %>% 
-  select(country, continent, year, lifeExp, gdpPercap) %>% 
+## ----04-tidy-data-17----------------------------------------------------------
+gapminder |> 
+  select(country, continent, year, lifeExp, gdpPercap) |> 
   pivot_wider(names_from = year, values_from = c(lifeExp, gdpPercap)) #<<
 
 
-## ----04-tidy-data-18, echo = FALSE--------------------------------------------------------------------------------------------------------
+## ----04-tidy-data-18, echo = FALSE--------------------------------------------
 gen_cats <- function(x, N = 1000) {
     sample(x, N, replace = TRUE)
 }
@@ -133,22 +110,22 @@ df <- as_tibble(map_dfc(vars, gen_cats))
 df <- add_column(df, income)
 
 
-## ----04-tidy-data-19----------------------------------------------------------------------------------------------------------------------
+## ----04-tidy-data-19----------------------------------------------------------
 # Some made-up data
 df
 
 
-## ----04-tidy-data-20, include = FALSE-----------------------------------------------------------------------------------------------------
-df %>%
-    group_by(sex, race, stratum, educ) %>% 
+## ----04-tidy-data-20, include = FALSE-----------------------------------------
+df |>
+    group_by(sex, race, stratum, educ) |> 
     summarize(mean_inc = mean(income),
-              n = n()) %>%
+              n = n()) |>
     pivot_wider(names_from = (educ),
-                values_from = c(mean_inc, n)) %>% 
+                values_from = c(mean_inc, n)) |> 
     ungroup()
 
 
-## ----04-tidy-data-21----------------------------------------------------------------------------------------------------------------------
+## ----04-tidy-data-21----------------------------------------------------------
 ## tribble() lets you make tibbles by hand
 df <- tribble(
   ~name, ~occupation,
@@ -162,28 +139,28 @@ df
 
 
 
-## ----04-tidy-data-22, include=FALSE-------------------------------------------------------------------------------------------------------
-df %>% 
-  separate(name, into = c("first", "last")) %>% 
-  unite("full_name", first:last, sep = " ") %>% 
+## ----04-tidy-data-22, include=FALSE-------------------------------------------
+df |> 
+  separate(name, into = c("first", "last")) |> 
+  unite("full_name", first:last, sep = " ") |> 
   unite("both_together", full_name:occupation, 
         sep = ", ", remove = FALSE)
 
 
 
-## ----04-tidy-data-23, include=FALSE-------------------------------------------------------------------------------------------------------
-df %>% 
-  separate(name, into = c("first", "last")) %>% 
-  unite("full_name", first:last) %>% 
+## ----04-tidy-data-23, include=FALSE-------------------------------------------
+df |> 
+  separate(name, into = c("first", "last")) |> 
+  unite("full_name", first:last) |> 
   separate(full_name, into = c("first", "last"))
 
 
 
-## ----04-tidy-data-24, include=FALSE-------------------------------------------------------------------------------------------------------
-gss_sm %>%
-    select(race, degree) %>% 
-    mutate(racedeg = interaction(race, degree)) %>%
-    group_by(racedeg) %>% 
-    tally() %>% 
+## ----04-tidy-data-24, include=FALSE-------------------------------------------
+gss_sm |>
+    select(race, degree) |> 
+    mutate(racedeg = interaction(race, degree)) |>
+    group_by(racedeg) |> 
+    tally() |> 
     separate(racedeg, sep = "\\.", into = c("race", "degree"))
 
