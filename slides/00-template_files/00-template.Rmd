@@ -2,28 +2,12 @@
 title: "Template Slides"
 author: "Kieran Healy"
 date: "`r Sys.Date()`"
-output:
-  xaringan::moon_reader:
-    lib_dir: "libs"
-    chakra: "../libs/remark-latest.min.js"
-    css: ["default", "../css/kjh-slides.css", "../css/tenso-berkeley.css", "../css/animate.css", "../css/widths.css"]
-    seal: false
-    anchor_sections: false
-    nature:
-      beforeInit: "../js/kjh-macros.js"
-      highlightStyle: default
-      highlightLines: true
-      countIncrementalSlides: false
-      slideNumberFormat: "%current%"
-      ratio: "16:9"
-      navigation:
-        scroll: false
+output: kjhslides::kjh_slides_reader
 editor_options: 
   chunk_output_type: console
 ---
 
-
-```{r 00-template-1, include=FALSE}
+```{r packages, include=FALSE}
 library(flipbookr)
 library(here)
 library(tidyverse)
@@ -34,15 +18,11 @@ library(kjhslides)
 ```{r setup, include=FALSE}
 
 kjh_register_tenso()
-
 kjh_set_knitr_opts()
-
 kjh_set_slide_theme()
-
 kjh_set_xaringan_opts()
 
 ```
-
 
 class: center middle main-title section-title-1
 
@@ -50,7 +30,7 @@ class: center middle main-title section-title-1
 
 .class-info[
 
-**Data Wrangling: Session 1**
+**Data Wrangling: Template**
 
 .light[Kieran Healy<br>
 Statistical Horizons, December 2022
@@ -109,9 +89,9 @@ library(palmerpenguins)
 `r chunk_reveal("00-template-2", widths = c(35,65), title = "# Breaks")`
 
 ```{r 00-template-3, include = FALSE}
-penguins %>% 
-  filter(year != 2007) %>% 
-  group_by(species) %>% 
+penguins |> 
+  filter(year != 2007) |> 
+  group_by(species) |> 
   summarize(across(starts_with("bill"), 
                    list(mean = mean, 
                         sd = sd),
@@ -122,8 +102,8 @@ penguins %>%
 ---
 
 ```{r 00-template-4, include = FALSE}
-as_tibble(cars) %>%
-  filter(speed > 4) %>%
+as_tibble(cars) |>
+  filter(speed > 4) |>
   ggplot() +
   aes(x = speed) +
   aes(y = dist) + #BREAK
@@ -142,7 +122,7 @@ layout: false
 
 .center[
 <figure>
-  <img src="img/01/tidyverse.png" alt="The tidyverse" title="The tidyverse" width="60%">
+  <img src="img/tidyverse.png" alt="The tidyverse" title="The tidyverse" width="60%">
 </figure>
 ]
 
@@ -157,13 +137,13 @@ class: title title-1
 
 .pull-left[
 <figure>
-  <img src="img/01/lorem-ipsum-2.png" alt="What we have" title="What we have" width="100%">
+  <img src="img/lorem-ipsum-raw.png" alt="What we have" title="What we have" width="100%">
 </figure>
 ]
 
 .pull-right[
 <figure>
-  <img src="img/01/lorem-ipsum-1.png" alt="What we want" title="What we want" width="100%">
+  <img src="img/lorem-ipsum-goal.png" alt="What we want" title="What we want" width="100%">
 </figure>
 ]
 
@@ -175,7 +155,7 @@ class: title title-1
 
 .pull-left.center[
 <figure>
-  <img src="img/01/tidyverse.png" alt="The tidyverse" title="The tidyverse" width="80%">
+  <img src="img/tidyverse.png" alt="The tidyverse" title="The tidyverse" width="80%">
 </figure>
 ]
 
@@ -223,12 +203,12 @@ class: title title-1
 
 # Scale Images small
 
-![:scale 10%](img/01/Rlogo.png)
+![:scale 10%](img/Rlogo.png)
 
 ---
 
 # Scale images medium
-.right[![:scale 40%](img/01/Rlogo.png)]
+.right[![:scale 40%](img/Rlogo.png)]
 
 
 
