@@ -52,13 +52,13 @@ class: title title-1
 
 --
 
-## 10am till 2pm US EST
+## 10am till 12:30pm US EST each Day
 
 --
 
-## Lab session from 4pm to 5pm US EST
+## 1:30pm to 4:00pm US EST on Day 1
 
-- On First and Second Days
+## 1:30pm to 3:30pm US EST Days 2 and 3
 
 --
 
