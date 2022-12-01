@@ -164,11 +164,11 @@ class: title title-1
 .pull-left.w80[
 - .kjh-orange[**Group**] the data at the level we want, such as “_Religion by Region_” or _“Children by School_”.
 
-- .kjh-orange[**Subset**] either the rows or columns of or table.
+- .kjh-orange[**Subset**] either the rows or columns of or table—i.e. remove them before doing anything.
 
 - .kjh-orange[**Mutate**] the data. That is, change something at the _current_ level of grouping.  Mutating adds new columns to the table, or changes the content of an existing column. It never changes the number of rows.
 
-- .kjh-orange[**Summarize**] or aggregate the data. That is, make something new at a _higher_ level of grouping. E.g., calculate means or counts by some grouping variable. This will generally result in a smaller, _summary_ table.
+- .kjh-orange[**Summarize**] or aggregate the data. That is, make something new at a _higher_ level of grouping. E.g., calculate means or counts by some grouping variable. This will generally result in a smaller, _summary_ table. Usually this will have the same number of _rows_ as there are _groups_ being summarized.
 ]
 
 ---
@@ -696,7 +696,7 @@ Use .kjh-green[**`where()`**] to test columns.
 
 # Conditionals in .kjh-green[`select()`] and .kjh-green[`filter()`]
 
-When telling .kjh-green[**`where()`**] use .kjh-green[**`is.integer()`**] to test each column, we don't put parentheses at the end of its name. If we did, R would try to evaluate .kjh-green[**`is.integer()`**] right then, and fail:
+When telling .kjh-green[**`where()`**] to use .kjh-green[**`is.integer()`**] to test each column, we don't put parentheses at the end of its name. If we did, R would try to evaluate .kjh-green[**`is.integer()`**] right then, and fail:
 
 ```r
 > organdata |> 
@@ -828,7 +828,7 @@ This works, but it's really tedious. Also error-prone.
 
 # Do more than one thing with .kjh-green[**`across()`**]
 
-.SMALL.squish3[Instead, use `across()` to apply a function to more than one column.]
+.SMALL.squish3[Instead, use .kjh-green[`across()`] to apply a function to more than one column.]
 
 .SMALL[
 ```{r 03a-dplyr-basics-43 }

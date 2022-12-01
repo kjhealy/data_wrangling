@@ -1266,7 +1266,7 @@ Again the object inspector is helpful here
 
 ---
 
-# Some classes are nested
+# Some classes are versions of others
 
 .pull-left[
 
@@ -1408,7 +1408,7 @@ result4
 
 Note that you get a _warning_ here. It'll still do it, though! Don't ignore warnings until you understand what they mean.
 
----
+--- 
 
 # 7. .kjh-yellow[R will be] .kjh-red[frustrating]
 

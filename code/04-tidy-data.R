@@ -106,17 +106,18 @@ vars <- list(stratum = c(1:8),
           race =  c("B", "W"),
           educ = c("HS", "BA"))
 
-df <- as_tibble(map_dfc(vars, gen_cats))
-df <- add_column(df, income)
+dfstrat <- as_tibble(map_dfc(vars, gen_cats))
+dfstrat <- add_column(dfstrat, income)
 
 
 ## ----04-tidy-data-19----------------------------------------------------------
 # Some made-up data
-df
+dfstrat <- read_csv(here::here("data", "dfstrat.csv"))
 
 
 ## ----04-tidy-data-20, include = FALSE-----------------------------------------
-df |>
+dfstrat <- read_csv(here::here("data", "dfstrat.csv"), show_col_types = FALSE)
+dfstrat |>
     group_by(sex, race, stratum, educ) |> 
     summarize(mean_inc = mean(income),
               n = n()) |>
@@ -140,6 +141,7 @@ df
 
 
 ## ----04-tidy-data-22, include=FALSE-------------------------------------------
+df <- read_csv(here::here("data", "wolfe.csv"), show_col_types = FALSE)
 df |> 
   separate(name, into = c("first", "last")) |> 
   unite("full_name", first:last, sep = " ") |> 
@@ -149,6 +151,7 @@ df |>
 
 
 ## ----04-tidy-data-23, include=FALSE-------------------------------------------
+df <- read_csv(here::here("data", "wolfe.csv"), show_col_types = FALSE)
 df |> 
   separate(name, into = c("first", "last")) |> 
   unite("full_name", first:last) |> 

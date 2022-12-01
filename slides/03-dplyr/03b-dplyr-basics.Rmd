@@ -85,7 +85,7 @@ covnat_weekly
 
 ```{r 03b-dplyr-basics-4 }
 covnat_weekly |> 
-  filter(iso3 == "USA") |> 
+  filter(iso3 == "FRA") |> 
   select(date, cname, iso3, cases) |> 
   mutate(cumulative = cumsum(cases)) 
 
@@ -100,7 +100,7 @@ covnat_weekly |>
 ```{r 03b-dplyr-basics-5 }
 covnat_weekly |> 
   select(date, cname, iso3, deaths) |> 
-  filter(iso3 == "USA") |> 
+  filter(iso3 == "FRA") |> 
   filter(cume_dist(desc(deaths)) < 0.1) # i.e. Top 10%
 
 ```
@@ -294,7 +294,7 @@ gss_sm |>
 
 ---
 
-# Recapping the Office Hour
+# Example: UK Election Data
 
 ```{r 03b-dplyr-basics-16 }
 library(ukelection2019)
@@ -305,7 +305,7 @@ ukvote2019
 ---
 
 
-# Recapping the Office Hour
+# Example: UK Election Data
 
 Use .kjh-green[**`sample_n()`**] to sample `n` rows of your tibble.
 
@@ -319,7 +319,7 @@ ukvote2019 |>
 ---
 
 
-# Recapping the Office Hour
+# Example: UK Election Data
 
 - A vector of unique constituency names
 
@@ -331,7 +331,7 @@ ukvote2019 |>
 
 ---
 
-# Recapping the Office Hour
+# Example: UK Election Data
 
 - Tally them up
 
@@ -350,7 +350,9 @@ length(unique(ukvote2019$constituency))
 
 ---
 
-# Recapping the Office Hour
+# Example: UK Election Data
+
+- Which parties fielded the most candidates?
 
 ```{r 03b-dplyr-basics-21}
 ukvote2019 |> 
@@ -360,7 +362,7 @@ ukvote2019 |>
 
 ---
 
-# Recapping the Office Hour
+# Example: UK Election Data
 
 .pull-left[
 - .SMALL.squish3[Top 5]
@@ -387,8 +389,9 @@ ukvote2019 |>
 
 ---
 
-# Recapping the Office Hour
+# Example: UK Election Data
 
+- How many constituencies are there?
 
 ```{r 03b-dplyr-basics-24}
 ukvote2019 |> 
@@ -408,6 +411,7 @@ ukvote2019 |>
 ---
 
 ```{r 03b-dplyr-basics-26, include = FALSE}
+
 ukvote2019 |> 
   count(constituency, name = "n_cands") |> 
   count(n_cands, name = "n_const")
@@ -431,7 +435,7 @@ class: title title-1
 
 # Comparisons filtering on proportions
 
-Let's say you are working with proportions
+Let's say you are working with proportions ... 
 
 ```{r 03b-dplyr-basics-27, echo = FALSE}
 

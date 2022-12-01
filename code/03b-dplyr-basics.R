@@ -9,7 +9,7 @@ covnat_weekly
 
 ## ----03b-dplyr-basics-4-------------------------------------------------------
 covnat_weekly |> 
-  filter(iso3 == "USA") |> 
+  filter(iso3 == "FRA") |> 
   select(date, cname, iso3, cases) |> 
   mutate(cumulative = cumsum(cases)) 
 
@@ -18,7 +18,7 @@ covnat_weekly |>
 ## ----03b-dplyr-basics-5-------------------------------------------------------
 covnat_weekly |> 
   select(date, cname, iso3, deaths) |> 
-  filter(iso3 == "USA") |> 
+  filter(iso3 == "FRA") |> 
   filter(cume_dist(desc(deaths)) < 0.1) # i.e. Top 10%
 
 
@@ -184,6 +184,7 @@ ukvote2019 |>
 
 
 ## ----03b-dplyr-basics-26, include = FALSE-------------------------------------
+
 ukvote2019 |> 
   count(constituency, name = "n_cands") |> 
   count(n_cands, name = "n_const")
