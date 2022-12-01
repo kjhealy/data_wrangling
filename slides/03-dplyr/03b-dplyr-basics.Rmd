@@ -393,10 +393,32 @@ ukvote2019 |>
 
 - How many constituencies are there?
 
+.pull-left[
+
 ```{r 03b-dplyr-basics-24}
 ukvote2019 |> 
   count(constituency) 
 ```
+
+]
+
+--
+
+.pull-right[
+```{r}
+ukvote2019 |> 
+  distinct(constituency) |> 
+  count()
+```
+
+
+
+
+```{r}
+# Base R style ...
+length(unique(ukvote2019$constituency))
+```
+]
 
 ---
 
