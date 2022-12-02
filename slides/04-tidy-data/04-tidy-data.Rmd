@@ -452,7 +452,7 @@ dfstrat <- add_column(dfstrat, income)
 
 ```{r 04-tidy-data-19 }
 # Some made-up data
-dfstrat <- read_csv(here::here("data", "dfstrat.csv"))
+dfstrat 
 ```
 
 ???
@@ -462,7 +462,6 @@ Let’s say we want to transform this to a wider format, specifically by widenin
 ---
 
 ```{r 04-tidy-data-20, include = FALSE}
-dfstrat <- read_csv(here::here("data", "dfstrat.csv"), show_col_types = FALSE)
 dfstrat |>
     group_by(sex, race, stratum, educ) |> 
     summarize(mean_inc = mean(income),
@@ -501,7 +500,6 @@ df
 ---
 
 ```{r 04-tidy-data-22, include=FALSE}
-df <- read_csv(here::here("data", "wolfe.csv"), show_col_types = FALSE)
 df |> 
   separate(name, into = c("first", "last")) |> 
   unite("full_name", first:last, sep = " ") |> 
@@ -515,7 +513,6 @@ df |>
 ---
 
 ```{r 04-tidy-data-23, include=FALSE}
-df <- read_csv(here::here("data", "wolfe.csv"), show_col_types = FALSE)
 df |> 
   separate(name, into = c("first", "last")) |> 
   unite("full_name", first:last) |> 
