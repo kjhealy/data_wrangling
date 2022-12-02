@@ -443,10 +443,18 @@ ukvote2019 |>
 
 ---
 
-layout: false
-class: center
+class: center middle main-title section-title-1
 
-# .middle.squish4.large[Two dplyr .kjh-red[gotchas]]
+# Recapping Yesterday and Looking Ahead
+
+.class-info[
+
+**Data Wrangling**
+
+.light[Kieran Healy<br>
+Statistical Horizons, December 2022]
+
+]
 
 ---
 
@@ -455,7 +463,77 @@ class: title title-1
 
 ---
 
-# Comparisons filtering on proportions
+# Recapping and Looking Ahead 
+
+##  Coding as gardening
+
+## Working in RStudio with RMarkdown documents
+
+## Core .kjh-orange[`dplyr`] verbs
+
+- Subset your table: .kjh-green[`filter()`] rows, .kjh-green[`select()`] columns
+- Logically .kjh-green[`group_by()`] one or more columns
+- Add columns with .kjh-green[`mutate()`]
+- Summarize (by group, or the whole table) with .kjh-green[`summarize()`]
+
+
+---
+
+# Recapping and Looking Ahead 
+
+## Expand your .kjh-orange[`dplyr`] actions
+
+.pull-left.w90[
+- Count up rows with .kjh-green[`n()`], .kjh-green[`tally()`] or .kjh-green[`count()`]
+
+- Calculate quantities with .kjh-green[`sum()`], .kjh-green[`mean()`], .kjh-green[`min()`], etc
+
+- Subset rows with logical expressions or .kjh-green[`slice`] functions
+
+- Conditionally select columns by name directly, with .kjh-green[`%in%`] or .kjh-green[`%nin%`], or with tidy selectors like .kjh-green[`starts_with()`], .kjh-green[`ends_with()`], .kjh-green[`contains()`]
+
+- Conditionally select columns by _type_ with .kjh-green[`where()`] and some criterion, e.g. .kjh-green[`where(is.numeric)`]
+
+- Conditionally select and then _act_ on columns with .kjh-green[`across(where(`].kjh-orange[`<condition>`].kjh-green[`),`] .kjh-orange[`<action>`].kjh-green[`)`]
+]
+---
+
+---
+
+# Recapping and Looking Ahead 
+
+## Expand your .kjh-orange[`dplyr`] actions
+
+.pull-left.w90[
+
+- Tidy up columns with .kjh-green[`relocate()`] and .kjh-green[`rename()`]
+
+- Tidy up rows with .kjh-green[`arrange()`]
+
+]
+
+---
+
+
+# Recapping and Looking Ahead 
+
+## Today's sessions
+
+---
+
+layout: false
+class: center
+
+# .middle.squish4.huge[Two dplyr .kjh-red[gotchas]]
+
+---
+
+layout: true
+class: title title-1
+
+---
+
+# 1. Comparisons filtering on proportions
 
 Let's say you are working with proportions ... 
 
@@ -475,7 +553,7 @@ df
 
 ---
 
-# Comparisons filtering on proportions
+# 1. Comparisons filtering on proportions
 
 And you want to focus on cases where `prop1` _plus_ `prop2` is greater than 0.3:
 
@@ -494,7 +572,7 @@ This is not dlpyr's fault. It's our floating point friend again.
 
 ---
 
-# Comparisons filtering on proportions
+# 1. Comparisons filtering on proportions
 
 
 ```{r 03b-dplyr-basics-30}
@@ -506,7 +584,7 @@ The row with `id` .kjh-orange[**`A`**] _should_ have been included here!
 
 ---
 
-# Comparisons filtering on proportions
+# 1. Comparisons filtering on proportions
 
 This won't give the right behavior either:
 
@@ -518,7 +596,7 @@ df |>
 
 ---
 
-# Comparisons filtering on proportions
+# 1. Comparisons filtering on proportions
 
 So, beware.
 
@@ -536,7 +614,7 @@ df |>
 
 ---
 
-# .kjh-orange[Zero Counts] in dplyr
+# 2. .kjh-orange[Zero Counts] in dplyr
 
 ```{r 03b-dplyr-basics-34}
 df <- read_csv(here("data", "first_terms.csv"))
@@ -546,7 +624,7 @@ df
 
 ---
 
-#  .kjh-orange[Zero Counts] in dplyr
+# 2. .kjh-orange[Zero Counts] in dplyr
 
 ```{r 03b-dplyr-basics-35, echo = FALSE}
 ## Hex colors for sex
@@ -568,7 +646,7 @@ df |>
 
 ---
 
-#  .kjh-orange[Zero Counts] in dplyr
+# 2. .kjh-orange[Zero Counts] in dplyr
 
 
 ```{r 03b-dplyr-basics-37}
@@ -588,7 +666,7 @@ p_col <- df |>
 
 ---
 
-#  .kjh-orange[Zero Counts] in dplyr
+# 2. .kjh-orange[Zero Counts] in dplyr
 
 ```{r 03b-dplyr-basics-38, fig.height = 6, fig.width=10}
 p_col
@@ -616,7 +694,7 @@ p_line <- df |>
 
 ---
 
-#  .kjh-orange[Zero Counts] in dplyr
+# 2. .kjh-orange[Zero Counts] in dplyr
 
 ```{r 03b-dplyr-basics-40, fig.height = 6, fig.width=9}
 p_line
