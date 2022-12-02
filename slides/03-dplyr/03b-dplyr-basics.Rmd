@@ -469,6 +469,10 @@ class: title title-1
 
 ## Working in RStudio with RMarkdown documents
 
+---
+
+# Recapping and Looking Ahead 
+
 ## Core .kjh-orange[`dplyr`] verbs
 
 - Subset your table: .kjh-green[`filter()`] rows, .kjh-green[`select()`] columns
@@ -498,7 +502,6 @@ class: title title-1
 ]
 ---
 
----
 
 # Recapping and Looking Ahead 
 

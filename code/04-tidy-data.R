@@ -4,21 +4,6 @@ library(tidyverse) # your friend and mine
 library(gapminder) # gapminder data
 
 
-## ----04-tidy-data-4-----------------------------------------------------------
-# Sneak peek
-edu |> 
-  select(year, elem4:coll4)
-
-
-
-## ----04-tidy-data-5-----------------------------------------------------------
-edu |> 
-  select(year, elem4:coll4) |> 
-  rowwise() |> #<<
-  mutate(mean_of_row = mean(c_across(elem4:coll4)))
-
-
-
 ## ----04-tidy-data-6-----------------------------------------------------------
 gapminder
 
@@ -112,11 +97,10 @@ dfstrat <- add_column(dfstrat, income)
 
 ## ----04-tidy-data-19----------------------------------------------------------
 # Some made-up data
-dfstrat <- read_csv(here::here("data", "dfstrat.csv"))
+dfstrat 
 
 
 ## ----04-tidy-data-20, include = FALSE-----------------------------------------
-dfstrat <- read_csv(here::here("data", "dfstrat.csv"), show_col_types = FALSE)
 dfstrat |>
     group_by(sex, race, stratum, educ) |> 
     summarize(mean_inc = mean(income),
@@ -141,7 +125,6 @@ df
 
 
 ## ----04-tidy-data-22, include=FALSE-------------------------------------------
-df <- read_csv(here::here("data", "wolfe.csv"), show_col_types = FALSE)
 df |> 
   separate(name, into = c("first", "last")) |> 
   unite("full_name", first:last, sep = " ") |> 
@@ -151,7 +134,6 @@ df |>
 
 
 ## ----04-tidy-data-23, include=FALSE-------------------------------------------
-df <- read_csv(here::here("data", "wolfe.csv"), show_col_types = FALSE)
 df |> 
   separate(name, into = c("first", "last")) |> 
   unite("full_name", first:last) |> 

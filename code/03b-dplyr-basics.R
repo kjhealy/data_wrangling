@@ -177,6 +177,17 @@ ukvote2019 |>
   count(constituency) 
 
 
+## -----------------------------------------------------------------------------
+ukvote2019 |> 
+  distinct(constituency) |> 
+  count()
+
+
+## -----------------------------------------------------------------------------
+# Base R style ...
+length(unique(ukvote2019$constituency))
+
+
 ## ----03b-dplyr-basics-25------------------------------------------------------
 ukvote2019 |> 
   count(constituency) |> 

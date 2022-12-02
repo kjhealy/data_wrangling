@@ -156,7 +156,6 @@ place_tab <- ukvote2019 |>
 
 
 ## ----05-regular-expressions-27, include=FALSE---------------------------------
-place_tab <- read_csv(here::here("data", "place_tab.csv"), show_col_types = FALSE)
 place_tab |> 
   group_by(party_name, toponym) |> 
   filter(party_name %in% c("Conservative", "Labour")) |> 
