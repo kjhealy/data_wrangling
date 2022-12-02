@@ -105,27 +105,6 @@ Then transform it back to something wider if needed.
 
 As we'll see later, .kjh-orange[`dplyr`] _is_ able to do "rowwise" operations if you need them.
 
---
-
-```{r 04-tidy-data-4 }
-# Sneak peek
-edu |> 
-  select(year, elem4:coll4)
-
-```
-
----
-
-# This isn't an .kjh-lblue[_iron_] rule
-
-```{r 04-tidy-data-5 }
-edu |> 
-  select(year, elem4:coll4) |> 
-  rowwise() |> #<<
-  mutate(mean_of_row = mean(c_across(elem4:coll4)))
-
-```
-
 ---
 
 layout: false
