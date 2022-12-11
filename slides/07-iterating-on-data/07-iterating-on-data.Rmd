@@ -572,7 +572,7 @@ library(lubridate)
 date_recodes <- c("born", "death", "start", "end")
 df <- df |> 
     mutate(across(any_of(date_recodes), mdy), 
-           congress = as.double(congress) + 78)
+           congress = as.integer(congress) + 78)
 
 df 
 
