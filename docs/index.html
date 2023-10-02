@@ -21,7 +21,7 @@ visibility: hidden;
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -94,8 +94,8 @@ code span.wa { color: #5e5e5e; font-style: italic; }
 
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2022-11-16" />
-  <meta property="article:created" itemprop="dateCreated" content="2022-11-16" />
+  <meta property="article:published" itemprop="datePublished" content="2023-10-02" />
+  <meta property="article:created" itemprop="dateCreated" content="2023-10-02" />
   <meta name="article:author" content="Kieran Healy" />
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -113,7 +113,7 @@ code span.wa { color: #5e5e5e; font-style: italic; }
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Data Wrangling with R and the tidyverse"]},{"type":"character","attributes":{},"value":["A Short Course using R and the Tidyverse suite of tools.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Kieran Healy"]},{"type":"character","attributes":{},"value":["https://kieranhealy.org"]}]}]},{"type":"character","attributes":{},"value":["2022-11-16"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Data Wrangling with R and the tidyverse"]},{"type":"character","attributes":{},"value":["A Short Course using R and the Tidyverse suite of tools.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Kieran Healy"]},{"type":"character","attributes":{},"value":["https://kieranhealy.org"]}]}]},{"type":"character","attributes":{},"value":["2023-10-02"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -2340,7 +2340,7 @@ distill-header .nav a {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Data Wrangling with R and the tidyverse","description":"A Short Course using R and the Tidyverse suite of tools.","authors":[{"author":"Kieran Healy","authorURL":"https://kieranhealy.org","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-11-16T00:00:00.000-05:00","citationText":"Healy, 2022"}
+{"title":"Data Wrangling with R and the tidyverse","description":"A Short Course using R and the Tidyverse suite of tools.","authors":[{"author":"Kieran Healy","authorURL":"https://kieranhealy.org","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2023-10-02T00:00:00.000-04:00","citationText":"Healy, 2023"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2359,7 +2359,7 @@ distill-header .nav a {
 <div class="d-byline">
   Kieran Healy <a href="https://kieranhealy.org" class="uri">https://kieranhealy.org</a> 
   
-<br />2022-11-16
+<br />2023-10-02
 </div>
 
 <div class="d-article">
@@ -2373,15 +2373,15 @@ distill-header .nav a {
 <h3 id="install-r-on-your-computer">Install R on your computer</h3>
 <p>Begin by installing R (<a href="http://cloud.r-project.org" class="uri">http://cloud.r-project.org</a>). Choose the version appropriate for your computing platform:</p>
 <ul>
-<li><p>If you use macOS with an Apple Silicon processor (i.e. and M1 or M2 processor), then install <a href="https://cloud.r-project.org/bin/macosx/big-sur-arm64/base/R-4.2.2-arm64.pkg">R for macOS’s Apple Silicon build</a>. This version does not work on older, Intel-based Macs.</p></li>
-<li><p>If you use macOS with an Intel processor, then install <a href="https://cloud.r-project.org/bin/macosx/base/R-4.2.2.pkg">R for macOS’s Intel build</a>.</p></li>
-<li><p>If you use Microsoft Windows, then install <a href="https://cloud.r-project.org/bin/windows/base/R-4.2.2-win.exe">R for Windows</a></p></li>
+<li><p>If you use macOS with an Apple Silicon processor (i.e. and M1 or M2 processor), then install <a href="https://cloud.r-project.org/bin/macosx/big-sur-arm64/base/R-4.3.1-arm64.pkg">R for macOS’s Apple Silicon build</a>. This version does not work on older, Intel-based Macs.</p></li>
+<li><p>If you use macOS with an Intel processor, then install <a href="https://cloud.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.3.1-x86_64.pkg">R for macOS’s Intel build</a>.</p></li>
+<li><p>If you use Microsoft Windows, then install <a href="https://cloud.r-project.org/bin/windows/base/R-4.3.1-win.exe">R for Windows</a></p></li>
 <li><p>If you use Linux, <a href="https://cloud.r-project.org/bin/linux/">choose a distribution</a> and install it.</p></li>
 </ul>
 <h3 id="install-rstudio-on-your-computer">Install RStudio on your computer</h3>
 <ul>
-<li><p>If you use macOS (whether Apple Silicon or Intel), <a href="https://download1.rstudio.org/desktop/macos/RStudio-2022.07.2-576.dmg">install this version of RStudio</a></p></li>
-<li><p>If you use Windows, <a href="https://download1.rstudio.org/desktop/windows/RStudio-2022.07.2-576.exe">install this version of RStudio</a></p></li>
+<li><p>If you use macOS (whether Apple Silicon or Intel), <a href="https://download1.rstudio.org/electron/macos/RStudio-2023.09.0-463.dmg">install this version of RStudio</a></p></li>
+<li><p>If you use Windows, <a href="https://download1.rstudio.org/electron/windows/RStudio-2023.09.0-463.exe">install this version of RStudio</a></p></li>
 <li><p>If you use Linux, <a href="https://posit.co/download/rstudio-desktop/">choose your distribution from the download page</a></p></li>
 </ul>
 <h3 id="installing-some-additional-packages">Installing some additional packages</h3>
@@ -2394,10 +2394,9 @@ distill-header .nav a {
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(my_packages, <span class="at">repos =</span> <span class="st">&quot;http://cran.rstudio.com&quot;</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data_packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;covdata&quot;</span>, <span class="st">&quot;congress&quot;</span>, <span class="st">&quot;nycdogs&quot;</span>, <span class="st">&quot;ukelection2019&quot;</span>, <span class="st">&quot;uscenpops&quot;</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>drat<span class="sc">::</span><span class="fu">addRepo</span>(<span class="st">&quot;kjhealy&quot;</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(data_packages)</span></code></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Be patient!</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>data_packages <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;kjhealy/&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;covdata&quot;</span>, <span class="st">&quot;congress&quot;</span>, <span class="st">&quot;nycdogs&quot;</span>, <span class="st">&quot;ukelection2019&quot;</span>, <span class="st">&quot;uscenpops&quot;</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(data_packages)</span></code></pre></div>
 <p>Installing these packages may take a little time. Once you have completed this step, you’ll be ready to download the course packet and begin.</p>
 <h3 id="optional-step-get-set-up-on-github">Optional step: get set up on GitHub</h3>
 <p>GitHub is a software development platform and service that is widely used by R Developers. You can <a href="https://happygitwithr.com/big-picture.html">read some background on it from an R user’s point of view here</a>.</p>
