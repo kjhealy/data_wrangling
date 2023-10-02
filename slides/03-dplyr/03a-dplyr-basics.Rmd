@@ -25,8 +25,6 @@ kjh_set_xaringan_opts()
 
 ```
 
-
-
 class: center middle main-title section-title-1
 
 # Manipulating Tables with .kjh-yellow[dplyr]
@@ -36,7 +34,7 @@ class: center middle main-title section-title-1
 **Data Wrangling: Session 3**
 
 .light[Kieran Healy<br>
-Statistical Horizons, December 2022]
+Statistical Horizons, October 2023]
 
 ]
 

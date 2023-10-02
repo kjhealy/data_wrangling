@@ -35,7 +35,7 @@ class: center middle main-title section-title-1
 **Data Wrangling: Session 7**
 
 .light[Kieran Healy<br>
-Statistical Horizons, December 2022]
+Statistical Horizons, October 2023]
 
 ]
 
@@ -846,7 +846,7 @@ vis_miss(organdata)
 # A quick plug for .kjh-yellow[naniar] and .kjh-yellow[visdat]
 
 ```{r 07-iterating-on-data-51, fig.height=6, fig.width=8}
-library(congress)
+library(dwcongress)
 gg_miss_upset(congress)
 ```
 

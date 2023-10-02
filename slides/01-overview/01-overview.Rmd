@@ -35,7 +35,7 @@ class: center middle main-title section-title-1
 **Data Wrangling: Session 1**
 
 .light[Kieran Healy<br>
-Statistical Horizons, December 2022]
+Statistical Horizons, October 2023]
 
 ]
 
@@ -52,13 +52,11 @@ class: title title-1
 
 --
 
-## 10am till 12:30pm US EST each Day
+## 10am till 12:30pm US EST each day
 
 --
 
-## 1:30pm to 4:00pm US EST on Day 1
-
-## 1:30pm to 3:30pm US EST Days 2 and 3
+## 1:30pm to 3:30pm US EST each day
 
 --
 

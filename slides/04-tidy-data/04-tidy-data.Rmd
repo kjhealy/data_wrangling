@@ -35,7 +35,7 @@ class: center middle main-title section-title-1
 **Data Wrangling: Session 4**
 
 .light[Kieran Healy<br>
-Statistical Horizons, December 2022]
+Statistical Horizons, October 2023]
 
 ]
 
@@ -448,10 +448,12 @@ vars <- list(stratum = c(1:8),
 
 dfstrat <- as_tibble(map_dfc(vars, gen_cats))
 dfstrat <- add_column(dfstrat, income)
+write_csv(dfstrat, here::here("data", "dfstrat.csv"))
 ```
 
 ```{r 04-tidy-data-19 }
 # Some made-up data
+dfstrat <- read_csv(here::here("data", "dfstrat.csv"))
 dfstrat 
 ```
 
@@ -462,6 +464,7 @@ Let’s say we want to transform this to a wider format, specifically by widenin
 ---
 
 ```{r 04-tidy-data-20, include = FALSE}
+dfstrat <- read_csv(here::here("data", "dfstrat.csv"))
 dfstrat |>
     group_by(sex, race, stratum, educ) |> 
     summarize(mean_inc = mean(income),
