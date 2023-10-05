@@ -342,7 +342,7 @@ filenames[1:15] # Just displaying the first 15, to save slide space
 ```{r 07-iterating-on-data-18 }
 df <- filenames |> 
   map(read_csv) |> #<<
-  list_rbind(names_to = "congress")
+  list_rbind(names_to = "congress") |> 
   janitor::clean_names()
 
 df
@@ -462,7 +462,7 @@ df <- 2005:2019 |>
                    state = "NY",
                    survey = "acs1",
                    year = x)) |> 
-  list_rbind(names_to = "year") |>
+  list_rbind(names_to = "year") 
 ```
 
 ```{r 07-iterating-on-data-28}
