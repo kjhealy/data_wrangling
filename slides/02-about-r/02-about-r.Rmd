@@ -1410,7 +1410,9 @@ Note that you get a _warning_ here. It'll still do it, though! Don't ignore warn
 
 --- 
 
-# 7. .kjh-yellow[R will be] .kjh-red[frustrating]
+---
+
+# 7. R will be .kjh-red[frustrating]
 
 --
 
