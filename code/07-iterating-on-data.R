@@ -101,7 +101,8 @@ filenames[1:15] # Just displaying the first 15, to save slide space
 
 ## ----07-iterating-on-data-18--------------------------------------------------
 df <- filenames |> 
-  map_dfr(read_csv, .id = "congress") |> #<<
+  map(read_csv) |> #<<
+  list_rbind(names_to = "congress") |> 
   janitor::clean_names()
 
 df
@@ -166,13 +167,12 @@ c(1:10) |>
 
 ## ----07-iterating-on-data-27, message=FALSE, results='hide'-------------------
 df <- 2005:2019 |> 
-  map_dfr(~ get_acs(geography = "county", 
-                    variables = "B19013_001",
-                    state = "NY", 
-                    county = "New York", 
-                    survey = "acs1",
-                    year = .x), 
-        .id = "id")
+  map(\(x) get_acs(geography = "county",
+                   variables = "B19013_001",
+                   state = "NY",
+                   survey = "acs1",
+                   year = x)) |> 
+  list_rbind(names_to = "year") 
 
 
 ## ----07-iterating-on-data-28--------------------------------------------------
@@ -182,13 +182,12 @@ df
 ## ----07-iterating-on-data-29, message=FALSE, results='hide'-------------------
 df <- 2005:2019 |> 
   set_names() |> 
-  map_dfr(~ get_acs(geography = "county", 
-                    variables = "B19013_001",
-                    state = "NY", 
-                    county = "New York", 
-                    survey = "acs1",
-                    year = .x), 
-        .id = "year") |> 
+  map(\(x) get_acs(geography = "county",
+                   variables = "B19013_001",
+                   state = "NY",
+                   survey = "acs1",
+                   year = x)) |> 
+  list_rbind(names_to = "year") |>
   mutate(year = as.integer(year))
 
 
@@ -197,17 +196,22 @@ df
 
 
 ## ----07-iterating-on-data-31, message=FALSE, results='hide'-------------------
-p_out <- 2005:2019 |> 
-  set_names() |> 
-  map_dfr(~ get_acs(geography = "county", variables = "B19013_001",
-                    state = "NY", survey = "acs1", year = .x), .id = "year") |> 
-  mutate(year = as.integer(year)) |> 
-  ggplot(mapping = aes(x = year, y = estimate, group = year)) + 
-  geom_boxplot(fill = "lightblue", alpha = 0.5, outlier.alpha = 0) + 
+p_out <- 2005:2019 |>
+  set_names() |>
+  map(\(x) get_acs(geography = "county",
+                   variables = "B19013_001",
+                   state = "NY",
+                   survey = "acs1",
+                   year = x)) |>
+  list_rbind(names_to = "year") |>
+  mutate(year = as.integer(year)) |>
+  ggplot(mapping = aes(x = year, y = estimate, group = year)) +
+  geom_boxplot(fill = "lightblue", alpha = 0.5, outlier.alpha = 0) +
   geom_jitter(position = position_jitter(width = 0.1), shape = 1) +
-  scale_y_continuous(labels = scales::label_dollar()) + labs(x = "Year", y = "Dollars", 
-  title = "Median Household Income by County in New York State, 2005-2019", 
-  subtitle = "ACS 1-year estimates", caption = "Data: U.S. Census Bureau.") 
+  scale_y_continuous(labels = scales::label_dollar()) +
+  labs(x = "Year", y = "Dollars",
+       title = "Median Household Income by County in New York State, 2005-2019",
+       subtitle = "ACS 1-year estimates", caption = "Data: U.S. Census Bureau.") 
 
 
 
@@ -217,7 +221,8 @@ print(p_out)
 
 ## ----07-iterating-on-data-33--------------------------------------------------
 df <- filenames |> 
-  map_dfr(read_csv, .id = "congress") |> #<<
+  map(read_csv) |> #<<
+  list_rbind(names_to = "congress") |> 
   janitor::clean_names()
 
 df |> 
@@ -340,7 +345,7 @@ vis_miss(organdata)
 
 
 ## ----07-iterating-on-data-51, fig.height=6, fig.width=8-----------------------
-library(congress)
+library(dwcongress)
 gg_miss_upset(congress)
 
 

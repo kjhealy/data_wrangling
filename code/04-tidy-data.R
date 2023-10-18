@@ -93,14 +93,17 @@ vars <- list(stratum = c(1:8),
 
 dfstrat <- as_tibble(map_dfc(vars, gen_cats))
 dfstrat <- add_column(dfstrat, income)
+write_csv(dfstrat, here::here("data", "dfstrat.csv"))
 
 
 ## ----04-tidy-data-19----------------------------------------------------------
 # Some made-up data
+dfstrat <- read_csv(here::here("data", "dfstrat.csv"))
 dfstrat 
 
 
 ## ----04-tidy-data-20, include = FALSE-----------------------------------------
+dfstrat <- read_csv(here::here("data", "dfstrat.csv"))
 dfstrat |>
     group_by(sex, race, stratum, educ) |> 
     summarize(mean_inc = mean(income),
