@@ -94,8 +94,8 @@ code span.wa { color: #5e5e5e; font-style: italic; }
 
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2023-10-02" />
-  <meta property="article:created" itemprop="dateCreated" content="2023-10-02" />
+  <meta property="article:published" itemprop="datePublished" content="2023-10-18" />
+  <meta property="article:created" itemprop="dateCreated" content="2023-10-18" />
   <meta name="article:author" content="Kieran Healy" />
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -113,7 +113,7 @@ code span.wa { color: #5e5e5e; font-style: italic; }
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Data Wrangling with R and the tidyverse"]},{"type":"character","attributes":{},"value":["A Short Course using R and the Tidyverse suite of tools.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Kieran Healy"]},{"type":"character","attributes":{},"value":["https://kieranhealy.org"]}]}]},{"type":"character","attributes":{},"value":["2023-10-02"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Data Wrangling with R and the tidyverse"]},{"type":"character","attributes":{},"value":["A Short Course using R and the Tidyverse suite of tools.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Kieran Healy"]},{"type":"character","attributes":{},"value":["https://kieranhealy.org"]}]}]},{"type":"character","attributes":{},"value":["2023-10-18"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -2340,7 +2340,7 @@ distill-header .nav a {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Data Wrangling with R and the tidyverse","description":"A Short Course using R and the Tidyverse suite of tools.","authors":[{"author":"Kieran Healy","authorURL":"https://kieranhealy.org","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2023-10-02T00:00:00.000-04:00","citationText":"Healy, 2023"}
+{"title":"Data Wrangling with R and the tidyverse","description":"A Short Course using R and the Tidyverse suite of tools.","authors":[{"author":"Kieran Healy","authorURL":"https://kieranhealy.org","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2023-10-18T00:00:00.000-04:00","citationText":"Healy, 2023"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2359,7 +2359,7 @@ distill-header .nav a {
 <div class="d-byline">
   Kieran Healy <a href="https://kieranhealy.org" class="uri">https://kieranhealy.org</a> 
   
-<br />2023-10-02
+<br />2023-10-18
 </div>
 
 <div class="d-article">
@@ -2389,7 +2389,7 @@ distill-header .nav a {
 <li>Once R and RStudio are installed, launch RStudio. Either carefully type in or copy-and-paste the following lines of code at R’s command prompt, located in the RStudio window named “Console”, and then hit return. In the code below, the <code>&lt;-</code> arrow is made up of two keystrokes, first <code>&lt;</code> and then the short dash or minus symbol, <code>-</code>.</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>my_packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;babynames&quot;</span>, <span class="st">&quot;broom&quot;</span>, <span class="st">&quot;drat&quot;</span>, <span class="st">&quot;gapminder&quot;</span>,  </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&quot;here&quot;</span>, <span class="st">&quot;janitor&quot;</span>, <span class="st">&quot;naniar&quot;</span>, <span class="st">&quot;palmerpenguins&quot;</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&quot;here&quot;</span>, <span class="st">&quot;janitor&quot;</span>, <span class="st">&quot;naniar&quot;</span>, <span class="st">&quot;palmerpenguins&quot;</span>, <span class="st">&quot;remotes&quot;</span>,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&quot;skimr&quot;</span>, <span class="st">&quot;slider&quot;</span>, <span class="st">&quot;socviz&quot;</span>, <span class="st">&quot;usethis&quot;</span>, <span class="st">&quot;visdat&quot;</span>, <span class="st">&quot;reprex&quot;</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(my_packages, <span class="at">repos =</span> <span class="st">&quot;http://cran.rstudio.com&quot;</span>)</span>
