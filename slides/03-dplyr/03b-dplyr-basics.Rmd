@@ -525,6 +525,82 @@ class: title title-1
 
 ---
 
+# A dplyr shortcut
+
+So far we have been writing, e.g.,
+
+```{r 03b-dplyr-basics-by-1}
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  summarize(total = n())
+```
+
+
+---
+
+# A dplyr shortcut
+
+Or
+
+```{r 03b-dplyr-basics-by-2}
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  tally()
+```
+
+---
+
+# A dplyr shortcut
+
+Or
+
+```{r 03b-dplyr-basics-by-3}
+gss_sm |> 
+  count(bigregion, religion) 
+```
+
+With this last one the final result is _ungrouped_, no matter how many levels of grouping there are going in.
+
+---
+
+# A dplyr shortcut
+
+But we can also write this:
+
+```{r 03b-dplyr-basics-by-4}
+gss_sm |> 
+  summarize(total = n(), .by = c(bigregion, religion))
+```
+
+Notice that by default the result is an _ungrouped_ tibble, whereas with `group_by()` ... `summarize()` the result would still be grouped by `bigregion` at the end. To prevent unexpected results, you can't use `.by` on tibble that's already grouped.
+
+
+---
+
+# The data is implicitly the first argument
+
+This code:
+
+```{r 03b-dplyr-basics-by-5}
+gss_sm |> 
+  summarize(total = n(), .by = c(bigregion, religion))
+```
+
+
+---
+
+# The data is implicitly the first argument
+
+... is also equivalent to this:
+
+```{r 03b-dplyr-basics-by-6}
+summarize(gss_sm, total = n(), .by = c(bigregion, religion))
+```
+
+This is true of Tidyverse pipelines in general. Let's look at the help for `summarize()` to see why. 
+
+---
+
 layout: false
 class: center
 

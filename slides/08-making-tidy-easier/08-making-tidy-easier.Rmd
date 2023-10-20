@@ -1,5 +1,5 @@
 ---
-title: "Datﬁa Wrangling - 8. Making tidy easier"
+title: "Data Wrangling - 8. Making tidy easier"
 author: "Kieran Healy"
 date: "`r Sys.Date()`"
 output: kjhslides::kjh_slides_reader

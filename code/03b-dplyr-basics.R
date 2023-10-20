@@ -18,7 +18,6 @@ covnat_weekly |>
 
 ## ----03b-dplyr-basics-5-------------------------------------------------------
 covnat_weekly |> 
-  
   select(date, cname, iso3, deaths) |> 
   filter(iso3 == "FRA") |> 
   filter(cume_dist(desc(deaths)) < 0.1) # i.e. Top 10%
@@ -201,6 +200,37 @@ ukvote2019 |>
 ukvote2019 |> 
   count(constituency, name = "n_cands") |> 
   count(n_cands, name = "n_const")
+
+
+## ----03b-dplyr-basics-by-1----------------------------------------------------
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  summarize(total = n())
+
+
+## ----03b-dplyr-basics-by-2----------------------------------------------------
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  tally()
+
+
+## ----03b-dplyr-basics-by-3----------------------------------------------------
+gss_sm |> 
+  count(bigregion, religion) 
+
+
+## ----03b-dplyr-basics-by-4----------------------------------------------------
+gss_sm |> 
+  summarize(total = n(), .by = c(bigregion, religion))
+
+
+## ----03b-dplyr-basics-by-5----------------------------------------------------
+gss_sm |> 
+  summarize(total = n(), .by = c(bigregion, religion))
+
+
+## ----03b-dplyr-basics-by-6----------------------------------------------------
+summarize(gss_sm, total = n(), .by = c(bigregion, religion))
 
 
 ## ----03b-dplyr-basics-27, echo = FALSE----------------------------------------
