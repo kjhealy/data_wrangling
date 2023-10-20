@@ -100,7 +100,6 @@ covnat_weekly |>
 
 ```{r 03b-dplyr-basics-5 }
 covnat_weekly |> 
-  
   select(date, cname, iso3, deaths) |> 
   filter(iso3 == "FRA") |> 
   filter(cume_dist(desc(deaths)) < 0.1) # i.e. Top 10%
