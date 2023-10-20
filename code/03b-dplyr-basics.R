@@ -11,12 +11,14 @@ covnat_weekly
 covnat_weekly |> 
   filter(iso3 == "FRA") |> 
   select(date, cname, iso3, cases) |> 
-  mutate(cumulative = cumsum(cases)) 
+  mutate(cases = ifelse(is.na(cases), 0, cases), # convert NA vals in `cases` to 0
+         cumulative = cumsum(cases)) 
 
 
 
 ## ----03b-dplyr-basics-5-------------------------------------------------------
 covnat_weekly |> 
+  
   select(date, cname, iso3, deaths) |> 
   filter(iso3 == "FRA") |> 
   filter(cume_dist(desc(deaths)) < 0.1) # i.e. Top 10%

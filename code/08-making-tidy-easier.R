@@ -34,25 +34,23 @@ trial
 ## ----08-making-tidy-easier-7, eval = FALSE------------------------------------
 ## trial |>
 ##   tbl_summary(
+##     include = c(age, grade, response),
 ##     by = trt, # split table by group
 ##     missing = "no" # don't list missing data separately
 ##   ) |>
 ##   add_n() |> # add column with total number of non-missing observations
-##   add_p() |> # test for a difference between groups
-##   modify_header(label = "**Variable**") |> # update the column header
-##   bold_labels()
+##   add_p()
 
 
 ## ----08-making-tidy-easier-8, echo = FALSE------------------------------------
 trial |> 
   tbl_summary(
+    include = c(age, grade, response),
     by = trt, # split table by group
     missing = "no" # don't list missing data separately
   ) |>
   add_n() |> # add column with total number of non-missing observations
-  add_p() |> # test for a difference between groups
-  modify_header(label = "**Variable**") |> # update the column header
-  bold_labels()
+  add_p() 
 
 
 ## ----08-making-tidy-easier-9, eval = FALSE------------------------------------
@@ -63,8 +61,6 @@ trial |>
 ##     by = race, # split table by group
 ##     missing = "no" # don't list missing data separately
 ##   ) |>
-##   add_n() |> # add column with total number of non-missing observations
-## #  modify_header(label = "**Variable**") |> # update the column header
 ##   bold_labels()
 
 
@@ -76,8 +72,6 @@ gss_sm |>
     by = race, # split table by group
     missing = "no" # don't list missing data separately
   ) |>
-  add_n() |> # add column with total number of non-missing observations
-  modify_header(label = "**Variable**") |> # update the column header
   bold_labels()
 
 
@@ -91,8 +85,7 @@ gss_sm |>
 ##                                      "{mean} ({sd})",
 ##                                      "{median} ({p25}, {p75})",
 ##                                      "{min}, {max}"),
-##     missing = "no"
-##   ) |>
+##     missing = "no") |>
 ##   italicize_levels()
 
 
