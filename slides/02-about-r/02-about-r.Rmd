@@ -21,7 +21,6 @@ library(kjhslides)
 kjh_register_tenso()
 kjh_set_knitr_opts()
 kjh_set_slide_theme()
-kjh_set_xaringan_opts()
 
 ```
 

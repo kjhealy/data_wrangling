@@ -1,6 +1,6 @@
 ---
-title: "Data Wrangling - 1. Overview"
-subtitle: "Statistical Horizons, October 2023"
+title: "Overview"
+subtitle: "Data Wrangling, Session 1"
 format: kjhslides-revealjs
 engine: knitr
 filters: 
@@ -8,7 +8,7 @@ filters:
   - include-code-files
 author:
   - name: Kieran Healy
-    email: kieran.healy@duke.edu
+    affiliation: "Code Horizons"
 date: last-modified
 ---
 

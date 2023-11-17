@@ -1,0 +1,1429 @@
+---
+title: "Finding your way in R"
+subtitle: "Data Wrangling, Session 2"
+format: kjhslides-revealjs
+engine: knitr
+filters: 
+  - invert-h1
+  - line-highlight
+  - include-code-files
+author:
+  - name: Kieran Healy
+    affiliation: "Code Horizons"
+date: last-modified
+---
+
+
+```{r}
+#| label = "packages",
+#| include = FALSE
+library(flipbookr)
+library(here)
+library(tidyverse)
+library(kjhslides)
+```
+
+
+```{r}
+#| label = "setup",
+#| include = FALSE
+
+kjh_register_tenso()
+kjh_set_knitr_opts()
+kjh_set_slide_theme()
+
+```
+
+# Writing documents
+
+:::{.huge}
+ Using Quarto to [produce]{.fg-orange} and [reproduce]{.fg-green} your work 
+:::
+ 
+---
+
+## Where we want to end up
+
+![PDF out](img/lorem-covid-latex.png){fig-align="center" width=90%}  
+
+---
+
+## Where we want to end up
+
+![HTML out](img/lorem-covid-html.png){fig-align="center" width=45%}  
+
+---
+
+
+## Where we want to end up
+
+![Word out](img/lorem-covid-word.png){fig-align="center" width=100%}  
+
+---
+
+## How to get there?
+
+:::: {.columns}
+::: {.column width="50%"}
+  ![](img/covid-r-script.png){fig-align="center"} 
+:::
+
+::: {.column width="50%" .right}
+- Write an R script with some notes inside. Create some figures and tables, paste them into our document.
+- This will work, but we can do better.
+:::
+::::
+
+
+## We can make this ...
+
+
+:::: {.columns}
+::: {.column width="50%"}
+  ![](img/lorem-ipsum-goal.png){}  
+:::
+
+::: {.column width="50%" .right}
+  
+:::
+::::
+
+
+## ... by writing this
+
+:::: {.columns}
+::: {.column width="50%"}
+  ![](img/lorem-ipsum-goal.png){}  
+:::
+
+::: {.column width="50%" .right}
+![](img/lorem-ipsum-raw.png){}    
+:::
+::::
+
+
+## The code gets replaced by its output
+
+:::: {.columns}
+::: {.column width="50%"}
+![](img/lorem-ipsum-raw.png){}
+:::
+
+::: {.column width="50%" .right}
+![](img/lorem-ipsum-goal.png){}  
+:::
+::::
+
+---
+
+![](img/lorem-covid-markdown.png){fig-align="center" width=90%}  
+
+---
+
+![](img/lorem-covid-markdown-annotated.png){fig-align="center" width=90%}  
+
+---
+
+:::: {.columns}
+::: {.column width="60%"}
+![](img/lorem-covid-html-full.png){width=70%}    
+:::
+
+::: {.column width="40%" .right}
+  - This approach has its limitations, but it's _very_ useful.
+:::
+::::
+
+
+---
+
+:::: {.columns}
+::: {.column width="40%"}
+  ![](img/knit-rmd-tall.png){width=70%}
+:::
+
+::: {.column width="60%" .right}
+- When learning these workflows, stick with the defaults at the beginning. Later, you can customize the look of the output in all kinds of ways.
+:::
+::::
+  
+
+## The right frame of mind
+
+- This is like learning how to drive a car, or how to cook in a kitchen ... or learning to speak a language.
+- After some orientation to what's where, you will learn best by _doing_.
+- Software is a pain, but you won't crash the car or burn your house down. 
+
+
+::: {.notes}
+- Don't be afraid of the IDE or code. Expect to be frustrated, and don't be surprised when things go wrong. Things will go wrong _constantly_. The software is a very powerful, very obedient, and _very_ dumb robot.
+- But every time things "don't work", and every time you diagnose and fix them, you will become a little more adept at noticing and fixing these errors. And you will start to accumulate practical knowledge of common failures.
+- So be like Jacques and keep at it.
+:::
+
+---
+
+:::{.huge}
+TYPE OUT<br />YOUR CODE<br />[BY HAND]{.fg-orange} 
+:::
+
+
+::: aside
+_By far_ the best way to get a feel for how R works, and to get comfortable with the cycle of try-fail-cry-fix-wail-retry that is a permanent part of writing any code.  
+:::
+
+---
+
+![Samuel Beckett](img/beckett-fail-better.png){fig-align="center" width=90%}
+
+# Getting O[r]{.fg-green}iented
+
+
+## Loading the tidyverse libraries
+
+```{.r}
+library(tidyverse)
+```
+
+```{.cell-output}
+── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.3     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package to force all conflicts to become errors
+```
+
+The tidyverse has several components. 
+
+We'll return to this message about Conflicts later.
+
+
+## Tidyverse components
+
+:::: {.columns}
+::: {.column width="55%"}
+  - [**`library`**]{.fg-green}`(tidyverse)`
+- `Loading tidyverse: ggplot2`
+- `Loading tidyverse: tibble`
+- `Loading tidyverse: tidyr`
+- `Loading tidyverse: readr`
+- `Loading tidyverse: purrr`
+- `Loading tidyverse: dplyr`
+:::
+
+::: {.column width="45%" .left}
+  - Call the package and ...
+- `<|` **Draw graphs**
+- `<|` **Nicer data tables**
+- `<|` **Tidy your data**
+- `<|` **Get data into R**
+- `<|` **Fancy Iteration**
+- `<|` **Action verbs for tables**
+:::
+::::
+
+
+## What R looks like
+
+
+Code you can type and run:
+
+
+```{r }
+#| label = "02-about-r-3"
+## Inside code chunks, lines beginning with a # character are comments
+## Comments are ignored by R
+
+my_numbers <- c(1, 1, 2, 4, 1, 3, 1, 5) # Anything after a # character is ignored as well
+
+```
+
+
+Output:
+
+```{r }
+#| label = "02-about-r-4"
+my_numbers 
+```
+
+This is equivalent to running the code above, typing `my_numbers` at the console, and hitting enter.
+
+## What R looks like
+
+By convention, code output in documents is prefixed by `##`
+
+
+Also by convention, outputting vectors, etc, gets a counter keeping track of the number of elements. For example,
+
+
+```{r }
+#| label = "02-about-r-6"
+letters
+```
+
+---
+
+:::{.huge}
+SOME THINGS<br />TO KNOW<br />ABOUT [R]{.fg-green}  
+:::
+
+## 0. [It's a calculator]{.fg-yellow}
+
+:::: {.columns}
+::: {.column width="50%"}
+  - Arithmetic
+
+```{r }
+#| label = "02-about-r-7"
+(31 * 12) / 2^4
+```
+
+```{r }
+#| label = "02-about-r-8"
+sqrt(25)
+```
+
+```{r }
+#| label = "02-about-r-9"
+log(100)
+
+log10(100)
+
+```
+
+:::
+
+::: {.column width="50%" .right}
+
+:::
+::::
+
+
+
+## 0. [It's a calculator]{.fg-yellow}
+
+:::: {.columns}
+::: {.column width="50%"}
+  - Arithmetic
+
+```{r }
+#| label = "02-about-r-7a"
+(31 * 12) / 2^4
+```
+
+```{r }
+#| label = "02-about-r-8a"
+sqrt(25)
+```
+
+```{r }
+#| label = "02-about-r-9a"
+log(100)
+
+log10(100)
+
+```
+
+:::
+
+::: {.column width="50%" .right}
+ - Logic
+
+```{r }
+#| label = "02-about-r-10"
+4 < 10
+4 > 2 & 1 > 0.5 # The "&" means "and"
+4 < 2 | 1 > 0.5 # The "|" means "or"
+4 < 2 | 1 < 0.5
+```
+
+:::
+::::
+
+
+## Boolean and Logical operators
+
+Logical equality and inequality (yielding a [`TRUE`]{.fg-green} or [`FALSE`]{.fg-red} result) is done with `==` and `!=`. Other logical operators include `<`, `>`, `<=`, `>=`, and `!` for negation.
+
+
+```{r }
+#| label = "02-about-r-11"
+## A logical test
+2 == 2 # Write `=` twice
+```
+
+```{r}
+#| label = "02-about-r-12",
+#| eval = FALSE
+## This will cause an error, because R will think you are trying to assign a value
+2 = 2
+
+## Error in 2 = 2 : invalid (do_set) left-hand side to assignment
+```
+
+```{r }
+#| label = "02-about-r-13"
+3 != 7 # Write `!` and then `=` to make `!=`
+```
+
+## [Watch out!]{.fg-red}
+
+Here's a gotcha. You might think you could write `3 < 5 & 7` and have it be interpreted as "Three is less than five and also less than seven [True or False?]":
+
+
+```{r }
+#| label = "02-about-r-14"
+3 < 5 & 7
+```
+
+
+It seems to work!
+
+## [Watch out!]{.fg-red}
+
+But now try `3 < 5 & 1`, where your intention is "Three is less than five and also less than one [True or False?]"
+
+
+```{r }
+#| label = "02-about-r-15"
+3 < 5 & 1
+```
+
+- What's happening is that `3 < 5` is evaluated first, and resolves to [TRUE]{.fg-green}, leaving us with the expression [`TRUE`]{.fg-green} `& 1`. 
+- R interprets this as [`TRUE`]{.fg-green} `& as.logical(1)`. 
+- In Boolean algebra, `1` resolves to  [`TRUE`]{.fg-green}. Any other number is [`FALSE`]{.fg-red}. So,
+
+## [Watch out!]{.fg-red}
+
+```{r }
+#| label = "02-about-r-16"
+TRUE & as.logical(1)
+```
+
+```{r }
+#| label = "02-about-r-17"
+3 < 5 & 3 < 1
+```
+
+- You have to make your comparisons explicit.
+
+## Logic and floating point arithmetic
+
+Let's evaluate `0.6 + 0.2 == 0.8`
+
+
+## Logic and floating point arithmetic
+
+Let's evaluate `0.6 + 0.2 == 0.8`
+
+```{r }
+#| label = "02-about-r-18"
+0.6 + 0.2 == 0.8
+```
+
+## Logic and floating point arithmetic
+
+Let's evaluate `0.6 + 0.2 == 0.8`
+
+```{r }
+#| label = "02-about-r-18a"
+0.6 + 0.2 == 0.8
+```
+
+Now let's try `0.6 + 0.3 == 0.9`
+
+## Logic and floating point arithmetic
+
+Let's evaluate `0.6 + 0.2 == 0.8`
+
+```{r }
+#| label = "02-about-r-18b"
+0.6 + 0.2 == 0.8
+```
+
+Now let's try `0.6 + 0.3 == 0.9`
+
+```{r }
+#| label = "02-about-r-19"
+0.6 + 0.3 == 0.9
+```
+
+Er. That's not right.
+
+## Welcome to floating point math!
+
+:::: {.columns}
+::: {.column width="70%"}
+  In Base 10, you can't precisely express fractions like $\frac{1}{3}$ and $\frac{1}{9}$. They come out as repeating decimals: 0.3333... or 0.1111... You _can_ cleanly represent fractions that use a prime factor of the base, which in the case of Base 10 are 2 and 5. 
+:::
+
+::: {.column width="30%" .right}
+  
+:::
+::::
+
+
+## Welcome to floating point math!
+
+:::: {.columns}
+::: {.column width="70%"}
+  In Base 10, you can't precisely express fractions like $\frac{1}{3}$ and $\frac{1}{9}$. They come out as repeating decimals: 0.3333... or 0.1111... You _can_ cleanly represent fractions that use a prime factor of the base, which in the case of Base 10 are 2 and 5. 
+  
+Computers represent numbers as binary (i.e. Base 2) floating-points. In Base 2, the only prime factor is 2. So $\frac{1}{5}$ or $\frac{1}{10}$ in binary would be repeating.  
+:::
+
+::: {.column width="30%" .right}
+  
+:::
+::::
+
+
+## Logic and floating point arithmetic
+
+When you do binary math on repeating numbers and convert back to decimals you get tiny leftovers, and this can mess up _logical_ comparisons of equality. The `all.equal()` function exists for this purpose.
+
+
+```{r }
+#| label = "02-about-r-20"
+print(.1 + .2)
+print(.1 + .2, digits=18)
+
+all.equal(.1 + .2, 0.3)
+```
+
+See e.g. [https://0.30000000000000004.com](https://0.30000000000000004.com) 
+
+---
+
+:::{.huge}
+More later on why this might bite you, and how to deal with it  
+:::
+
+::: aside
+For now, "Be very careful about doing logical comparisons on floating-point numbers" is not a bad rule.  
+:::
+
+
+## 1. [Everything in R has a name]{.fg-yellow}
+
+
+```{r }
+#| label = "02-about-r-21"
+my_numbers # We created this a few minutes ago
+
+letters  # This one is built-in
+
+pi  # Also built-in
+```
+
+## Some names are forbidden
+
+Or it's a _really_ bad idea to try to use them 
+
+
+```{r}
+#| label = "02-about-r-22",
+#| eval = FALSE
+TRUE
+FALSE
+Inf
+NaN 
+NA 
+NULL
+
+for
+if
+while
+break
+function
+```
+
+## 2. [Everything is an object]{.fg-yellow}
+
+There are a few built-in objects:
+
+
+```{r }
+#| label = "02-about-r-23"
+letters
+```
+
+```{r }
+#| label = "02-about-r-24"
+pi
+```
+
+```{r }
+#| label = "02-about-r-25"
+
+LETTERS
+```
+
+## 3. [You can create objects]{.fg-yellow} 
+
+In fact, this is mostly what we will be doing.
+
+Objects are created by [assigning]{.fg-red} a thing to a name:
+
+
+```{r }
+#| label = "02-about-r-26"
+## name... gets ... this stuff
+my_numbers <- c(1, 2, 3, 1, 3, 5, 25, 10)
+
+## name ... gets ... the output of the function `c()`
+your_numbers <- c(5, 31, 71, 1, 3, 21, 6, 52)
+```
+
+The [**`c()`**]{.fg-green} function _combines_ or _concatenates_ things
+
+::: {.notes}
+The core thing we do in R is _create objects_ by _assigning a thing to a name_. That thing is usually the output of some _function_. There are a lot of built-in functions.
+
+We can create an object with the `c()` function and the *assignment operator*, `<-`. The `c()` function concatenates things together.
+:::
+
+## The assignment operator
+
+- The assignment operator performs the action of creating objects
+- Use a keyboard shortcut to write it:
+- Press `option` _and_ `-` on a Mac
+- Press `alt` _and_ `-` on Windows
+
+
+## Assignment with [**`=`**]{.fg-green}
+
+- You can use [**`=`**]{.fg-pink} as well as [**`<-`**]{.fg-pink} for assignment.
+
+
+```{r }
+#| label = "02-about-r-27"
+my_numbers = c(1, 2, 3, 1, 3, 5, 25)
+
+my_numbers
+```
+
+- On the other hand, [**`=`**]{.fg-pink} has a different meaning when used in functions.
+- I'm going to use [**`<-`**]{.fg-pink} for assignment throughout. 
+- Be consistent either way.
+
+
+
+## Assignment with [**`=`**]{.fg-green}
+
+![](img/gordon_assignment.png){width=100% fig-align="center"}
+
+## 4. [Do things to objects with functions]{.fg-yellow}
+
+
+```{r }
+#| label = "02-about-r-28"
+
+## this object... gets ... the output of this function
+my_numbers <- c(1, 2, 3, 1, 3, 5, 25, 10)
+
+your_numbers <- c(5, 31, 71, 1, 3, 21, 6, 52)
+```
+
+```{r }
+#| label = "02-about-r-29"
+my_numbers
+```
+
+## 4. [Do things to objects with functions]{.fg-yellow}
+
+- Functions can be identified by the parentheses after their names.
+
+```{r }
+#| label = "02-about-r-30"
+my_numbers 
+```
+
+
+
+```{r}
+#| label = "02-about-r-31",
+#| eval = FALSE
+## If you run this you'll get an error
+mean()
+```
+
+
+## What functions usually do
+
+- They take [**inputs**]{.fg-pink} to [**arguments**]{.fg-orange}
+- They perform [**actions**]{.fg-red}
+- They produce, or return, [**outputs**]{.fg-green}
+
+
+### mean[(]{.fg-red}[x]{.fg-orange} `=` [my_numbers]{.fg-pink}[)]{.fg-red}
+
+## What functions usually do
+
+- They take [**inputs**]{.fg-pink} to [**arguments**]{.fg-orange}
+- They perform [**actions**]{.fg-red}
+- They produce, or return, [**outputs**]{.fg-green}
+
+
+### mean[(]{.fg-red}[x]{.fg-orange} `=` [my_numbers]{.fg-pink}[)]{.fg-red}
+
+### [1] [6.25]{.fg-green}
+
+## What functions usually do
+
+```{r }
+#| label = "02-about-r-32"
+## Get the mean of what? Of x.
+## You need to tell the function what x is
+mean(x = my_numbers)
+
+mean(x = your_numbers)
+```
+
+## What functions usually do
+
+If you don't _name_ the arguments, R assumes you are providing them in the order the function expects.
+
+
+```{r }
+#| label = "02-about-r-33"
+mean(your_numbers)
+```
+
+
+
+## What functions usually do
+
+What arguments? Which order? Read the function's help page
+
+```{r}
+#| label = "02-about-r-34",
+#| eval = FALSE
+help(mean)
+```
+
+```{r}
+#| label = "02-about-r-35",
+#| eval = FALSE
+## quicker
+?mean
+```
+
+
+- How to read an R help page? 
+
+## What functions usually do
+
+- Arguments often tell the function what to do in specific circumstances
+
+```{r }
+#| label = "02-about-r-36"
+missing_numbers <- c(1:10, NA, 20, 32, 50, 104, 32, 147, 99, NA, 45)
+
+mean(missing_numbers)
+
+mean(missing_numbers, na.rm = TRUE)
+```
+
+Or select from one of several options
+
+
+```{r }
+#| label = "02-about-r-37"
+## Look at ?mean to see what `trim` does
+mean(missing_numbers, na.rm = TRUE, trim = 0.1)
+```
+
+## What functions usually do
+
+
+There are all kinds of functions. They return different things.
+
+```{r }
+#| label = "02-about-r-38"
+summary(my_numbers)
+```
+
+## What functions usually do
+
+You can assign the output of a function to a name, which turns it into an object. (Otherwise it'll send its output to the console.)
+
+
+```{r }
+#| label = "02-about-r-39"
+my_summary <- summary(my_numbers)
+
+my_summary
+```
+
+
+
+## What functions usually do
+
+Objects hang around in your work environment until they are overwritten by you, or are deleted.
+
+```{r}
+#| label = "02-about-r-40",
+#| eval = FALSE
+## rm() function removes objects
+rm(my_summary)
+
+my_summary
+
+## Error: object 'my_summary' not found
+```
+
+## Functions can be [nested]{.fg-yellow}
+
+
+```{r }
+#| label = "02-about-r-41"
+c(1:20)
+```
+
+```{r }
+#| label = "02-about-r-42"
+mean(c(1:20))
+```
+
+```{r }
+#| label = "02-about-r-43"
+summary(mean(c(1:20)))
+```
+
+```{r }
+#| label = "02-about-r-44"
+names(summary(mean(c(1:20))))
+```
+
+```{r }
+#| label = "02-about-r-45"
+length(names(summary(mean(c(1:20)))))
+```
+
+Nested functions are evaluated from the inside out.
+
+
+## Use the pipe operator: [|>]{.fg-green}
+
+Instead of deeply nesting functions in parentheses, we can use the _pipe operator_:
+
+```{r }
+#| label = "02-about-r-46"
+c(1:20) |> mean() |> summary() |> names() |>  length()
+```
+
+Read this operator as "_[**and then**]{.fg-green}_"
+
+## Use the pipe operator: [|>]{.fg-green}
+
+
+Better, vertical space is free in R:
+
+
+```{r }
+#| label = "02-about-r-47"
+c(1:20) |> 
+  mean() |> 
+  summary() |> 
+  names() |> 
+  length()
+```
+
+## Pipelines make code more [readable]{.fg-green}
+
+- Not great, Bob:
+
+:::{.smallcode}
+
+```{.r}
+  serve(stir(pour_in_pan(whisk(crack_eggs(get_from_fridge(eggs), into = "bowl"), len = 40), temp = "med-high")))
+```
+:::
+
+- Notice how the first thing you read is the last operation performed.
+
+## Pipelines make code more [readable]{.fg-green}
+
+- We can use vertical space and indents, but it's really not much better:
+
+```{.r}
+serve(
+  stir(
+    pour_in_pan(
+      whisk(
+        crack_eggs(
+          get_from_fridge(eggs), 
+        into = "bowl"), 
+      len = 40), 
+    temp = "med-high")
+  )
+)
+```
+
+
+## Pipelines make code more [readable]{.fg-green}
+
+- Much nicer:
+
+
+```r
+eggs |> 
+  get_from_fridge() |> 
+  crack_eggs(into = "bowl") |> 
+  whisk(len = 40) |> 
+  pour_in_pan(temp = "med-high") |> 
+  stir() |> 
+  serve()
+
+```
+
+- We'll still use nested parentheses quite a bit, often in the context of a function working inside a pipeline. But it's good not to have too many levels of nesting.
+
+
+## The other pipe: [`%>%`]{.fg-green}
+
+- The Base R pipe operator, [**`|>`**]{.fg-green} is a relatively recent addition to R. 
+- Piping operations were originally introduced in a package called called `magrittr`, where it took the form [**`%>%`**]{.fg-green}
+
+## The other pipe: [`%>%`]{.fg-green}
+
+- The Base R pipe operator, [**`|>`**]{.fg-green} is a relatively recent addition to R. 
+- Piping operations were originally introduced in a package called called `magrittr`, where it took the form [**`%>%`**]{.fg-green}
+- It's been so successful, a version of it has been incorporated into Base R. It _mostly_ but does not _quite_ work the same way as [**`%>%`**]{.fg-green} in every case.
+
+
+## The other pipe: [`%>%`]{.fg-green}
+
+- The Base R pipe operator, [**`|>`**]{.fg-green} is a relatively recent addition to R. 
+- Piping operations were originally introduced in a package called called `magrittr`, where it took the form [**`%>%`**]{.fg-green}
+- It's been so successful, a version of it has been incorporated into Base R. It _mostly_ but does not _quite_ work the same way as [**`%>%`**]{.fg-green} in every case. We'll use the Base R pipe in this course, but you'll see the Magrittr pipe a lot out in the world.
+
+
+::: aside
+With the Base R pipe, you can only pass an object to the _first_ argument in a function. This is fine for most tidyverse pipelines, where the first argument is usually (implicitly) the data. But it does mean that most Base R functions will continue not to be easily piped, as most of them do not follow the convention of passing the current data as the first argument  
+:::
+
+## Functions are bundled into [packages]{.fg-yellow}
+
+
+Packages are loaded into your working environment using the `library()` function:
+
+```{r }
+#| label = "02-about-r-48"
+## A package containing a dataset rather than functions
+library(gapminder)
+
+gapminder
+```
+
+## Functions are bundled into [packages]{.fg-yellow}
+
+You need only _install_ a package once (and occasionally update it):
+
+```{r}
+#| label = "02-about-r-49",
+#| eval = FALSE
+## Do at least once for each package. Once done, not needed each time.
+install.packages("palmerpenguins", repos = "http://cran.rstudio.com")
+
+## Needed sometimes, especially after an R major version upgrade.
+update.packages(repos = "http://cran.rstudio.com")
+
+```
+
+## Functions are bundled into [packages]{.fg-yellow}
+
+But you must _load_ the package in each R session before you can access its contents:
+
+```{r }
+#| label = "02-about-r-50"
+## To load a package, usually at the start of your RMarkdown document or script file
+library(palmerpenguins)
+penguins
+```
+
+
+
+## Grabbing a single function with [`::`]{.fg-yellow}
+
+"Reach in" to an unloaded package and grab a function directly, using `<package>::<function>`
+
+```{r}
+#| label = "02-about-r-51",
+#| message = FALSE,
+#| echo = FALSE
+gtsummary::theme_gtsummary_journal(journal = "jama")
+#gtsummary::theme_gtsummary_compact()
+```
+
+## Grabbing a single function with [`::`]{.fg-yellow}
+
+```{r }
+#| label = "02-about-r-52"
+## A little glimpse of what we'll do soon
+penguins |> 
+  select(species, body_mass_g, sex) |> 
+  gtsummary::tbl_summary(by = species) #<<
+```
+
+
+## Remember those conflicts?
+
+![](img/function-masking.png){with=90%}
+
+- Notice how some functions in different packages have the same names.
+- Related concepts of _namespaces_ and _environments_.
+
+## The scope of names
+ 
+```{r }
+#| label = "02-about-r-53"
+x <- c(1:10)
+y <- c(90:100)
+
+x
+
+y
+```
+
+```{.r}
+mean()
+
+## Error in mean.default() : argument "x" is missing, with no default
+```
+
+## The scope of names
+
+```{r }
+#| label = "02-about-r-54"
+mean(x) # argument names are internal to functions
+
+mean(x = x)
+
+mean(x = y)
+
+x
+
+y
+
+```
+
+## 5. Objects come in [types]{.fg-yellow} and [classes]{.fg-yellow}
+
+I'm going to speak somewhat loosely here for now, and gloss over some distinctions between object classes and data structures, as well as kinds of objects and their attributes.
+
+## 5. Objects come in [types]{.fg-yellow} and [classes]{.fg-yellow}
+
+I'm going to speak somewhat loosely here for now, and gloss over some distinctions between object classes and data structures, as well as kinds of objects and their attributes.
+
+The object inspector in RStudio is your friend.
+
+You can ask an object what it is at the console, too:
+
+```{r }
+#| label = "02-about-r-55"
+class(my_numbers)
+typeof(my_numbers)
+```
+
+
+## 5. Objects come in [types]{.fg-yellow} and [classes]{.fg-yellow}
+
+Objects can have more than one (nested) class:
+
+```{r }
+#| label = "02-about-r-56"
+summary(my_numbers)
+
+my_smry <- summary(my_numbers) # remember, outputs can be assigned to a name, creating an object
+
+class(summary(my_numbers)) # functions can be nested, and are evaluated from the inside out
+
+class(my_smry) # equivalent to the previous line
+```
+
+## 5. Objects come in [types]{.fg-yellow} and [classes]{.fg-yellow}
+
+
+```{r }
+#| label = "02-about-r-57"
+typeof(my_smry)
+attributes(my_smry)
+
+## In this case, the functions extract the corresponding attribute
+class(my_smry)
+names(my_smry)
+```
+
+## Kinds of [vector]{.fg-green}
+
+:::: {.columns}
+::: {.column width="40%"}
+![](img/summary-tree-atomic.png){width=90%}
+
+::::: aside
+Hadley Wickham, _Advanced R_
+:::::
+
+:::
+
+::: {.column width="60%" .right}
+
+:::
+::::
+
+
+## Kinds of [vector]{.fg-green}
+
+:::: {.columns}
+::: {.column width="40%"}
+![](img/summary-tree-atomic.png){width=90%}
+  
+::::: aside
+  Hadley Wickham, _Advanced R_  
+:::::
+
+:::
+
+::: {.column width="60%" .right}
+```{r }
+#| label = "02-about-r-58"
+my_int <- c(1, 3, 5, 6, 10)
+is.integer(my_int)
+is.double(my_int)
+
+my_int <- as.integer(my_int)
+is.integer(my_int)
+
+my_chr <- c("Mary", "had", "a", "little", "lamb")
+is.character(my_chr)
+
+my_lgl <- c(TRUE, FALSE, TRUE)
+is.logical(my_lgl)
+
+```
+
+:::
+::::
+
+## Kinds of [vector]{.fg-green} 
+
+
+:::: {.columns}
+::: {.column width="40%"}
+  ![](img/summary-tree-s3.png)
+:::
+
+::: {.column width="60%" .right}
+
+::::: {.smallcode}
+
+```{r }
+#| label = "02-about-r-59"
+## Factors are for storing undordered or ordered categorical variables
+x <- factor(c("Yes", "No", "No", "Maybe", "Yes", "Yes", "Yes", "No"))
+x
+
+summary(x) # Alphabetical order by default
+
+typeof(x)       # Underneath, a factor is a type of integer ...
+attributes(x)   # ... with labels for its numbers, or "levels" 
+levels(x)
+is.ordered(x)
+
+```
+
+:::::
+
+:::
+::::
+
+
+::: {.notes}
+HW: 
+
+Categorical data, where values come from a fixed set of levels recorded in factor vectors.
+
+Dates (with day resolution), which are recorded in Date vectors.
+
+Date-times (with second or sub-second resolution), which are stored in POSIXct vectors.
+
+Durations, which are stored in difftime vectors.
+
+:::
+
+## Vector types can't be heterogenous 
+
+- Objects can be manually or automatically coerced from one class to another. Take care.
+
+```{r }
+#| label = "02-about-r-60"
+class(my_numbers)
+
+my_new_vector <- c(my_numbers, "Apple")
+
+my_new_vector # vectors are homogeneous/atomic
+
+class(my_new_vector)
+```
+
+## Vector types can't be heterogenous 
+
+- Objects can be manually or automatically coerced from one class to another. Take care.
+
+```{r }
+#| label = "02-about-r-61"
+my_dbl <- c(2.1, 4.77, 30.111, 3.14519)
+is.double(my_dbl)
+
+my_dbl <- as.integer(my_dbl)
+
+my_dbl
+
+```
+
+## A table of data is a kind of [list]{.fg-yellow}
+
+```{r }
+#| label = "02-about-r-62"
+gapminder # tibbles and data frames can contain vectors of different types
+
+class(gapminder)
+typeof(gapminder) # hmm
+
+```
+
+## A table of data is a kind of [list]{.fg-yellow}
+
+- Lists _can_ be heterogenous. Underneath, most complex R objects are some kind of list with different components.
+
+- A _data frame_ is a list of vectors of the same length, where the vectors can be of different types (e.g. numeric, character, logical, etc)
+
+- A _tibble_ is an enhanced data frame 
+
+::: {.notes}
+Tibbles have an enhanced print method, never coerce strings to factors, and provide stricter subsetting methods. (HW)
+
+Again the object inspector is helpful here
+
+:::
+
+## Some classes are versions of others
+
+
+:::: {.columns}
+::: {.column width="50%"}
+- Base R's trusty `data.frame`
+
+:::::{.smallcode}
+
+```{r }
+#| label = "02-about-r-63a"
+library(socviz)
+titanic
+class(titanic)
+```
+
+```{r }
+#| label = "02-about-r-64a"
+## The `$` idiom picks out a named column here; 
+## more generally, the named element of a list
+titanic$percent  
+```
+
+:::::
+
+:::
+
+::: {.column width="50%" .right}
+:::
+::::
+
+## Some classes are versions of others
+
+:::: {.columns}
+::: {.column width="50%"}
+- Base R's trusty `data.frame`
+
+:::::{.smallcode}
+
+```{r }
+#| label = "02-about-r-63"
+library(socviz)
+titanic
+class(titanic)
+```
+
+```{r }
+#| label = "02-about-r-64"
+## The `$` idiom picks out a named column here; 
+## more generally, the named element of a list
+titanic$percent  
+```
+:::::
+
+:::
+::: {.column width="50%" .right}
+
+- The Tidyverse's enhanced `tibble`
+
+::::{.smallcode}
+
+```{r }
+#| label = "02-about-r-65"
+## tibbles are build on data frames 
+titanic_tb <- as_tibble(titanic) 
+titanic_tb
+class(titanic_tb)
+```
+::::
+
+:::
+
+::::
+
+- A data frame and a tibble are both fundamentally a list of vectors of the same length, where the vectors can be of different types (e.g. numeric, character, logical, etc)
+
+
+## All of this will be clearer in use
+
+```{r }
+#| label = "02-about-r-66"
+gss_sm
+```
+
+
+
+- Tidyverse tools are generally _type safe_, meaning their functions return the same type of thing every time, or fail if they cannot do this. So it's good to know about the various data types.
+
+
+## 6. [Arithmetic on vectors]{.fg-yellow}
+
+- In R, all numbers are vectors of different sorts. Even single numbers ("scalars") are conceptually vectors of length 1.
+
+- Arithmetic on vectors (and arrays generally) follows a series of _recycling rules_ that favor ease of expression of vectorized, "elementwise" operations.
+
+- See if you can predict what the following operations do: 
+
+## 6. [Arithmetic on vectors]{.fg-yellow}
+
+```{r }
+#| label = "02-about-r-67"
+my_numbers
+
+result1 <- my_numbers + 1
+
+```
+
+## 6. [Arithmetic on vectors]{.fg-yellow}
+
+```{r }
+#| label = "02-about-r-67a"
+my_numbers
+
+result1 <- my_numbers + 1
+
+```
+
+
+```{r }
+#| label = "02-about-r-68"
+result1
+```
+
+## 6. [Arithmetic on vectors]{.fg-yellow}
+
+```{r }
+#| label = "02-about-r-69"
+result2 <- my_numbers + my_numbers
+
+```
+
+## 6. [Arithmetic on vectors]{.fg-yellow}
+
+```{r }
+#| label = "02-about-r-69a"
+result2 <- my_numbers + my_numbers
+
+```
+
+```{r }
+#| label = "02-about-r-70"
+result2
+```
+
+## 6. [Arithmetic on vectors]{.fg-yellow}
+
+```{r}
+#| label = "02-about-r-71",
+#| warning = TRUE
+two_nums <- c(5, 10)
+
+result3 <- my_numbers + two_nums
+
+```
+
+## 6. [Arithmetic on vectors]{.fg-yellow}
+
+```{r}
+#| label = "02-about-r-71a",
+#| warning = TRUE
+two_nums <- c(5, 10)
+
+result3 <- my_numbers + two_nums
+
+```
+
+
+```{r }
+#| label = "02-about-r-72"
+result3
+```
+
+
+## 6. [Arithmetic on vectors]{.fg-yellow}
+
+```{r}
+#| label = "02-about-r-73",
+#| warning = TRUE
+three_nums <- c(1, 5, 10)
+
+result4 <- my_numbers + three_nums
+
+```
+
+## 6. [Arithmetic on vectors]{.fg-yellow}
+
+```{r}
+#| label = "02-about-r-73a",
+#| warning = TRUE
+three_nums <- c(1, 5, 10)
+
+result4 <- my_numbers + three_nums
+
+```
+
+
+```{r }
+#| label = "02-about-r-74"
+result4
+```
+
+Note that you get a _warning_ here. It'll still do it, though! Don't ignore warnings until you understand what they mean.
+
+
+## 7. R will be [frustrating]{.fg-red}
+
+- The IDE tries its best to help you. Learn to attend to what it is trying to say.
+
+![](img/error_object_length_warning.png){width=50%}
+
+![](img/error_missing_comma.png){width=50%}
+
+![](img/error_extra_paren.png){width=50%}
