@@ -1,0 +1,425 @@
+---
+title: "Data Wrangling - 1. Overview"
+subtitle: "Statistical Horizons, October 2023"
+format: kjhslides-revealjs
+engine: knitr
+filters: 
+  - invert-h1
+  - include-code-files
+author:
+  - name: Kieran Healy
+    email: kieran.healy@duke.edu
+date: last-modified
+---
+
+
+```{r}
+#| label = "packages",
+#| include = FALSE
+
+library(flipbookr)
+library(here)
+library(tidyverse)
+library(kjhslides)
+```
+
+
+```{r}
+#| label = "setup",
+#| include = FALSE
+
+kjh_register_tenso()
+kjh_set_knitr_opts()
+kjh_set_slide_theme()
+
+```
+
+
+## Housekeeping
+
+### 10am till 12:30pm US EST each day
+
+### 1:30pm to 3:30pm US EST each day
+
+### [Use the Zoom chat to ask questions, or raise a hand with ![](img/zoom_raise_hand.png){width=4%}]{.fg-lblue}
+
+
+
+
+## In between class sessions
+
+![](img/slack_logo.png){width=90%}
+
+
+## For a better Zoom experience
+
+
+:::: {.columns}
+::: {.column width=50%}
+  ![](img/best_zoom_experience.png){width=60%}
+:::
+
+::: {.column width=50% .right}
+  - If you're watching in full-screen view and I'm sharing my screen, then from Zoom's "View options" menu _turn off_ "Side-by-Side" mode.
+  
+:::
+
+::::
+
+
+
+## My Setup and Yours
+
+### Talking, Slides, and Live-Coding in RStudio 
+
+### Follow along with RStudio yourself if you can
+
+### The course packet is also an RStudio project and the place for your notes
+
+
+
+## Goals for this first session
+
+### Some big-picture motivation & perspective
+
+### Getting familiar with RStudio and its relationship to R
+
+### Getting oriented to R and how it thinks
+
+
+
+# [DATA ANALYSIS]{.fg-lblue} is mostly [DATA WRANGLING]{.fg-pink}
+
+
+## Wrangling data is frustrating
+
+![Sad Mac](img/sad-mac.jpg){scale="1500%"}
+
+
+
+
+
+## Can we make it [fun]{.fg-yellow}?
+
+:::: {.columns}
+::: {.column width=60%}
+  ![Fun data wrangling](img/happy_people_computer_2.png)
+:::
+
+::: {.column width=40% .right}
+  [**No**.]{.fg-red .huge}
+:::
+::::
+
+
+## Can we make it [fun]{.fg-yellow}?
+
+:::: {.columns}
+::: {.column width=60%}
+  ![Fun data wrangling](img/happy_people_computer_2.png)
+:::
+
+::: {.column width=40% .right}
+  - [**No**.]{.fg-red .huge}
+  
+  - &nbsp; ⇦ Not _this_ much fun, at any rate
+:::
+::::
+
+
+
+
+## OK but can we eliminate frustration?
+
+
+:::: {.columns}
+::: {.column width=60%}
+  ![Frustration-free data wrangling](img/happy_woman_computer_2.png)
+:::
+
+::: {.column width=40% .right}
+  - [**Also no.**]{.fg-red}
+:::
+::::
+
+
+## OK but can we eliminate frustration?
+
+
+:::: {.columns}
+::: {.column width=60%}
+  ![Frustration-free data wrangling](img/happy_woman_computer_2.png)
+:::
+
+::: {.column width=40% .right}
+  - [**Also no.**]{.fg-red}
+  - (Sorry.)
+:::
+::::
+
+
+---
+
+:::{.huge}
+However, we _can_ make it [work]{.fg-green}  
+:::
+
+
+
+
+::: aside
+Also, it's weirdly satisfying once you get into it.
+:::
+
+
+## We take a broadly _[Plain Text]{.fg-yellow}_ approach
+
+:::: {.columns}
+::: {.column width=35%}
+  ![The plain person's guide](img/plaintext-cover-us-letter.png)
+:::
+
+::: {.column width=60% .right}
+- Using R and the Tidyverse can be understood within this broader context. 
+- The same principles would apply to, e.g., using Python or similar tools.
+
+:::
+::::
+
+
+
+# Two revolutions in computing
+
+
+## Where the action is
+
+
+:::: {.columns}
+::: {.column width=50%}
+  ![iPhone and iPad](img/phone_and_tablet.png){width=80%}
+:::
+
+::: {.column width=50% .right}
+- Touch\-based user interface
+- Foregrounds a single application
+- Dislikes multi-tasking\*
+- Hides the file system
+- "Laundry basket" model of where things are
+:::
+::::
+
+## \*Multitasking
+
+- I mean, “Making different specialized applications and resources work together in the service of a single but multi-dimensional project”, not “Checking Twitter while also listening to a talk and waiting for an update from the school nurse.”
+
+
+
+## Where statistical computing lives
+
+:::: {.columns}
+::: {.column width=50%}
+  ![Desktop and laptop](img/mac_and_imac.png){width=50%}
+:::
+
+::: {.column width=50% .right}
+- Windows and pointers.
+- Multi-tasking, multiple windows.
+- Exposes and leverages the file system.
+- Many specialized tools in concert.
+- Underneath, it's the 1970s, UNIX, and the command-line. 
+
+:::
+::::
+
+## Plain-Text Tools for Data Analysis
+
+:::: {.columns}
+::: {.column width=50%}
+  ![Desktop and laptop](img/mac_and_imac.png){width=50%}
+:::
+
+::: {.column width=50% .right}
+- Better than they've ever been!
+- Free! Open! Powerful!
+- Friendly community! Many resources!
+- But grounded in a UI paradigm that is increasingly far away from the everyday use of computing devices 
+- So why do we use these tools?
+:::
+::::
+
+
+---
+
+
+:::{.huge}
+Because the research process is [_intrinsically messy_]{.fg-lblue}  
+:::
+
+
+## "Office" vs "Engineering" approaches
+
+
+### Questions
+
+- What is "real" in your project?
+- What is the final output?
+- How is it produced?
+- How are changes managed?
+
+
+## Different Answers
+
+:::: {.columns}
+::: {.column width=50%}
+### Office model
+
+- Formatted documents are real.
+- Intermediate outputs are cut and pasted into documents.
+- Changes are tracked inside files.
+- Final output is often in the same format you've been working in, e.g. a Word file, or perhaps a PDF.
+:::
+
+::: {.column width=50% .right}
+
+:::
+::::
+
+
+## Different Answers
+
+:::: {.columns}
+::: {.column width=50%}
+### Office model
+
+- Formatted documents are real.
+- Intermediate outputs are cut and pasted into documents.
+- Changes are tracked inside files.
+- Final output is often in the same format you've been working in, e.g. a Word file, or perhaps a PDF.
+:::
+
+::: {.column width=50% .right}
+### Engineering model
+
+- Plain-text files are real.
+- Intermediate outputs are produced via code, often inside documents.
+- Changes are tracked outside files.
+- Final outputs are assembled programatically and converted to a desired output format.
+
+:::
+::::
+
+
+## Different strengths and weaknesses
+
+
+:::: {.columns}
+::: {.column width=50%}
+### Office model
+- Everyone knows Word, Excel, or Google Docs.
+- "Track changes" is powerful and easy.
+- Hm, why can't I remember how I made this figure?.
+- Where did this table of results come from?
+- `Paper_Final_edits_FINAL_kh-1a.docx`
+
+:::
+
+::: {.column width=50% .right}
+
+:::
+::::
+
+
+## Different strengths and weaknesses
+
+
+:::: {.columns}
+::: {.column width=50%}
+### Office model
+- Everyone knows Word, Excel, or Google Docs.
+- "Track changes" is powerful and easy.
+- Hm, why can't I remember how I made this figure?.
+- Where did this table of results come from?
+- `Paper_Final_edits_FINAL_kh-1a.docx`
+
+:::
+
+::: {.column width=50% .right}
+### Engineering model
+- Plain text is universally portable.
+- Push button, recreate analysis.
+- Why can't I make R do this simple thing?
+- This version control stuff is a pain.
+- `Object of type 'closure' is not subsettable`
+
+:::
+::::
+
+## Each approach generates solutions to its own problems
+
+
+# Into the Kitchen
+
+---
+
+:::: {.columns}
+::: {.column width=30%}
+  ![](img/Rlogo.png)
+:::
+
+::: {.column width=70% .right}
+  ![](img/rstudio-logo.png)
+:::
+::::
+
+
+
+## RStudio is an IDE for R
+
+![](img/benz-amg-cabin.jpg)
+
+
+## A kitchen is an IDE for Meals
+
+![](img/jp-pouring-oil1920.jpg){fig-align="center"}
+
+## R and RStudio
+
+![](img/rstudio-1.png){width=95% fig-align="center"}
+
+
+## R and RStudio
+
+![](img/rstudio-conceptual-1.png){width=95% fig-align="center"}
+
+## R & RStudio
+
+![](img/rstudio-conceptual-2.png){fig-align="center"}
+
+## R & RStudio
+
+![](img/rstudio-conceptual-4.png){fig-align="center"}
+
+## R & RStudio
+
+![](img/rstudio-conceptual-5.png){width=110% fig-align="center"}
+
+## R & RStudio
+
+![](img/rstudio-conceptual-6.png){fig-align="center"}
+
+## R & RStudio
+
+![](img/rstudio-conceptual-7.png){fig-align="center"}
+
+
+## R & RStudio
+
+![](img/rstudio-conceptual-3.png){fig-align="center"}
+
+## Your code is what's real in your project
+
+![](img/rstudio_dont_restore.png)
+
+## Consider not showing output inline
+
+![](img/rstudio_uncheck_inline.png)
