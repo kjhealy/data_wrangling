@@ -1,0 +1,838 @@
+---
+title: "Manipulating tables with `dplyr`"
+subtitle: "Data Wrangling, Session 4"
+format: kjhslides-revealjs
+engine: knitr
+filters:
+  - invert-h1
+  - line-highlight
+  - include-code-files
+author:
+  - name: Kieran Healy
+    affiliation: "Code Horizons"
+date: last-modified
+---
+
+
+```{r}
+#| label = "packages",
+#| include = FALSE
+library(flipbookr)
+library(here)
+library(tidyverse)
+library(kjhslides)
+```
+
+
+```{r}
+#| label = "setup",
+#| include = FALSE
+
+kjh_register_tenso()
+kjh_set_knitr_opts()
+kjh_set_slide_theme()
+
+```
+
+
+# Manipulating Tables with [dplyr]{.fg-yellow} (contd)
+
+---
+
+:::{.huge}
+ [Window functions]{.fg-orange} and [moving averages]{.fg-green} 
+:::
+
+---
+
+
+
+
+## Load our libraries
+
+
+```{r}
+#| label = "03b-dplyr-basics-2",
+#| message = TRUE
+library(here)      # manage file paths
+library(socviz)    # data and some useful functions
+library(tidyverse) # your friend and mine
+```
+
+## **`dplyr`**'s [window]{.fg-yellow} functions 
+
+Ranking and cumulation within groups.  
+
+
+```{r }
+#| label = "03b-dplyr-basics-3"
+## Data on COVID-19
+library(covdata)
+
+covnat_weekly 
+```
+
+## **`dplyr`**'s [window]{.fg-yellow} functions 
+
+[**`cumsum()`**]{.fg-green} gives cumulative sums
+
+```{r }
+#| label = "03b-dplyr-basics-4"
+covnat_weekly |> 
+  filter(iso3 == "FRA") |> 
+  select(date, cname, iso3, cases) |> 
+  mutate(cases = ifelse(is.na(cases), 0, cases), # convert NA vals in `cases` to 0
+         cumulative = cumsum(cases)) 
+
+```
+
+## **`dplyr`**'s [window]{.fg-yellow} functions 
+
+[**`cume_dist()`**]{.fg-green} gives the proportion of values less than or equal to the current value.
+
+```{r }
+#| label = "03b-dplyr-basics-5"
+covnat_weekly |> 
+  select(date, cname, iso3, deaths) |> 
+  filter(iso3 == "FRA") |> 
+  filter(cume_dist(desc(deaths)) < 0.1) # i.e. Top 10%
+
+```
+
+::: aside
+The `dplyr` vignette on Window functions is good.  
+:::
+
+## An application 
+
+```{r }
+#| label = "03b-dplyr-basics-6"
+covus |> 
+  filter(measure == "death") |> 
+  group_by(state) |> 
+  arrange(state, desc(date)) |> 
+  filter(state %in% "NY")
+```
+
+Here the `count` measure is _cumulative_ deaths. What if we want to recover the daily count for all the states in the data?
+
+## An application 
+
+`dplyr` has [**`lead()`**]{.fg-green} and [**`lag()`**]{.fg-green} functions. These allow you to access the previous and next values in a vector. You can calculate offsets this way.
+
+```{r }
+#| label = "03b-dplyr-basics-7"
+my_vec <- c(1:20)
+my_vec
+lag(my_vec) # first element has no lag
+
+my_vec - lag(my_vec)
+
+```
+
+## An application
+
+We can write the expression directly:
+
+```{r }
+#| label = "03b-dplyr-basics-8"
+covus |>
+  select(-data_quality_grade) |> 
+  filter(measure == "death") |>
+  group_by(state) |>
+  arrange(date) |> 
+  mutate(deaths_daily = count - lag(count, order_by = date)) |> 
+  arrange(state, desc(date)) |> 
+  filter(state %in% "NY")
+  
+```
+
+
+## Writing our own [functions]{.fg-orange}
+
+We write functions using the special [**`function()`**]{.fg-green} function.\*
+
+
+```{r }
+#| label = "03b-dplyr-basics-9"
+my_fun <- function(x) {
+  x + 1
+}
+
+my_fun # we've created the function; it's just an object
+
+my_fun(x = 1) # But we can supply it with an input!
+
+my_fun(10)
+```
+
+
+::: aside
+\*Nerds love this sort of stuff.  
+:::
+
+## Writing our own [functions]{.fg-orange}
+
+We write our function. It's just the expression we originally wrote, wrapped up.
+
+```{r }
+#| label = "03b-dplyr-basics-10"
+get_daily_count <- function(count, date){
+  count - lag(count, order_by = date)
+}
+```
+
+This function has no generality, error-handling, or anything else. It's a once-off.
+
+## Writing our own [functions]{.fg-orange}
+
+Now we can use it like any other:
+
+```{r }
+#| label = "03b-dplyr-basics-11"
+covus |>
+  filter(measure == "death") |>
+  select(-data_quality_grade) |> 
+  group_by(state) |>
+  arrange(date) |> 
+  mutate(deaths_daily = get_daily_count(count, date)) |> 
+  arrange(state, desc(date)) |> 
+  filter(state %in% "NY")
+  
+```
+
+
+Not super-useful quite yet, but if our task had more steps ...
+
+# The [`slider`]{.fg-orange} package
+
+## Tidy moving averages with [`slider`]{.fg-orange}  
+
+**`dplyr`**'s window functions don't include moving averages. 
+
+There are several options, notably [`RcppRoll`](https://cran.r-project.org/web/packages/RcppRoll/index.html)
+
+We'll use the [`slider`](https://cran.r-project.org/web/packages/slider/vignettes/slider.html) package.
+
+```{r }
+#| label = "03b-dplyr-basics-12"
+# install.packages("slider")
+library(slider)
+```
+
+## Tidy moving averages with [`slider`]{.fg-orange}  
+
+```{r }
+#| label = "03b-dplyr-basics-13"
+covus |>
+  filter(measure == "death") |>
+  select(-data_quality_grade) |> 
+  group_by(state) |>
+  arrange(date) |> 
+  mutate(
+    deaths_daily = get_daily_count(count, date), 
+    deaths7 = slide_mean(deaths_daily, #<<
+                         before = 7, #<<
+                         na_rm = TRUE)) |> #<<
+  arrange(state, desc(date)) |> 
+  filter(state %in% "NY")
+```
+
+
+## Tidy moving averages with [`slider`]{.fg-orange}  
+
+```r
+    deaths7 = slide_mean(deaths_daily, 
+                         before = 7, 
+                         na_rm = TRUE)) |> 
+```
+
+Notice the Tidyverse-style `na_rm` argument rather than the usual base `na.rm`
+
+The package provides a lot of different functions, from general-purpose [**`slide_max()`**]{.fg-green}, [**`slide_min()`**]{.fg-green} to more specialized sliding functions. In particular note e.g. [**`slide_index_mean()`**]{.fg-green} that addresses some subtleties in averaging over dates with gaps. 
+
+
+## Move columns with [**`relocate()`**]{.fg-green}
+
+```{r }
+#| label = "03b-dplyr-basics-14"
+gss_sm
+```
+
+```{r}
+#| label = "03b-dplyr-basics-15",
+#| include = FALSE
+gss_sm |> 
+  select(region, bigregion, year, 
+         id:region, 
+         starts_with("p"), 
+         contains("income")) |> 
+  rename(children = childs, 
+         siblings = sibs) |> 
+  relocate(id) |> 
+  select(-ballot) |> 
+  relocate(where(is.numeric), 
+           .before = where(is.factor)) |> 
+  relocate(contains("region"), 
+           .after = year) 
+```
+
+`r chunq_reveal("03b-dplyr-basics-15", smallcode = TRUE, lcolw="35", rcolw="65", title = "Shuffle columns around")`
+
+## Example: UK Election Data
+
+```{r }
+#| label = "03b-dplyr-basics-16"
+library(ukelection2019)
+
+ukvote2019
+```
+
+## Example: UK Election Data
+
+Use [**`sample_n()`**]{.fg-green} to sample `n` rows of your tibble.
+
+```{r }
+#| label = "03b-dplyr-basics-17"
+library(ukelection2019)
+
+ukvote2019 |> 
+  sample_n(10)
+```
+
+## Example: UK Election Data
+
+- A vector of unique constituency names
+
+```{r}
+#| label = "03b-dplyr-basics-18"
+ukvote2019 |> 
+  distinct(constituency)
+```
+
+
+## Example: UK Election Data
+
+- Tally them up
+
+```{r}
+#| label = "03b-dplyr-basics-19"
+ukvote2019 |> 
+  distinct(constituency) |> 
+  tally()
+```
+
+```{r}
+#| label = "03b-dplyr-basics-20"
+# Base R / non-pipeline version
+
+length(unique(ukvote2019$constituency))
+```
+
+
+## Example: UK Election Data
+
+Which parties fielded the most candidates?
+
+```{r}
+#| label = "03b-dplyr-basics-21"
+ukvote2019 |> 
+  count(party_name) |> 
+  arrange(desc(n))
+```
+
+## Example: UK Election Data
+
+:::: {.columns}
+::: {.column width="50%"}
+- Top 5
+```{r}
+#| label = "03b-dplyr-basics-22"
+ukvote2019 |> 
+  count(party_name) |> 
+  slice_max(order_by = n, n = 5)
+
+```
+
+:::
+
+::: {.column width="50%" .right}
+
+:::
+::::
+
+## Example: UK Election Data
+
+:::: {.columns}
+::: {.column width="50%"}
+- Top 5
+```{r}
+#| label = "03b-dplyr-basics-22a"
+ukvote2019 |> 
+  count(party_name) |> 
+  slice_max(order_by = n, n = 5)
+
+```
+
+:::
+
+::: {.column width="50%" .right}
+- Bottom 5
+```{r}
+#| label = "03b-dplyr-basics-23"
+ukvote2019 |> 
+  count(party_name) |> 
+  slice_min(order_by = n, n = 5)
+
+```
+:::
+::::
+
+
+## Example: UK Election Data
+
+How many constituencies are there?
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+#| label = "03b-dplyr-basics-24"
+ukvote2019 |> 
+  count(constituency) 
+```
+:::
+
+::: {.column width="50%" .right}
+```{r}
+ukvote2019 |> 
+  distinct(constituency) |> 
+  count()
+```
+
+```{r}
+# Base R style ...
+length(unique(ukvote2019$constituency))
+```
+
+:::
+::::
+
+## Counting Twice Over
+
+```{r}
+#| label = "03b-dplyr-basics-25"
+ukvote2019 |> 
+  count(constituency) |> 
+  count(n)
+```
+
+```{r}
+#| label = "03b-dplyr-basics-26",
+#| include = FALSE
+
+ukvote2019 |> 
+  count(constituency, name = "n_cands") |> 
+  count(n_cands, name = "n_const")
+```
+
+`r chunq_reveal("03b-dplyr-basics-26", smallcode = TRUE, lcolw = "45", rcolw = "55", title = "Counting Twice Over")`
+
+# Recap and Looking Ahead
+
+## Recap and Looking Ahead
+
+###  Coding as gardening
+
+### Working in RStudio with RMarkdown documents
+
+
+## Core [`dplyr`]{.fg-orange} verbs
+
+- Subset your table: [`filter()`]{.fg-green} rows, [`select()`]{.fg-green} columns
+- Logically [`group_by()`]{.fg-green} one or more columns
+- Add columns with [`mutate()`]{.fg-green}
+- Summarize (by group, or the whole table) with [`summarize()`]{.fg-green}
+
+## Expand your [`dplyr`]{.fg-orange} actions
+
+- Count up rows with [`n()`]{.fg-green}, [`tally()`]{.fg-green} or [`count()`]{.fg-green}
+- Calculate quantities with [`sum()`]{.fg-green}, [`mean()`]{.fg-green}, [`min()`]{.fg-green}, etc
+- Subset rows with logical expressions or [`slice`]{.fg-green} functions
+- Conditionally select columns by name directly, with [`%in%`]{.fg-green} or [`%nin%`]{.fg-green}, or with tidy selectors like [`starts_with()`]{.fg-green}, [`ends_with()`]{.fg-green}, [`contains()`]{.fg-green}
+- Conditionally select columns by _type_ with [`where()`]{.fg-green} and some criterion, e.g. [`where(is.numeric)`]{.fg-green}
+- Conditionally select and then _act_ on columns with [`across(where(`]{.fg-green}[`<condition>`]{.fg-orange}[`),`]{.fg-green} [`<action>`]{.fg-orange}[`)`]{.fg-green}
+
+
+## Expand your [`dplyr`]{.fg-orange} actions
+
+- Tidy up columns with [`relocate()`]{.fg-green} and [`rename()`]{.fg-green}
+- Tidy up rows with [`arrange()`]{.fg-green}
+
+# A dplyr shortcut
+
+## A dplyr shortcut
+
+So far we have been writing, e.g.,
+
+```{r}
+#| label = "03b-dplyr-basics-by-1"
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  summarize(total = n())
+```
+
+
+## A dplyr shortcut
+
+Or
+
+```{r}
+#| label = "03b-dplyr-basics-by-2"
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  tally()
+```
+
+## A dplyr shortcut
+
+Or
+
+```{r}
+#| label = "03b-dplyr-basics-by-3"
+gss_sm |> 
+  count(bigregion, religion) 
+```
+
+With this last one the final result is _ungrouped_, no matter how many levels of grouping there are going in.
+
+## A dplyr shortcut
+
+But we can also write this:
+
+```{r}
+#| label = "03b-dplyr-basics-by-4"
+gss_sm |> 
+  summarize(total = n(), .by = c(bigregion, religion))
+```
+
+By default the result is an _ungrouped_ tibble, whereas with `group_by()` ... `summarize()` the result would still be grouped by `bigregion` at the end. To prevent unexpected results, you can't use `.by` on tibble that's already grouped.
+
+
+## Data as implicitly first
+
+This code:
+
+```{r}
+#| label = "03b-dplyr-basics-by-5"
+gss_sm |> 
+  summarize(total = n(), .by = c(bigregion, religion))
+```
+
+
+
+## Data as implicitly first
+
+... is equivalent to this:
+
+```{r}
+#| label = "03b-dplyr-basics-by-6"
+summarize(gss_sm, total = n(), .by = c(bigregion, religion))
+```
+
+This is true of Tidyverse pipelines in general. Let's look at the help for `summarize()` to see why. 
+
+# Two dplyr [gotchas]{.fg-red}
+
+## Comparisons filtering on proportions
+
+Let's say you are working with proportions ... 
+
+```{r}
+#| label = "03b-dplyr-basics-27",
+#| echo = FALSE
+
+# Make some sample data with tribb
+df <- tribble(~id, ~ prop1, ~prop2,
+              "A", 0.1,      0.2,
+              "B", 0.1,      0.21, 
+              "C", 0.11,     0.2,
+              "D", 0.1,      0.1)
+```
+
+```{r}
+#| label = "03b-dplyr-basics-28"
+df
+```
+
+## Comparisons filtering on proportions
+
+And you want to focus on cases where `prop1` _plus_ `prop2` is greater than 0.3:
+
+```{r}
+#| label = "03b-dplyr-basics-29"
+df |> 
+  filter(prop1 + prop2 > 0.3)
+```
+
+::::: {.fragment fragment-index=1}
+- The row with `id` [**`A`**]{.fg-orange} shouldn't have been included there.    
+- This is not dplyr's fault. It's our floating point friend again.
+:::::
+
+## Comparisons filtering on proportions
+
+```{r}
+#| label = "03b-dplyr-basics-30"
+df |> 
+  filter(prop1 + prop2 == 0.3)
+```
+
+The row with `id` [**`A`**]{.fg-orange} _should_ have been included here!
+
+## Comparisons filtering on proportions
+
+This won't give the right behavior either:
+
+```{r}
+#| label = "03b-dplyr-basics-31"
+df |> 
+  mutate(prop3 = prop1 + prop2) |> 
+  filter(prop3 == 0.3)
+```
+
+## Comparisons filtering on proportions
+
+So, beware.
+
+```{r}
+#| label = "03b-dplyr-basics-32"
+df |> 
+  filter(prop1*100 + prop2*100 == 0.3*100)
+```
+
+Better:
+
+```{r}
+#| label = "03b-dplyr-basics-33"
+df |> 
+  filter(near(prop1 + prop2, 0.3))
+```
+
+
+## [Zero Counts]{.fg-orange} in dplyr
+
+```{r}
+#| label = "03b-dplyr-basics-34"
+df <- read_csv(here("data", "first_terms.csv"))
+
+df
+```
+
+## [Zero Counts]{.fg-orange} in dplyr
+
+```{r}
+#| label = "03b-dplyr-basics-35",
+#| echo = FALSE
+## Hex colors for sex
+sex_colors <- c("#E69F00", "#993300")
+
+## Group labels
+mf_labs <- tibble(M = "Men", F = "Women")
+
+```
+
+
+```{r}
+#| label = "03b-dplyr-basics-36"
+df |>
+    group_by(start_year, party, sex) |>
+    summarize(N = n()) |>
+    mutate(freq = N / sum(N))
+
+```
+
+## [Zero Counts]{.fg-orange} in dplyr
+
+
+```{r}
+#| label = "03b-dplyr-basics-37"
+p_col <- df |>
+    group_by(start_year, party, sex) |>
+    summarize(N = n()) |>
+    mutate(freq = N / sum(N)) |>
+    ggplot(aes(x = start_year,
+               y = freq,
+               fill = sex)) +
+    geom_col() +
+    scale_y_continuous(labels = scales::percent) +
+    scale_fill_manual(values = sex_colors, labels = c("Women", "Men")) +
+    labs(x = "Year", y = "Percent", fill = "Group") +
+    facet_wrap(~ party)
+```
+
+## [Zero Counts]{.fg-orange} in dplyr
+
+```{r}
+#| label = "03b-dplyr-basics-38",
+#| fig.height = 6,
+#| fig.width = 10
+p_col
+```
+
+## 2.  [Zero Counts]{.fg-orange} in dplyr
+
+```{r}
+#| label = "03b-dplyr-basics-39"
+p_line <- df |>
+    group_by(start_year, party, sex) |>
+    summarize(N = n()) |>
+    mutate(freq = N / sum(N)) |>
+    ggplot(aes(x = start_year,
+               y = freq,
+               color = sex)) +
+    geom_line(size = 1.1) +
+    scale_y_continuous(labels = scales::percent) +
+    scale_color_manual(values = sex_colors, labels = c("Women", "Men")) +
+    guides(color = guide_legend(reverse = TRUE)) +
+    labs(x = "Year", y = "Percent", color = "Group") +
+    facet_wrap(~ party)
+```
+
+## [Zero Counts]{.fg-orange} in dplyr
+
+```{r}
+#| label = "03b-dplyr-basics-40",
+#| fig.height = 6,
+#| fig.width = 9
+p_line
+```
+
+## Option 1: [factors]{.fg-orange} and [`.drop`]{.fg-red}
+
+Factors are for categorical variables and are stored differently from characters.
+
+This can matter when modeling, and also now.
+
+```{r}
+#| label = "03b-dplyr-basics-41"
+df_f <- df |> 
+  mutate(party_f = factor(party))
+
+df_f
+```
+
+## Option 1: [factors]{.fg-orange} and [`.drop`]{.fg-red}
+
+```{r}
+#| label = "03b-dplyr-basics-42"
+df_f |> 
+  group_by(party_f) |> 
+  tally()
+```
+
+Factors are integer values with named labels, or _levels_:
+
+```{r}
+#| label = "03b-dplyr-basics-43"
+typeof(df_f$party_f)
+levels(df_f$party_f)
+
+```
+
+## Option 1: [factors]{.fg-orange} and [`.drop`]{.fg-red}
+
+By default, unused levels won't display:
+
+
+```{r}
+#| label = "03b-dplyr-basics-44"
+df_f <- df |> 
+  mutate(party_f = factor(party, 
+                          levels = c("Democrat", 
+                                     "Republican", 
+                                     "Libertarian")))
+df_f |> 
+  group_by(party_f) |> 
+  tally()
+
+levels(df_f$party_f)
+
+```
+
+## Option 1: [factors]{.fg-orange} and [`.drop`]{.fg-red}
+
+By default, unused levels won't display:
+
+```{r}
+#| label = "03b-dplyr-basics-45"
+df |> 
+  mutate(across(where(is.character), as_factor)) |> 
+  group_by(start_year, party, sex) |>
+  summarize(N = n()) |>
+  mutate(freq = N / sum(N))
+
+```
+
+## Option 1: [factors]{.fg-orange} and [`.drop`]{.fg-red}
+
+You can make `dplyr` keep empty factor levels though:
+
+```{r}
+#| label = "03b-dplyr-basics-46"
+df |> 
+  mutate(across(where(is.character), as_factor)) |> 
+  group_by(start_year, party, sex, .drop = FALSE) |> #<<
+  summarize(N = n()) |>
+  mutate(freq = N / sum(N))
+  
+```
+
+## Option 2: [ungroup()]{.fg-green} and [complete()]{.fg-green}
+
+Maybe you don't want to deal with factors.
+
+```{r}
+#| label = "03b-dplyr-basics-47"
+df_c <- df |>
+    group_by(start_year, party, sex) |>
+    summarize(N = n()) |>
+    mutate(freq = N / sum(N)) |>
+    ungroup() |>#<<
+    complete(start_year, party, sex,#<<
+             fill = list(N = 0, freq = 0))#<<
+```
+
+## Option 2: [ungroup()]{.fg-green} and [complete()]{.fg-green}
+
+
+```{r}
+#| label = "03b-dplyr-basics-48"
+df_c
+```
+
+## Option 2: [ungroup()]{.fg-green} and [complete()]{.fg-green}
+
+```{r}
+#| label = "03b-dplyr-basics-49"
+p_out <- df_c |> 
+  ggplot(aes(x = start_year,
+               y = freq,
+               color = sex)) +
+    geom_line(size = 1.1) +
+    scale_y_continuous(labels = scales::percent) +
+    scale_color_manual(values = sex_colors, labels = c("Women", "Men")) +
+    guides(color = guide_legend(reverse = TRUE)) +
+    labs(x = "Year", y = "Percent", color = "Group") +
+    facet_wrap(~ party)
+```
+
+## Option 2: [ungroup()]{.fg-green} and [complete()]{.fg-green}
+
+```{r}
+#| label = "03b-dplyr-basics-50",
+#| fig.height = 6,
+#| fig.width = 9
+p_out
+```
+
+

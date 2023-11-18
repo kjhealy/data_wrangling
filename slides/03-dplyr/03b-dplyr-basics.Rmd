@@ -3,7 +3,7 @@ title: "Data Wrangling - 3B. Manipulating tables with `dplyr`"
 author: "Kieran Healy"
 date: "`r Sys.Date()`"
 output: kjhslides::kjh_slides_reader
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
