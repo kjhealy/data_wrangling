@@ -1,0 +1,1041 @@
+---
+title: "Manipulating tables with `dplyr`"
+subtitle: "Data Wrangling, Session 3"
+format: kjhslides-revealjs
+engine: knitr
+filters: 
+  - invert-h1
+  - line-highlight
+  - include-code-files
+author:
+  - name: Kieran Healy
+    affiliation: "Code Horizons"
+date: last-modified
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+```{r}
+#| label = "packages",
+#| include = FALSE
+library(flipbookr)
+library(here)
+library(tidyverse)
+library(kjhslides)
+```
+
+
+```{r}
+#| label = "setup",
+#| include = FALSE
+
+kjh_register_tenso()
+kjh_set_knitr_opts()
+kjh_set_slide_theme()
+```
+
+# dplyr is your toolkit for tabular data
+
+---
+
+:::{.huge}
+ Time to<br />play with<br />some [data]{.fg-red} 
+:::
+
+
+::: aside
+ woohoo! 
+:::
+ 
+## Load our libraries
+
+
+```{r}
+#| label = "03a-dplyr-basics-2",
+#| message = TRUE
+library(here)      # manage file paths
+library(socviz)    # data and some useful functions
+library(tidyverse) # your friend and mine
+```
+
+
+## Tidyverse components, again
+
+:::: {.columns}
+::: {.column width="55%"}
+  - [**`library`**]{.fg-green}`(tidyverse)`
+- `Loading tidyverse: ggplot2`
+- `Loading tidyverse: tibble`
+- `Loading tidyverse: tidyr`
+- `Loading tidyverse: readr`
+- `Loading tidyverse: purrr`
+- `Loading tidyverse: dplyr`
+:::
+
+::: {.column width="45%" .left}
+  - Call the package and ...
+- `<|` **Draw graphs**
+- `<|` **Nicer data tables**
+- `<|` **Tidy your data**
+- `<|` **Get data into R**
+- `<|` **Fancy Iteration**
+- `<|` **Action verbs for tables**
+:::
+::::
+
+
+## Other tidyverse components
+
+:::: {.columns}
+::: {.column width="40%"}
+
+- `forcats`
+- `haven`
+- `lubridate`
+- `readxl`
+- `stringr`
+- `reprex`
+
+:::
+
+::: {.column width="60%" .left}
+
+- `<|` **Deal with factors**
+- `<|` **Import Stata, SPSS, etc**
+- `<|` **Dates, Durations, Times**
+- `<|` **Import from spreadsheets**
+- `<|` **Strings and Regular Expressions**
+- `<|` **Make reproducible examples**
+
+:::
+::::
+
+
+::::: {.fragment fragment-index=1}
+Not all of these are attached when we do `library(tidyverse)`    
+:::::
+
+
+## [dplyr]{.fg-yellow} lets you work with tibbles
+
+
+::::: {.fragment fragment-index=1}
+- Remember, tibbles are tables of data where the columns can be of different types, such as numeric, logical, character, factor, etc.
+- We'll use dplyr to _transform_ and _summarize_ our data.
+
+:::::
+
+
+::::: {.fragment fragment-index=2}
+- We'll use the pipe operator, [**`|>`**]{.fg-pink}, to chain together sequences of actions on our tables.
+:::::
+
+
+# dplyr's core verbs
+
+---
+
+:::{.huge}
+ `dplyr` draws on the logic and language of  [database queries]{.fg-green} 
+:::
+
+---
+
+
+## Some [actions]{.fg-orange} to take on a single table 
+
+::: {.incremental}
+- [**Group**]{.fg-orange} the data at the level we want, such as “_Religion by Region_” or “_Children by School_”.
+
+- [**Subset**]{.fg-orange} either the rows or columns of or table—i.e. remove them before doing anything.
+
+- [**Mutate**]{.fg-orange} the data. That is, change something at the _current_ level of grouping.  Mutating adds new columns to the table, or changes the content of an existing column. It never changes the number of rows.
+
+- [**Summarize**]{.fg-orange} or aggregate the data. That is, make something new at a _higher_ level of grouping. E.g., calculate means or counts by some grouping variable. This will generally result in a smaller, _summary_ table. Usually this will have the same number of _rows_ as there are _groups_ being summarized.
+:::
+
+
+## For each [action]{.fg-orange} there's a [function]{.fg-green} 
+
+::: {.incremental}
+- [**Group**]{.fg-orange} using  **`group_by()`**.
+- [**Subset**]{.fg-orange} has one action for rows and one for columns. We **`filter()`** rows and **`select()`** columns.
+- [**Mutate**]{.fg-orange} tables (i.e. add new columns, or re-make existing ones) using **`mutate()`**.
+- [**Summarize**]{.fg-orange} tables (i.e. perform aggregating calculations) using **`summarize()`**.
+:::
+
+# Group and Summarize
+
+## General Social Survey data: [`gss_sm`]{.fg-pink}
+
+```{r }
+#| label = "03a-dplyr-basics-3"
+## library(socviz) # if not loaded
+gss_sm
+```
+
+::::: {.fragment fragment-index=1}
+Notice how the tibble already tells us a lot.    
+:::::
+
+## Summarizing a Table
+
+- Here's what we're going to do:
+
+![](img/dplyr-pipe-example.png)]
+
+## Summarizing a Table
+
+```{r }
+#| label = "03a-dplyr-basics-4"
+gss_sm |> 
+  select(id, bigregion, religion)
+```
+
+We're just taking a look at the relevant columns here.
+
+## Group by [_one_]{.fg-orange} column or variable
+
+```{r }
+#| label = "03a-dplyr-basics-5"
+
+gss_sm |> 
+  group_by(bigregion)
+```
+
+Grouping just changes the logical structure of the tibble. 
+
+---
+
+`r chunq_reveal("03a-dplyr-basics-6", smallcode = TRUE, title = "Group and summarize by _one_ column")`
+
+
+```{r}
+#| label = "03a-dplyr-basics-6",
+#| include = FALSE
+gss_sm |> 
+  group_by(bigregion) |> 
+  summarize(total = n())
+```
+
+::: {.incremental}
+- The function [**`n()`**]{.fg-green} counts up the rows within each group.    
+- All the other columns are dropped in the summary operation
+- Your original [`gss_sm`]{.fg-pink} table is untouched
+:::
+
+
+---
+
+`r chunq_reveal("03a-dplyr-basics-7", smallcode = TRUE, title = "Group and summarize by _two_ columns")`
+
+
+```{r}
+#| label = "03a-dplyr-basics-7",
+#| include = FALSE
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  summarize(total = n())
+```
+
+::: {.incremental}
+- The function [**`n()`**]{.fg-green} counts up the rows within the _innermost_ (i.e. the rightmost) group.
+:::
+
+
+---
+
+`r chunq_reveal("03a-dplyr-basics-8", smallcode = TRUE, title = "Calculate frequencies")`
+
+```{r}
+#| label = "03a-dplyr-basics-8",
+#| include = FALSE
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  summarize(total = n()) |> 
+  mutate(freq = total / sum(total),
+           pct = round((freq*100), 1))
+```
+
+
+::: {.incremental}
+- The function [**`n()`**]{.fg-green} counts up the rows 
+- Which rows? The ones fed down the pipeline
+- The _innermost_ (i.e. the rightmost) group.
+:::
+
+## Pipelines carry assumptions forward
+
+```{r }
+#| label = "03a-dplyr-basics-9"
+gss_sm |> 
+  group_by(bigregion, religion) |> #<<
+  summarize(total = n()) |> 
+  mutate(freq = total / sum(total),
+           pct = round((freq*100), 1))
+```
+
+:::{.small}
+- Groups are carried forward till summarized or explicitly ungrouped
+- Summary calculations are done on the innermost group, which then "disappears".
+:::
+
+
+## Pipelines carry assumptions forward
+
+```{r }
+#| label = "03a-dplyr-basics-10"
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  summarize(total = n()) |> 
+  mutate(freq = total / sum(total),
+           pct = round((freq*100), 1)) #<<
+```
+
+
+[**`mutate()`**]{.fg-green} is quite clever. See how we can immediately use **`freq`**, even though we are creating it in the same [**`mutate()`**]{.fg-green} expression.
+
+
+## Convenience functions
+
+```{r }
+#| label = "03a-dplyr-basics-11"
+gss_sm |> 
+  group_by(bigregion, religion) |> #<<
+  summarize(total = n()) |> #<<
+  mutate(freq = total / sum(total),
+           pct = round((freq*100), 1)) 
+```
+
+We're going to be doing this [**`group_by()`**]{.fg-green} ... [**`n()`**]{.fg-green} step a lot. Some shorthand for it would be useful.
+
+## Three options for counting up rows 
+
+:::: {.columns}
+::: {.column width="30%"}
+  -  Use [**`n()`**]{.fg-green}
+
+::::: {.smallcode}
+```{r }
+#| label = "03a-dplyr-basics-12"
+gss_sm |> 
+  group_by(bigregion, religion) |> #<<
+  summarize(n = n()) #<<
+```
+:::::
+
+- Group it yourself; result is grouped.
+:::
+  
+::: {.column width="30%"}
+- Use [**`tally()`**]{.fg-green}
+
+::::: {.smallcode}
+```{r }
+#| label = "03a-dplyr-basics-13"
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  tally() #<<
+```
+:::::
+- More compact; result is grouped.
+
+:::
+
+::: {.column width="30%" .right}
+ - Use [**`count()`**]{.fg-green}
+
+::::: {.smallcode}
+```{r }
+#| label = "03a-dplyr-basics-14"
+gss_sm |> 
+  count(bigregion, religion) #<<
+```
+:::::
+- One step; result is not grouped.
+
+:::
+::::
+
+## Pass results on to ... a [table]{.fg-yellow}
+
+```{r}
+#| label = "03a-dplyr-basics-15",
+#| eval = FALSE
+gss_sm |> 
+  count(bigregion, religion) |> 
+  pivot_wider(names_from = bigregion, values_from = n) |>  #<<
+  knitr::kable()  
+```
+
+```{r}
+#| label = "03a-dplyr-basics-16",
+#| echo = FALSE
+gss_sm |> 
+  count(bigregion, religion) |> 
+  pivot_wider(names_from = bigregion, values_from = n) |> 
+  knitr::kable()  
+```
+
+
+- More on [**`pivot_wider()`**]{.fg-green} and [**`kable()`**]{.fg-green} soon ...
+
+
+
+## Pass results on to ... a [graph]{.fg-yellow}
+
+```{r}
+#| label = "03a-dplyr-basics-17",
+#| fig.height = 4,
+#| fig.width = 15
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  tally() |> 
+  mutate(pct = round((n/sum(n))*100), 1) |> 
+  drop_na() |> 
+  ggplot(mapping = aes(x = pct, y = reorder(religion, -pct), fill = religion)) + #<<
+  geom_col() + #<<
+    labs(x = "Percent", y = NULL) +
+    guides(fill = "none") + 
+    facet_wrap(~ bigregion, nrow = 1)
+```
+
+## Pass results on to ... an [object]{.fg-yellow}
+
+:::: {.columns}
+::: {.column width="50%"}
+  - You can do it like this ...
+```{r }
+#| label = "03a-dplyr-basics-18"
+rel_by_region <- gss_sm |> #<<
+  count(bigregion, religion) |> 
+  mutate(pct = round((n/sum(n))*100, 1)) 
+
+rel_by_region
+```
+
+:::
+
+::: {.column width="50%" .right}
+:::
+::::
+
+
+## Pass results on to ... an [object]{.fg-yellow}
+
+:::: {.columns}
+::: {.column width="50%"}
+  - You can do it like this ...
+```{r }
+#| label = "03a-dplyr-basics-18b"
+rel_by_region <- gss_sm |> #<<
+  count(bigregion, religion) |> 
+  mutate(pct = round((n/sum(n))*100, 1)) 
+
+rel_by_region
+```
+
+:::
+
+::: {.column width="50%" .right}
+-  Or like this!
+```{r }
+#| label = "03a-dplyr-basics-19"
+gss_sm |> 
+  count(bigregion, religion) |> 
+  mutate(pct = round((n/sum(n))*100, 1)) -> #<<
+rel_by_region #<<
+
+rel_by_region
+```
+
+:::
+::::
+
+
+## [Right]{.fg-lblue} assignmment is a thing, like [Left]{.fg-red}
+
+:::: {.columns}
+::: {.column width="50%"}
+- [Left]{.fg-red} assignment is standard
+
+```{r }
+#| label = "03a-dplyr-basics-20"
+gss_tab <- gss_sm |> 
+  count(bigregion, religion) 
+```
+
+- This may feel awkward with a pipe: "`gss_tab` [_gets_]{.fg-orange} the output of the following pipeline."
+
+:::
+
+::: {.column width="50%" .right}
+- [Right]{.fg-lblue} assignment also works!
+
+```{r }
+#| label = "03a-dplyr-basics-21"
+gss_sm |> 
+  count(bigregion, religion) -> gss_tab  
+  
+```
+
+- Without any authority, I assert that right-assignment should be read as, e.g., "This pipeline [_begets_]{.fg-orange} `gss_tab`"
+
+:::
+::::
+
+
+## Check by summarizing
+
+:::: {.columns}
+::: {.column width="50%"}
+
+```{r }
+#| label = "03a-dplyr-basics-22"
+rel_by_region <- gss_sm |> 
+  count(bigregion, religion) |> 
+  mutate(pct = round((n/sum(n))*100, 1)) 
+
+rel_by_region
+```
+
+Hm, did I sum over right group?
+
+:::
+
+::: {.column width="50%" .right}
+
+:::
+::::
+
+
+## Check by summarizing
+
+:::: {.columns}
+::: {.column width="50%"}
+
+```{r }
+#| label = "03a-dplyr-basics-22b"
+rel_by_region <- gss_sm |> 
+  count(bigregion, religion) |> 
+  mutate(pct = round((n/sum(n))*100, 1)) 
+
+rel_by_region
+```
+
+Hm, did I sum over right group?
+
+:::
+
+::: {.column width="50%" .right}
+```{r }
+#| label = "03a-dplyr-basics-23"
+## Each region should sum to ~100
+rel_by_region |> 
+  group_by(bigregion) |> 
+  summarize(total = sum(pct)) 
+
+```
+
+No! What has gone wrong here?
+
+:::
+::::
+
+
+
+## Check by summarizing
+
+:::: {.columns}
+::: {.column width="50%"}
+
+```{r }
+#| label = "03a-dplyr-basics-24b"
+rel_by_region <- gss_sm |> 
+  count(bigregion, religion) |> #<< 
+  mutate(pct = round((n/sum(n))*100, 1)) 
+```
+
+::::: {.smallerkh}
+- [**`count()`**]{.fg-green} returns ungrouped results, so there are no groups carry forward to the [**`mutate()`**]{.fg-green} step.
+:::::
+
+```{r }
+#| label = "03a-dplyr-basics-25"
+rel_by_region |> 
+  summarize(total = sum(pct))
+```
+
+::::: {.smallerkh}
+- With [**`count()`**]{.fg-green}, the `pct` values here are the marginals for the whole table.
+:::::
+
+:::
+
+::: {.column width="50%" .right}
+
+:::
+::::
+
+
+## Check by summarizing
+
+:::: {.columns}
+::: {.column width="50%"}
+
+```{r }
+#| label = "03a-dplyr-basics-24"
+rel_by_region <- gss_sm |> 
+  count(bigregion, religion) |> #<< 
+  mutate(pct = round((n/sum(n))*100, 1)) 
+```
+
+::::: {.smallerkh}
+- [**`count()`**]{.fg-green} returns ungrouped results, so there are no groups carry forward to the [**`mutate()`**]{.fg-green} step.
+:::::
+
+
+```{r }
+#| label = "03a-dplyr-basics-25b"
+rel_by_region |> 
+  summarize(total = sum(pct))
+```
+
+::::: {.smallerkh}
+- With [**`count()`**]{.fg-green}, the `pct` values here are the marginals for the whole table.
+:::::
+:::
+
+::: {.column width="50%" .right}
+```{r }
+#| label = "03a-dplyr-basics-26"
+rel_by_region <- gss_sm |> 
+  group_by(bigregion, religion) |> #<<
+  tally() |> #<<
+  mutate(pct = round((n/sum(n))*100, 1)) 
+```
+
+```{r }
+#| label = "03a-dplyr-basics-27"
+# Check
+rel_by_region |> 
+  group_by(bigregion) |> 
+  summarize(total = sum(pct))
+
+```
+
+::::: {.smallerkh}
+- We get some rounding error because we used `round()` after summing originally.
+:::::
+
+:::
+::::
+
+
+## Two lessons
+
+### Check your tables!
+
+::: {.incremental}
+- Pipelines feed their content forward, so you need to make sure your results are not incorrect.
+- Often, complex tables and graphs can be disturbingly plausible even when wrong.
+- So, figure out what the result should be and test it!
+- Starting with simple or toy cases can help with this process.
+
+:::
+
+
+## Two lessons
+
+### Inspect your pipes!
+
+::: {.incremental}
+- Understand pipelines by running them forward or peeling them back a step at a time.
+- This is a _very_ effective way to understand your own and other people's code.
+:::
+
+# Another example
+
+## Following a pipeline
+
+```{r}
+#| label = "03a-dplyr-basics-28",
+#| echo = FALSE
+#theme_set(cowplot::theme_minimal_grid())
+```
+
+
+```{r }
+#| label = "03a-dplyr-basics-29",
+#| fig.height = 4,
+#| fig.width = 10
+gss_sm |> 
+  group_by(race, sex, degree) |> 
+  summarize(n = n(), 
+            mean_age = mean(age, na.rm = TRUE), 
+            mean_kids = mean(childs, na.rm = TRUE)) |> 
+  mutate(pct = n/sum(n)*100) |> 
+  filter(race !="Other") |> 
+  drop_na() |> 
+  ggplot(mapping = aes(x = mean_kids, y = degree)) + # Some ggplot ...
+  geom_col() + facet_grid(sex ~ race) + 
+  labs(x = "Average number of Children", y = NULL)
+```
+
+`r chunq_reveal("03a-dplyr-basics-30", smallcode = TRUE,  lcolw = "38", rcolw = "62", title = "Following a pipeline")`
+
+
+```{r }
+#| label = "03a-dplyr-basics-30",
+#| include = FALSE
+gss_sm |> 
+  group_by(race, sex, degree) |> 
+  summarize(n = n(), 
+    mean_age = mean(age, na.rm = TRUE), 
+    mean_kids = mean(childs, na.rm = TRUE)) |> 
+  mutate(pct = n/sum(n)*100) |> 
+  filter(race !="Other") |> 
+  drop_na() |> 
+  summarize(grp_totpct = sum(pct))
+```
+
+
+# Conditional selection
+
+## Conditionals in [`select()`]{.fg-green} & [`filter()`]{.fg-green}
+
+- Some new data, this time on national rates of cadaveric organ donation:
+
+```{r }
+#| label = "03a-dplyr-basics-31"
+# library(socviz)
+organdata
+```
+
+
+## Conditionals in [`select()`]{.fg-green} & [`filter()`]{.fg-green}
+
+```{r }
+#| label = "03a-dplyr-basics-32"
+organdata |> 
+  filter(consent_law == "Informed" & donors > 15) 
+```
+
+## Conditionals in [`select()`]{.fg-green} & [`filter()`]{.fg-green}
+
+```{r }
+#| label = "03a-dplyr-basics-33"
+organdata |> 
+  select(country, year, where(is.integer)) #<<
+```
+
+Use [**`where()`**]{.fg-green} to test columns.
+
+## Conditionals in [`select()`]{.fg-green} & [`filter()`]{.fg-green}
+
+When telling [**`where()`**]{.fg-green} to use [**`is.integer()`**]{.fg-green} to test each column, we don't put parentheses at the end of its name. If we did, R would try to evaluate [**`is.integer()`**]{.fg-green} right then, and fail:
+
+```r
+> organdata |> 
++   select(country, year, where(is.integer()))
+Error: 0 arguments passed to 'is.integer' which requires 1
+Run `rlang::last_error()` to see where the error occurred.
+```
+
+This is true in similar situations elsewhere as well.
+
+## Conditionals in [`select()`]{.fg-green} & [`filter()`]{.fg-green}
+
+```{r }
+#| label = "03a-dplyr-basics-34"
+organdata |> 
+  select(country, year, where(is.character))
+```
+
+We have functions like e.g. [**`is.character()`**]{.fg-green}, [**`is.numeric()`**]{.fg-green}, [**`is.logical()`**]{.fg-green}, [**`is.factor()`**]{.fg-green}, etc. All return either [`TRUE`]{.fg-green} or [`FALSE`]{.fg-red}. 
+
+## Conditionals in [`select()`]{.fg-green} & [`filter()`]{.fg-green}
+
+Sometimes we don't pass a function, but do want to use the result of one:
+
+```{r }
+#| label = "03a-dplyr-basics-35"
+organdata |> 
+  select(country, year, starts_with("gdp")) #<<
+```
+
+::: {.smallerkh}
+We have [**`starts_with()`**]{.fg-green}, [**`ends_with()`**]{.fg-green}, [**`contains()`**]{.fg-green}, [**`matches()`**]{.fg-green}, and [**`num_range()`**]{.fg-green}. Collectively these are "[tidy selectors]{.fg-pink}".
+:::
+
+## Conditionals in [`select()`]{.fg-green} & [`filter()`]{.fg-green}
+
+```{r }
+#| label = "03a-dplyr-basics-36"
+organdata |> 
+  filter(country == "Australia" | country == "Canada") 
+```
+
+This could get cumbersome fast.
+
+## Use [`%in%`]{.fg-pink} for multiple selections
+
+```{r }
+#| label = "03a-dplyr-basics-37"
+my_countries <- c("Australia", "Canada", "United States", "Ireland")
+
+organdata |> 
+  filter(country %in% my_countries) #<<
+```
+
+## Negating [`%in%`]{.fg-pink} 
+
+```{r }
+#| label = "03a-dplyr-basics-38"
+my_countries <- c("Australia", "Canada", "United States", "Ireland")
+
+organdata |> 
+  filter(!(country %in% my_countries)) #<<
+```
+
+Also a bit awkward. There's no built-in "Not in" operator. 
+
+## A custom operator 
+
+```{r }
+#| label = "03a-dplyr-basics-39"
+`%nin%` <- Negate(`%in%`) # this operator is included in the socviz package
+```
+
+::: aside
+The backticks are special here because we need to name an operator. 
+:::
+
+```{r }
+#| label = "03a-dplyr-basics-40"
+organdata |> 
+  filter(country %nin% my_countries) #<<
+```
+
+# Using `across()`
+
+## Do more than one thing 
+
+Earlier we saw this:
+
+```{r }
+#| label = "03a-dplyr-basics-41"
+gss_sm |> 
+  group_by(race, sex, degree) |> 
+  summarize(n = n(), 
+            mean_age = mean(age, na.rm = TRUE), 
+            mean_kids = mean(childs, na.rm = TRUE))
+```
+
+## Do more than one thing 
+
+Similarly for `organdata` we might want to do:
+
+```{r }
+#| label = "03a-dplyr-basics-42"
+organdata |>  
+  group_by(consent_law, country) |>
+  summarize(donors_mean = mean(donors, na.rm = TRUE),
+            donors_sd = sd(donors, na.rm = TRUE),
+            gdp_mean = mean(gdp, na.rm = TRUE),
+            health_mean = mean(health, na.rm = TRUE),
+            roads_mean = mean(roads, na.rm = TRUE))
+```
+
+
+This works, but it's really tedious. Also error-prone.
+
+## Use [**`across()`**]{.fg-green} 
+
+Instead, use [`across()`]{.fg-green} to apply a function to more than one column.
+
+```{r }
+#| label = "03a-dplyr-basics-43"
+
+my_vars <- c("gdp", "donors", "roads")
+
+## nested parens again, but it's worth it
+organdata |> 
+  group_by(consent_law, country) |>
+  summarize(across(my_vars,           
+                   list(avg = mean),  
+                   na.rm = TRUE))     
+```
+
+`r chunq_reveal("03a-dplyr-basics-43", smallcode = TRUE, widths = c(40,60), title = "Let's look at that again")`
+
+::: {.incremental}
+- `my_vars` are selected by [**`across()`**]{.fg-green}
+- [**`list()`**]{.fg-green} of the form `result = function` gives the new columns that will be calculated. `na.rm = TRUE` is passed through to the functions inside the `list()`
+:::
+
+
+## We can calculate more than one thing
+
+```{r }
+#| label = "03a-dplyr-basics-44"
+
+my_vars <- c("gdp", "donors", "roads")
+
+organdata |> 
+  group_by(consent_law, country) |>
+  summarize(across(my_vars,           
+                   list(avg = mean, #<<
+                        sd = var, #<<
+                        md = median),#<<  
+                   na.rm = TRUE))     
+```
+
+## It's OK to use the function names 
+
+```{r }
+#| label = "03a-dplyr-basics-45"
+
+my_vars <- c("gdp", "donors", "roads")
+
+organdata |> 
+  group_by(consent_law, country) |>
+  summarize(across(my_vars,           
+                   list(mean = mean, #<<
+                        var = var, #<<
+                        median = median),#<<  
+                   na.rm = TRUE))     
+```
+
+## Selection with [**`across(where())`**]{.fg-green}
+
+```{r }
+#| label = "03a-dplyr-basics-46"
+organdata |> 
+  group_by(consent_law, country) |>
+  summarize(across(where(is.numeric), #<<       
+                   list(mean = mean, 
+                        var = var, 
+                        median = median),
+                   na.rm = TRUE)) |> 
+    print(n = 3) # just to save slide space
+```
+
+
+## Name new columns with [**`.names`**]{.fg-green}
+
+```{r }
+#| label = "03a-dplyr-basics-47"
+organdata |> 
+  group_by(consent_law, country) |>
+  summarize(across(where(is.numeric),        
+                   list(mean = mean, 
+                        var = var, 
+                        median = median),
+                   na.rm = TRUE, 
+                   .names = "{fn}_{col}")) |> #<<
+  print(n = 3) 
+```
+
+
+## Name new columns with [**`.names`**]{.fg-green}
+
+```{r }
+#| label = "03a-dplyr-basics-47b"
+organdata |> 
+  group_by(consent_law, country) |>
+  summarize(across(where(is.numeric),        
+                   list(mean = mean, 
+                        var = var, 
+                        median = median),
+                   na.rm = TRUE, 
+                   .names = "{fn}_{col}")) |> #<<
+  print(n = 3) 
+```
+
+## Name new columns with [**`.names`**]{.fg-green}
+
+In tidyverse functions, arguments that begin with a "`.`" generally have it in order to avoid confusion with existing items, or are "pronouns" referring to e.g. "the name of the thing we're currently talking about as we evaluate this function". 
+
+  
+
+## This all works with [**`mutate()`**]{.fg-green}, too
+
+
+```{r }
+#| label = "03a-dplyr-basics-48"
+organdata |> 
+  mutate(across(where(is.character), toupper)) |> 
+  select(where(is.character))
+```
+
+## Arrange rows and columns
+
+Sort rows with [**`arrange()`**]{.fg-green}
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r }
+#| label = "03a-dplyr-basics-49"
+organdata |> 
+  group_by(consent_law, country) |>
+  summarize(donors = mean(donors, na.rm = TRUE)) |> 
+  arrange(donors) |> ##< 
+  print(n = 5)
+```
+
+:::
+
+::: {.column width="50%" .right}
+
+:::
+::::
+
+## Arrange rows and columns
+
+Sort rows with [**`arrange()`**]{.fg-green}
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r }
+#| label = "03a-dplyr-basics-49b"
+organdata |> 
+  group_by(consent_law, country) |>
+  summarize(donors = mean(donors, na.rm = TRUE)) |> 
+  arrange(donors) |> ##< 
+  print(n = 5)
+```
+
+:::
+
+::: {.column width="50%" .right}
+```{r }
+#| label = "03a-dplyr-basics-50"
+organdata |> 
+  group_by(consent_law, country) |>
+  summarize(donors = mean(donors, na.rm = TRUE)) |> 
+  arrange(desc(donors)) |>  ##<
+  print(n = 5)
+```
+
+Using [**`arrange()`**]{.fg-green} to order rows in this way won't respect groupings.
+
+:::
+::::
+
+
+## More generally ...
+
+```{r }
+#| label = "03a-dplyr-basics-51"
+organdata |> 
+  group_by(consent_law, country) |>
+  summarize(donors = mean(donors, na.rm = TRUE)) |> 
+  slice_max(donors, n = 5) #<<
+```
+
+- You can see that [**`slice_max()`**]{.fg-green} respects grouping.
+- There's [**`slice_min()`**]{.fg-green}, [**`slice_head()`**]{.fg-green}, [**`slice_tail()`**]{.fg-green}, [**`slice_sample()`**]{.fg-green}, and the most general one, [**`slice()`**.]{.fg-green}
+

@@ -167,7 +167,7 @@ $presentation-h6-font-size: $presentation-font-size-root * 0.8;
   text-align: left;
 }
 
-// very large text
+// Text size changes
 
 .huge p {
   font-size: 4em;
@@ -178,6 +178,14 @@ $presentation-h6-font-size: $presentation-font-size-root * 0.8;
 }
 
 .larger p {
+  font-size: 3em;
+  font-weight: bold;
+  text-align: center;
+  line-height: 0.85em;
+  margin-bottom: 0.1em;
+}
+
+.large p {
   font-size: 2em;
   font-weight: bold;
   text-align: center;
@@ -185,6 +193,17 @@ $presentation-h6-font-size: $presentation-font-size-root * 0.8;
   margin-bottom: 0.1em;
 }
 
+.small p, ul, ol {
+  font-size: 1.2em;
+}
+
+.smallerkh p, ul, ol {
+  font-size: 1em;
+}
+
+.tiny p, ul, ol {
+  font-size: 0.85em;
+}
 
 .code-annotation-anchor {
   color: $my-orange !important;
