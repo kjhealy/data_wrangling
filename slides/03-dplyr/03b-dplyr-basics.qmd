@@ -1,6 +1,6 @@
 ---
 title: "Manipulating tables with `dplyr`"
-subtitle: "Data Wrangling, Session 4"
+subtitle: "Data Wrangling, Session 3 (contd)"
 format: kjhslides-revealjs
 engine: knitr
 filters:
