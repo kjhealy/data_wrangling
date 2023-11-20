@@ -1,6 +1,6 @@
 ---
 title: "Reading in Data"
-subtitle: "Data Wrangling, Session 5"
+subtitle: "Data Wrangling, Session 6"
 format: kjhslides-revealjs
 engine: knitr
 filters:
