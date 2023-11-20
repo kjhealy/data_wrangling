@@ -1,0 +1,1118 @@
+---
+title: "Iterating on Data"
+subtitle: "Data Wrangling, Session 7"
+format: kjhslides-revealjs
+engine: knitr
+filters:
+  - invert-h1
+  - line-highlight
+  - include-code-files
+author:
+  - name: Kieran Healy
+    affiliation: "Code Horizons"
+date: last-modified
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+#| label = "packages",
+#| include = FALSE
+library(flipbookr)
+library(here)
+library(tidyverse)
+library(kjhslides)
+```
+
+
+```{r}
+#| label = "setup",
+#| include = FALSE
+
+kjh_register_tenso()
+kjh_set_knitr_opts()
+kjh_set_slide_theme()
+
+```
+
+
+# [Iterating]{.fg-green} on data with [purrr]{.fg-yellow} and [map]{.fg-yellow}  
+
+## Load the packages, as always
+
+```{r}
+#| label = "07-iterating-on-data-2",
+#| message = TRUE
+library(here)      # manage file paths
+library(socviz)    # data and some useful functions
+library(tidyverse) # your friend and mine
+```
+
+
+---
+
+:::{.huge}
+[Moar Data]{.fg-orange}
+:::
+
+## More than one data file
+
+- Inside the `data/` folder of the course packet is a folder named `congress/`
+
+::: {.smallcode}
+
+```{r }
+#| label = "07-iterating-on-data-3"
+# A little trick from the fs package: 
+fs::dir_tree(here("data", "congress"))
+```
+
+:::
+
+## More than one data file
+
+Let's look at one.
+
+::: {.smallcode}
+
+```{r }
+#| label = "07-iterating-on-data-4"
+read_csv(here("data", "congress", "17_95_congress.csv")) |> 
+  janitor::clean_names() |> 
+  head()
+```
+
+:::
+
+We often find ourselves in this situation. We know each file has the same structure, and we would like to use them all at once. 
+
+## Loops?
+
+How to read them all in?
+
+One traditional way, which we could do in R, is to write an explicit _loop_ that iterated over a vector of filenames, read each file, and then joined the results together in a tall rectangle.
+
+```r
+# Pseudocode
+
+filenames <- c("01_79_congress.csv", "02_80_congress.csv", "03_81_congress.csv",
+                "04_82_congress.csv" [etc etc])
+
+collected_files <- NULL
+
+for(i in 1:length(filenames)) {
+      new_file <- read_file(filenames[i])
+      collected_files <- append_to(collected_files, new_files)
+}
+
+
+```
+
+## Loops?
+
+::: {.incremental}
+- You may have noticed we have not written any loops, however.
+- While loops are still lurking there underneath the surface, what we will do instead is to take advantage of the combination of vectors and functions and _map_ one to the other in order to generate results.
+- Speaking loosely, think of [**`map()`**]{.fg-green} as a way of [iterating]{.fg-orange} without writing loops. You start with a vector of things. You feed it one thing at a time to some function. The function does whatever it does. You get back output that is the same length as your input, and of a specific type.
+:::
+
+
+## Mapping is just a kind of iteration
+
+::: {.incremental}
+- The `purrr` package provides a big family of mapping functions. One reason there are a lot of them is that `purrr`, like the rest of the tidyverse, is picky about data types. 
+- So in addition to the basic [**`map()`**]{.fg-green}, which always returns a _list_, we also have [**`map_chr()`**]{.fg-green}, [**`map_int()`**]{.fg-green}, [**`map_dbl()`**]{.fg-green}, [**`map_lgl()`**]{.fg-green} and others. They always return the data type indicated by their suffix, or die trying.
+:::
+
+## Vectorized arithmetic again
+
+The simplest cases are not that different from the vectorized arithmetic we're already familiar with. 
+
+```{r }
+#| label = "07-iterating-on-data-5"
+a <- c(1:10)
+
+b <- 1
+
+# You know what R will do here
+a + b
+
+```
+
+::::: {.fragment fragment-index=1}
+R's vectorized rules add `b` to every element of `a`. In a sense, the [**`+`**]{.fg-green} operation can be thought of as a function that takes each element of `a` and does something with it. In this case "add `b`".      
+:::::
+
+
+## Vectorized arithmetic again
+
+We can make this explicit by writing a function:
+
+```{r }
+#| label = "07-iterating-on-data-6"
+add_b <- function(x) {
+  b <- 1
+  x + b # for any x
+}
+```
+
+
+## Vectorized arithmetic again
+
+We can make this explicit by writing a function:
+
+```{r }
+#| label = "07-iterating-on-data-6b"
+add_b <- function(x) {
+  b <- 1
+  x + b # for any x
+}
+```
+
+
+Now:
+
+```{r }
+#| label = "07-iterating-on-data-7"
+add_b(x = a)
+```
+
+## Vectorized arithmetic again
+
+Again, R's vectorized approach means it automatically adds `b` to every element of the x we give it.
+
+```{r }
+#| label = "07-iterating-on-data-8"
+add_b(x = 10)
+```
+
+```{r }
+#| label = "07-iterating-on-data-9"
+add_b(x = c(1, 99, 1000))
+```
+
+## [Iterating]{.fg-green} in a pipeline
+
+Some operations can't directly be vectorized in this way, which is why we need to manually iterate, or will want to write loops. 
+
+```{r }
+#| label = "07-iterating-on-data-10"
+library(gapminder)
+gapminder |> 
+  summarize(country_n = n_distinct(country), 
+            continent_n = n_distinct(continent), 
+            year_n = n_distinct(year), 
+            lifeExp_n = n_distinct(lifeExp), 
+            population_n = n_distinct(population))
+```
+
+That's tedious to write! Computers are supposed to allow us to avoid that sort of thing.
+
+## [Iterating]{.fg-green} in a pipeline
+
+So how would we iterate this? What we want is to apply the [**`n_distinct()`**]{.fg-green} function to each column of `gapminder`, but in a way that still allows us to use pipelines and so on. 
+
+```{r }
+#| label = "07-iterating-on-data-11"
+library(gapminder)
+gapminder |> 
+  summarize(n_distinct(country), 
+            n_distinct(continent), 
+            n_distinct(year), 
+            n_distinct(lifeExp), 
+            n_distinct(population))
+```
+
+::: aside
+Using [**`n_distinct()`**]{.fg-green} in this context is an idea I got from Rebecca Barter's discussion of `purrr`.
+:::
+
+## [Iterating]{.fg-green} in a pipeline
+
+You'd use [**across()**]{.fg-green}, like this:
+
+```{r }
+#| label = "07-iterating-on-data-12"
+gapminder |> 
+  summarize(across(everything(), n_distinct))
+```
+
+## [Iterating]{.fg-green} in a pipeline
+
+But you could also do this ... 
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r }
+#| label = "07-iterating-on-data-13"
+  map(gapminder, n_distinct)
+```
+
+:::
+
+::: {.column width="50%" .right}
+- Read it as "Feed each column of `gapminder` to the [**`n_distinct()`**]{.fg-green} function.
+- (This is pretty much what [**`across()`**]{.fg-green} is doing more nicely.)
+:::
+::::
+
+## [Iterating]{.fg-green} in a pipeline
+
+:::: {.columns}
+::: {.column width="50%"}
+Or, in pipeline form:
+
+```{r }
+#| label = "07-iterating-on-data-14"
+gapminder |> 
+  map(n_distinct)
+```
+
+:::
+
+::: {.column width="50%" .right}
+
+You can see we are getting a _list_ back.
+
+:::
+::::
+
+
+---
+
+## [Iterating]{.fg-green} in a pipeline
+
+Or, in pipeline form:
+
+```{r }
+#| label = "07-iterating-on-data-15"
+result <- gapminder |> 
+  map(n_distinct)
+
+class(result)
+
+result$continent
+
+result[[2]]
+```
+
+
+## [Iterating]{.fg-green} in a pipeline
+
+But we know [**`n_distinct()`**]{.fg-green} should always return an integer. So we use [**`map_int()`**]{.fg-green} instead of the generic [**`map()`**]{.fg-green}.
+
+
+```{r }
+#| label = "07-iterating-on-data-16"
+gapminder |> 
+  map_int(n_distinct)
+```
+
+::::: {.fragment fragment-index=1}
+The thing about the [**`map()`**]{.fg-green} family is that they can deal with all kinds of input types and output types.    
+:::::
+
+
+
+## Get a vector of [filenames]{.fg-pink}
+
+```{r }
+#| label = "07-iterating-on-data-17"
+filenames <- dir(path = here("data", "congress"),
+                 pattern = "*.csv",
+                 full.names = TRUE)
+
+filenames[1:15] # Just displaying the first 15, to save slide space
+
+```
+
+## And feed it to [`read_csv()`]{.fg-green}
+
+... using [**`map()`**]{.fg-green} and binding the resulting list into a tibble.
+
+```{r }
+#| label = "07-iterating-on-data-18"
+df <- filenames |> 
+  map(read_csv) |> #<<
+  list_rbind(names_to = "congress") |> 
+  janitor::clean_names()
+
+df
+```
+
+---
+
+![](img/emperor-witness.png)
+
+## [`read_csv()`]{.fg-green} can do this directly
+
+In fact `map()` is not required for this particular use:
+
+```{r }
+#| label = "07-iterating-on-data-19"
+tmp <- read_csv(filenames, id = "path",
+                name_repair = janitor::make_clean_names)
+
+tmp |> 
+  mutate(congress = stringr::str_extract(path, "_\\d{2,3}_congress"), 
+         congress = stringr::str_extract(congress, "\\d{2,3}")) |> 
+  relocate(congress)
+
+```
+
+# Example: Iterating on the [US Census]{.fg-yellow}
+
+## Iterating on the [US Census]{.fg-yellow}
+
+Mapped iteration is very general, and not just for local files
+
+```{r }
+#| label = "07-iterating-on-data-20"
+## Register for a free Census API key
+library(tidycensus)
+```
+
+```{r}
+#| label = "07-iterating-on-data-21",
+#| message = FALSE,
+#| results = "hide"
+out <- get_acs(geography = "county", 
+                    variables = "B19013_001",
+                    state = "NY", 
+                    county = "New York", 
+                    survey = "acs1",
+                    year = 2005)
+```
+
+```{r}
+#| label = "07-iterating-on-data-22"
+out
+```
+
+## Iterating on the [US Census]{.fg-yellow}
+
+All counties in New York State for a specific year
+
+```{r}
+#| label = "07-iterating-on-data-23",
+#| message = FALSE,
+#| results = "hide"
+out <- get_acs(geography = "county", 
+                    variables = "B19013_001",
+                    state = "NY", 
+                    survey = "acs1",
+                    year = 2005)
+```
+
+```{r}
+#| label = "07-iterating-on-data-24"
+out
+```
+
+## Iterating on the [US Census]{.fg-yellow}
+
+What if we want the results for _every_ available year?
+First, a handy function: [**`set_names()`**]{.fg-green}
+
+```{r}
+#| label = "07-iterating-on-data-25, 07-iterating-on-census-3"
+x <- c(1:10)
+
+x
+
+x <- set_names(x, nm = letters[1:10])
+
+x
+```
+
+## Iterating on the [US Census]{.fg-yellow}
+
+By default, [**`set_names()`**]{.fg-green} will label a vector with that vector’s values:
+
+```{r}
+#| label = "07-iterating-on-data-26, 07-iterating-on-census-4"
+c(1:10) |> 
+  set_names()
+
+```
+
+## Iterating on the [US Census]{.fg-yellow}
+
+This works with `map()` just fine:
+
+```{r}
+#| label = "07-iterating-on-data-27",
+#| message = FALSE,
+#| results = "hide"
+df <- 2005:2019 |> 
+  map(\(x) get_acs(geography = "county",
+                   variables = "B19013_001",
+                   state = "NY",
+                   survey = "acs1",
+                   year = x)) |> 
+  list_rbind(names_to = "year") 
+```
+
+```{r}
+#| label = "07-iterating-on-data-28"
+df
+```
+
+## Iterating on the [US Census]{.fg-yellow}
+
+Our `id` column *tracks* the year. But we’d like it to *be* the year. So,
+we use [**`set_names()`**]{.fg-green}:
+
+
+```{r}
+#| label = "07-iterating-on-data-29",
+#| message = FALSE,
+#| results = "hide"
+df <- 2005:2019 |> 
+  set_names() |> 
+  map(\(x) get_acs(geography = "county",
+                   variables = "B19013_001",
+                   state = "NY",
+                   survey = "acs1",
+                   year = x)) |> 
+  list_rbind(names_to = "year") |>
+  mutate(year = as.integer(year))
+```
+
+## Iterating on the [US Census]{.fg-yellow}
+
+```{r}
+#| label = "07-iterating-on-data-30"
+df
+```
+
+
+Now `year` is just the year. The `year` column will be created as a
+character vector, so we converted it back to an integer again at the end.
+
+## Iterating on the [US Census]{.fg-yellow}
+
+```{r}
+#| label = "07-iterating-on-data-31",
+#| message = FALSE,
+#| results = "hide"
+p_out <- 2005:2019 |>
+  set_names() |>
+  map(\(x) get_acs(geography = "county",
+                   variables = "B19013_001",
+                   state = "NY",
+                   survey = "acs1",
+                   year = x)) |>
+  list_rbind(names_to = "year") |>
+  mutate(year = as.integer(year)) |>
+  ggplot(mapping = aes(x = year, y = estimate, group = year)) +
+  geom_boxplot(fill = "lightblue", alpha = 0.5, outlier.alpha = 0) +
+  geom_jitter(position = position_jitter(width = 0.1), shape = 1) +
+  scale_y_continuous(labels = scales::label_dollar()) +
+  labs(x = "Year", y = "Dollars",
+       title = "Median Household Income by County in New York State, 2005-2019",
+       subtitle = "ACS 1-year estimates", caption = "Data: U.S. Census Bureau.") 
+
+```
+
+## Iterating on the [US Census]{.fg-yellow}
+
+```{r}
+#| label = "07-iterating-on-data-32",
+#| fig.width = 12,
+#| fig.height = 5
+print(p_out)
+```
+
+# Example: cleaning up [congress]{.fg-yellow}
+
+## Cleaning up [congress]{.fg-yellow}
+
+```{r }
+#| label = "07-iterating-on-data-33"
+df <- filenames |> 
+  map(read_csv) |> #<<
+  list_rbind(names_to = "congress") |> 
+  janitor::clean_names()
+
+df |> 
+  select(born, death, start, end)
+```
+
+We'll use the **lubridate** package to sort these out. 
+
+Lubridate has a wide range of functions to handle dates, times, and durations. 
+
+::: {.notes}
+In particular it has many convenience functions to help with the many different ways that people encode dates that _ought_ to be encoded as `YYYY-MM-DD`.
+
+:::
+
+
+## Cleaning up [congress]{.fg-yellow}
+
+```{r }
+#| label = "07-iterating-on-data-34"
+library(lubridate)
+
+date_recodes <- c("born", "death", "start", "end")
+df <- df |> 
+    mutate(across(any_of(date_recodes), mdy), 
+           congress = as.integer(congress) + 78)
+
+df 
+
+```
+
+## Cleaning up [congress]{.fg-yellow}
+
+```{r }
+#| label = "07-iterating-on-data-35"
+sessions <- tibble(congress = 79:116,
+                   start_year = seq(1945, 2019, by = 2),
+                   end_year = seq(1947, 2021, by = 2)) |> 
+  mutate(start_year = ymd(paste(start_year, "01", "03", sep = "-")), 
+         end_year = ymd(paste(end_year, "01", "03", sep = "-")))
+
+
+sessions
+
+```
+
+## We're going to join these tables
+
+:::: {.columns}
+::: {.column width="50%"}
+The big table:
+
+```{r }
+#| label = "07-iterating-on-data-36"
+df |> 
+  select(congress, last, born)
+
+```
+:::
+
+::: {.column width="50%" .right}
+The smaller table
+
+```{r }
+#| label = "07-iterating-on-data-37"
+sessions
+
+```
+
+:::
+::::
+
+
+## We're going to [join]{.fg-orange} these tables
+
+We will use [**`left_join()`**]{.fg-green} which is what you want most of the time when you are looking to merge a smaller table with additional information into a larger main one. 
+
+```{r}
+#| label = "07-iterating-on-data-38",
+#| message = TRUE
+
+df <- left_join(df, sessions) |> 
+  relocate(start_year:end_year, .after = congress)  
+
+df 
+
+```
+
+## Table joins
+
+![](img/original-dfs.png){width=50%}
+
+
+::: aside
+Spiffy Join Animatations courtesy [Garrick Aden-Buie](github.com/gadenbuie/join-animations-with-gganimate.R)  
+:::
+
+## Left join, [left_join()]{.fg-yellow}
+
+![All rows from x, and all columns from x and y. Rows in x with no match in y will have NA values in the new columns.](img/left-join.gif)
+
+
+## Left join (contd), [left_join()]{.fg-yellow}
+
+![If there are multiple matches between x and y, all combinations of the matches are returned.](img/left-join-extra.gif)
+
+## Inner join, [inner_join()]{.fg-yellow}
+
+![All rows from x where there are matching values in y, and all columns from x and y.](img/inner-join.gif)
+
+
+## Full join, [full_join()]{.fg-yellow}
+
+![All rows and all columns from both x and y. Where there are not matching values, returns NA for the one missing.](img/full-join.gif)
+
+## Semi join, [semi_join()]{.fg-yellow}
+
+![All rows from x where there are matching values in y, keeping just columns from x.](img/semi-join.gif)
+
+
+## Anti join, [anti_join()]{.fg-yellow}
+
+![All rows from x where there are not matching values in y, keeping just columns from x.](img/anti-join.gif)
+
+
+## Left join, [left_join()]{.fg-yellow}
+
+Most of the time you will be looking to make a [**`left_join()`**]{.fg-green}
+
+
+# More on [Missing Data]{.fg-red}
+
+## Never test for missingness with [`==`]{.fg-red}
+
+The result of almost any operation involving a missing/unknown value will be missing/unknown.
+
+```{r }
+#| label = "07-iterating-on-data-39"
+df <- tribble(
+  ~subject, ~age,
+  "A", 20,
+  "B", 25,
+  "C", NA,
+  "D", 34
+)
+
+df
+
+```
+
+## Never test for missingness with [`==`]{.fg-red}
+
+The result of almost any operation involving a missing/unknown value will be missing/unknown.
+
+```{r }
+#| label = "07-iterating-on-data-40"
+# OK
+df |> 
+  filter(age == 25)
+```
+
+## Never test for missingness with [`==`]{.fg-red}
+
+The result of almost any operation involving a missing/unknown value will be missing/unknown.
+
+```{r }
+#| label = "07-iterating-on-data-41"
+# Nope
+df |> 
+  filter(age == NA)
+```
+
+## Never test for missingness with [`==`]{.fg-red}
+
+The result of almost any operation involving a missing/unknown value will be missing/unknown.
+
+```{r }
+#| label = "07-iterating-on-data-42"
+# E.g.
+23 == NA
+```
+
+
+## Never test for missingness with [`==`]{.fg-red}
+
+Always use [**`is.na()`**]{.fg-green} instead
+
+```{r }
+#| label = "07-iterating-on-data-43"
+# Yes
+df |> 
+  filter(is.na(age))
+```
+
+## A quick plug for [naniar]{.fg-yellow} and [visdat]{.fg-yellow}
+
+```{r }
+#| label = "07-iterating-on-data-44"
+library(naniar)
+library(visdat)
+
+organdata
+```
+
+## A quick plug for [naniar]{.fg-yellow} and [visdat]{.fg-yellow}
+
+
+```{r}
+#| label = "07-iterating-on-data-45",
+#| fig.height = 6,
+#| fig.width = 8
+gg_miss_var(organdata)
+```
+
+## A quick plug for [naniar]{.fg-yellow} and [visdat]{.fg-yellow}
+
+```{r}
+#| label = "07-iterating-on-data-46",
+#| fig.height = 6,
+#| fig.width = 8
+vis_dat(organdata)
+```
+
+## A quick plug for [naniar]{.fg-yellow} and [visdat]{.fg-yellow}
+
+```{r}
+#| label = "07-iterating-on-data-47",
+#| fig.height = 6,
+#| fig.width = 8
+miss_var_summary(organdata)
+```
+
+
+## A quick plug for [naniar]{.fg-yellow} and [visdat]{.fg-yellow}
+
+```{r }
+#| label = "07-iterating-on-data-48"
+miss_case_summary(organdata)
+```
+
+## A quick plug for [naniar]{.fg-yellow} and [visdat]{.fg-yellow}
+
+```{r }
+#| label = "07-iterating-on-data-49"
+organdata |>
+  select(consent_law, year, pubhealth, roads) |>
+  group_by(consent_law) |>
+  miss_var_summary()
+
+```
+
+## A quick plug for [naniar]{.fg-yellow} and [visdat]{.fg-yellow}
+
+```{r}
+#| label = "07-iterating-on-data-50",
+#| fig.height = 6,
+#| fig.width = 8
+vis_miss(organdata)
+```
+
+## A quick plug for [naniar]{.fg-yellow} and [visdat]{.fg-yellow}
+
+```{r}
+#| label = "07-iterating-on-data-51",
+#| fig.height = 6,
+#| fig.width = 8
+library(dwcongress)
+gg_miss_upset(congress)
+```
+
+## A quick plug for [naniar]{.fg-yellow} and [visdat]{.fg-yellow}
+
+```{r}
+#| label = "07-iterating-on-data-52",
+#| fig.height = 6,
+#| fig.width = 8
+vis_miss(organdata, cluster = TRUE)
+```
+
+## A quick plug for [naniar]{.fg-yellow} and [visdat]{.fg-yellow}
+
+```{r}
+#| label = "07-iterating-on-data-53",
+#| fig.height = 6,
+#| fig.width = 8
+gg_miss_upset(organdata)
+```
+
+# Example: Upset Plots
+
+## [Upset plots]{.fg-yellow} and a bit of wrangling
+
+![:scale 35%](img/covid-symptoms-venn.jpg)
+
+## [Upset plots]{.fg-yellow} and a bit of wrangling
+
+```{r }
+#| label = "07-iterating-on-data-54"
+symptoms <- c("Anosmia", "Cough", "Fatigue", 
+              "Diarrhea", "Breath", "Fever")
+names(symptoms) <- symptoms
+symptoms
+```
+
+## [Upset plots]{.fg-yellow} and a bit of wrangling
+
+```{r }
+#| label = "07-iterating-on-data-55"
+# An Excel file!
+dat <- readxl::read_xlsx(here("data", "symptoms.xlsx")) 
+dat |> print(n = nrow(dat))
+
+```
+
+## [Upset plots]{.fg-yellow} and a bit of wrangling
+
+
+```{r }
+#| label = "07-iterating-on-data-56"
+subsets <- dat |> 
+  pull(combination)
+
+## Check if each subset mentions each symptom or not
+symptom_mat <- map_dfc(subsets, str_detect, symptoms) |>
+    data.frame() |>
+    t() |> # transpose the result, this is a little gross, sorry
+    as_tibble(.name_repair = "unique")
+
+colnames(symptom_mat) <- symptoms
+symptom_mat$count <- dat$count
+```
+
+## [Upset plots]{.fg-yellow} and a bit of wrangling
+
+Now we have a table we can do something with.
+
+```{r }
+#| label = "07-iterating-on-data-57"
+symptom_mat |> print(n = nrow(symptom_mat))
+```
+
+## [Upset plots]{.fg-yellow} and a bit of wrangling
+
+Uncounting tables:
+
+```{r }
+#| label = "07-iterating-on-data-58"
+indvs <- symptom_mat |>
+    uncount(count) 
+
+indvs
+
+```
+
+
+Now we've reconstructed the individual-level observations.
+
+## [Upset plots]{.fg-yellow} and a bit of wrangling
+
+
+```{r}
+#| label = "07-iterating-on-data-59",
+#| fig.width = 16,
+#| fig.height = 9,
+#| eval = FALSE
+# devtools::install_github("krassowski/complex-upset")
+
+library(ComplexUpset)
+
+upset(data = indvs, intersect = symptoms, 
+      name="Symptom Groupings by Frequency. Total pool is 1,764 individuals.", 
+      min_size = 0,
+      width_ratio = 0.125) +
+    labs(title = "Co-Occurence of COVID-19 Symptoms",
+         caption = "Data: covid.joinzoe.com/us | Graph: @kjhealy")
+
+
+```
+
+## [Upset plots]{.fg-yellow} and a bit of wrangling
+
+
+```{r}
+#| label = "07-iterating-on-data-60",
+#| fig.width = 12,
+#| fig.height = 7,
+#| echo = FALSE
+# devtools::install_github("krassowski/complex-upset")
+
+library(ComplexUpset)
+
+upset(data = indvs, intersect = symptoms, 
+      name="Symptom Groupings by Frequency. Total pool is 1,764 individuals.", 
+      min_size = 0,
+      width_ratio = 0.125) +
+    labs(title = "Co-Occurence of COVID-19 Symptoms",
+         caption = "Data: covid.joinzoe.com/us | Graph: @kjhealy")
+
+
+```
+
+# Wrangling [Models]{.fg-green}
+
+## This is not a [statistics]{.fg-yellow} seminar!
+
+- I'll just give you an example of the sort of thing that many other modeling packages implement for all kinds of modeling techniques.
+- Again, the principle is tidy incorporation of models and their output.
+
+## Tidy regression output with [broom]{.fg-yellow}
+
+```{r }
+#| label = "07-iterating-on-data-61"
+library(broom)
+library(gapminder)
+```
+
+
+```{r}
+#| label = "r 07-[Iterating]{.fg-green}-2"
+out <- lm(formula = lifeExp ~ gdpPercap + pop + continent,
+          data = gapminder)
+```
+
+## Tidy regression output with [broom]{.fg-yellow}
+
+We can't _do_ anything with this, programatically.
+
+```{r}
+#| label = "r 07-[Iterating]{.fg-green}-3"
+summary(out)
+```
+
+## Tidy regression output with [broom]{.fg-yellow}
+
+```{r}
+#| label = "r 07-[Iterating]{.fg-green}-8"
+library(broom)
+```
+
+```{r}
+#| label = "r 07-[Iterating]{.fg-green}-9"
+tidy(out)
+```
+
+That's a _lot_ nicer. Now it's just a tibble. We know those.
+
+## Tidy regression output with [broom]{.fg-yellow}
+
+```{r}
+#| label = "r 07-[Iterating]{.fg-green}-11"
+out_conf <- tidy(out, conf.int = TRUE)
+out_conf 
+```
+
+## Tidy regression output with [broom]{.fg-yellow}
+
+```{r }
+#| label = "07-iterating-on-data-62"
+out_conf |>
+    filter(term %nin% "(Intercept)") |>
+    mutate(nicelabs = prefix_strip(term, "continent")) |>
+    select(nicelabs, everything())
+```
+
+## Grouped analysis and [list columns]{.fg-orange}
+
+```{r}
+#| label = "r 07-[Iterating]{.fg-green}-20"
+eu77 <- gapminder |> filter(continent == "Europe", year == 1977)
+fit <- lm(lifeExp ~ log(gdpPercap), data = eu77)
+```
+
+
+```{r}
+#| label = "r 07-[Iterating]{.fg-green}-21"
+
+summary(fit)
+```
+
+## Grouped analysis and [list columns]{.fg-orange}
+
+```{r}
+#| label = "r 07-[Iterating]{.fg-green}-22"
+
+out_le <- gapminder |>
+    group_by(continent, year) |>
+    nest()
+
+out_le
+
+```
+
+Think of nesting as a kind of "super-grouping". Look in the object inspector.
+
+## Grouped analysis and [list columns]{.fg-orange}
+
+It's still in there.
+
+```{r}
+#| label = "r 07-[Iterating]{.fg-green}-23"
+out_le |> filter(continent == "Europe" & year == 1977) |> 
+    unnest(cols = c(data))
+```
+
+## Grouped analysis and [list columns]{.fg-orange}
+
+```{r}
+#| label = "r 07-[Iterating]{.fg-green}-24",
+#| echo = FALSE
+old_digits <- getOption("digits")
+options(digits = 3)
+```
+
+Here we [**`map()`**]{.fg-green} a custom function to every row in the `data` column.
+
+```{r}
+#| label = "r 07-[Iterating]{.fg-green}-25"
+
+fit_ols <- function(df) {
+    lm(lifeExp ~ log(gdpPercap), data = df)
+}
+
+out_le <- gapminder |>
+    group_by(continent, year) |>
+    nest() |> 
+    mutate(model = map(data, fit_ols)) #<<
+```
+
+## Grouped analysis and [list columns]{.fg-orange}
+
+
+```{r }
+#| label = "07-iterating-on-data-63"
+out_le
+```
+
+
+## Grouped analysis and [list columns]{.fg-orange}
+
+We can tidy the nested models, too.
+
+```{r}
+#| label = "r 07-[Iterating]{.fg-green}-26"
+
+fit_ols <- function(df) {
+    lm(lifeExp ~ log(gdpPercap), data = df)
+}
+
+out_tidy <- gapminder |>
+    group_by(continent, year) |>
+    nest() |> 
+    mutate(model = map(data, fit_ols),
+           tidied = map(model, tidy)) |>
+    unnest(cols = c(tidied)) |>
+    filter(term %nin% "(Intercept)" &
+           continent %nin% "Oceania")
+```
+
+
+## Grouped analysis and [list columns]{.fg-orange}
+
+```{r }
+#| label = "07-iterating-on-data-64"
+out_tidy
+```
+
+## Grouped analysis and [list columns]{.fg-orange}
+
+```{r }
+#| label = "07-iterating-on-data-65"
+out_tidy |> 
+    ungroup() |>
+    sample_n(5)
+```
+
+
+```{r}
+#| label = "r 07-[Iterating]{.fg-green}-27",
+#| echo = FALSE
+options(digits = old_digits)
+```
+
