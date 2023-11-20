@@ -1,0 +1,500 @@
+---
+title: "Regular Expressions"
+subtitle: "Data Wrangling, Session 5"
+format: kjhslides-revealjs
+engine: knitr
+filters:
+  - invert-h1
+  - line-highlight
+  - include-code-files
+author:
+  - name: Kieran Healy
+    affiliation: "Code Horizons"
+date: last-modified
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+#| label = "packages",
+#| include = FALSE
+library(flipbookr)
+library(here)
+library(tidyverse)
+library(kjhslides)
+```
+
+
+```{r}
+#| label = "setup",
+#| include = FALSE
+
+kjh_register_tenso()
+kjh_set_knitr_opts()
+kjh_set_slide_theme()
+```
+
+
+
+
+
+# A brief introduction to [regular expressions]{.fg-yellow} 
+
+
+## Load the packages, as always
+
+```{r}
+#| label = "05-regular-expressions-2",
+#| message = FALSE
+library(here)      # manage file paths
+library(socviz)    # data and some useful functions
+```
+
+```{r}
+#| label = "05-regular-expressions-3",
+#| message = TRUE
+library(tidyverse) # your friend and mine
+library(gapminder) # gapminder data
+library(stringr)
+```
+
+---
+
+:::{.huge}
+[Regular]{.fg-blue}<br />[Expressions]{.fg-blue}  
+:::
+
+
+
+- _Or_, waiter, there appears to be a language inside my language
+
+
+## [stringr]{.fg-yellow} is your gateway to regexps
+
+```{r }
+#| label = "05-regular-expressions-4"
+library(stringr) # It's loaded by default with library(tidyverse)
+```
+
+## [regexps]{.fg-orange} are their own whole world
+
+:::: {.columns}
+::: {.column width="40%"}
+  ![](img/regular_expressions_cover.png)
+:::
+
+::: {.column width="50%" .right}
+  This book is a thing of beauty.
+:::
+::::
+
+## Searching for patterns
+
+A regular expression is a way of searching for a piece of text, or _pattern_, inside some larger body of text, called a _string_.
+
+::::: {.fragment fragment-index=1}
+The simplest sort of search is like the "Find" functionality in a Word Processor. The pattern is a literal letter, number, punctuation mark, word or series of words; the text is a document searched one line at a time. The next step up is "Find and Replace".
+    
+:::::
+
+::::: {.fragment fragment-index=2}
+Every pattern-searching function in `stringr` has the same basic form:    
+
+```r
+str_view(<STRING>, <PATTERN>, [...]) # where [...] means "maybe some options"
+```
+
+:::::
+
+::::: {.fragment fragment-index=3}
+
+Functions that _replace_ as well as _detect_ strings all have this form:
+
+```r
+str_replace(<STRING>, <PATTERN>, <REPLACEMENT>)
+```
+    
+:::::
+
+::::: {.fragment fragment-index=4}
+(If you think about it, [`<STRING>`]{.fg-orange}, [`<PATTERN>`]{.fg-orange} and [`<REPLACEMENT>`]{.fg-orange} above are all kinds of pattern: they are meant to "stand for" all kinds of text, not be taken literally.)    
+:::::
+
+
+
+
+## Searching for patterns
+
+- Here I'll follow the exposition in Wickham & Grolemund (2017).
+
+```{r }
+#| label = "05-regular-expressions-5"
+
+x <- c("apple", "banana", "pear")
+
+str_view(x, "an", html=FALSE)
+```
+
+## Searching for patterns
+
+
+::: {.incremental}
+- Regular expressions get their real power from _wildcards_, i.e. tokens that match more than just literal strings, but also more general and more complex patterns.
+- The most general pattern-matching token is, "Match everything!" This is represented by the period, or [.]{.fg-pink}
+- But ... if [.]{.fg-pink} matches any character, how do you specifically match the literal character [.]{.fg-green}?
+:::
+
+
+## Escaping
+
+::: {.incremental}
+- You have to "escape" the period to tell the regex you want to match it exactly, rather than interpret it as meaning "match anything".
+- regexs use the backslash, [\\]{.fg-pink}, to signal "escape the next character".
+- To match a [.]{.fg-green}, you need the regex [\\.]{.fg-pink}
+:::
+
+
+::: {.notes}
+You need to use an “escape” to tell the regular expression you want to match it exactly, not use its special behaviour. Like strings, regexs use the backslash, [\\]{.fg-pink}, to escape special behaviour. So to match an [.]{.fg-pink}, you need the regex [\\.]{.fg-pink]. Unfortunately this creates a problem. We use strings to represent regular expressions, and \ is also used as an escape symbol in strings. So to create the regular expression \. we need the string "\\.".
+
+:::
+
+
+## Hang on, I see a further problem
+
+- We use strings to represent regular expressions. [\\]{.fg-pink} is also used as an escape symbol in strings. So to create the regular expression [\\.]{.fg-pink} we need the string [\\\\\.]{.fg-pink}
+
+```{r }
+#| label = "05-regular-expressions-6"
+# To create the regular expression, we need \\
+dot <- "\\."
+
+# But the expression itself only contains one:
+writeLines(dot)
+
+# And this tells R to look for an explicit .
+str_view(c("abc", "a.c", "bef"), "a\\.c")
+```
+
+
+## But … how do you match a [literal]{.fg-yellow} [\\]{.fg-green}?
+
+```{r }
+#| label = "05-regular-expressions-7"
+
+x <- "a\\b"
+writeLines(x)
+#> a\b
+
+str_view(x, "\\\\") # you need four!
+
+```
+
+## But … how do you match a [literal]{.fg-yellow} [\\]{.fg-green}?
+
+This is the price we pay for having to express searches for patterns using a language containing these same characters, which we may also want to search for. 
+
+---
+
+:::{.huge}
+  I _promise_ this will pay off
+:::
+
+
+## Matching start and end
+
+- Use [\^]{.fg-pink} to match the start of a string.
+
+```{r }
+#| label = "05-regular-expressions-8"
+x <- c("apple", "banana", "pear")
+str_view(x, "^a")
+```
+
+## Matching start and end
+
+- Use [\^]{.fg-pink} to match the start of a string.
+
+```{r }
+#| label = "05-regular-expressions-8b"
+x <- c("apple", "banana", "pear")
+str_view(x, "^a")
+```
+
+- Use [$]{.fg-pink} to match the end of a string.
+
+```{r }
+#| label = "05-regular-expressions-9"
+str_view(x, "a$")
+```
+
+## Matching start and end
+
+- To force a regular expression to only match a complete string, anchor it with both [\^]{.fg-pink} and [$]{.fg-pink}
+
+
+```{r }
+#| label = "05-regular-expressions-10"
+x <- c("apple pie", "apple", "apple cake")
+str_view(x, "apple")
+
+```
+
+
+```{r }
+#| label = "05-regular-expressions-11"
+str_view(x, "^apple$")
+```
+
+## Matching character classes
+
+[\\d]{.fg-pink} matches any digit.
+
+[\\s]{.fg-pink} matches any whitespace (e.g. space, tab, newline).
+
+[abc]{.fg-pink} matches a, b, or c.
+
+[\^abc]{.fg-pink} matches anything except a, b, or c.
+
+::: {.notes}
+Remember, to create a regular expression containing \d or \s, you’ll need to escape the \ for the string, so you’ll type "\\d" or "\\s".
+
+:::
+
+
+## Matching the [_special_]{.fg-yellow} characters
+
+Look for a literal character that normally has special meaning in a regex:
+
+
+```{r }
+#| label = "05-regular-expressions-12"
+
+str_view(c("abc", "a.c", "a*c", "a c"), "a[.]c")
+
+```
+
+
+```{r }
+#| label = "05-regular-expressions-13"
+str_view(c("abc", "a.c", "a*c", "a c"), ".[*]c")
+```
+
+This works for most (but not all) regex metacharacters: [$ . | ? * + ( ) \[ {]{.fg-pink}. Unfortunately, a few characters have special meaning even inside a character class and must be handled with backslash escapes. These are [\] \\ ^]{.fg-pink} and [-]{.fg-pink}
+
+## Alternation
+
+Use parentheses to make the precedence of the 'or' operator [**|**]{.fg-pink} clear:
+
+```{r }
+#| label = "05-regular-expressions-14"
+str_view(c("groy", "grey", "griy", "gray"), "gr(e|a)y")
+```
+
+## Repeated patterns
+
+- [?]{.fg-pink} is 0 or 1
+- [+]{.fg-pink} is 1 or more
+- [\*]{.fg-pink} is 0 or more
+
+```{r }
+#| label = "05-regular-expressions-15"
+x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
+str_view(x, "CC?")
+```
+
+## Repeated patterns
+
+- [?]{.fg-pink} is 0 or 1
+- [+]{.fg-pink} is 1 or more
+- [\*]{.fg-pink} is 0 or more
+
+```{r }
+#| label = "05-regular-expressions-16"
+str_view(x, "CC+")
+```
+
+## Repeated patterns
+
+
+- [?]{.fg-pink} is 0 or 1
+- [+]{.fg-pink} is 1 or more
+- [\*]{.fg-pink} is 0 or more
+
+
+```{r }
+#| label = "05-regular-expressions-17"
+x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
+str_view(x, 'C[LX]+')
+```
+
+## Exact numbers of repetitions
+
+- [{n}]{.fg-pink} is exactly n
+- [{n,}]{.fg-pink} is n or more
+- [{,m}]{.fg-pink} is at most m
+- [{n,m}]{.fg-pink} is between n and m
+
+```{r }
+#| label = "05-regular-expressions-18"
+str_view(x, "C{2}")
+```
+
+## Exact numbers of repetitions
+
+- [{n}]{.fg-pink} is exactly n
+- [{n,}]{.fg-pink} is n or more
+- [{,m}]{.fg-pink} is at most m
+- [{n,m}]{.fg-pink} is between n and m
+
+```{r }
+#| label = "05-regular-expressions-19"
+str_view(x, "C{2,}")
+```
+## Exact numbers of repetitions
+
+- [{n}]{.fg-pink} is exactly n
+- [{n,}]{.fg-pink} is n or more
+- [{,m}]{.fg-pink} is at most m
+- [{n,m}]{.fg-pink} is between n and m
+
+```{r }
+#| label = "05-regular-expressions-20"
+str_view(x, "C{2,3}")
+```
+
+## Exact numbers of repetitions
+
+- [{n}]{.fg-pink} is exactly n
+- [{n,}]{.fg-pink} is n or more
+- [{,m}]{.fg-pink} is at most m
+- [{n,m}]{.fg-pink} is between n and m
+
+By default these are _greedy_ matches. You can make them “lazy”, matching the shortest string possible by putting a [?]{.fg-pink} after them. **This is often very useful!**
+
+```{r }
+#| label = "05-regular-expressions-21"
+str_view(x, 'C{2,3}?')
+```
+
+## Exact numbers of repetitions
+
+- [{n}]{.fg-pink} is exactly n
+- [{n,}]{.fg-pink} is n or more
+- [{,m}]{.fg-pink} is at most m
+- [{n,m}]{.fg-pink} is between n and m
+
+By default these are _greedy_ matches. You can make them “lazy”, matching the shortest string possible by putting a [?]{.fg-pink} after them. **This is often very useful!**
+
+```{r }
+#| label = "05-regular-expressions-22"
+str_view(x, 'C[LX]+?')
+```
+
+## And [finally]{.fg-yellow} ... backreferences
+
+
+```{r }
+#| label = "05-regular-expressions-23"
+fruit # built into stringr
+```
+
+## Grouping and backreferences
+
+- Find all fruits that have a repeated pair of letters:
+
+```{r }
+#| label = "05-regular-expressions-24"
+str_view(fruit, "(..)\\1", match = TRUE)
+```
+
+## Grouping and backreferences
+
+- Backreferences and grouping will be very useful for string _replacements_.
+
+
+## OK that was a [lot]{.fg-red}
+
+![](img/grover_bluehead.jpg)
+
+## Learning [and testing]{.fg-yellow} regexps
+
+- Practice with a tester like [https://regexr.com](https://regexr.com)
+- Or an app like [Patterns](https://krillapps.com/patterns/)
+- The regex engine or "flavor" used by `stringr` is Perl- or PCRE-like. 
+
+
+# Regexps in practice
+
+`r chunq_reveal("05-regular-expressions-25", smallcode=TRUE, lcolw="60", rcolw="40", title = "Example: Politics and Placenames")`
+
+
+```{r}
+#| label = "05-regular-expressions-25",
+#| include = FALSE
+library(ukelection2019)
+
+ukvote2019 |> 
+  group_by(constituency) |> 
+  slice_max(votes) |> 
+  ungroup() |> 
+  select(constituency, party_name) |> 
+  mutate(shire = str_detect(constituency, "shire"),
+         field = str_detect(constituency, "field"),
+         dale = str_detect(constituency, "dale"),
+         pool = str_detect(constituency, "pool"),
+         ton = str_detect(constituency, "(ton$)|(ton )"),
+         wood = str_detect(constituency, "(wood$)|(wood )"),
+         saint = str_detect(constituency, "(St )|(Saint)"),
+         port = str_detect(constituency, "(Port)|(port)"),
+         ford = str_detect(constituency, "(ford$)|(ford )"),
+         by = str_detect(constituency, "(by$)|(by )"),
+         boro = str_detect(constituency, "(boro$)|(boro )|(borough$)|(borough )"),
+         ley = str_detect(constituency, "(ley$)|(ley )|(leigh$)|(leigh )")) |> 
+  pivot_longer(shire:ley, names_to = "toponym")
+```
+
+
+## Example: Politics and Placenames
+
+```{r}
+#| label = "05-regular-expressions-26"
+place_tab <- ukvote2019 |> 
+  group_by(constituency) |> 
+  slice_max(votes) |> 
+  ungroup() |> 
+  select(constituency, party_name) |> 
+  mutate(shire = str_detect(constituency, "shire"),
+         field = str_detect(constituency, "field"),
+         dale = str_detect(constituency, "dale"),
+         pool = str_detect(constituency, "pool"),
+         ton = str_detect(constituency, "(ton$)|(ton )"),
+         wood = str_detect(constituency, "(wood$)|(wood )"),
+         saint = str_detect(constituency, "(St )|(Saint)"),
+         port = str_detect(constituency, "(Port)|(port)"),
+         ford = str_detect(constituency, "(ford$)|(ford )"),
+         by = str_detect(constituency, "(by$)|(by )"),
+         boro = str_detect(constituency, "(boro$)|(boro )|(borough$)|(borough )"),
+         ley = str_detect(constituency, "(ley$)|(ley )|(leigh$)|(leigh )")) |> 
+  pivot_longer(shire:ley, names_to = "toponym")
+```
+
+---
+
+```{r}
+#| label = "05-regular-expressions-27",
+#| include = FALSE
+place_tab |> 
+  group_by(party_name, toponym) |> 
+  filter(party_name %in% c("Conservative", "Labour")) |> 
+  group_by(toponym, party_name) |> 
+  summarize(freq = sum(value)) |> 
+  mutate(pct = freq/sum(freq)) |> 
+  filter(party_name == "Conservative") |> 
+  arrange(desc(pct))
+  
+```
+
+`r chunq_reveal("05-regular-expressions-27", smallcode=TRUE,  lcolw="50", rcolw="50", title = "Example: Politics and Placenames")`
+
