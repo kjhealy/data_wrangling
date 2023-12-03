@@ -1,0 +1,36 @@
+version: 2
+author: Kieran Healy
+
+instructor:
+  name: Kieran Healy
+  name_no_title: Kieran Healy
+  email: kieran.healy@duke.edu
+  url: "https://www.kieranhealy.org"
+  mastodon: kjhealy
+  github: kjhealy
+  office: ""
+
+course:
+  number: ""
+  title: "Data Wrangling with R and the Tidyverse"
+  semester: "October 2023"
+  days: ""
+  time: ""
+  location: ""
+  dates: ""
+  github: "https://www.github.com/kjhealy/data_wrangling"
+  url: "https://kjhealy.github.io/data_wrangling"
+  copyright_year: "2023"
+
+university:
+  name: Code Horizons
+  url: "https://www.codehorizons.com"
+
+school:
+  name: Sociology Department
+  url: "https://sociology.duke.edu/"
+
+deploy:
+  user: "kjhealy"
+  site: false
+
