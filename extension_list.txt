@@ -1,0 +1,4 @@
+quarto add quarto-ext/fontawesome
+quarto add kjhealy/line-highlight
+quarto add kjhealy/invert-h1
+quarto add quarto-ext/include-code-files
