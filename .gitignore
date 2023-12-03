@@ -8,3 +8,5 @@ slides/**/*_files/
 slides/libs/
 slides/*/libs/
 slides/**/*.html
+
+/.quarto/
