@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 title: "Iterating Safely"
 subtitle: "Data Wrangling, Session 7b"
@@ -16,7 +17,9 @@ editor_options:
 ---
 
 
-```{r packages, include=FALSE}
+```{r}
+#| label: packages
+#| include: false
 library(flipbookr)
 library(here)
 library(tidyverse)
@@ -24,7 +27,9 @@ library(kjhslides)
 ```
 
 
-```{r setup, include=FALSE}
+```{r}
+#| label: setup
+#| include: false
 
 kjh_register_tenso()
 kjh_set_knitr_opts()
@@ -38,7 +43,9 @@ kjh_set_slide_theme()
 
 ## Load the packages, as always
 
-```{r 07b-iterating-safely-2, message = TRUE}
+```{r}
+#| label: 07b-iterating-safely-2
+#| message: true
 library(here)      # manage file paths
 library(socviz)    # data and some useful functions
 library(tidyverse) # your friend and mine
@@ -46,7 +53,8 @@ library(tidyverse) # your friend and mine
 
 ## Additional libraries
 
-```{r 07b-iterating-safely-3}
+```{r}
+#| label: 07b-iterating-safely-3
 library(survey)
 library(srvyr)
 library(broom)
@@ -55,7 +63,8 @@ library(gssr) # https://kjhealy.github.io/gssr
 
 ## The complete GSS
 
-```{r 07b-iterating-safely-4}
+```{r}
+#| label: 07b-iterating-safely-4
 data(gss_all)
 
 gss_all
@@ -64,7 +73,8 @@ gss_all
 
 ## Set up our analysis
 
-```{r 07b-iterating-safely-5}
+```{r}
+#| label: 07b-iterating-safely-5
 cont_vars <- c("year", "id", "ballot", "age")
 cat_vars <- c("race", "sex", "fefam")
 wt_vars <- c("vpsu",
@@ -80,7 +90,8 @@ my_vars <- c(cont_vars, cat_vars, wt_vars)
 
 ## Clean the labeled variables
 
-```{r 07b-iterating-safely-6}
+```{r}
+#| label: 07b-iterating-safely-6
 gss_df <- gss_all |>
   filter(year > 1974 & year < 2021) |> 
   select(all_of(my_vars)) |> 
@@ -95,20 +106,23 @@ gss_df <- gss_all |>
 
 ## Working dataset
 
-```{r 07b-iterating-safely-7}
+```{r}
+#| label: 07b-iterating-safely-7
 gss_df
 ```
 
 ## The `fefam` question
 
-```{r 07b-iterating-safely-8}
+```{r}
+#| label: 07b-iterating-safely-8
 gss_df |> 
   count(fefam) 
 ```
 
 ## Recoding
 
-```{r 07b-iterating-safely-9}
+```{r}
+#| label: 07b-iterating-safely-9
 gss_df <- gss_df |> 
   mutate(fefam_d = forcats::fct_recode(fefam,
                                   Agree = "Strongly Agree",
@@ -127,7 +141,8 @@ gss_df |>
 
 ## Unweighted model
 
-```{r 07b-iterating-safely-10}
+```{r}
+#| label: 07b-iterating-safely-10
 out_all <- glm(fefam_n ~ age + sex + race, 
               data = gss_df, 
               family="binomial", 
@@ -139,7 +154,8 @@ summary(out_all)
 
 ## Tidied output
 
-```{r 07b-iterating-safely-11}
+```{r}
+#| label: 07b-iterating-safely-11
 tidy(out_all)
 ```
 
@@ -147,7 +163,8 @@ tidy(out_all)
 
 - Model each year
 
-```{r 07b-iterating-safely-12}
+```{r}
+#| label: 07b-iterating-safely-12
 out_yr <- gss_df |> 
   group_by(year) |> 
   group_map_dfr(possibly(~ tidy(glm(fefam_n ~ age + sex + race, 
@@ -163,13 +180,19 @@ out_yr
 
 ## [**`group_map()`**]{.fg-green} and [**`possibly()`**]{.fg-green}
 
-```{r 07b-iterating-safely-13, echo = TRUE, eval = FALSE}
+```{r}
+#| label: 07b-iterating-safely-13
+#| echo: true
+#| eval: false
 possibly(~ tidy(glm(...)), otherwise = NULL)
 ```
 
 ## [**`group_map()`**]{.fg-green} and [**`possibly()`**]{.fg-green}
 
-```{r 07b-iterating-safely-14, fig.width=12, fig.height=5}
+```{r}
+#| label: 07b-iterating-safely-14
+#| fig-width: 12
+#| fig-height: 5
 out_yr |> 
   filter(term == "sexFemale") |> 
   ggplot(mapping = aes(x = year, y = estimate,
@@ -181,7 +204,8 @@ out_yr |>
 
 ## Survey-weighted estimates
 
-```{r 07b-iterating-safely-15}
+```{r}
+#| label: 07b-iterating-safely-15
 options(survey.lonely.psu = "adjust")
 options(na.action="na.pass")
 
@@ -201,7 +225,8 @@ gss_svy
 
 ## Survey-weighted estimates
 
-```{r 07b-iterating-safely-16}
+```{r}
+#| label: 07b-iterating-safely-16
 gss_svy |>
   drop_na(fefam_d) |> 
   group_by(year, sex, race, fefam_d) |>
@@ -213,7 +238,8 @@ gss_svy |>
 ## Survey-weighted estimates
 
 
-```{r 07b-iterating-safely-17}
+```{r}
+#| label: 07b-iterating-safely-17
 out_svy_all <- svyglm(fefam_n ~ age + sex + race, 
                   design = gss_svy, 
                   family = quasibinomial(),
@@ -224,7 +250,8 @@ tidy(out_svy_all)
 
 ## Survey-weighted estimates
 
-```{r 07b-iterating-safely-18}
+```{r}
+#| label: 07b-iterating-safely-18
 out_svy_yrs <- gss_svy |> 
   group_by(year) |> 
   group_map_dfr(possibly(~ tidy(svyglm(fefam_n ~ age + sex + race, 
@@ -240,7 +267,10 @@ out_svy_yrs
 
 ## Survey-weighted estimates
 
-```{r 07b-iterating-safely-19, fig.height=5, fig.width=12}
+```{r}
+#| label: 07b-iterating-safely-19
+#| fig-height: 5
+#| fig-width: 12
 out_svy_yrs |> 
   filter(term == "sexFemale") |> 
   ggplot(mapping = aes(x = year, 
@@ -253,3 +283,285 @@ out_svy_yrs |>
 ```
 
 
+||||||| b75bbfa
+=======
+---
+title: "Iterating Safely"
+subtitle: "Data Wrangling, Session 7 (contd)"
+format: kjhslides-revealjs
+engine: knitr
+filters:
+  - invert-h1
+  - line-highlight
+  - include-code-files
+author:
+  - name: Kieran Healy
+    affiliation: "Code Horizons"
+date: last-modified
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+#| label = "packages",
+#| include = FALSE
+library(flipbookr)
+library(here)
+library(tidyverse)
+library(kjhslides)
+```
+
+
+```{r}
+#| label = "setup",
+#| include = FALSE
+
+kjh_register_tenso()
+kjh_set_knitr_opts()
+kjh_set_slide_theme()
+```
+
+
+# [Safely]{.fg-green} iterating with [purrr]{.fg-yellow} and [map]{.fg-yellow}  
+
+## Load the packages, as always
+
+```{r}
+#| label = "07b-iterating-safely-2",
+#| message = TRUE
+library(here)      # manage file paths
+library(socviz)    # data and some useful functions
+library(tidyverse) # your friend and mine
+```
+
+## Additional packages
+
+```{r}
+#| label = "07b-iterating-safely-3"
+library(survey)
+library(srvyr)
+library(broom)
+library(gssr) # https://kjhealy.github.io/gssr
+```
+
+
+## The complete GSS
+
+```{r}
+#| label = "07b-iterating-safely-4"
+data(gss_all)
+
+gss_all
+```
+
+## Set up our analysis
+
+```{r}
+#| label = "07b-iterating-safely-5"
+cont_vars <- c("year", "id", "ballot", "age")
+cat_vars <- c("race", "sex", "fefam")
+wt_vars <- c("vpsu",
+             "vstrat",
+             "oversamp",
+             "formwt",              # weight to deal with experimental randomization
+             "wtssall",             # main weight variable
+             "sampcode",            # sampling error code
+             "sample")              # sampling frame and method
+my_vars <- c(cont_vars, cat_vars, wt_vars)
+
+```
+
+## Clean the labeled variables
+
+```{r}
+#| label = "07b-iterating-safely-6"
+gss_df <- gss_all |>
+  filter(year > 1974 & year < 2021) |> 
+  select(all_of(my_vars)) |> 
+  mutate(across(everything(), haven::zap_missing), # Convert labeled missing to regular NA
+         across(all_of(wt_vars), as.numeric),
+         across(all_of(cat_vars), as_factor), 
+         across(all_of(cat_vars), fct_relabel, tolower),
+         across(all_of(cat_vars), fct_relabel, tools::toTitleCase),
+         compwt = oversamp * formwt * wtssall)
+
+```
+
+## Working dataset
+
+```{r}
+#| label = "07b-iterating-safely-7"
+gss_df
+```
+
+## The `fefam` question
+
+```{r}
+#| label = "07b-iterating-safely-8"
+gss_df |> 
+  count(fefam) 
+```
+
+## Recoding
+
+```{r}
+#| label = "07b-iterating-safely-9"
+gss_df <- gss_df |> 
+  mutate(fefam_d = forcats::fct_recode(fefam,
+                                  Agree = "Strongly Agree",
+                                  Disagree = "Strongly Disagree"),
+    fefam_n = recode(fefam_d, "Agree" = 1, "Disagree" = 0))
+
+# factor version
+gss_df |> 
+  count(fefam_d) 
+
+# numeric version, 1 is "Agree"
+gss_df |> 
+  count(fefam_n) 
+
+```
+
+## Unweighted model
+
+```{r}
+#| label = "07b-iterating-safely-10"
+out_all <- glm(fefam_n ~ age + sex + race, 
+              data = gss_df, 
+              family="binomial", 
+              na.action = na.omit)
+
+summary(out_all)
+
+```
+
+## Tidied output
+
+```{r}
+#| label = "07b-iterating-safely-11"
+tidy(out_all)
+```
+
+## [**`group_map()`**]{.fg-green} and [**`possibly()`**]{.fg-green}
+
+Model each year
+
+```{r}
+#| label = "07b-iterating-safely-12"
+out_yr <- gss_df |> 
+  group_by(year) |> 
+  group_map_dfr(possibly(~ tidy(glm(fefam_n ~ age + sex + race, 
+                       data = .x, 
+                       family = "binomial", 
+                       na.action = na.omit), 
+                       conf.int = TRUE), 
+                     otherwise = NULL))
+
+out_yr
+
+```
+
+## [**`group_map()`**]{.fg-green} and [**`possibly()`**]{.fg-green}
+
+```{r}
+#| label = "07b-iterating-safely-13",
+#| echo = TRUE,
+#| eval = FALSE
+possibly(~ tidy(glm(...)), otherwise = NULL)
+```
+
+## [**`group_map()`**]{.fg-green} and [**`possibly()`**]{.fg-green}
+
+```{r}
+#| label = "07b-iterating-safely-14",
+#| fig.width = 12,
+#| fig.height = 5
+out_yr |> 
+  filter(term == "sexFemale") |> 
+  ggplot(mapping = aes(x = year, y = estimate,
+                       ymin = conf.low, ymax = conf.high)) +
+  geom_hline(yintercept = 0, linetype = "dotted") + 
+  geom_line() + 
+  geom_pointrange()
+```
+
+## Survey-weighted estimates
+
+```{r}
+#| label = "07b-iterating-safely-15"
+options(survey.lonely.psu = "adjust")
+options(na.action="na.pass")
+
+gss_svy <- gss_df |>
+  filter(year > 1974) |>  
+  mutate(stratvar = interaction(year, vstrat)) |>
+  as_survey_design(id = vpsu,
+                     strata = stratvar,
+                     weights = compwt,
+                     nest = TRUE)
+gss_svy
+
+```
+
+## Survey-weighted estimates
+
+```{r}
+#| label = "07b-iterating-safely-16"
+gss_svy |>
+  drop_na(fefam_d) |> 
+  group_by(year, sex, race, fefam_d) |>
+  summarize(prop = survey_mean(na.rm = TRUE, 
+                               vartype = "ci"))
+
+```
+
+## Survey-weighted estimates
+
+
+```{r}
+#| label = "07b-iterating-safely-17"
+out_svy_all <- svyglm(fefam_n ~ age + sex + race, 
+                  design = gss_svy, 
+                  family = quasibinomial(),
+                  na.action = na.omit)
+
+tidy(out_svy_all)
+```
+
+## Survey-weighted estimates
+
+```{r}
+#| label = "07b-iterating-safely-18"
+out_svy_yrs <- gss_svy |> 
+  group_by(year) |> 
+  group_map_dfr(possibly(~ tidy(svyglm(fefam_n ~ age + sex + race, 
+                       design = .x, 
+                       family = quasibinomial(),
+                       na.action = na.omit),
+                       conf.int = TRUE), 
+                     otherwise = NULL))
+
+out_svy_yrs
+
+```
+
+## Survey-weighted estimates
+
+```{r}
+#| label = "07b-iterating-safely-19",
+#| fig.height = 5,
+#| fig.width = 12
+out_svy_yrs |> 
+  filter(term == "sexFemale") |> 
+  ggplot(mapping = aes(x = year, 
+                       y = estimate,
+                       ymin = conf.low,
+                       ymax = conf.high)) +
+  geom_hline(yintercept = 0, linetype = "dotted") + 
+  geom_line() + 
+  geom_pointrange()
+```
+
+
+>>>>>>> 448f58b24995741d689dfe098d3770ad8cfeb83b
