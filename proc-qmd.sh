@@ -4,6 +4,11 @@
 ## Remove slideopts line
 perl -pi -e 's/^kjh_set_xaringan_opts\(\)//' $1
 
+## Remove superfluous classes and sizing
+perl -pi -e 's/^\.class-info\[//' $1
+perl -pi -e 's/^\.class-info\[//' $1
+perl -pi -e 's/^\.SMALL\[//' $1
+
 ## Convert colors to quarto
 perl -pi -e 's/(\.kjh-)(orange|red|green|yellow|blue|lblue|pink)(\[.*?\])/$3\{.fg-$2\}/g' $1
 
