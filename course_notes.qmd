@@ -20,7 +20,7 @@ library(tidyverse)
 ```
 
 ```{r}
-here::i_am("course_notes.Rmd") # relative to the course packet.
+here::i_am("course_notes.qmd") # relative to the course packet.
 ```
 
 
