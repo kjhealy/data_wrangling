@@ -1,0 +1,33 @@
+project:
+  type: website
+  resources:
+    - "files/"
+  preview:
+    port: 27514
+
+execute:
+  freeze: auto  # Re-render only when source changes
+
+website:
+  title: "Data Wrangling with R and the Tidyverse"
+  site-url: "https://kjhealy.github.io/data_wrangling"
+  repo-url: "https://github.com/kjhealy/data_wrangling"
+
+  page-footer:
+    left: |
+      Content {{< fa copyright >}} {{< var course.copyright_year >}} by [{{< var instructor.name_no_title >}}]({{< var instructor.url >}}) <br>
+      See the [About page](/about/) page for credit information.
+    right: |
+      Made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)<br>
+      [View the source at {{< fa brands github >}} GitHub]({{< var course.github >}})
+
+format:
+  html:
+    embed-resources: false
+    code-fold: false
+    code-tools: true
+    theme: html/custom.scss
+    highlight-style: html/catppuccin-macchiato.theme
+    toc: true
+    css: html/tenso-berkeley.css
+

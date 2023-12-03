@@ -1,4 +1,4 @@
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+# Overview
 
 # The Course Packet
 
@@ -9,7 +9,7 @@ go.
 
 ## What’s here
 
-### The `course_notes.Rmd` document
+### The `course_notes.qmd` document
 
 An RMarkdown document to get you started on taking your own notes for
 the course.
@@ -28,7 +28,7 @@ PDF versions of the slides from the course.
 
 ### The `slides/` folder
 
-RMarkdown files and various supporting files to generate HTML versions
-of the slides. The HTML versions can be viewed in a web browser. These
-RMarkdown files require supporting packages that I did not ask you to
-install beforehand, so do not expect them to work out of the box.
+Quarto files and various supporting files to generate HTML versions of
+the slides. The HTML versions can be viewed in a web browser. These
+files require supporting packages that I did not ask you to install
+beforehand, so do not expect them to work out of the box.
