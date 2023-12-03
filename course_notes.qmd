@@ -1,0 +1,42 @@
+---
+title: "Course Notes"
+author: "Your Name Here"
+format: html
+---
+
+## Quarto
+
+This is a quarto file. Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Setup
+
+Here we load some packages that we'll be using.
+
+```{r}
+library(here)
+library(socviz)
+library(gapminder)
+library(tidyverse)
+```
+
+```{r}
+here::i_am("course_notes.Rmd") # relative to the course packet.
+```
+
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this 
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
