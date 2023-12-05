@@ -213,7 +213,7 @@ gss_svy <- gss_df |>
   mutate(stratvar = interaction(year, vstrat)) |>
   as_survey_design(id = vpsu,
                      strata = stratvar,
-                     weights = compwt,
+                     weights = wtssall,
                      nest = TRUE)
 gss_svy
 
