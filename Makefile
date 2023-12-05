@@ -1,6 +1,6 @@
 SSH_USER = kjhealy@kjhealy.co
 DOCUMENT_ROOT = ~/public/kjhealy.co/public_html/dw
-PUBLIC_DIR = site_slides/
+PUBLIC_DIR = _site
 
 ## Convert single Rmd to HTML slide file
 # Wildcard will match e.g. make slides/01-overview.Rmd
@@ -23,7 +23,8 @@ code: .FORCE
 
 ## Make all Rmds into HTML slides
 slides: .FORCE
-	Rscript -e "suppressMessages(library(knitr));suppressMessages(library(tidyverse)); kjhslides::kjh_render_all_slides()"
+	#Rscript -e "suppressMessages(library(knitr));suppressMessages(library(tidyverse)); kjhslides::kjh_render_all_slides()"
+	quarto render
 
 clean:
 	find slides -type d -name '*_files' -prune -print -exec rm -rf {} +
@@ -31,7 +32,6 @@ clean:
 	find slides -type f -name '*.html' -prune -print -exec rm -f {} +
 	find code -type f -name '*.R' -prune -print -exec rm -f {} +
 	find pdf_slides -type f -name '*.pdf' -prune -print -exec rm -f {} +
-
 
 deploy:
 	rsync --exclude='.DS_Store' -Prvzce 'ssh -p 22' --delete-after $(PUBLIC_DIR) $(SSH_USER):$(DOCUMENT_ROOT)
