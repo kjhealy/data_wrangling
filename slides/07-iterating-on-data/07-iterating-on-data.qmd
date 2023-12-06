@@ -857,13 +857,12 @@ subsets <- dat |>
   pull(combination)
 
 ## Check if each subset mentions each symptom or not
-symptom_mat <- map_dfc(subsets, str_detect, symptoms) |>
-    data.frame() |>
-    t() |> # transpose the result, this is a little gross, sorry
-    as_tibble(.name_repair = "unique")
+symptom_mat <- map(subsets, \(x) str_detect(x, symptoms)) |> 
+  set_names(nm = subsets) |> 
+  map(\(x) set_names(x, nm = symptoms)) |> 
+  bind_rows(.id = "subset") |> 
+  left_join(dat, join_by(subset == combination)) 
 
-colnames(symptom_mat) <- symptoms
-symptom_mat$count <- dat$count
 ```
 
 ## [Upset plots]{.fg-yellow} and a bit of wrangling
