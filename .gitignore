@@ -10,7 +10,7 @@ slides/*/libs/
 slides/**/*.html
 
 /.quarto/
-
+/_site/
 /_freeze/
 
 /.luarc.json
