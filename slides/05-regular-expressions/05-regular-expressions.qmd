@@ -17,8 +17,8 @@ editor_options:
 
 
 ```{r}
-#| label = "packages",
-#| include = FALSE
+#| label: "packages"
+#| include: FALSE
 library(flipbookr)
 library(here)
 library(tidyverse)
@@ -27,8 +27,8 @@ library(kjhslides)
 
 
 ```{r}
-#| label = "setup",
-#| include = FALSE
+#| label: "setup"
+#| include: FALSE
 
 kjh_register_tenso()
 kjh_set_knitr_opts()
@@ -45,15 +45,15 @@ kjh_set_slide_theme()
 ## Load the packages, as always
 
 ```{r}
-#| label = "05-regular-expressions-2",
-#| message = FALSE
+#| label: "05-regular-expressions-2"
+#| message: FALSE
 library(here)      # manage file paths
 library(socviz)    # data and some useful functions
 ```
 
 ```{r}
-#| label = "05-regular-expressions-3",
-#| message = TRUE
+#| label: "05-regular-expressions-3"
+#| message: TRUE
 library(tidyverse) # your friend and mine
 library(gapminder) # gapminder data
 library(stringr)
@@ -73,7 +73,7 @@ library(stringr)
 ## [stringr]{.fg-yellow} is your gateway to regexps
 
 ```{r }
-#| label = "05-regular-expressions-4"
+#| label: "05-regular-expressions-4"
 library(stringr) # It's loaded by default with library(tidyverse)
 ```
 
@@ -129,7 +129,7 @@ str_replace(<STRING>, <PATTERN>, <REPLACEMENT>)
 - Here I'll follow the exposition in Wickham & Grolemund (2017).
 
 ```{r }
-#| label = "05-regular-expressions-5"
+#| label: "05-regular-expressions-5"
 
 x <- c("apple", "banana", "pear")
 
@@ -166,7 +166,7 @@ You need to use an “escape” to tell the regular expression you want to match
 - We use strings to represent regular expressions. [\\]{.fg-pink} is also used as an escape symbol in strings. So to create the regular expression [\\.]{.fg-pink} we need the string [\\\\\.]{.fg-pink}
 
 ```{r }
-#| label = "05-regular-expressions-6"
+#| label: "05-regular-expressions-6"
 # To create the regular expression, we need \\
 dot <- "\\."
 
@@ -181,7 +181,7 @@ str_view(c("abc", "a.c", "bef"), "a\\.c")
 ## But … how do you match a [literal]{.fg-yellow} [\\]{.fg-green}?
 
 ```{r }
-#| label = "05-regular-expressions-7"
+#| label: "05-regular-expressions-7"
 
 x <- "a\\b"
 writeLines(x)
@@ -207,7 +207,7 @@ This is the price we pay for having to express searches for patterns using a lan
 - Use [\^]{.fg-pink} to match the start of a string.
 
 ```{r }
-#| label = "05-regular-expressions-8"
+#| label: "05-regular-expressions-8"
 x <- c("apple", "banana", "pear")
 str_view(x, "^a")
 ```
@@ -217,7 +217,7 @@ str_view(x, "^a")
 - Use [\^]{.fg-pink} to match the start of a string.
 
 ```{r }
-#| label = "05-regular-expressions-8b"
+#| label: "05-regular-expressions-8b"
 x <- c("apple", "banana", "pear")
 str_view(x, "^a")
 ```
@@ -225,7 +225,7 @@ str_view(x, "^a")
 - Use [$]{.fg-pink} to match the end of a string.
 
 ```{r }
-#| label = "05-regular-expressions-9"
+#| label: "05-regular-expressions-9"
 str_view(x, "a$")
 ```
 
@@ -235,7 +235,7 @@ str_view(x, "a$")
 
 
 ```{r }
-#| label = "05-regular-expressions-10"
+#| label: "05-regular-expressions-10"
 x <- c("apple pie", "apple", "apple cake")
 str_view(x, "apple")
 
@@ -243,7 +243,7 @@ str_view(x, "apple")
 
 
 ```{r }
-#| label = "05-regular-expressions-11"
+#| label: "05-regular-expressions-11"
 str_view(x, "^apple$")
 ```
 
@@ -269,7 +269,7 @@ Look for a literal character that normally has special meaning in a regex:
 
 
 ```{r }
-#| label = "05-regular-expressions-12"
+#| label: "05-regular-expressions-12"
 
 str_view(c("abc", "a.c", "a*c", "a c"), "a[.]c")
 
@@ -277,7 +277,7 @@ str_view(c("abc", "a.c", "a*c", "a c"), "a[.]c")
 
 
 ```{r }
-#| label = "05-regular-expressions-13"
+#| label: "05-regular-expressions-13"
 str_view(c("abc", "a.c", "a*c", "a c"), ".[*]c")
 ```
 
@@ -288,7 +288,7 @@ This works for most (but not all) regex metacharacters: [$ . | ? * + ( ) \[ {]{.
 Use parentheses to make the precedence of the 'or' operator [**|**]{.fg-pink} clear:
 
 ```{r }
-#| label = "05-regular-expressions-14"
+#| label: "05-regular-expressions-14"
 str_view(c("groy", "grey", "griy", "gray"), "gr(e|a)y")
 ```
 
@@ -299,7 +299,7 @@ str_view(c("groy", "grey", "griy", "gray"), "gr(e|a)y")
 - [\*]{.fg-pink} is 0 or more
 
 ```{r }
-#| label = "05-regular-expressions-15"
+#| label: "05-regular-expressions-15"
 x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
 str_view(x, "CC?")
 ```
@@ -311,7 +311,7 @@ str_view(x, "CC?")
 - [\*]{.fg-pink} is 0 or more
 
 ```{r }
-#| label = "05-regular-expressions-16"
+#| label: "05-regular-expressions-16"
 str_view(x, "CC+")
 ```
 
@@ -324,7 +324,7 @@ str_view(x, "CC+")
 
 
 ```{r }
-#| label = "05-regular-expressions-17"
+#| label: "05-regular-expressions-17"
 x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
 str_view(x, 'C[LX]+')
 ```
@@ -337,7 +337,7 @@ str_view(x, 'C[LX]+')
 - [{n,m}]{.fg-pink} is between n and m
 
 ```{r }
-#| label = "05-regular-expressions-18"
+#| label: "05-regular-expressions-18"
 str_view(x, "C{2}")
 ```
 
@@ -349,7 +349,7 @@ str_view(x, "C{2}")
 - [{n,m}]{.fg-pink} is between n and m
 
 ```{r }
-#| label = "05-regular-expressions-19"
+#| label: "05-regular-expressions-19"
 str_view(x, "C{2,}")
 ```
 ## Exact numbers of repetitions
@@ -360,7 +360,7 @@ str_view(x, "C{2,}")
 - [{n,m}]{.fg-pink} is between n and m
 
 ```{r }
-#| label = "05-regular-expressions-20"
+#| label: "05-regular-expressions-20"
 str_view(x, "C{2,3}")
 ```
 
@@ -374,7 +374,7 @@ str_view(x, "C{2,3}")
 By default these are _greedy_ matches. You can make them “lazy”, matching the shortest string possible by putting a [?]{.fg-pink} after them. **This is often very useful!**
 
 ```{r }
-#| label = "05-regular-expressions-21"
+#| label: "05-regular-expressions-21"
 str_view(x, 'C{2,3}?')
 ```
 
@@ -388,7 +388,7 @@ str_view(x, 'C{2,3}?')
 By default these are _greedy_ matches. You can make them “lazy”, matching the shortest string possible by putting a [?]{.fg-pink} after them. **This is often very useful!**
 
 ```{r }
-#| label = "05-regular-expressions-22"
+#| label: "05-regular-expressions-22"
 str_view(x, 'C[LX]+?')
 ```
 
@@ -396,7 +396,7 @@ str_view(x, 'C[LX]+?')
 
 
 ```{r }
-#| label = "05-regular-expressions-23"
+#| label: "05-regular-expressions-23"
 fruit # built into stringr
 ```
 
@@ -405,7 +405,7 @@ fruit # built into stringr
 - Find all fruits that have a repeated pair of letters:
 
 ```{r }
-#| label = "05-regular-expressions-24"
+#| label: "05-regular-expressions-24"
 str_view(fruit, "(..)\\1", match = TRUE)
 ```
 
@@ -431,8 +431,8 @@ str_view(fruit, "(..)\\1", match = TRUE)
 
 
 ```{r}
-#| label = "05-regular-expressions-25",
-#| include = FALSE
+#| label: "05-regular-expressions-25"
+#| include: FALSE
 library(ukelection2019)
 
 ukvote2019 |> 
@@ -459,7 +459,7 @@ ukvote2019 |>
 ## Example: Politics and Placenames
 
 ```{r}
-#| label = "05-regular-expressions-26"
+#| label: "05-regular-expressions-26"
 place_tab <- ukvote2019 |> 
   group_by(constituency) |> 
   slice_max(votes) |> 
@@ -483,8 +483,8 @@ place_tab <- ukvote2019 |>
 ---
 
 ```{r}
-#| label = "05-regular-expressions-27",
-#| include = FALSE
+#| label: "05-regular-expressions-27"
+#| include: FALSE
 place_tab |> 
   group_by(party_name, toponym) |> 
   filter(party_name %in% c("Conservative", "Labour")) |> 

@@ -18,8 +18,8 @@ editor_options:
 
 
 ```{r}
-#| label = "packages",
-#| include = FALSE
+#| label: "packages"
+#| include: FALSE
 library(flipbookr)
 library(here)
 library(tidyverse)
@@ -28,8 +28,8 @@ library(kjhslides)
 
 
 ```{r}
-#| label = "setup",
-#| include = FALSE
+#| label: "setup"
+#| include: FALSE
 
 kjh_register_tenso()
 kjh_set_knitr_opts()
@@ -53,8 +53,8 @@ kjh_set_slide_theme()
 
 
 ```{r}
-#| label = "03a-dplyr-basics-2",
-#| message = TRUE
+#| label: "03a-dplyr-basics-2"
+#| message: TRUE
 library(here)      # manage file paths
 library(socviz)    # data and some useful functions
 library(tidyverse) # your friend and mine
@@ -171,7 +171,7 @@ Not all of these are attached when we do `library(tidyverse)`
 ## General Social Survey data: [`gss_sm`]{.fg-pink}
 
 ```{r }
-#| label = "03a-dplyr-basics-3"
+#| label: "03a-dplyr-basics-3"
 ## library(socviz) # if not loaded
 gss_sm
 ```
@@ -189,7 +189,7 @@ Notice how the tibble already tells us a lot.
 ## Summarizing a Table
 
 ```{r }
-#| label = "03a-dplyr-basics-4"
+#| label: "03a-dplyr-basics-4"
 gss_sm |> 
   select(id, bigregion, religion)
 ```
@@ -199,7 +199,7 @@ We're just taking a look at the relevant columns here.
 ## Group by [_one_]{.fg-orange} column or variable
 
 ```{r }
-#| label = "03a-dplyr-basics-5"
+#| label: "03a-dplyr-basics-5"
 
 gss_sm |> 
   group_by(bigregion)
@@ -213,8 +213,8 @@ Grouping just changes the logical structure of the tibble.
 
 
 ```{r}
-#| label = "03a-dplyr-basics-6",
-#| include = FALSE
+#| label: "03a-dplyr-basics-6"
+#| include: FALSE
 gss_sm |> 
   group_by(bigregion) |> 
   summarize(total = n())
@@ -233,8 +233,8 @@ gss_sm |>
 
 
 ```{r}
-#| label = "03a-dplyr-basics-7",
-#| include = FALSE
+#| label: "03a-dplyr-basics-7"
+#| include: FALSE
 gss_sm |> 
   group_by(bigregion, religion) |> 
   summarize(total = n())
@@ -250,8 +250,8 @@ gss_sm |>
 `r chunq_reveal("03a-dplyr-basics-8", smallcode = TRUE, title = "Calculate frequencies")`
 
 ```{r}
-#| label = "03a-dplyr-basics-8",
-#| include = FALSE
+#| label: "03a-dplyr-basics-8"
+#| include: FALSE
 gss_sm |> 
   group_by(bigregion, religion) |> 
   summarize(total = n()) |> 
@@ -269,7 +269,7 @@ gss_sm |>
 ## Pipelines carry assumptions forward
 
 ```{r }
-#| label = "03a-dplyr-basics-9"
+#| label: "03a-dplyr-basics-9"
 gss_sm |> 
   group_by(bigregion, religion) |> #<<
   summarize(total = n()) |> 
@@ -286,7 +286,7 @@ gss_sm |>
 ## Pipelines carry assumptions forward
 
 ```{r }
-#| label = "03a-dplyr-basics-10"
+#| label: "03a-dplyr-basics-10"
 gss_sm |> 
   group_by(bigregion, religion) |> 
   summarize(total = n()) |> 
@@ -301,7 +301,7 @@ gss_sm |>
 ## Convenience functions
 
 ```{r }
-#| label = "03a-dplyr-basics-11"
+#| label: "03a-dplyr-basics-11"
 gss_sm |> 
   group_by(bigregion, religion) |> #<<
   summarize(total = n()) |> #<<
@@ -319,7 +319,7 @@ We're going to be doing this [**`group_by()`**]{.fg-green} ... [**`n()`**]{.fg-g
 
 ::::: {.smallcode}
 ```{r }
-#| label = "03a-dplyr-basics-12"
+#| label: "03a-dplyr-basics-12"
 gss_sm |> 
   group_by(bigregion, religion) |> #<<
   summarize(n = n()) #<<
@@ -334,7 +334,7 @@ gss_sm |>
 
 ::::: {.smallcode}
 ```{r }
-#| label = "03a-dplyr-basics-13"
+#| label: "03a-dplyr-basics-13"
 gss_sm |> 
   group_by(bigregion, religion) |> 
   tally() #<<
@@ -349,7 +349,7 @@ gss_sm |>
 
 ::::: {.smallcode}
 ```{r }
-#| label = "03a-dplyr-basics-14"
+#| label: "03a-dplyr-basics-14"
 gss_sm |> 
   count(bigregion, religion) #<<
 ```
@@ -362,8 +362,8 @@ gss_sm |>
 ## Pass results on to ... a [table]{.fg-yellow}
 
 ```{r}
-#| label = "03a-dplyr-basics-15",
-#| eval = FALSE
+#| label: "03a-dplyr-basics-15"
+#| eval: FALSE
 gss_sm |> 
   count(bigregion, religion) |> 
   pivot_wider(names_from = bigregion, values_from = n) |>  #<<
@@ -371,8 +371,8 @@ gss_sm |>
 ```
 
 ```{r}
-#| label = "03a-dplyr-basics-16",
-#| echo = FALSE
+#| label: "03a-dplyr-basics-16"
+#| echo: FALSE
 gss_sm |> 
   count(bigregion, religion) |> 
   pivot_wider(names_from = bigregion, values_from = n) |> 
@@ -387,9 +387,9 @@ gss_sm |>
 ## Pass results on to ... a [graph]{.fg-yellow}
 
 ```{r}
-#| label = "03a-dplyr-basics-17",
-#| fig.height = 4,
-#| fig.width = 15
+#| label: "03a-dplyr-basics-17"
+#| fig.height: 4
+#| fig.width: 15
 gss_sm |> 
   group_by(bigregion, religion) |> 
   tally() |> 
@@ -408,7 +408,7 @@ gss_sm |>
 ::: {.column width="50%"}
   - You can do it like this ...
 ```{r }
-#| label = "03a-dplyr-basics-18"
+#| label: "03a-dplyr-basics-18"
 rel_by_region <- gss_sm |> #<<
   count(bigregion, religion) |> 
   mutate(pct = round((n/sum(n))*100, 1)) 
@@ -429,7 +429,7 @@ rel_by_region
 ::: {.column width="50%"}
   - You can do it like this ...
 ```{r }
-#| label = "03a-dplyr-basics-18b"
+#| label: "03a-dplyr-basics-18b"
 rel_by_region <- gss_sm |> #<<
   count(bigregion, religion) |> 
   mutate(pct = round((n/sum(n))*100, 1)) 
@@ -442,7 +442,7 @@ rel_by_region
 ::: {.column width="50%" .right}
 -  Or like this!
 ```{r }
-#| label = "03a-dplyr-basics-19"
+#| label: "03a-dplyr-basics-19"
 gss_sm |> 
   count(bigregion, religion) |> 
   mutate(pct = round((n/sum(n))*100, 1)) -> #<<
@@ -462,7 +462,7 @@ rel_by_region
 - [Left]{.fg-red} assignment is standard
 
 ```{r }
-#| label = "03a-dplyr-basics-20"
+#| label: "03a-dplyr-basics-20"
 gss_tab <- gss_sm |> 
   count(bigregion, religion) 
 ```
@@ -475,7 +475,7 @@ gss_tab <- gss_sm |>
 - [Right]{.fg-lblue} assignment also works!
 
 ```{r }
-#| label = "03a-dplyr-basics-21"
+#| label: "03a-dplyr-basics-21"
 gss_sm |> 
   count(bigregion, religion) -> gss_tab  
   
@@ -493,7 +493,7 @@ gss_sm |>
 ::: {.column width="50%"}
 
 ```{r }
-#| label = "03a-dplyr-basics-22"
+#| label: "03a-dplyr-basics-22"
 rel_by_region <- gss_sm |> 
   count(bigregion, religion) |> 
   mutate(pct = round((n/sum(n))*100, 1)) 
@@ -517,7 +517,7 @@ Hm, did I sum over right group?
 ::: {.column width="50%"}
 
 ```{r }
-#| label = "03a-dplyr-basics-22b"
+#| label: "03a-dplyr-basics-22b"
 rel_by_region <- gss_sm |> 
   count(bigregion, religion) |> 
   mutate(pct = round((n/sum(n))*100, 1)) 
@@ -531,7 +531,7 @@ Hm, did I sum over right group?
 
 ::: {.column width="50%" .right}
 ```{r }
-#| label = "03a-dplyr-basics-23"
+#| label: "03a-dplyr-basics-23"
 ## Each region should sum to ~100
 rel_by_region |> 
   group_by(bigregion) |> 
@@ -552,7 +552,7 @@ No! What has gone wrong here?
 ::: {.column width="50%"}
 
 ```{r }
-#| label = "03a-dplyr-basics-24b"
+#| label: "03a-dplyr-basics-24b"
 rel_by_region <- gss_sm |> 
   count(bigregion, religion) |> #<< 
   mutate(pct = round((n/sum(n))*100, 1)) 
@@ -563,7 +563,7 @@ rel_by_region <- gss_sm |>
 :::::
 
 ```{r }
-#| label = "03a-dplyr-basics-25"
+#| label: "03a-dplyr-basics-25"
 rel_by_region |> 
   summarize(total = sum(pct))
 ```
@@ -586,7 +586,7 @@ rel_by_region |>
 ::: {.column width="50%"}
 
 ```{r }
-#| label = "03a-dplyr-basics-24"
+#| label: "03a-dplyr-basics-24"
 rel_by_region <- gss_sm |> 
   count(bigregion, religion) |> #<< 
   mutate(pct = round((n/sum(n))*100, 1)) 
@@ -598,7 +598,7 @@ rel_by_region <- gss_sm |>
 
 
 ```{r }
-#| label = "03a-dplyr-basics-25b"
+#| label: "03a-dplyr-basics-25b"
 rel_by_region |> 
   summarize(total = sum(pct))
 ```
@@ -610,7 +610,7 @@ rel_by_region |>
 
 ::: {.column width="50%" .right}
 ```{r }
-#| label = "03a-dplyr-basics-26"
+#| label: "03a-dplyr-basics-26"
 rel_by_region <- gss_sm |> 
   group_by(bigregion, religion) |> #<<
   tally() |> #<<
@@ -618,7 +618,7 @@ rel_by_region <- gss_sm |>
 ```
 
 ```{r }
-#| label = "03a-dplyr-basics-27"
+#| label: "03a-dplyr-basics-27"
 # Check
 rel_by_region |> 
   group_by(bigregion) |> 
@@ -661,16 +661,16 @@ rel_by_region |>
 ## Following a pipeline
 
 ```{r}
-#| label = "03a-dplyr-basics-28",
-#| echo = FALSE
+#| label: "03a-dplyr-basics-28"
+#| echo: FALSE
 #theme_set(cowplot::theme_minimal_grid())
 ```
 
 
 ```{r }
-#| label = "03a-dplyr-basics-29",
-#| fig.height = 4,
-#| fig.width = 10
+#| label: "03a-dplyr-basics-29"
+#| fig.height: 4
+#| fig.width: 10
 gss_sm |> 
   group_by(race, sex, degree) |> 
   summarize(n = n(), 
@@ -688,8 +688,8 @@ gss_sm |>
 
 
 ```{r }
-#| label = "03a-dplyr-basics-30",
-#| include = FALSE
+#| label: "03a-dplyr-basics-30"
+#| include: FALSE
 gss_sm |> 
   group_by(race, sex, degree) |> 
   summarize(n = n(), 
@@ -709,7 +709,7 @@ gss_sm |>
 - Some new data, this time on national rates of cadaveric organ donation:
 
 ```{r }
-#| label = "03a-dplyr-basics-31"
+#| label: "03a-dplyr-basics-31"
 # library(socviz)
 organdata
 ```
@@ -718,7 +718,7 @@ organdata
 ## Conditionals in [`select()`]{.fg-green} & [`filter()`]{.fg-green}
 
 ```{r }
-#| label = "03a-dplyr-basics-32"
+#| label: "03a-dplyr-basics-32"
 organdata |> 
   filter(consent_law == "Informed" & donors > 15) 
 ```
@@ -726,7 +726,7 @@ organdata |>
 ## Conditionals in [`select()`]{.fg-green} & [`filter()`]{.fg-green}
 
 ```{r }
-#| label = "03a-dplyr-basics-33"
+#| label: "03a-dplyr-basics-33"
 organdata |> 
   select(country, year, where(is.integer)) #<<
 ```
@@ -749,7 +749,7 @@ This is true in similar situations elsewhere as well.
 ## Conditionals in [`select()`]{.fg-green} & [`filter()`]{.fg-green}
 
 ```{r }
-#| label = "03a-dplyr-basics-34"
+#| label: "03a-dplyr-basics-34"
 organdata |> 
   select(country, year, where(is.character))
 ```
@@ -761,7 +761,7 @@ We have functions like e.g. [**`is.character()`**]{.fg-green}, [**`is.numeric()`
 Sometimes we don't pass a function, but do want to use the result of one:
 
 ```{r }
-#| label = "03a-dplyr-basics-35"
+#| label: "03a-dplyr-basics-35"
 organdata |> 
   select(country, year, starts_with("gdp")) #<<
 ```
@@ -773,7 +773,7 @@ We have [**`starts_with()`**]{.fg-green}, [**`ends_with()`**]{.fg-green}, [**`co
 ## Conditionals in [`select()`]{.fg-green} & [`filter()`]{.fg-green}
 
 ```{r }
-#| label = "03a-dplyr-basics-36"
+#| label: "03a-dplyr-basics-36"
 organdata |> 
   filter(country == "Australia" | country == "Canada") 
 ```
@@ -783,7 +783,7 @@ This could get cumbersome fast.
 ## Use [`%in%`]{.fg-pink} for multiple selections
 
 ```{r }
-#| label = "03a-dplyr-basics-37"
+#| label: "03a-dplyr-basics-37"
 my_countries <- c("Australia", "Canada", "United States", "Ireland")
 
 organdata |> 
@@ -793,7 +793,7 @@ organdata |>
 ## Negating [`%in%`]{.fg-pink} 
 
 ```{r }
-#| label = "03a-dplyr-basics-38"
+#| label: "03a-dplyr-basics-38"
 my_countries <- c("Australia", "Canada", "United States", "Ireland")
 
 organdata |> 
@@ -805,7 +805,7 @@ Also a bit awkward. There's no built-in "Not in" operator.
 ## A custom operator 
 
 ```{r }
-#| label = "03a-dplyr-basics-39"
+#| label: "03a-dplyr-basics-39"
 `%nin%` <- Negate(`%in%`) # this operator is included in the socviz package
 ```
 
@@ -814,7 +814,7 @@ The backticks are special here because we need to name an operator.
 :::
 
 ```{r }
-#| label = "03a-dplyr-basics-40"
+#| label: "03a-dplyr-basics-40"
 organdata |> 
   filter(country %nin% my_countries) #<<
 ```
@@ -826,7 +826,7 @@ organdata |>
 Earlier we saw this:
 
 ```{r }
-#| label = "03a-dplyr-basics-41"
+#| label: "03a-dplyr-basics-41"
 gss_sm |> 
   group_by(race, sex, degree) |> 
   summarize(n = n(), 
@@ -839,7 +839,7 @@ gss_sm |>
 Similarly for `organdata` we might want to do:
 
 ```{r }
-#| label = "03a-dplyr-basics-42"
+#| label: "03a-dplyr-basics-42"
 organdata |>  
   group_by(consent_law, country) |>
   summarize(donors_mean = mean(donors, na.rm = TRUE),
@@ -857,7 +857,7 @@ This works, but it's really tedious. Also error-prone.
 Instead, use [`across()`]{.fg-green} to apply a function to more than one column.
 
 ```{r }
-#| label = "03a-dplyr-basics-43"
+#| label: "03a-dplyr-basics-43"
 
 my_vars <- c("gdp", "donors", "roads")
 
@@ -880,7 +880,7 @@ organdata |>
 ## We can calculate more than one thing
 
 ```{r }
-#| label = "03a-dplyr-basics-44"
+#| label: "03a-dplyr-basics-44"
 
 my_vars <- c("gdp", "donors", "roads")
 
@@ -896,7 +896,7 @@ organdata |>
 ## It's OK to use the function names 
 
 ```{r }
-#| label = "03a-dplyr-basics-45"
+#| label: "03a-dplyr-basics-45"
 
 my_vars <- c("gdp", "donors", "roads")
 
@@ -912,7 +912,7 @@ organdata |>
 ## Selection with [**`across(where())`**]{.fg-green}
 
 ```{r }
-#| label = "03a-dplyr-basics-46"
+#| label: "03a-dplyr-basics-46"
 organdata |> 
   group_by(consent_law, country) |>
   summarize(across(where(is.numeric), #<<       
@@ -927,7 +927,7 @@ organdata |>
 ## Name new columns with [**`.names`**]{.fg-green}
 
 ```{r }
-#| label = "03a-dplyr-basics-47"
+#| label: "03a-dplyr-basics-47"
 organdata |> 
   group_by(consent_law, country) |>
   summarize(across(where(is.numeric),        
@@ -943,7 +943,7 @@ organdata |>
 ## Name new columns with [**`.names`**]{.fg-green}
 
 ```{r }
-#| label = "03a-dplyr-basics-47b"
+#| label: "03a-dplyr-basics-47b"
 organdata |> 
   group_by(consent_law, country) |>
   summarize(across(where(is.numeric),        
@@ -965,7 +965,7 @@ In tidyverse functions, arguments that begin with a "`.`" generally have it in o
 
 
 ```{r }
-#| label = "03a-dplyr-basics-48"
+#| label: "03a-dplyr-basics-48"
 organdata |> 
   mutate(across(where(is.character), toupper)) |> 
   select(where(is.character))
@@ -978,7 +978,7 @@ Sort rows with [**`arrange()`**]{.fg-green}
 :::: {.columns}
 ::: {.column width="50%"}
 ```{r }
-#| label = "03a-dplyr-basics-49"
+#| label: "03a-dplyr-basics-49"
 organdata |> 
   group_by(consent_law, country) |>
   summarize(donors = mean(donors, na.rm = TRUE)) |> 
@@ -1000,7 +1000,7 @@ Sort rows with [**`arrange()`**]{.fg-green}
 :::: {.columns}
 ::: {.column width="50%"}
 ```{r }
-#| label = "03a-dplyr-basics-49b"
+#| label: "03a-dplyr-basics-49b"
 organdata |> 
   group_by(consent_law, country) |>
   summarize(donors = mean(donors, na.rm = TRUE)) |> 
@@ -1012,7 +1012,7 @@ organdata |>
 
 ::: {.column width="50%" .right}
 ```{r }
-#| label = "03a-dplyr-basics-50"
+#| label: "03a-dplyr-basics-50"
 organdata |> 
   group_by(consent_law, country) |>
   summarize(donors = mean(donors, na.rm = TRUE)) |> 
@@ -1029,7 +1029,7 @@ Using [**`arrange()`**]{.fg-green} to order rows in this way won't respect group
 ## More generally ...
 
 ```{r }
-#| label = "03a-dplyr-basics-51"
+#| label: "03a-dplyr-basics-51"
 organdata |> 
   group_by(consent_law, country) |>
   summarize(donors = mean(donors, na.rm = TRUE)) |> 

@@ -17,8 +17,8 @@ editor_options:
 
 
 ```{r}
-#| label = "packages",
-#| include = FALSE
+#| label: "packages"
+#| include: FALSE
 library(flipbookr)
 library(here)
 library(tidyverse)
@@ -27,8 +27,8 @@ library(kjhslides)
 
 
 ```{r}
-#| label = "setup",
-#| include = FALSE
+#| label: "setup"
+#| include: FALSE
 
 kjh_register_tenso()
 kjh_set_knitr_opts()
@@ -41,15 +41,15 @@ kjh_set_slide_theme()
 ## Load the packages, as always
 
 ```{r}
-#| label = "04-tidy-data-2",
-#| message = FALSE
+#| label: "04-tidy-data-2"
+#| message: FALSE
 library(here)      # manage file paths
 library(socviz)    # data and some useful functions
 ```
 
 ```{r}
-#| label = "04-tidy-data-3",
-#| message = TRUE
+#| label: "04-tidy-data-3"
+#| message: TRUE
 library(tidyverse) # your friend and mine
 library(gapminder) # gapminder data
 ```
@@ -95,7 +95,7 @@ As we'll see later, [`dplyr`]{.fg-orange} _is_ able to do "rowwise" operations i
 ## Tidy data
 
 ```{r }
-#| label = "04-tidy-data-6"
+#| label: "04-tidy-data-6"
 gapminder
 ```
 
@@ -139,7 +139,7 @@ gapminder
 Storing data in long form is often _inefficient_
 
 ```{r }
-#| label = "04-tidy-data-7"
+#| label: "04-tidy-data-7"
 library(covdata)
 covus |> 
   filter(state == "NY") |> 
@@ -151,7 +151,7 @@ covus |>
 Storing data in wide form is _easier to display_ in a printed table
 
 ```{r }
-#| label = "04-tidy-data-8"
+#| label: "04-tidy-data-8"
 library(palmerpenguins)
 penguins |> 
   group_by(species, island, year) |> 
@@ -165,7 +165,7 @@ Storing data in wide form is _easier to display_ in a printed table
 
 
 ```{r }
-#| label = "04-tidy-data-9"
+#| label: "04-tidy-data-9"
 penguins |> 
   group_by(species, island, year) |> 
   summarize(bill = round(mean(bill_length_mm, na.rm = TRUE), 2)) |> 
@@ -254,7 +254,7 @@ penguins |>
 Pivoting:
 
 ```{r }
-#| label = "04-tidy-data-10"
+#| label: "04-tidy-data-10"
 edu
 ```
 
@@ -266,7 +266,7 @@ edu
 - We're going to put the columns `elem4:coll4` into a new column, creating a new categorical measure named `education`. The numbers currently under each column will become a  new [value]{.fg-green} column corresponding to that level of education. 
 
 ```{r }
-#| label = "04-tidy-data-11"
+#| label: "04-tidy-data-11"
 edu |> 
   pivot_longer(elem4:coll4, names_to = "education")
 ```
@@ -276,7 +276,7 @@ edu |>
 - We can name the value column to whatever we like. Here it's a number of people.
 
 ```{r }
-#| label = "04-tidy-data-12"
+#| label: "04-tidy-data-12"
 edu |> 
   pivot_longer(elem4:coll4, names_to = "education", values_to = "n")
 ```
@@ -284,7 +284,7 @@ edu |>
 ## Let's [recode()]{.fg-green} it while we're here
 
 ```{r }
-#| label = "04-tidy-data-13"
+#| label: "04-tidy-data-13"
 edu |> 
   pivot_longer(elem4:coll4, names_to = "education", values_to = "n") |> 
   mutate(education = recode(education, 
@@ -299,14 +299,14 @@ edu |>
 ## [pivot_longer()]{.fg-green} implies [pivot_wider()]{.fg-green}
 
 ```{r }
-#| label = "04-tidy-data-14"
+#| label: "04-tidy-data-14"
 gapminder
 ```
 
 ## [pivot_longer()]{.fg-green} implies [pivot_wider()]{.fg-green}
 
 ```{r }
-#| label = "04-tidy-data-15"
+#| label: "04-tidy-data-15"
 gapminder |> 
   select(country, continent, year, lifeExp) |> 
   pivot_wider(names_from = year, values_from = lifeExp) #<<
@@ -317,7 +317,7 @@ gapminder |>
 - This is a pretty common problem. A first thought ("Just don't mention the other columns") isn't it:
 
 ```{r }
-#| label = "04-tidy-data-16"
+#| label: "04-tidy-data-16"
 gapminder |> 
   pivot_wider(names_from = year, values_from = lifeExp) 
 ```
@@ -331,7 +331,7 @@ gapminder |>
 We need to specify that we want values from more than one column.
 
 ```{r }
-#| label = "04-tidy-data-17"
+#| label: "04-tidy-data-17"
 gapminder |> 
   select(country, continent, year, lifeExp, gdpPercap) |> 
   pivot_wider(names_from = year, values_from = c(lifeExp, gdpPercap)) #<<
@@ -346,8 +346,8 @@ gapminder |>
 - Let's see that again. This time, let's say we want to calculate some within-stratum statistics as we do it.
 
 ```{r}
-#| label = "04-tidy-data-18",
-#| echo = FALSE
+#| label: "04-tidy-data-18"
+#| echo: FALSE
 gen_cats <- function(x, N = 1000) {
     sample(x, N, replace = TRUE)
 }
@@ -368,7 +368,7 @@ write_csv(dfstrat, here::here("data", "dfstrat.csv"))
 ```
 
 ```{r }
-#| label = "04-tidy-data-19"
+#| label: "04-tidy-data-19"
 # Some made-up data
 dfstrat <- read_csv(here::here("data", "dfstrat.csv"))
 dfstrat 
@@ -383,8 +383,8 @@ Let’s say we want to transform this to a wider format, specifically by widenin
 ---
 
 ```{r}
-#| label = "04-tidy-data-20",
-#| include = FALSE
+#| label: "04-tidy-data-20"
+#| include: FALSE
 dfstrat <- read_csv(here::here("data", "dfstrat.csv"))
 dfstrat |>
     group_by(sex, race, stratum, educ) |> 
@@ -403,7 +403,7 @@ dfstrat |>
 ## [separate()]{.fg-green} and [unite()]{.fg-green} columns
 
 ```{r }
-#| label = "04-tidy-data-21"
+#| label: "04-tidy-data-21"
 ## tribble() lets you make tibbles by hand
 df <- tribble(
   ~name, ~occupation,
@@ -420,8 +420,8 @@ df
 ---
 
 ```{r}
-#| label = "04-tidy-data-22",
-#| include = FALSE
+#| label: "04-tidy-data-22"
+#| include: FALSE
 df |> 
   separate(name, into = c("first", "last")) |> 
   unite("full_name", first:last, sep = " ") |> 
@@ -433,8 +433,8 @@ df |>
 `r chunq_reveal("04-tidy-data-22",  lcolw="40", rcolw="60", smallcode = TRUE, title = "Separate and unite")`
 
 ```{r}
-#| label = "04-tidy-data-23",
-#| include = FALSE
+#| label: "04-tidy-data-23"
+#| include: FALSE
 df |> 
   separate(name, into = c("first", "last")) |> 
   unite("full_name", first:last) |> 
@@ -448,8 +448,8 @@ The underscore, `_`, is the default uniting character.
 ---
 
 ```{r}
-#| label = "04-tidy-data-24",
-#| include = FALSE
+#| label: "04-tidy-data-24"
+#| include: FALSE
 gss_sm |>
     select(race, degree) |> 
     mutate(racedeg = interaction(race, degree)) |>
