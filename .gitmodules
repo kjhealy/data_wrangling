@@ -1,0 +1,6 @@
+[submodule "html"]
+	path = html
+	url = https://github.com/kjhealy/html
+[submodule "_extensions"]
+	path = _extensions
+	url = https://github.com/kjhealy/_extensions
