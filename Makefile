@@ -2,16 +2,6 @@ SSH_USER = kjhealy@kjhealy.co
 DOCUMENT_ROOT = ~/public/kjhealy.co/public_html/dw
 PUBLIC_DIR = _site
 
-## Convert single Rmd to HTML slide file
-# Wildcard will match e.g. make slides/01-overview.Rmd
-%.Rmd: .FORCE
-	Rscript build/render_one_slide.R $@
-
-## Convert single HTML slide file to PDF file
-# Wildcard will match e.g. make slides/01-overview.html
-%.html: .FORCE
-	Rscript build/decktape_one_file.R $@
-
 ## Make all pdfs
 pdfs:
 	Rscript -e "suppressMessages(library(knitr));suppressMessages(library(tidyverse)); kjhslides::kjh_decktape_all_slides()"
@@ -23,7 +13,6 @@ code: .FORCE
 
 ## Make all Rmds into HTML slides
 slides: .FORCE
-	#Rscript -e "suppressMessages(library(knitr));suppressMessages(library(tidyverse)); kjhslides::kjh_render_all_slides()"
 	quarto render
 
 clean:
