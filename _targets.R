@@ -6,25 +6,33 @@ suppressPackageStartupMessages(library(tidyverse))
 # See deploy_site below for how these are applied
 yaml_vars <- yaml::read_yaml(here::here("_variables.yml"))
 
+
+
 # Parallelize things --- when we build the PDFs
 # it'll take forever otherwise
 library(crew)
 tar_option_set(
- controller = crew_controller_local(workers = future::availableCores())
+  controller = crew_controller_local(workers = future::availableCores())
 )
-
 
 library(kjhslides)
 library(ggthemes)
 library(usethis)
 
+# We need to return the path to the rendered HTML file. In this case,
+# rmarkdown::render() *does* return a path, but it returns an absolute path,
+# which makes the targets pipline less portable. So we return our own path to
+# the HTML file instead.
 render_quarto <- function(slide_path) {
   quarto::quarto_render(slide_path, quiet = FALSE)
+
+  #return(paste0(tools::file_path_sans_ext(slide_path), ".html"))
 }
 
 
 ## Use decktape (via kjhslides) to convert quarto HTML slides to PDF.
 ## Return a relative path to the PDF to keep targets happy.
+
 html_to_pdf <- function(slide_path) {
   outdir_path <- fs::path_real("pdf_slides")
   kjhslides::kjh_decktape_one_slide(infile = slide_path,
@@ -59,7 +67,9 @@ get_flipbookr_orphans <- function() {
 
 relocate_orphans <- function(file) {
   if(length(file) == 0) { return(character(0))}
-  if(is.null(file)) { return(character(0))}
+  if(is.null(file)) {return(character(0))}
+  destdir <- paste0("_site/slides/", fs::path_dir(file))
+  if(!fs::dir_exists(here::here(destdir))) {fs::dir_create(here::here(destdir))}
   fs::file_move(file, paste0("_site/slides/", file))
 }
 
@@ -100,33 +110,33 @@ list(
   ### We wait till quarto has built the site to do this.
 
   tar_files(rendered_slides, {
-            # Force dependencies
-            site
-            fl <- list.files(here_rel("slides"),
-                       pattern = "\\.qmd", full.names = TRUE)
-            paste0("_site/", stringr::str_replace(fl, "qmd", "html"))
-            }),
+    # Force dependencies
+    site
+    fl <- list.files(here_rel("slides"),
+                     pattern = "\\.qmd", full.names = TRUE)
+    paste0("_site/", stringr::str_replace(fl, "qmd", "html"))
+  }),
 
   tar_target(quarto_pdfs, {
     html_to_pdf(rendered_slides)
-    },
-    pattern = map(rendered_slides),
-    format = "file"),
+  },
+  pattern = map(rendered_slides),
+  format = "file"),
 
   ## Fix any flipbookr leftover files
-  # tar_files(flipbookr_orphans, {
-  #  # Force dependencies
-  #  rendered_slides
-  #  # Flipbooks created in the top level
-  #  get_flipbookr_orphans()
-  # }
-  # ),
-  #
-  # tar_target(move_orphans, {
-  #   relocate_orphans(flipbookr_orphans)
-  # },
-  # pattern = map(flipbookr_orphans),
-  # format = "file"),
+  tar_files(flipbookr_orphans, {
+    # Force dependencies
+    rendered_slides
+    # Flipbooks created in the top level
+    get_flipbookr_orphans()
+  }
+  ),
+
+  tar_target(move_orphans, {
+    relocate_orphans(flipbookr_orphans)
+  },
+  pattern = map(flipbookr_orphans),
+  format = "file"),
 
   ## Remove any flipbookr leftover dirs
   # tar_files(flipbookr_dirs, {
