@@ -11,7 +11,7 @@ This packet contains the course material, data, slides, and code. It's an RStudi
 
 ### The `course_notes.qmd` document
 
-An RMarkdown document to get you started on taking your own notes for the course. 
+A quarto document to get you started on taking your own notes for the course. 
 
 ### The `data/` folder
 
