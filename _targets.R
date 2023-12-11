@@ -139,20 +139,20 @@ list(
   format = "file"),
 
   ## Remove any flipbookr leftover dirs
-  # tar_files(flipbookr_dirs, {
-  #   # Force dependencies
-  #   flipbookr_orphans
-  #   # Top-level flipbookr dirs now empty
-  #   get_leftover_dirs()
-  # }
-  # ),
-  #
-  # tar_target(empty_dirs, {
-  #   remove_leftover_dirs(flipbookr_dirs)
-  # },
-  # pattern = map(flipbookr_dirs),
-  # format = "file"),
-  #
+  tar_files(flipbookr_dirs, {
+    # Force dependencies
+    quarto_pdfs
+    # Top-level flipbookr dirs now empty
+    get_leftover_dirs()
+  }
+  ),
+
+  tar_target(empty_dirs, {
+    remove_leftover_dirs(flipbookr_dirs)
+  },
+  pattern = map(flipbookr_dirs)),
+
+
 
   ## Upload site ----
   tar_target(deploy_script, here_rel("deploy.sh"), format = "file"),
