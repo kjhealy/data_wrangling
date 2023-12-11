@@ -11,7 +11,7 @@ Sys.setenv(DEPLOY_VSD = FALSE)
 # it'll take forever otherwise
 library(crew)
 tar_option_set(
- controller = crew_controller_local(workers = 8)
+ controller = crew_controller_local(workers = future::availableCores())
 )
 
 
