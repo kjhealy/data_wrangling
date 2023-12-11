@@ -11,7 +11,7 @@ Sys.setenv(DEPLOY_VSD = FALSE)
 # it'll take forever otherwise
 library(crew)
 tar_option_set(
- controller = crew_controller_local(workers = 15)
+ controller = crew_controller_local(workers = 8)
 )
 
 
@@ -47,6 +47,9 @@ here_rel <- function(...) {fs::path_rel(here::here(...))}
 if(!fs::dir_exists(here::here("00_dummy_files"))) { fs::dir_create(here::here("00_dummy_files")) }
 if(!fs::dir_exists(here::here("00_dummy_files/figure-revealjs"))) { fs::dir_create(here::here("00_dummy_files/figure-revealjs")) }
 fs::file_create(here::here("00_dummy_files/figure-revealjs/00_dummy.png"))
+
+# Ensure pdf_slides exists
+if(!fs::dir_exists(here::here("pdf_slides"))) { fs::dir_create(here::here("pdf_slides")) }
 
 get_flipbookr_orphans <- function() {
   all_candidates <- fs::dir_ls(glob = "*_files/figure-revealjs/*.png", recurse = TRUE)
