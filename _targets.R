@@ -43,13 +43,20 @@ html_to_pdf <- function(slide_path) {
 # https://github.com/r-lib/here/issues/36#issuecomment-530894167)
 here_rel <- function(...) {fs::path_rel(here::here(...))}
 
+# Ensure deletion_candidates has at least one dummy dir, to keep target branching happy
+if(!fs::dir_exists(here::here("00_dummy_files"))) { fs::dir_create(here::here("00_dummy_files")) }
+if(!fs::dir_exists(here::here("00_dummy_files/figure-revealjs"))) { fs::dir_create(here::here("00_dummy_files/figure-revealjs")) }
+fs::file_create(here::here("00_dummy_files/figure-revealjs/00_dummy.png"))
 
 get_flipbookr_orphans <- function() {
   all_candidates <- fs::dir_ls(glob = "*_files/figure-revealjs/*.png", recurse = TRUE)
-  all_candidates[stringr::str_detect(all_candidates, "_site", negate = TRUE)]
+  all_candidates <- all_candidates[stringr::str_detect(all_candidates, "_site", negate = TRUE)]
+  if(length(all_candidates) == 0) { return(character(0))}
+  all_candidates
 }
 
 relocate_orphans <- function(file) {
+  if(length(file) == 0) { return(character(0))}
   if(is.null(file)) { return(character(0))}
   fs::file_move(file, paste0("_site/slides/", file))
 }
@@ -57,10 +64,13 @@ relocate_orphans <- function(file) {
 get_leftover_dirs <- function() {
   # the figure-revealjs subdirs will all have been moved
   deletion_candidates <- fs::dir_ls(glob = "*_files", recurse = TRUE)
-  deletion_candidates[stringr::str_detect(deletion_candidates, "_site", negate = TRUE)]
+  deletion_candidates <- deletion_candidates[stringr::str_detect(deletion_candidates, "_site|_targets", negate = TRUE)]
+  if(length(deletion_candidates) == 0) { return(character(0))}
+  deletion_candidates
 }
 
 remove_leftover_dirs <- function (dirs) {
+  if(length(dirs) == 0) { return(character(0))}
   if(is.null(dirs)) { return(character(0))}
   fs::dir_delete(dirs)
 }
