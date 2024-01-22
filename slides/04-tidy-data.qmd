@@ -65,7 +65,7 @@ library(gapminder) # gapminder data
 
 ![](img/feed-me-seymour.gif)
 
-## Get your data into long-form
+## Get your data into long format
 
 Very, very often, the solution to some data-wrangling problem in Tidyverse-focused workflow is:
 
