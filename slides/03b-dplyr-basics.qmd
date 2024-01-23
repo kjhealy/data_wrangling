@@ -515,8 +515,9 @@ gss_sm |>
   summarize(total = n(), .by = c(bigregion, religion))
 ```
 
+::: {.tiny}
 By default the result is an _ungrouped_ tibble, whereas with `group_by()` ... `summarize()` the result would still be grouped by `bigregion` at the end. To prevent unexpected results, you can't use `.by` on tibble that's already grouped.
-
+:::
 
 ## Data as implicitly first
 

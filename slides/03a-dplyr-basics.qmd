@@ -558,8 +558,8 @@ rel_by_region <- gss_sm |>
   mutate(pct = round((n/sum(n))*100, 1)) 
 ```
 
-::::: {.smallerkh}
-- [**`count()`**]{.fg-green} returns ungrouped results, so there are no groups carry forward to the [**`mutate()`**]{.fg-green} step.
+::::: {.tiny}
+[**`count()`**]{.fg-green} returns ungrouped results, so there are no groups carry forward to the [**`mutate()`**]{.fg-green} step.
 :::::
 
 ```{r }
@@ -568,8 +568,8 @@ rel_by_region |>
   summarize(total = sum(pct))
 ```
 
-::::: {.smallerkh}
-- With [**`count()`**]{.fg-green}, the `pct` values here are the marginals for the whole table.
+::::: {.tiny}
+With [**`count()`**]{.fg-green}, the `pct` values here are the marginals for the whole table.
 :::::
 
 :::
@@ -592,8 +592,8 @@ rel_by_region <- gss_sm |>
   mutate(pct = round((n/sum(n))*100, 1)) 
 ```
 
-::::: {.smallerkh}
-- [**`count()`**]{.fg-green} returns ungrouped results, so there are no groups carry forward to the [**`mutate()`**]{.fg-green} step.
+::::: {.tiny}
+[**`count()`**]{.fg-green} returns ungrouped results, so there are no groups carry forward to the [**`mutate()`**]{.fg-green} step.
 :::::
 
 
@@ -603,8 +603,8 @@ rel_by_region |>
   summarize(total = sum(pct))
 ```
 
-::::: {.smallerkh}
-- With [**`count()`**]{.fg-green}, the `pct` values here are the marginals for the whole table.
+::::: {.tiny}
+With [**`count()`**]{.fg-green}, the `pct` values here are the marginals for the whole table.
 :::::
 :::
 
@@ -626,8 +626,8 @@ rel_by_region |>
 
 ```
 
-::::: {.smallerkh}
-- We get some rounding error because we used `round()` after summing originally.
+::::: {.tiny}
+We get some rounding error because we used `round()` after summing originally.
 :::::
 
 :::
@@ -766,7 +766,7 @@ organdata |>
   select(country, year, starts_with("gdp")) #<<
 ```
 
-::: {.smallerkh}
+::: {.tiny}
 We have [**`starts_with()`**]{.fg-green}, [**`ends_with()`**]{.fg-green}, [**`contains()`**]{.fg-green}, [**`matches()`**]{.fg-green}, and [**`num_range()`**]{.fg-green}. Collectively these are "[tidy selectors]{.fg-pink}".
 :::
 
