@@ -5,11 +5,11 @@ local function ensureHtmlDeps()
   name = "line-highlight",
   version = "1.0.0",
   scripts = {
-    { 
-      path = "resources/js/line-highlight.js", 
+    {
+      path = "resources/js/line-highlight.js",
       attribs = {defer = "true"},
       afterBody = true
-      
+
     }
   },
   stylesheets = {"resources/css/line-highlight.css"}
@@ -44,7 +44,7 @@ function remove_pattern(lines, pattern)
   end
   return table.concat(code_lines, "\n")
 end
- 
+
 
 -- create escaped highlight_directive_pattern
 function escape_pattern(s)
@@ -152,16 +152,24 @@ end
 
 
 if FORMAT == "html" then
-  -- ensuring dependencies for line-highlighting
+  -- ensuring dependencies for line-highlighting in HTML output
   ensureHtmlDeps()
-  
+
   function Pandoc(doc)
     local doc = doc:walk(add_cb_attrs())
     return doc:walk(highlight_cb())
   end
 end
 
+if FORMAT == "revealjs" then
+  -- ensuring dependencies for line-highlighting in revealjs output
+  ensureHtmlDeps()
 
+  function Pandoc(doc)
+    local doc = doc:walk(add_cb_attrs())
+    return doc:walk(highlight_cb())
+  end
+end
 
 
 

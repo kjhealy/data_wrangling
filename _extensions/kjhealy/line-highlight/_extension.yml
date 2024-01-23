@@ -1,6 +1,6 @@
 title: Line-highlight
-author: Shafayet Khan Shafee
-version: 1.2.2
+author: Shafayet Khan Shafee and Kieran Healy
+version: 1.3.0
 quarto-required: ">=1.2.0"
 contributes:
   filters:
