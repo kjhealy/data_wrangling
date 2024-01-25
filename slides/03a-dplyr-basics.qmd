@@ -864,7 +864,7 @@ my_vars <- c("gdp", "donors", "roads")
 ## nested parens again, but it's worth it
 organdata |> 
   group_by(consent_law, country) |>
-  summarize(across(my_vars,           
+  summarize(across(all_of(my_vars),           
                    list(avg = mean),  
                    na.rm = TRUE))     
 ```
@@ -873,6 +873,7 @@ organdata |>
 
 ::: {.incremental}
 - `my_vars` are selected by [**`across()`**]{.fg-green}
+- We use `all_of()` or `any_of()` to be explicit
 - [**`list()`**]{.fg-green} of the form `result = function` gives the new columns that will be calculated. `na.rm = TRUE` is passed through to the functions inside the `list()`
 :::
 
