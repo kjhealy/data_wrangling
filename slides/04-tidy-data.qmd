@@ -52,6 +52,10 @@ library(socviz)    # data and some useful functions
 #| message: TRUE
 library(tidyverse) # your friend and mine
 library(gapminder) # gapminder data
+
+## Quieten dplyr summarise chatter (with an 's')!
+options(dplyr.summarise.inform = FALSE)
+
 ```
 
 
@@ -341,10 +345,6 @@ gapminder |>
 
 - This will give us a very wide table, but it's what we wanted.
 
-## What about [_multiple_]{.fg-yellow} columns?
-
-- Let's see that again. This time, let's say we want to calculate some within-stratum statistics as we do it.
-
 ```{r}
 #| label: "04-tidy-data-18"
 #| echo: FALSE
@@ -376,7 +376,7 @@ dfstrat
 
 
 ::: {.notes}
-Let’s say we want to transform this to a wider format, specifically by widening the educ column, so we end up with columns for both the HS and BA categories, and as we do so we want to calculate both the mean of income and the total n within each category of educ
+Let’s say we want to transform this to a wider format, specifically by widening the educ column, so we end up with columns for both the HS and BA categories, and as we do so we want to calculate both the mean of income and the total n within each group.
 
 :::
 
@@ -397,8 +397,27 @@ dfstrat |>
 
 `r chunq_reveal("04-tidy-data-20",  lcolw="50", rcolw="50", smallcode = TRUE, title = "Pivot wider while summarizing")`
 
-- "Over-grouping" is one way to hang on to variables you want during the summary process. All the action happens at the innermost group.
-- In this case, everthing outside (or to the left of) `stratum` is untouched.
+Here we end up with sex-by-race-by-stratum in the rows, and the income-by-education means, and income-by-education Ns, in their own columns. 
+
+
+# Separate and Unite
+
+## [separate()]{.fg-green} and [unite()]{.fg-green} columns
+
+```{r }
+#| label: "04-tidy-data-21"
+## tribble() lets you make tibbles by hand
+df <- tribble(
+  ~name, ~occupation,
+  "Nero.Wolfe", "Private Detective",
+  "Archie.Goodwin", "Personal Assistant",
+  "Fritz.Brenner", "Cook and Butler",
+  "Theodore.Horstmann", "Orchid Expert"
+)
+
+df
+
+```
 
 ## [separate()]{.fg-green} and [unite()]{.fg-green} columns
 
