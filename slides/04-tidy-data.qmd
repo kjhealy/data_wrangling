@@ -422,7 +422,7 @@ df
 ## [separate()]{.fg-green} and [unite()]{.fg-green} columns
 
 ```{r }
-#| label: "04-tidy-data-21"
+#| label: "04-tidy-data-21a"
 ## tribble() lets you make tibbles by hand
 df <- tribble(
   ~name, ~occupation,
