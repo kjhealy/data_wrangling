@@ -32,7 +32,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -94,8 +94,8 @@ code span.wa { color: #5e5e5e; font-style: italic; }
 
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2023-10-18" />
-  <meta property="article:created" itemprop="dateCreated" content="2023-10-18" />
+  <meta property="article:published" itemprop="datePublished" content="2024-07-19" />
+  <meta property="article:created" itemprop="dateCreated" content="2024-07-19" />
   <meta name="article:author" content="Kieran Healy" />
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -113,7 +113,7 @@ code span.wa { color: #5e5e5e; font-style: italic; }
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Data Wrangling with R and the tidyverse"]},{"type":"character","attributes":{},"value":["A Short Course using R and the Tidyverse suite of tools.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Kieran Healy"]},{"type":"character","attributes":{},"value":["https://kieranhealy.org"]}]}]},{"type":"character","attributes":{},"value":["2023-10-18"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Data Wrangling with R and the tidyverse"]},{"type":"character","attributes":{},"value":["A Short Course using R and the Tidyverse suite of tools.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Kieran Healy"]},{"type":"character","attributes":{},"value":["https://kieranhealy.org"]}]}]},{"type":"character","attributes":{},"value":["2024-07-19"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -209,9 +209,18 @@ line-height: 1.5em;
 .hidden {
 display: none !important;
 }
+hr.section-separator {
+border: none;
+border-top: 1px solid rgba(0, 0, 0, 0.1);
+margin: 0px;
+}
+d-byline {
+border-top: none;
+}
 d-article {
 padding-top: 2.5rem;
 padding-bottom: 30px;
+border-top: none;
 }
 d-appendix {
 padding-top: 30px;
@@ -287,6 +296,10 @@ overflow: visible !important;
 d-article div.sourceCode pre {
 padding-left: 18px;
 font-size: 14px;
+}
+
+d-article pre.numberSource code > span {
+left: -2em;
 }
 d-article pre {
 font-size: 14px;
@@ -917,6 +930,12 @@ color: inherit;
     // create d-title
     $('.d-title').changeElementType('d-title');
 
+    // separator
+    var separator = '<hr class="section-separator" style="clear: both"/>';
+    // prepend separator above appendix
+    $('.d-byline').before(separator);
+    $('.d-article').before(separator);
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
@@ -994,8 +1013,9 @@ color: inherit;
     $('.distill-force-highlighting-css').parent().remove();
 
     // remove empty line numbers inserted by pandoc when using a
-    // custom syntax highlighting theme
-    $('code.sourceCode a:empty').remove();
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
 
     // load distill framework
     load_distill_framework();
@@ -1021,12 +1041,13 @@ color: inherit;
       // add orcid ids
       $('.authors-affiliations').find('.author').each(function(i, el) {
         var orcid_id = front_matter.authors[i].orcidID;
+        var author_name = front_matter.authors[i].author
         if (orcid_id) {
           var a = $('<a></a>');
           a.attr('href', 'https://orcid.org/' + orcid_id);
           var img = $('<img></img>');
           img.addClass('orcid-id');
-          img.attr('alt', 'ORCID ID');
+          img.attr('alt', author_name ? 'ORCID ID for ' + author_name : 'ORCID ID');
           img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
           a.append(img);
           $(this).append(a);
@@ -2340,7 +2361,7 @@ distill-header .nav a {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Data Wrangling with R and the tidyverse","description":"A Short Course using R and the Tidyverse suite of tools.","authors":[{"author":"Kieran Healy","authorURL":"https://kieranhealy.org","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2023-10-18T00:00:00.000-04:00","citationText":"Healy, 2023"}
+{"title":"Data Wrangling with R and the tidyverse","description":"A Short Course using R and the Tidyverse suite of tools.","authors":[{"author":"Kieran Healy","authorURL":"https://kieranhealy.org","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2024-07-19T00:00:00.000-04:00","citationText":"Healy, 2024"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2351,6 +2372,7 @@ distill-header .nav a {
 
 <div class="d-title">
 <h1>Data Wrangling with R and the tidyverse</h1>
+
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 <p><p>A Short Course using R and the Tidyverse suite of tools.</p></p>
@@ -2359,7 +2381,7 @@ distill-header .nav a {
 <div class="d-byline">
   Kieran Healy <a href="https://kieranhealy.org" class="uri">https://kieranhealy.org</a> 
   
-<br />2023-10-18
+<br />2024-07-19
 </div>
 
 <div class="d-article">
@@ -2373,15 +2395,15 @@ distill-header .nav a {
 <h3 id="install-r-on-your-computer">Install R on your computer</h3>
 <p>Begin by installing R (<a href="http://cloud.r-project.org" class="uri">http://cloud.r-project.org</a>). Choose the version appropriate for your computing platform:</p>
 <ul>
-<li><p>If you use macOS with an Apple Silicon processor (i.e. and M1 or M2 processor), then install <a href="https://cloud.r-project.org/bin/macosx/big-sur-arm64/base/R-4.3.1-arm64.pkg">R for macOS’s Apple Silicon build</a>. This version does not work on older, Intel-based Macs.</p></li>
-<li><p>If you use macOS with an Intel processor, then install <a href="https://cloud.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.3.1-x86_64.pkg">R for macOS’s Intel build</a>.</p></li>
-<li><p>If you use Microsoft Windows, then install <a href="https://cloud.r-project.org/bin/windows/base/R-4.3.1-win.exe">R for Windows</a></p></li>
+<li><p>If you use macOS with an Apple Silicon processor (i.e. an M1, M2, or M3 processor), then install <a href="https://cran.r-project.org/bin/macosx/big-sur-arm64/base/R-4.4.1-arm64.pkg">R for macOS’s Apple Silicon build</a>. This version does not work on older, Intel-based Macs.</p></li>
+<li><p>If you use macOS with an Intel processor, then install <a href="https://cran.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.4.1-x86_64.pkg">R for macOS’s Intel build</a>.</p></li>
+<li><p>If you use Microsoft Windows, then install <a href="https://cran.r-project.org/bin/windows/base/R-4.4.1-win.exe">R for Windows</a></p></li>
 <li><p>If you use Linux, <a href="https://cloud.r-project.org/bin/linux/">choose a distribution</a> and install it.</p></li>
 </ul>
 <h3 id="install-rstudio-on-your-computer">Install RStudio on your computer</h3>
 <ul>
-<li><p>If you use macOS (whether Apple Silicon or Intel), <a href="https://download1.rstudio.org/electron/macos/RStudio-2023.09.0-463.dmg">install this version of RStudio</a></p></li>
-<li><p>If you use Windows, <a href="https://download1.rstudio.org/electron/windows/RStudio-2023.09.0-463.exe">install this version of RStudio</a></p></li>
+<li><p>If you use macOS (whether Apple Silicon or Intel), <a href="https://download1.rstudio.org/electron/macos/RStudio-2024.04.2-764.dmg">install this version of RStudio</a></p></li>
+<li><p>If you use Windows, <a href="https://download1.rstudio.org/electron/windows/RStudio-2024.04.2-764.exe">install this version of RStudio</a></p></li>
 <li><p>If you use Linux, <a href="https://posit.co/download/rstudio-desktop/">choose your distribution from the download page</a></p></li>
 </ul>
 <h3 id="installing-some-additional-packages">Installing some additional packages</h3>
