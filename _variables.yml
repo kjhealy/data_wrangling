@@ -13,14 +13,14 @@ instructor:
 course:
   number: ""
   title: "Data Wrangling with R and the Tidyverse"
-  semester: "October 2023"
+  semester: "July 2024"
   days: ""
   time: ""
   location: ""
   dates: ""
   github: "https://www.github.com/kjhealy/data_wrangling"
   url: "https://kjhealy.github.io/data_wrangling"
-  copyright_year: "2023"
+  copyright_year: "2024"
 
 university:
   name: Code Horizons

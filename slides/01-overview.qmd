@@ -37,9 +37,9 @@ kjh_set_slide_theme()
 
 ## Housekeeping
 
-### 10am till 12:30pm US EST each day
+### 10:30am till 12:30pm US EST each day
 
-### 1:30pm to 3:30pm US EST each day
+### 1:30pm to 3:00pm US EST each day
 
 ### [Use the Zoom chat to ask questions, or raise a hand with ![](img/zoom_raise_hand.png){width=4%}]{.fg-lblue}
 

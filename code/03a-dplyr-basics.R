@@ -201,7 +201,7 @@ rel_by_region |>
 ## -----------------------------------------------------------------------------
 #| label: "03a-dplyr-basics-24b"
 rel_by_region <- gss_sm |> 
-  count(bigregion, religion) |> #<< 
+  count(bigregion, religion) |> #<<
   mutate(pct = round((n/sum(n))*100, 1)) 
 
 
@@ -214,7 +214,7 @@ rel_by_region |>
 ## -----------------------------------------------------------------------------
 #| label: "03a-dplyr-basics-24"
 rel_by_region <- gss_sm |> 
-  count(bigregion, religion) |> #<< 
+  count(bigregion, religion) |> #<<
   mutate(pct = round((n/sum(n))*100, 1)) 
 
 
@@ -369,7 +369,7 @@ my_vars <- c("gdp", "donors", "roads")
 ## nested parens again, but it's worth it
 organdata |> 
   group_by(consent_law, country) |>
-  summarize(across(my_vars,           
+  summarize(across(all_of(my_vars),           
                    list(avg = mean),  
                    na.rm = TRUE))     
 
@@ -384,7 +384,7 @@ organdata |>
   summarize(across(my_vars,           
                    list(avg = mean, #<<
                         sd = var, #<<
-                        md = median),#<<  
+                        md = median),#<< 
                    na.rm = TRUE))     
 
 
@@ -398,7 +398,7 @@ organdata |>
   summarize(across(my_vars,           
                    list(mean = mean, #<<
                         var = var, #<<
-                        median = median),#<<  
+                        median = median),#<< 
                    na.rm = TRUE))     
 
 
@@ -406,7 +406,7 @@ organdata |>
 #| label: "03a-dplyr-basics-46"
 organdata |> 
   group_by(consent_law, country) |>
-  summarize(across(where(is.numeric), #<<       
+  summarize(across(where(is.numeric), #<<      
                    list(mean = mean, 
                         var = var, 
                         median = median),

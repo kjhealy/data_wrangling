@@ -384,7 +384,7 @@ rfm_table |>
 #| label: "06-getting-data-in-44"
 rfm_table |> 
   mutate(sum_lo = sum(lo_r, lo_f, lo_m),#<<
-         sum_hi = sum(hi_r, hi_f, hi_m)) |>#<< 
+         sum_hi = sum(hi_r, hi_f, hi_m)) |>#<<
   select(segment, sum_lo, sum_hi, everything())
 
 
@@ -394,7 +394,7 @@ rfm_table |>
 #| label: "06-getting-data-in-45"
 rfm_table |> 
   mutate(mean_lo = mean(c(lo_r, lo_f, lo_m)),#<<
-         mean_hi = mean(c(hi_r, hi_f, hi_m))) |>#<< 
+         mean_hi = mean(c(hi_r, hi_f, hi_m))) |>#<<
   select(segment, mean_lo, mean_hi, everything())
 
 
@@ -403,7 +403,7 @@ rfm_table |>
 rfm_table |> 
   rowwise() |> #<<
   mutate(mean_lo = mean(c(lo_r, lo_f, lo_m)),#<<
-         mean_hi = mean(c(hi_r, hi_f, hi_m))) |>#<< 
+         mean_hi = mean(c(hi_r, hi_f, hi_m))) |>#<<
   select(segment, mean_lo, mean_hi, everything())
 
 
@@ -413,7 +413,7 @@ rfm_table |>
 rfm_table |> 
   group_by(segment) |> 
   mutate(mean_lo = mean(c(lo_r, lo_f, lo_m)),#<<
-         mean_hi = mean(c(hi_r, hi_f, hi_m))) |>#<< 
+         mean_hi = mean(c(hi_r, hi_f, hi_m))) |>#<<
   select(segment, mean_lo, mean_hi, everything())
 
 
@@ -423,7 +423,7 @@ rfm_table |>
 rfm_table |> 
   group_by(segment) |> 
   mutate(sum_lo = sum(lo_r, lo_f, lo_m),#<<
-         sum_hi = sum(hi_r, hi_f, hi_m)) |>#<< 
+         sum_hi = sum(hi_r, hi_f, hi_m)) |>#<<
   select(segment, sum_lo, sum_hi, everything())
 
 
@@ -590,7 +590,7 @@ gss_sub <- gss_sub |>
                             breaks = unique(age_quintiles), 
                             include.lowest = TRUE), 
               agequint = fct_relabel(agequint, convert_agegrp), 
-              year_f = droplevels(factor(year)),#<<  
+              year_f = droplevels(factor(year)),#<< 
               young = ifelse(age < 26, "Yes", "No"), 
               fefam_d = fct_recode(fefam,
                                   Agree = "Strongly Agree",
@@ -608,7 +608,7 @@ gss_sub <- gss_sub |>
                           include.lowest = TRUE), 
             agequint = fct_relabel(agequint, convert_agegrp), 
             year_f = factor(year),  
-            young = ifelse(age < 26, "Yes", "No"),#<< 
+            young = ifelse(age < 26, "Yes", "No"),#<<
             fefam_d = fct_recode(fefam,
                                 Agree = "Strongly Agree",
                                 Disagree = "Strongly Disagree"),

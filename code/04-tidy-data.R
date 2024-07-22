@@ -9,6 +9,10 @@ library(socviz)    # data and some useful functions
 library(tidyverse) # your friend and mine
 library(gapminder) # gapminder data
 
+## Quieten dplyr summarise chatter (with an 's')!
+options(dplyr.summarise.inform = FALSE)
+
+
 
 ## -----------------------------------------------------------------------------
 #| label: "04-tidy-data-6"
@@ -138,6 +142,21 @@ dfstrat |>
 
 ## -----------------------------------------------------------------------------
 #| label: "04-tidy-data-21"
+## tribble() lets you make tibbles by hand
+df <- tribble(
+  ~name, ~occupation,
+  "Nero.Wolfe", "Private Detective",
+  "Archie.Goodwin", "Personal Assistant",
+  "Fritz.Brenner", "Cook and Butler",
+  "Theodore.Horstmann", "Orchid Expert"
+)
+
+df
+
+
+
+## -----------------------------------------------------------------------------
+#| label: "04-tidy-data-21a"
 ## tribble() lets you make tibbles by hand
 df <- tribble(
   ~name, ~occupation,
