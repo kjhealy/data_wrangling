@@ -78,9 +78,9 @@ GitHub is a software development platform and service that is widely used by R D
 If you do not have one already, it will be useful to create a GitHub account and obtain a GitHub Personal Access Token. This is _not required_ for the course, but would be helpful to have. After you have installed R and RStudio, to get set up, read and _carefully follow_ the instructions here:
 
 - Register a [GitHub Account](https://happygitwithr.com/github-acct.html)
-- Install a [Git Client](https://happygitwithr.com/git-client.html)
+- Install [Git](https://happygitwithr.com/install-git) and a [Git Client](https://happygitwithr.com/git-client.html)
+- Get a [Personal Access Token](https://happygitwithr.com/https-pat)
 - Connect to [GitHub](https://happygitwithr.com/push-pull-github.html)
-- Get a [Personal Access Token](https://happygitwithr.com/credential-caching.html)
 
 Again, setting up a GitHub account is _not required_ to fully participate in the course.
 
