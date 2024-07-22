@@ -191,10 +191,10 @@ organ_remote
 
 :::: {.columns}
 ::: {.column width="40%"}
-![](img/mortality-top.png)
+![](img/mortality_top.png)
 <br />
 
-![](img/mortality-bottom.png)
+![](img/mortality_bottom.png)
 
 :::
 
@@ -207,10 +207,10 @@ organ_remote
 
 :::: {.columns}
 ::: {.column width="40%"}
-![](img/mortality-top.png)
+![](img/mortality_top.png)
 <br />
 
-![](img/mortality-bottom.png)
+![](img/mortality_bottom.png)
 
 :::
 
@@ -270,12 +270,12 @@ read_table(here("data", "mortality.txt"),
 
 - CDC/NCHS data: [Provisional COVID-19 Death Counts by Sex, Age, and State](https://data.cdc.gov/NCHS/Provisional-COVID-19-Death-Counts-by-Sex-Age-and-S/9bhg-hcku)
 
-![](img/cdc-nchs-sas.png)
+![](img/cdc_nchs_sas.png)
 
 
 ## More on column specifications
 
-![](img/cdc-nchs-sas-desc.png)
+![](img/cdc_nchs_sas_desc.png)
 
 ## Let's try to load it
 
