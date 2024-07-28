@@ -36,12 +36,12 @@ kjh_set_knitr_opts()
 kjh_set_slide_theme()
 ```
 
-# dplyr is your toolkit for tabular data
+# [dplyr]{.fg-lblue} is your toolkit for tabular data 
 
 ---
 
 :::{.huge}
- Time to<br />play with<br />some [data]{.fg-red} 
+ So let's<br />play with<br />some [data]{.fg-red} 
 :::
 
 
@@ -277,7 +277,7 @@ gss_sm |>
            pct = round((freq*100), 1))
 ```
 
-:::{.small}
+:::{.tiny}
 - Groups are carried forward till summarized or explicitly ungrouped
 - Summary calculations are done on the innermost group, which then "disappears".
 :::
@@ -890,7 +890,7 @@ organdata |>
   summarize(across(my_vars,           
                    list(avg = mean, #<<
                         sd = var, #<<
-                        md = median),#<< 
+                        md = median),#<<
                    na.rm = TRUE))     
 ```
 
@@ -906,7 +906,7 @@ organdata |>
   summarize(across(my_vars,           
                    list(mean = mean, #<<
                         var = var, #<<
-                        median = median),#<< 
+                        median = median),#<<
                    na.rm = TRUE))     
 ```
 
@@ -916,7 +916,7 @@ organdata |>
 #| label: "03a-dplyr-basics-46"
 organdata |> 
   group_by(consent_law, country) |>
-  summarize(across(where(is.numeric), #<<      
+  summarize(across(where(is.numeric), #<<
                    list(mean = mean, 
                         var = var, 
                         median = median),
@@ -983,7 +983,7 @@ Sort rows with [**`arrange()`**]{.fg-green}
 organdata |> 
   group_by(consent_law, country) |>
   summarize(donors = mean(donors, na.rm = TRUE)) |> 
-  arrange(donors) |> ##< 
+  arrange(donors) |> ##<
   print(n = 5)
 ```
 
@@ -1005,7 +1005,7 @@ Sort rows with [**`arrange()`**]{.fg-green}
 organdata |> 
   group_by(consent_law, country) |>
   summarize(donors = mean(donors, na.rm = TRUE)) |> 
-  arrange(donors) |> ##< 
+  arrange(donors) |> ##<
   print(n = 5)
 ```
 

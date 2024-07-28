@@ -36,117 +36,105 @@ kjh_set_slide_theme()
 
 # Writing documents
 
+---
+
 :::{.huge}
- Using Quarto to [produce]{.fg-orange} and [reproduce]{.fg-green} your work 
+ Use Quarto to [produce]{.fg-orange} and [reproduce]{.fg-green} your work 
 :::
  
----
+## Where we want to end up
+
+![PDF out](img/02_lorem_covid_quarto_pdf.png){fig-align="center" width=90%}  
 
 ## Where we want to end up
 
-![PDF out](img/lorem-covid-latex.png){fig-align="center" width=90%}  
-
----
+![HTML out](img/02_lorem_covid_quarto_html.png){fig-align="center" width=45%}  
 
 ## Where we want to end up
 
-![HTML out](img/lorem-covid-html.png){fig-align="center" width=45%}  
-
----
-
-
-## Where we want to end up
-
-![Word out](img/lorem-covid-word.png){fig-align="center" width=100%}  
-
----
+![Word out](img/02_lorem_covid_quarto_word.png){fig-align="center" width=100%}  
 
 ## How to get there?
 
 :::: {.columns}
-::: {.column width="50%"}
-  ![](img/covid-r-script.png){fig-align="center"} 
+::: {.column width="30%"}
+  ![](img/02_covid_r_script.png) 
 :::
 
-::: {.column width="50%" .right}
-- Write an R script with some notes inside. Create some figures and tables, paste them into our document.
+::: {.column width="70%" .right}
+- We could write an **R script** with some notes inside, using it to create some figures and tables, paste them into our document.
 - This will work, but we can do better.
+
 :::
 ::::
 
+## We can [make]{.fg-yellow} this ...
 
-## We can make this ...
+![](img/02_lorem_ipsum_goal.png){fig-align="center" width=100%}  
 
+## ... by [writing]{.fg-green} this
+
+![](img/02_lorem_ipsum_raw.png){fig-align="center" width=100%}  
+
+## The [code]{.fg-pink} gets replaced by its [output]{.fg-green}
 
 :::: {.columns}
 ::: {.column width="50%"}
-  ![](img/lorem-ipsum-goal.png){}  
+![](img/02_lorem_ipsum_raw.png)
 :::
 
 ::: {.column width="50%" .right}
-  
+![](img/02_lorem_ipsum_goal.png)
 :::
 ::::
 
 
-## ... by writing this
 
-:::: {.columns}
-::: {.column width="50%"}
-  ![](img/lorem-ipsum-goal.png){}  
-:::
-
-::: {.column width="50%" .right}
-![](img/lorem-ipsum-raw.png){}    
-:::
-::::
-
-
-## The code gets replaced by its output
-
-:::: {.columns}
-::: {.column width="50%"}
-![](img/lorem-ipsum-raw.png){}
-:::
-
-::: {.column width="50%" .right}
-![](img/lorem-ipsum-goal.png){}  
-:::
-::::
-
----
-
-![](img/lorem-covid-markdown.png){fig-align="center" width=90%}  
-
----
-
-![](img/lorem-covid-markdown-annotated.png){fig-align="center" width=90%}  
-
----
-
-:::: {.columns}
-::: {.column width="60%"}
-![](img/lorem-covid-html-full.png){width=70%}    
-:::
-
-::: {.column width="40%" .right}
-  - This approach has its limitations, but it's _very_ useful.
-:::
-::::
 
 
 ---
 
-:::: {.columns}
-::: {.column width="40%"}
-  ![](img/knit-rmd-tall.png){width=70%}
+![Markdown document](img/02_lorem_covid_quarto_qmd.png){fig-align="center" width=90%}
+
+---
+
+![Markdown document annotated](img/02_lorem_covid_quarto_qmd_annotated.png){fig-align="center" width=90%}  
+
+---
+
+![](img/02_lorem_covid_quarto_triple.png){fig-align="center" width=140%}  
+
+- This approach has its limitations, but it's _very_ useful and has many benefits.
+
+---
+
+## Basic markdown summary
+
+:::{.custom-small-table}
+
+| Desired style  | Use the following Markdown annotation | 
+| -------------- | ------------------------------------- | 
+| **Heading 1**  | `# Heading 1`                                    |
+| **Heading 2**  | `## Heading 2`                                   |
+| Heading 3      | `### Heading 3` (Actual heading styles will vary.) |
+| Paragraph      | Just start typing                            |
+| **Bold**       | `**Bold**`                                   |
+| *Italic*       | `*Italic*`                                   |
+| Images         | `[Alternate text for image](path/image.jpg)` |
+| [Hyperlinks](https://www.visualizingsociety.com) | `[Link text](https://www.visualizingsociety.com/)` |
+| Unordered Lists      |   |
+| - First    | `- First` |
+| - Second.  |  `- Second` |
+| - Third    |`- Third`   |
+| Ordered Lists      |   |
+| 1. First    | `1. First` |
+| 2. Second.  |  `2. Second` |
+| 3. Third    |`3. Third`   |
+| Footnote.¹ |  `Footnote[^notelabel]`  |
+|  ¹The note's content. | `[^notelabel] The note's content.`  |
+
 :::
 
-::: {.column width="60%" .right}
-- When learning these workflows, stick with the defaults at the beginning. Later, you can customize the look of the output in all kinds of ways.
-:::
-::::
-  
 
 ## The right frame of mind
 
@@ -154,27 +142,16 @@ kjh_set_slide_theme()
 - After some orientation to what's where, you will learn best by _doing_.
 - Software is a pain, but you won't crash the car or burn your house down. 
 
-
-::: {.notes}
-- Don't be afraid of the IDE or code. Expect to be frustrated, and don't be surprised when things go wrong. Things will go wrong _constantly_. The software is a very powerful, very obedient, and _very_ dumb robot.
-- But every time things "don't work", and every time you diagnose and fix them, you will become a little more adept at noticing and fixing these errors. And you will start to accumulate practical knowledge of common failures.
-- So be like Jacques and keep at it.
-:::
-
 ---
 
 :::{.huge}
-TYPE OUT<br />YOUR CODE<br />[BY HAND]{.fg-orange} 
-:::
-
-
-::: aside
-_By far_ the best way to get a feel for how R works, and to get comfortable with the cycle of try-fail-cry-fix-wail-retry that is a permanent part of writing any code.  
+TYPE OUT<br />YOUR CODE<br />[BY HAND]{.fg-orange}
 :::
 
 ---
 
-![Samuel Beckett](img/beckett-fail-better.png){fig-align="center" width=90%}
+![Samuel Beckett](img/02_beckett_fail_better.png){fig-align="center" width=90%}
+
 
 # Getting O[r]{.fg-green}iented
 
@@ -1061,7 +1038,7 @@ class(my_smry)
 names(my_smry)
 ```
 
-## Kinds of [vector]{.fg-green}
+## Types of [vector]{.fg-green}
 
 :::: {.columns}
 ::: {.column width="40%"}
@@ -1079,7 +1056,7 @@ Hadley Wickham, _Advanced R_
 ::::
 
 
-## Kinds of [vector]{.fg-green}
+## Types of [vector]{.fg-green}
 
 :::: {.columns}
 ::: {.column width="40%"}
@@ -1158,9 +1135,9 @@ Durations, which are stored in difftime vectors.
 
 :::
 
-## Vector types can't be heterogenous 
+## Vectors can't be heterogenous 
 
-- Objects can be manually or automatically coerced from one class to another. Take care.
+- They can be manually or automatically coerced from one type or class to another. Take care.
 
 ```{r }
 #| label: "02-about-r-60"
@@ -1201,9 +1178,27 @@ typeof(gapminder) # hmm
 
 ## A table of data is a kind of [list]{.fg-yellow}
 
-- Lists _can_ be heterogenous. Underneath, most complex R objects are some kind of list with different components.
+- Lists _can_ be heterogenous. Underneath, most complex R objects are some kind of list with different components that can be accessed by some function that knows their names.
 
-- A _data frame_ is a list of vectors of the same length, where the vectors can be of different types (e.g. numeric, character, logical, etc)
+```{r}
+#| label: "02-about-r-62a"
+my_list <- list(
+  first = c("Gold", "Silver", "Bronze"),
+  second = c(1, 2, 3, 4, 5, 6, 7, 8),
+  third = c(TRUE, TRUE, TRUE, FALSE, FALSE)
+)
+
+my_list
+```
+
+
+## A table of data is a kind of [list]{.fg-yellow}
+
+- Lists _can_ be heterogenous. Underneath, most complex R objects are some kind of list with different components that can be accessed by some function that knows their names.
+
+- A _data frame_ is a list of vectors of the same length, where the vectors can be of different types (e.g. numeric, character, logical, etc). 
+
+- A data frame is a natural representation of what most real tables of data look like. Having it be a basic sort of entity in the programming language [IS ONE OF R's BEST IDEAS AND EASILY UNDERRATED!]{.fg-lblue} 
 
 - A _tibble_ is an enhanced data frame 
 
@@ -1215,7 +1210,6 @@ Again the object inspector is helpful here
 :::
 
 ## Some classes are versions of others
-
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -1300,7 +1294,7 @@ gss_sm
 
 
 
-- Tidyverse tools are generally _type safe_, meaning their functions return the same type of thing every time, or fail if they cannot do this. So it's good to know about the various data types.
+Tidyverse tools are generally _type safe_, meaning their functions return the same type of thing every time, or fail if they cannot. So it's good to know about the various data types.
 
 
 ## 6. [Arithmetic on vectors]{.fg-yellow}

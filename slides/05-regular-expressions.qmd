@@ -39,7 +39,7 @@ kjh_set_slide_theme()
 
 
 
-# A brief introduction to [regular expressions]{.fg-yellow} 
+# A brief introduction to [regular expressions]{.fg-yellow}
 
 
 ## Load the packages, as always

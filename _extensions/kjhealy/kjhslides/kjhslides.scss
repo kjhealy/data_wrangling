@@ -127,6 +127,28 @@ $presentation-h6-font-size: $presentation-font-size-root * 0.8;
 
 }
 
+// Tables
+
+.reveal table {
+  border: none;
+  border-collapse: collapse;
+}
+
+.reveal table th {
+  border-bottom: 1px solid;
+}
+
+.reveal table tr {
+  border-bottom: none;
+  border-top: none;
+}
+
+.reveal table td {
+  border-bottom: none;
+  border-top: none;
+}
+
+
 // Console/text/cell output
 
 

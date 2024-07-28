@@ -40,7 +40,7 @@ kjh_set_slide_theme()
 
 # Making it [easier]{.fg-green} to be [tidy]{.fg-yellow}  
 
-## Load the packages, as always
+## Load the packages, as always 
 
 
 ```{r}

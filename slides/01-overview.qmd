@@ -317,8 +317,8 @@ Because the research process is [_intrinsically messy_]{.fg-lblue}
 ### Office model
 - Everyone knows Word, Excel, or Google Docs.
 - "Track changes" is powerful and easy.
-- Hm, why can't I remember how I made this figure?.
-- Where did this table of results come from?
+- Hm, why can't I remember how I made this figure?
+- Where did this table of results come from? Where did my file go?
 - `Paper_Final_edits_FINAL_kh-1a.docx`
 
 :::
@@ -337,8 +337,8 @@ Because the research process is [_intrinsically messy_]{.fg-lblue}
 ### Office model
 - Everyone knows Word, Excel, or Google Docs.
 - "Track changes" is powerful and easy.
-- Hm, why can't I remember how I made this figure?.
-- Where did this table of results come from?
+- Hm, why can't I remember how I made this figure?
+- Where did this table of results come from? Where did my file go?
 - `Paper_Final_edits_FINAL_kh-1a.docx`
 
 :::
@@ -347,7 +347,7 @@ Because the research process is [_intrinsically messy_]{.fg-lblue}
 ### Engineering model
 - Plain text is universally portable.
 - Push button, recreate analysis.
-- Why can't I make R do this simple thing?
+- Gaaah, Why can't I make R do this simple thing?
 - This version control stuff is a pain.
 - `Object of type 'closure' is not subsettable`
 
@@ -355,6 +355,28 @@ Because the research process is [_intrinsically messy_]{.fg-lblue}
 ::::
 
 ## Each approach generates solutions to its own problems
+
+:::: {.columns}
+::: {.column width=50%}
+### Office model
+- Make a suite of applications.
+- Put everything on a cloud server, not your computer.
+- Rely on search to find stuff.
+- Allow users to treat documents like plain-text (e.g. Markdown).
+- Put more advanced functions back in, somewhere.
+
+:::
+
+::: {.column width=50% .right}
+### Engineering model
+- Try to guess what the user wants and offer hints or suggestions.
+- Talk to version control via a GUI client.
+- Make help and code assistance easily available.
+- Allow users treat their code more like a formatted document.
+
+:::
+::::
+
 
 
 # Into the Kitchen
@@ -384,37 +406,60 @@ Because the research process is [_intrinsically messy_]{.fg-lblue}
 
 ## R and RStudio
 
-![](img/rstudio-1.png){width=95% fig-align="center"}
+![RStudio at startup](img/02_ide_rstudio_startup.png)
+
+---
+
+![RStudio schematic overview](img/02_ide_rstudio_schematic.png)
+
+---
+
+![RStudio schematic overview](img/02_ide_rstudio_schematic_overlay.png)
+
+---
+
+:::{.large .center}
+Think in terms of [Data]{.fg-orange} + [Transformations]{.fg-green}, written out as code, rather than a series of point-and-click steps  
+:::
+
+---
+
+:::{.large .center}
+Our starting [data]{.fg-orange} + our [code]{.fg-green} is what's "real" in our projects, not the final output or any intermediate objects
+:::
 
 
-## R and RStudio
+---
 
-![](img/rstudio-conceptual-1.png){width=95% fig-align="center"}
+:::{.large .center}
+The IDE is the thing that helps us keep track of and control over the code we write and the outputs we produce.
+:::
 
-## R & RStudio
-
-![](img/rstudio-conceptual-2.png){fig-align="center"}
-
-## R & RStudio
-
-![](img/rstudio-conceptual-4.png){fig-align="center"}
-
-## R & RStudio
-
-![](img/rstudio-conceptual-5.png){width=110% fig-align="center"}
-
-## R & RStudio
-
-![](img/rstudio-conceptual-6.png){fig-align="center"}
-
-## R & RStudio
-
-![](img/rstudio-conceptual-7.png){fig-align="center"}
+---
 
 
-## R & RStudio
+![RStudio at startup](img/02_ide_rstudio_startup.png)
 
-![](img/rstudio-conceptual-3.png){fig-align="center"}
+---
+
+
+![RStudio at startup](img/02_ide_rstudio_sshot_1.png)
+
+---
+
+
+![RStudio at startup](img/02_ide_rstudio_sshot_2.png)
+
+---
+
+
+![RStudio at startup](img/02_ide_rstudio_sshot_3.png)
+
+---
+
+
+![RStudio at startup](img/02_ide_rstudio_sshot_4.png)
+
 
 ## Your code is what's real in your project
 

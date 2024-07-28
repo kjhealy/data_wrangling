@@ -255,8 +255,6 @@ penguins |>
 
 ## The most common [`tidyr`]{.fg-orange} operation
 
-Pivoting:
-
 ```{r }
 #| label: "04-tidy-data-10"
 edu
@@ -267,7 +265,7 @@ edu
 
 ## Wide to long with [`pivot_longer()`]{.fg-green}
 
-- We're going to put the columns `elem4:coll4` into a new column, creating a new categorical measure named `education`. The numbers currently under each column will become a  new [value]{.fg-green} column corresponding to that level of education. 
+- We're going to _pivot_ the table. That is, we'll put the columns `elem4:coll4` into a new column, creating a new categorical measure named `education`. The numbers currently under each column will become a  new [value]{.fg-green} column corresponding to that level of education. 
 
 ```{r }
 #| label: "04-tidy-data-11"
@@ -277,7 +275,7 @@ edu |>
 
 ## Wide to long with [`pivot_longer()`]{.fg-green}
 
-- We can name the value column to whatever we like. Here it's a number of people.
+- We can name the "value" column to whatever we like. Here it's a number of people, so let's call it "`n`".
 
 ```{r }
 #| label: "04-tidy-data-12"
@@ -306,6 +304,8 @@ edu |>
 #| label: "04-tidy-data-14"
 gapminder
 ```
+
+But they're not symmetric operations!
 
 ## [pivot_longer()]{.fg-green} implies [pivot_wider()]{.fg-green}
 
@@ -367,8 +367,13 @@ dfstrat <- add_column(dfstrat, income)
 write_csv(dfstrat, here::here("data", "dfstrat.csv"))
 ```
 
+---
+
+## Pivot wider while summarizing
+
 ```{r }
 #| label: "04-tidy-data-19"
+
 # Some made-up data
 dfstrat <- read_csv(here::here("data", "dfstrat.csv"))
 dfstrat 
@@ -482,4 +487,318 @@ gss_sm |>
 This one is a bit trickier, and our first glimpse of a _regular expression_. 
 
 We have to tell [**`separate()`**]{.fg-green} to split on the period, not the space.
+
+# More advanced pivots
+
+## Example: tidy selectors
+
+
+```{r}
+billboard
+```
+
+## Example: tidy selectors
+
+```{r}
+billboard |>  
+  pivot_longer(
+    cols = starts_with("wk"), 
+    names_to = "week", 
+    values_to = "rank",
+    values_drop_na = TRUE
+  )
+```
+
+## Example: parse fns
+
+```{r}
+billboard  |>  
+  pivot_longer(
+    cols = starts_with("wk"), 
+    names_to = "week", 
+    names_transform = readr::parse_number,
+    values_to = "rank",
+    values_drop_na = TRUE,
+  )
+```
+
+## Example: many vars in cols
+
+```{r}
+who
+```
+
+## Example: many vars in cols
+
+```{r}
+who  |>  
+  pivot_longer(
+    cols = new_sp_m014:newrel_f65,
+    names_to = c("diagnosis", "gender", "age"), 
+    names_pattern = "new_?(.*)_(.)(.*)",
+    values_to = "count"
+  )
+```
+
+
+## Example: many vars in cols
+
+::: {.smallcode}
+```{r}
+who |>  
+  pivot_longer(
+    cols = new_sp_m014:newrel_f65,
+    names_to = c("diagnosis", "gender", "age"), 
+    names_pattern = "new_?(.*)_(.)(.*)",
+    names_transform = list(
+      gender = ~ readr::parse_factor(.x, levels = c("f", "m")),
+      age = ~ readr::parse_factor(
+        .x,
+        levels = c("014", "1524", "2534", "3544", "4554", "5564", "65"), 
+        ordered = TRUE
+      )
+    ),
+    values_to = "count"
+)
+```
+  
+:::
+
+## Example: long to wide
+
+```{r}
+## Get the data and normalize the column names
+df <- read_csv("http://kjhealy.co/MVOtestdata.csv") |>
+  janitor::clean_names()
+
+## Starting point
+df
+
+```
+
+
+## Example: long to wide
+
+```{r}
+colnames(df)
+```
+
+## Example: there & back
+
+More fully lengthen by making side, item, color, and size into variables (ie columns)
+
+```{r}
+df_lon <- df |>
+  pivot_longer(right_shoe_color:left_glove_size,
+               names_to = c("side", "item", ".value"),
+               names_pattern = "(.*)_(.*)_(.*)")
+
+df_lon
+```
+
+## Example: there & back
+
+```{r}
+df_superwide <- df_lon |>
+  group_by(id, date) |>
+  mutate(id = as.character(id),
+         date = lubridate::mdy(date),
+         seq_id = cur_group_rows()) |>
+  relocate(seq_id, .after = id) |>
+  ungroup() |>
+  pivot_wider(names_from = seq_id, values_from =  date:size)
+```
+
+
+## Example: there & back
+
+```{r}
+df_superwide
+
+# Sheer madness
+colnames(df_superwide)
+```
+
+
+# Nested Data
+
+## Example 1: from the `tidyr` Vignette
+
+```{r}
+## Examples of recursive lists and nested/split data frames
+# install.packages("repurrsive")
+library(repurrrsive)
+
+chars <- tibble(char = got_chars)
+chars
+```
+
+
+## Example 1: from the `tidyr` Vignette
+
+```{r}
+chars2 <- chars |> 
+  unnest_wider(char)
+
+chars2
+```
+
+## Example 1: from the `tidyr` Vignette
+
+```{r}
+chars2 |> 
+  select(where(is.list))
+```
+
+## Example 1: from the `tidyr` Vignette
+
+A row for every book and TV series that the character appears in:
+
+```{r}
+chars2 
+```
+
+```{r}
+#| label: "04-tidy-data-got"
+#| include: FALSE
+
+chars2  |>  
+  select(name, books, tvSeries) |>
+  pivot_longer(c(books, tvSeries), 
+               names_to = "media", 
+               values_to = "value") |> 
+  unnest_longer(value)
+```
+
+`r chunq_reveal("04-tidy-data-got",  lcolw="40", rcolw="60", smallcode = TRUE, title = "Example 1: Vignette")`
+
+
+
+
+## Example 2: GitHub 
+
+The `fromJSON()` function in `{jsonlite}` does its best to simplify what the API returns into a table, which you can convert to a tibble.
+
+```{r}
+# install.packages("jsonlite")
+jsonlite::fromJSON("https://api.github.com/users/kjhealy/repos") |> 
+  as_tibble()
+```
+
+
+## Example 2: GitHub 
+
+The `read_json()` function in `{jsonlite}` gives you a list of the JSON the API returns, which you won't be able to immediately convert.
+
+```{r}
+gh_raw <- jsonlite::read_json("https://api.github.com/users/kjhealy/repos") 
+
+gh_tb <- tibble(gh = gh_raw)
+
+gh_tb
+
+```
+
+## Example 2: GitHub 
+
+This is what the `unnest_wider()` function is for:
+
+```{r}
+gh_tb |> 
+  unnest_wider(gh)
+```
+
+## Example 2: GitHub 
+
+By default we only get the first 30 items back. (The API is paginated.)
+
+```{r}
+gh_tb |> 
+  unnest_wider(gh) |>
+  pull(name)
+```
+
+## Example 2: GitHub 
+
+```{r}
+gh_tb |> 
+  unnest_wider(gh) |>
+  select(id, name, ends_with("count")) |>
+  arrange(desc(watchers_count))
+```
+
+## Example 3: Citibike NYC
+
+```{r}
+bikes <- jsonlite::read_json("https://gbfs.citibikenyc.com/gbfs/2.3/gbfs.json")
+
+bikes
+```
+
+
+## Example 3: Citibike NYC
+
+A slightly messier case:
+
+```{r}
+bikes_tib <- tibble(bikes = bikes$data$en$feeds) |> 
+  unnest_wider(bikes)
+
+bikevec <- bikes_tib$url |> 
+  set_names(bikes_tib$name)
+
+## Available feeds
+bikevec
+```
+
+## Example 3: Citibike NYC
+
+```{r}
+## Q: Why do we write it like this?
+nyc_stations <- tibble(stations = jsonlite::read_json(bikevec["station_status"])$data) 
+
+nyc_stations
+```
+
+## Example 3: Citibike NYC
+
+```{r}
+## Live! (At the time of rendering)
+nyc_stations |> 
+  unnest_wider(stations, names_sep = "_") 
+```
+
+## Example 3: Citibike NYC
+
+```{r}
+
+nyc_stations |> 
+  unnest_wider(stations, names_sep = "_") |> 
+  pivot_longer(starts_with("stations")) 
+```
+
+## Example 3: Citibike NYC
+
+```{r}
+
+nyc_stations |> 
+  unnest_wider(stations, names_sep = "_") |> 
+  pivot_longer(starts_with("stations")) |>   
+  unnest_wider(value)
+```
+
+
+## Example 3: Citibike NYC
+
+Extra info on the stations:
+
+```{r}
+## Q: Why do we write it like this?
+nyc_stations_info <- tibble(stations = jsonlite::read_json(bikevec["station_information"])$data[[1]])
+
+nyc_stations_info |>
+  unnest_wider(stations)
+```
+
+From here we could join these two tables.
 

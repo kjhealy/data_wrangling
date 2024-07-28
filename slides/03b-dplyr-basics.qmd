@@ -40,7 +40,7 @@ kjh_set_slide_theme()
 ---
 
 :::{.huge}
- [Window functions]{.fg-orange} and [moving averages]{.fg-green} 
+ [Window functions]{.fg-orange} and [moving averages]{.fg-green}
 :::
 
 ---
@@ -88,7 +88,7 @@ covnat_weekly |>
 
 ## **`dplyr`**'s [window]{.fg-yellow} functions 
 
-[**`cume_dist()`**]{.fg-green} gives the proportion of values less than or equal to the current value.
+[**`cume_dist()`**]{.fg-green} gives the proportion of values <= to the current value.
 
 ```{r }
 #| label: "03b-dplyr-basics-5"

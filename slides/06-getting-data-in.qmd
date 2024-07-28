@@ -41,7 +41,7 @@ kjh_set_slide_theme()
 
 # Reading in data with [readr]{.fg-yellow} and [haven]{.fg-yellow}  
 
-## Load the packages, as always
+## Load the packages, as always 
 
 ```{r}
 #| label: "06-getting-data-in-2"

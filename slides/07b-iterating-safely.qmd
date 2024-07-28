@@ -40,7 +40,7 @@ kjh_set_slide_theme()
 
 # [Safely]{.fg-green} iterating with [purrr]{.fg-yellow} and [map]{.fg-yellow}  
 
-## Load the packages, as always
+## Load the packages, as always 
 
 ```{r}
 #| label: 07b-iterating-safely-2
