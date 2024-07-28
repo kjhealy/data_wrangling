@@ -1,23 +1,3 @@
-#| label: "03b-dplyr-basics-2"
-#| message: TRUE
-library(here)      # manage file paths
-library(socviz)    # data and some useful functions
-library(tidyverse) # your friend and mine
-
-
-## -----------------------------------------------------------------------------
-#| label: "03b-dplyr-basics-3"
-## Data on COVID-19
-library(covdata)
-
-covnat_weekly 
-
-
-## -----------------------------------------------------------------------------
-#| label: "03b-dplyr-basics-4"
-covnat_weekly |> 
-  filter(iso3 == "FRA") |> 
-  select(date, cname, iso3, cases) |> 
   mutate(cases = ifelse(is.na(cases), 0, cases), # convert NA vals in `cases` to 0
          cumulative = cumsum(cases)) 
 

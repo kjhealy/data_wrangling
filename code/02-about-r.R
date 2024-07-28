@@ -1,23 +1,3 @@
-#| label: "02-about-r-3"
-## Inside code chunks, lines beginning with a # character are comments
-## Comments are ignored by R
-
-my_numbers <- c(1, 1, 2, 4, 1, 3, 1, 5) # Anything after a # character is ignored as well
-
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-4"
-my_numbers 
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-6"
-letters
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-7"
 (31 * 12) / 2^4
 
 

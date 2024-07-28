@@ -1,23 +1,3 @@
-## -----------------------------------------------------------------------------
-#| label: 08-making-tidy-easier-2
-#| message: true
-library(here)      # manage file paths
-library(socviz)    # data and some useful functions
-library(tidyverse) # your friend and mine
-library(haven)     # for Stata, SAS, and SPSS files
-
-library(broom)     # tidy model summaries
-
-
-## -----------------------------------------------------------------------------
-#| label: 08-making-tidy-easier-3
-library(reprex)
-
-
-## -----------------------------------------------------------------------------
-#| label: 08-making-tidy-easier-4
-library(tidyverse)
-
 starwars |> 
   count(homeworld, species) |> 
   mutate(pct = n / sum(n) * 100) |> 

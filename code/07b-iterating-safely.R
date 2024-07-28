@@ -1,23 +1,3 @@
-## -----------------------------------------------------------------------------
-#| label: 07b-iterating-safely-2
-#| message: true
-library(here)      # manage file paths
-library(socviz)    # data and some useful functions
-library(tidyverse) # your friend and mine
-
-
-## -----------------------------------------------------------------------------
-#| label: 07b-iterating-safely-3
-library(survey)
-library(srvyr)
-library(broom)
-library(gssr) # https://kjhealy.github.io/gssr
-
-
-## -----------------------------------------------------------------------------
-#| label: 07b-iterating-safely-4
-data(gss_all)
-
 gss_all
 
 

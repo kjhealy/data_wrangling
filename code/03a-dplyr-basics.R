@@ -1,23 +1,3 @@
-#| message: TRUE
-library(here)      # manage file paths
-library(socviz)    # data and some useful functions
-library(tidyverse) # your friend and mine
-
-
-## -----------------------------------------------------------------------------
-#| label: "03a-dplyr-basics-3"
-## library(socviz) # if not loaded
-gss_sm
-
-
-## -----------------------------------------------------------------------------
-#| label: "03a-dplyr-basics-4"
-gss_sm |> 
-  select(id, bigregion, religion)
-
-
-## -----------------------------------------------------------------------------
-#| label: "03a-dplyr-basics-5"
 
 gss_sm |> 
   group_by(bigregion)

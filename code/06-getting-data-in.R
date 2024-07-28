@@ -1,23 +1,3 @@
-#| message: TRUE
-library(here)      # manage file paths
-library(socviz)    # data and some useful functions
-library(tidyverse) # your friend and mine
-library(haven)     # for Stata, SAS, and SPSS files
-
-
-## -----------------------------------------------------------------------------
-#| label: "06-getting-data-in-3"
-here() # this path will be different for you
-
-
-## -----------------------------------------------------------------------------
-#| label: "06-getting-data-in-4"
-#| echo: FALSE
-fs::dir_tree(here(), recurse = 0)
-
-
-## -----------------------------------------------------------------------------
-#| label: "06-getting-data-in-5"
 ## Load the file relative to the path from the top of the project, without separators, etc
 organs <- read_csv(file = here("data", "organdonation.csv"))
 

@@ -1,23 +1,3 @@
-#| label: "07-iterating-on-data-2"
-#| message: TRUE
-library(here)      # manage file paths
-library(socviz)    # data and some useful functions
-library(tidyverse) # your friend and mine
-
-
-## -----------------------------------------------------------------------------
-#| label: "07-iterating-on-data-3"
-# A little trick from the fs package: 
-fs::dir_tree(here("data", "congress"))
-
-
-## -----------------------------------------------------------------------------
-#| label: "07-iterating-on-data-4"
-read_csv(here("data", "congress", "17_95_congress.csv")) |> 
-  janitor::clean_names() |> 
-  head()
-
-
 ## -----------------------------------------------------------------------------
 #| label: "07-iterating-on-data-5"
 a <- c(1:10)

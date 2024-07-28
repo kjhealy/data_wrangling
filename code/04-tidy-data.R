@@ -1,23 +1,3 @@
-#| message: FALSE
-library(here)      # manage file paths
-library(socviz)    # data and some useful functions
-
-
-## -----------------------------------------------------------------------------
-#| label: "04-tidy-data-3"
-#| message: TRUE
-library(tidyverse) # your friend and mine
-library(gapminder) # gapminder data
-
-## Quieten dplyr summarise chatter (with an 's')!
-options(dplyr.summarise.inform = FALSE)
-
-
-
-## -----------------------------------------------------------------------------
-#| label: "04-tidy-data-6"
-gapminder
-
 
 ## -----------------------------------------------------------------------------
 #| label: "04-tidy-data-7"
