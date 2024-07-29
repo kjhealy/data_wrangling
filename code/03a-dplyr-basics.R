@@ -1,3 +1,43 @@
+#| message: TRUE
+library(here)      # manage file paths
+library(socviz)    # data and some useful functions
+library(tidyverse) # your friend and mine
+
+
+## -----------------------------------------------------------------------------
+#| label: "03a-dplyr-basics-3"
+## library(socviz) # if not loaded
+gss_sm
+
+
+## -----------------------------------------------------------------------------
+#| label: "03a-dplyr-basics-4"
+gss_sm |> 
+  select(id, bigregion, religion)
+
+
+## -----------------------------------------------------------------------------
+#| label: "03a-dplyr-basics-5"
+
+gss_sm |> 
+  group_by(bigregion)
+
+
+## -----------------------------------------------------------------------------
+#| label: "03a-dplyr-basics-6"
+#| include: FALSE
+gss_sm |> 
+  group_by(bigregion) |> 
+  summarize(total = n())
+
+
+## -----------------------------------------------------------------------------
+#| label: "03a-dplyr-basics-7"
+#| include: FALSE
+gss_sm |> 
+  group_by(bigregion, religion) |> 
+  summarize(total = n())
+
 
 ## -----------------------------------------------------------------------------
 #| label: "03a-dplyr-basics-8"
@@ -344,7 +384,7 @@ organdata |>
   summarize(across(my_vars,           
                    list(avg = mean, #<<
                         sd = var, #<<
-                        md = median),#<< 
+                        md = median),#<<
                    na.rm = TRUE))     
 
 
@@ -358,7 +398,7 @@ organdata |>
   summarize(across(my_vars,           
                    list(mean = mean, #<<
                         var = var, #<<
-                        median = median),#<< 
+                        median = median),#<<
                    na.rm = TRUE))     
 
 
@@ -366,7 +406,7 @@ organdata |>
 #| label: "03a-dplyr-basics-46"
 organdata |> 
   group_by(consent_law, country) |>
-  summarize(across(where(is.numeric), #<<      
+  summarize(across(where(is.numeric), #<<
                    list(mean = mean, 
                         var = var, 
                         median = median),
@@ -412,7 +452,7 @@ organdata |>
 organdata |> 
   group_by(consent_law, country) |>
   summarize(donors = mean(donors, na.rm = TRUE)) |> 
-  arrange(donors) |> ##< 
+  arrange(donors) |> ##<
   print(n = 5)
 
 
@@ -421,7 +461,7 @@ organdata |>
 organdata |> 
   group_by(consent_law, country) |>
   summarize(donors = mean(donors, na.rm = TRUE)) |> 
-  arrange(donors) |> ##< 
+  arrange(donors) |> ##<
   print(n = 5)
 
 
