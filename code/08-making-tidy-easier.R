@@ -1,23 +1,3 @@
-starwars |> 
-  count(homeworld, species) |> 
-  mutate(pct = n / sum(n) * 100) |> 
-  arrange(desc(pct))
-
-
-## -----------------------------------------------------------------------------
-#| label: 08-making-tidy-easier-5
-#| echo: false
-# Oh no, its the GSS
-gss_sm |> 
-  count(bigregion, religion) |> 
-  pivot_wider(names_from =  bigregion, 
-              values_from  = n) |> 
-  knitr::kable()
-
-
-## -----------------------------------------------------------------------------
-#| label: 08-making-tidy-easier-6
-library(gtsummary)
 
 trial
 

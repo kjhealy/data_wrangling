@@ -1,23 +1,3 @@
-
-## -----------------------------------------------------------------------------
-#| label: "04-tidy-data-7"
-library(covdata)
-covus |> 
-  filter(state == "NY") |> 
-  select(date:fips, measure:count)
-
-
-## -----------------------------------------------------------------------------
-#| label: "04-tidy-data-8"
-library(palmerpenguins)
-penguins |> 
-  group_by(species, island, year) |> 
-  summarize(bill = round(mean(bill_length_mm, na.rm = TRUE),2)) |> 
-  knitr::kable()
-
-
-## -----------------------------------------------------------------------------
-#| label: "04-tidy-data-9"
 penguins |> 
   group_by(species, island, year) |> 
   summarize(bill = round(mean(bill_length_mm, na.rm = TRUE), 2)) |> 

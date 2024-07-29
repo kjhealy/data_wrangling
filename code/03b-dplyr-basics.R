@@ -1,23 +1,3 @@
-  mutate(cases = ifelse(is.na(cases), 0, cases), # convert NA vals in `cases` to 0
-         cumulative = cumsum(cases)) 
-
-
-
-## -----------------------------------------------------------------------------
-#| label: "03b-dplyr-basics-5"
-covnat_weekly |> 
-  select(date, cname, iso3, deaths) |> 
-  filter(iso3 == "FRA") |> 
-  filter(cume_dist(desc(deaths)) < 0.1) # i.e. Top 10%
-
-
-
-## -----------------------------------------------------------------------------
-#| label: "03b-dplyr-basics-6"
-covus |> 
-  filter(measure == "death") |> 
-  group_by(state) |> 
-  arrange(state, desc(date)) |> 
   filter(state %in% "NY")
 
 

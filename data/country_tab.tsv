@@ -1,0 +1,250 @@
+country_id	continent_id	country	iso_country	country_fr	iso2	iso3	number
+1	3	Afghanistan	Afghanistan	Afghanistan (l')	AF	AFG	4
+2	4	Albania	Albania	Albanie (l')	AL	ALB	8
+3	1	Algeria	Algeria	Algérie (l')	DZ	DZA	12
+4	NA	NA	American Samoa	Samoa américaines (les)	AS	ASM	16
+5	NA	NA	Andorra	Andorre (l')	AD	AND	20
+6	1	Angola	Angola	Angola (l')	AO	AGO	24
+7	NA	Anguilla	Anguilla	Anguilla	AI	AIA	660
+8	NA	Antarctica	Antarctica	Antarctique (l')	AQ	ATA	10
+9	NA	Antigua and Barbuda	Antigua and Barbuda	Antigua-et-Barbuda	AG	ATG	28
+10	2	Argentina	Argentina	Argentine (l')	AR	ARG	32
+11	NA	NA	Armenia	Arménie (l')	AM	ARM	51
+12	NA	NA	Aruba	Aruba	AW	ABW	533
+13	5	Australia	Australia	Australie (l')	AU	AUS	36
+14	4	Austria	Austria	Autriche (l')	AT	AUT	40
+15	NA	NA	Azerbaijan	Azerbaïdjan (l')	AZ	AZE	31
+16	NA	NA	Bahamas (the)	Bahamas (les)	BS	BHS	44
+17	3	Bahrain	Bahrain	Bahreïn	BH	BHR	48
+18	3	Bangladesh	Bangladesh	Bangladesh (le)	BD	BGD	50
+19	NA	NA	Barbados	Barbade (la)	BB	BRB	52
+20	NA	NA	Belarus	Bélarus (le)	BY	BLR	112
+21	4	Belgium	Belgium	Belgique (la)	BE	BEL	56
+22	NA	NA	Belize	Belize (le)	BZ	BLZ	84
+23	1	Benin	Benin	Bénin (le)	BJ	BEN	204
+24	NA	NA	Bermuda	Bermudes (les)	BM	BMU	60
+25	NA	NA	Bhutan	Bhoutan (le)	BT	BTN	64
+26	2	Bolivia	Bolivia (Plurinational State of)	Bolivie (État plurinational de)	BO	BOL	68
+27	NA	Bonaire	Bonaire, Sint Eustatius and Saba	Bonaire, Saint-Eustache et Saba	BQ	BES	535
+28	4	Bosnia and Herzegovina	Bosnia and Herzegovina	Bosnie-Herzégovine (la)	BA	BIH	70
+29	1	Botswana	Botswana	Botswana (le)	BW	BWA	72
+30	NA	Bouvet	Bouvet Island	Bouvet (l'Île)	BV	BVT	74
+31	2	Brazil	Brazil	Brésil (le)	BR	BRA	76
+32	NA	British Indian Ocean Territory	British Indian Ocean Territory (the)	Indien (le Territoire britannique de l'océan)	IO	IOT	86
+33	NA	Brunei	Brunei Darussalam	Brunéi Darussalam (le)	BN	BRN	96
+34	4	Bulgaria	Bulgaria	Bulgarie (la)	BG	BGR	100
+35	1	Burkina Faso	Burkina Faso	Burkina Faso (le)	BF	BFA	854
+36	1	Burundi	Burundi	Burundi (le)	BI	BDI	108
+37	NA	Cabo Verde	Cabo Verde	Cabo Verde	CV	CPV	132
+38	3	Cambodia	Cambodia	Cambodge (le)	KH	KHM	116
+39	1	Cameroon	Cameroon	Cameroun (le)	CM	CMR	120
+40	2	Canada	Canada	Canada (le)	CA	CAN	124
+41	NA	Cayman Islands	Cayman Islands (the)	Caïmans (les Îles)	KY	CYM	136
+42	1	Central African Republic	Central African Republic (the)	République centrafricaine (la)	CF	CAF	140
+43	1	Chad	Chad	Tchad (le)	TD	TCD	148
+44	2	Chile	Chile	Chili (le)	CL	CHL	152
+45	3	China	China	Chine (la)	CN	CHN	156
+46	NA	Christmas Island	Christmas Island	Christmas (l'Île)	CX	CXR	162
+47	NA	Cocos	Cocos (Keeling) Islands (the)	Cocos (les Îles)/ Keeling (les Îles)	CC	CCK	166
+48	2	Colombia	Colombia	Colombie (la)	CO	COL	170
+49	1	Comoros	Comoros (the)	Comores (les)	KM	COM	174
+50	NA	Congo, Dem. Rep.	Congo (the Democratic Republic of the)	Congo (la République démocratique du)	CD	COD	180
+51	NA	Congo, Rep.	Congo (the)	Congo (le)	CG	COG	178
+52	NA	NA	Cook Islands (the)	Cook (les Îles)	CK	COK	184
+53	2	Costa Rica	Costa Rica	Costa Rica (le)	CR	CRI	188
+54	4	Croatia	Croatia	Croatie (la)	HR	HRV	191
+55	2	Cuba	Cuba	Cuba	CU	CUB	192
+56	NA	NA	Curaçao	Curaçao	CW	CUW	531
+57	NA	Cyprus	Cyprus	Chypre	CY	CYP	196
+58	4	Czech Republic	Czechia	Tchéquie (la)	CZ	CZE	203
+59	1	Cote d'Ivoire	Côte d'Ivoire	Côte d'Ivoire (la)	CI	CIV	384
+60	4	Denmark	Denmark	Danemark (le)	DK	DNK	208
+61	1	Djibouti	Djibouti	Djibouti	DJ	DJI	262
+62	NA	Dominica	Dominica	Dominique (la)	DM	DMA	212
+63	2	Dominican Republic	Dominican Republic (the)	dominicaine (la République)	DO	DOM	214
+64	2	Ecuador	Ecuador	Équateur (l')	EC	ECU	218
+65	1	Egypt	Egypt	Égypte (l')	EG	EGY	818
+66	2	El Salvador	El Salvador	El Salvador	SV	SLV	222
+67	1	Equatorial Guinea	Equatorial Guinea	Guinée équatoriale (la)	GQ	GNQ	226
+68	1	Eritrea	Eritrea	Érythrée (l')	ER	ERI	232
+69	NA	Estonia	Estonia	Estonie (l')	EE	EST	233
+70	1	Swaziland	Eswatini	Eswatini (l')	SZ	SWZ	748
+71	1	Ethiopia	Ethiopia	Éthiopie (l')	ET	ETH	231
+72	NA	Falklands	Falkland Islands (the) [Malvinas]	Falkland (les Îles)/Malouines (les Îles)	FK	FLK	238
+73	NA	Faroe Islands	Faroe Islands (the)	Féroé (les Îles)	FO	FRO	234
+74	NA	Fiji	Fiji	Fidji (les)	FJ	FJI	242
+75	4	Finland	Finland	Finlande (la)	FI	FIN	246
+76	4	France	France	France (la)	FR	FRA	250
+77	NA	French Guiana	French Guiana	Guyane française (la )	GF	GUF	254
+78	NA	French Polynesia	French Polynesia	Polynésie française (la)	PF	PYF	258
+79	NA	French Southern Territories	French Southern Territories (the)	Terres australes françaises (les)	TF	ATF	260
+80	1	Gabon	Gabon	Gabon (le)	GA	GAB	266
+81	1	Gambia	Gambia (the)	Gambie (la)	GM	GMB	270
+82	NA	Georgia	Georgia	Géorgie (la)	GE	GEO	268
+83	4	Germany	Germany	Allemagne (l')	DE	DEU	276
+84	1	Ghana	Ghana	Ghana (le)	GH	GHA	288
+85	NA	Gibraltar	Gibraltar	Gibraltar	GI	GIB	292
+86	4	Greece	Greece	Grèce (la)	GR	GRC	300
+87	NA	Greenland	Greenland	Groenland (le)	GL	GRL	304
+88	NA	Grenada	Grenada	Grenade (la)	GD	GRD	308
+89	NA	Guadeloupe	Guadeloupe	Guadeloupe (la)	GP	GLP	312
+90	NA	Guam	Guam	Guam	GU	GUM	316
+91	2	Guatemala	Guatemala	Guatemala (le)	GT	GTM	320
+92	NA	Guernsey	Guernsey	Guernesey	GG	GGY	831
+93	1	Guinea	Guinea	Guinée (la)	GN	GIN	324
+94	1	Guinea-Bissau	Guinea-Bissau	Guinée-Bissau (la)	GW	GNB	624
+95	NA	Guyiana	Guyana	Guyana (le)	GY	GUY	328
+96	2	Haiti	Haiti	Haïti	HT	HTI	332
+97	NA	Heard	Heard Island and McDonald Islands	Heard-et-Îles MacDonald (l'Île)	HM	HMD	334
+98	NA	Vatican City	Holy See (the)	Saint-Siège (le)	VA	VAT	336
+99	2	Honduras	Honduras	Honduras (le)	HN	HND	340
+100	3	Hong Kong, China	Hong Kong	Hong Kong	HK	HKG	344
+101	4	Hungary	Hungary	Hongrie (la)	HU	HUN	348
+102	4	Iceland	Iceland	Islande (l')	IS	ISL	352
+103	3	India	India	Inde (l')	IN	IND	356
+104	3	Indonesia	Indonesia	Indonésie (l')	ID	IDN	360
+105	3	Iran	Iran (Islamic Republic of)	Iran (République Islamique d')	IR	IRN	364
+106	3	Iraq	Iraq	Iraq (l')	IQ	IRQ	368
+107	4	Ireland	Ireland	Irlande (l')	IE	IRL	372
+108	NA	Isle of Man	Isle of Man	Île de Man	IM	IMN	833
+109	3	Israel	Israel	Israël	IL	ISR	376
+110	4	Italy	Italy	Italie (l')	IT	ITA	380
+111	2	Jamaica	Jamaica	Jamaïque (la)	JM	JAM	388
+112	3	Japan	Japan	Japon (le)	JP	JPN	392
+113	NA	Jersey	Jersey	Jersey	JE	JEY	832
+114	3	Jordan	Jordan	Jordanie (la)	JO	JOR	400
+115	NA	Kazakhstan	Kazakhstan	Kazakhstan (le)	KZ	KAZ	398
+116	1	Kenya	Kenya	Kenya (le)	KE	KEN	404
+117	NA	Kiribati	Kiribati	Kiribati	KI	KIR	296
+118	NA	Korea, Dem. Rep.	Korea (the Democratic People's Republic of)	Corée (la République populaire démocratique de)	KP	PRK	408
+119	3	Korea, Rep.	Korea (the Republic of)	Corée (la République de)	KR	KOR	410
+120	3	Kuwait	Kuwait	Koweït (le)	KW	KWT	414
+121	NA	Kyrgystan	Kyrgyzstan	Kirghizistan (le)	KG	KGZ	417
+122	NA	Lao	Lao People's Democratic Republic (the)	Lao (la République démocratique populaire)	LA	LAO	418
+123	NA	Latvia	Latvia	Lettonie (la)	LV	LVA	428
+124	3	Lebanon	Lebanon	Liban (le)	LB	LBN	422
+125	1	Lesotho	Lesotho	Lesotho (le)	LS	LSO	426
+126	1	Liberia	Liberia	Libéria (le)	LR	LBR	430
+127	1	Libya	Libya	Libye (la)	LY	LBY	434
+128	NA	Liechtenstein	Liechtenstein	Liechtenstein (le)	LI	LIE	438
+129	NA	Lithuania	Lithuania	Lituanie (la)	LT	LTU	440
+130	NA	Luxembourg	Luxembourg	Luxembourg (le)	LU	LUX	442
+131	NA	Macao	Macao	Macao	MO	MAC	446
+132	1	Madagascar	Madagascar	Madagascar	MG	MDG	450
+133	1	Malawi	Malawi	Malawi (le)	MW	MWI	454
+134	3	Malaysia	Malaysia	Malaisie (la)	MY	MYS	458
+135	NA	Maldives	Maldives	Maldives (les)	MV	MDV	462
+136	1	Mali	Mali	Mali (le)	ML	MLI	466
+137	NA	Malta	Malta	Malte	MT	MLT	470
+138	NA	Marshall Islands	Marshall Islands (the)	Marshall (les Îles)	MH	MHL	584
+139	NA	Martinique	Martinique	Martinique (la)	MQ	MTQ	474
+140	1	Mauritania	Mauritania	Mauritanie (la)	MR	MRT	478
+141	1	Mauritius	Mauritius	Maurice	MU	MUS	480
+142	NA	Mayotte	Mayotte	Mayotte	YT	MYT	175
+143	2	Mexico	Mexico	Mexique (le)	MX	MEX	484
+144	NA	Micronesia	Micronesia (Federated States of)	Micronésie (États fédérés de)	FM	FSM	583
+145	NA	Moldova	Moldova (the Republic of)	Moldova (la République de)	MD	MDA	498
+146	NA	Monaco	Monaco	Monaco	MC	MCO	492
+147	3	Mongolia	Mongolia	Mongolie (la)	MN	MNG	496
+148	4	Montenegro	Montenegro	Monténégro (le)	ME	MNE	499
+149	NA	Montserrat	Montserrat	Montserrat	MS	MSR	500
+150	1	Morocco	Morocco	Maroc (le)	MA	MAR	504
+151	1	Mozambique	Mozambique	Mozambique (le)	MZ	MOZ	508
+152	3	Myanmar	Myanmar	Myanmar (le)	MM	MMR	104
+153	NA	Namibia	Namibia	Namibie (la)	NA	NAM	516
+154	NA	Nauru	Nauru	Nauru	NR	NRU	520
+155	3	Nepal	Nepal	Népal (le)	NP	NPL	524
+156	4	Netherlands	Netherlands (Kingdom of the)	Pays-Bas (Royaume des)	NL	NLD	528
+157	NA	New Caledonia	New Caledonia	Nouvelle-Calédonie (la)	NC	NCL	540
+158	5	New Zealand	New Zealand	Nouvelle-Zélande (la)	NZ	NZL	554
+159	2	Nicaragua	Nicaragua	Nicaragua (le)	NI	NIC	558
+160	1	Niger	Niger (the)	Niger (le)	NE	NER	562
+161	1	Nigeria	Nigeria	Nigéria (le)	NG	NGA	566
+162	NA	Niue	Niue	Niue	NU	NIU	570
+163	NA	Norfolk Island	Norfolk Island	Norfolk (l'Île)	NF	NFK	574
+164	NA	North Macedonia	North Macedonia	Macédoine du Nord (la)	MK	MKD	807
+165	NA	Northern Mariana Islands	Northern Mariana Islands (the)	Mariannes du Nord (les Îles)	MP	MNP	580
+166	4	Norway	Norway	Norvège (la)	NO	NOR	578
+167	3	Oman	Oman	Oman	OM	OMN	512
+168	3	Pakistan	Pakistan	Pakistan (le)	PK	PAK	586
+169	NA	Palau	Palau	Palaos (les)	PW	PLW	585
+170	3	West Bank and Gaza	Palestine, State of	Palestine, État de	PS	PSE	275
+171	2	Panama	Panama	Panama (le)	PA	PAN	591
+172	NA	Papua New Guinea	Papua New Guinea	Papouasie-Nouvelle-Guinée (la)	PG	PNG	598
+173	2	Paraguay	Paraguay	Paraguay (le)	PY	PRY	600
+174	2	Peru	Peru	Pérou (le)	PE	PER	604
+175	3	Philippines	Philippines (the)	Philippines (les)	PH	PHL	608
+176	NA	Pitcairn	Pitcairn	Pitcairn	PN	PCN	612
+177	4	Poland	Poland	Pologne (la)	PL	POL	616
+178	4	Portugal	Portugal	Portugal (le)	PT	PRT	620
+179	2	Puerto Rico	Puerto Rico	Porto Rico	PR	PRI	630
+180	NA	Qatar	Qatar	Qatar (le)	QA	QAT	634
+181	4	Romania	Romania	Roumanie (la)	RO	ROU	642
+182	NA	Russia	Russian Federation (the)	Russie (la Fédération de)	RU	RUS	643
+183	1	Rwanda	Rwanda	Rwanda (le)	RW	RWA	646
+184	NA	Reunion	Réunion	Réunion (La)	RE	REU	638
+185	NA	Saint Barthelemy	Saint Barthélemy	Saint-Barthélemy	BL	BLM	652
+186	NA	Saint Helena	Saint Helena, Ascension and Tristan da Cunha	Sainte-Hélène, Ascension et Tristan da Cunha	SH	SHN	654
+187	NA	Saint Kitts and Nevis	Saint Kitts and Nevis	Saint-Kitts-et-Nevis	KN	KNA	659
+188	NA	Saint Lucia	Saint Lucia	Sainte-Lucie	LC	LCA	662
+189	NA	Saint Martin French	Saint Martin (French part)	Saint-Martin (partie française)	MF	MAF	663
+190	NA	Saint Pierre	Saint Pierre and Miquelon	Saint-Pierre-et-Miquelon	PM	SPM	666
+191	NA	Saint Vincent and Grenadines	Saint Vincent and the Grenadines	Saint-Vincent-et-les Grenadines	VC	VCT	670
+192	NA	Samoa	Samoa	Samoa (le)	WS	WSM	882
+193	NA	San Marino	San Marino	Saint-Marin	SM	SMR	674
+194	1	Sao Tome and Principe	Sao Tome and Principe	Sao Tomé-et-Principe	ST	STP	678
+195	3	Saudi Arabia	Saudi Arabia	Arabie saoudite (l')	SA	SAU	682
+196	1	Senegal	Senegal	Sénégal (le)	SN	SEN	686
+197	4	Serbia	Serbia	Serbie (la)	RS	SRB	688
+198	NA	Seychelles	Seychelles	Seychelles (les)	SC	SYC	690
+199	1	Sierra Leone	Sierra Leone	Sierra Leone (la)	SL	SLE	694
+200	3	Singapore	Singapore	Singapour	SG	SGP	702
+201	NA	Saint Martin Dutch	Sint Maarten (Dutch part)	Saint-Martin (partie néerlandaise)	SX	SXM	534
+202	4	Slovak Republic	Slovakia	Slovaquie (la)	SK	SVK	703
+203	4	Slovenia	Slovenia	Slovénie (la)	SI	SVN	705
+204	NA	Solomon Islands	Solomon Islands	Salomon (les Îles)	SB	SLB	90
+205	1	Somalia	Somalia	Somalie (la)	SO	SOM	706
+206	1	South Africa	South Africa	Afrique du Sud (l')	ZA	ZAF	710
+207	NA	South Georgia	South Georgia and the South Sandwich Islands	Géorgie du Sud-et-les Îles Sandwich du Sud (la)	GS	SGS	239
+208	NA	South Sudan	South Sudan	Soudan du Sud (le)	SS	SSD	728
+209	4	Spain	Spain	Espagne (l')	ES	ESP	724
+210	3	Sri Lanka	Sri Lanka	Sri Lanka	LK	LKA	144
+211	1	Sudan	Sudan (the)	Soudan (le)	SD	SDN	729
+212	NA	Surinam	Suriname	Suriname (le)	SR	SUR	740
+213	NA	Svalbard	Svalbard and Jan Mayen	Svalbard et l'Île Jan Mayen (le)	SJ	SJM	744
+214	4	Sweden	Sweden	Suède (la)	SE	SWE	752
+215	4	Switzerland	Switzerland	Suisse (la)	CH	CHE	756
+216	3	Syria	Syrian Arab Republic (the)	République arabe syrienne (la)	SY	SYR	760
+217	3	Taiwan	Taiwan (Province of China)	Taïwan (Province de Chine)	TW	TWN	158
+218	NA	Tajikistan	Tajikistan	Tadjikistan (le)	TJ	TJK	762
+219	1	Tanzania	Tanzania, the United Republic of	Tanzanie (la République-Unie de)	TZ	TZA	834
+220	3	Thailand	Thailand	Thaïlande (la)	TH	THA	764
+221	NA	Timor-Leste	Timor-Leste	Timor-Leste (le)	TL	TLS	626
+222	1	Togo	Togo	Togo (le)	TG	TGO	768
+223	NA	Tokelau	Tokelau	Tokelau (les)	TK	TKL	772
+224	NA	Tonga	Tonga	Tonga (les)	TO	TON	776
+225	2	Trinidad and Tobago	Trinidad and Tobago	Trinité-et-Tobago (la)	TT	TTO	780
+226	1	Tunisia	Tunisia	Tunisie (la)	TN	TUN	788
+227	NA	Turkmenistan	Turkmenistan	Turkménistan (le)	TM	TKM	795
+228	NA	Turks and Caicos	Turks and Caicos Islands (the)	Turks-et-Caïcos (les Îles)	TC	TCA	796
+229	NA	Tuvalu	Tuvalu	Tuvalu (les)	TV	TUV	798
+230	4	Turkey	Türkiye	Türkiye (la)	TR	TUR	792
+231	1	Uganda	Uganda	Ouganda (l')	UG	UGA	800
+232	NA	Ukrain	Ukraine	Ukraine (l')	UA	UKR	804
+233	NA	United Arab Emirates	United Arab Emirates (the)	Émirats arabes unis (les)	AE	ARE	784
+234	4	United Kingdom	United Kingdom of Great Britain and Northern Ireland (the)	Royaume-Uni de Grande-Bretagne et d'Irlande du Nord (le)	GB	GBR	826
+235	NA	USA MOI	United States Minor Outlying Islands (the)	Îles mineures éloignées des États-Unis (les)	UM	UMI	581
+236	2	United States	United States of America (the)	États-Unis d'Amérique (les)	US	USA	840
+237	2	Uruguay	Uruguay	Uruguay (l')	UY	URY	858
+238	NA	Uzbekistan	Uzbekistan	Ouzbékistan (l')	UZ	UZB	860
+239	NA	Vanuatu	Vanuatu	Vanuatu (le)	VU	VUT	548
+240	2	Venezuela	Venezuela (Bolivarian Republic of)	Venezuela (République bolivarienne du)	VE	VEN	862
+241	3	Vietnam	Viet Nam	Viet Nam (le)	VN	VNM	704
+242	NA	British Virgin Islands	Virgin Islands (British)	Vierges britanniques (les Îles)	VG	VGB	92
+243	NA	Virgin Islands	Virgin Islands (U.S.)	Vierges des États-Unis (les Îles)	VI	VIR	850
+244	NA	Wallis	Wallis and Futuna	Wallis-et-Futuna	WF	WLF	876
+245	NA	Western Sahara	Western Sahara*	Sahara occidental (le)*	EH	ESH	732
+247	3	Yemen, Rep.	Yemen	Yémen (le)	YE	YEM	887
+248	1	Zambia	Zambia	Zambie (la)	ZM	ZMB	894
+249	1	Zimbabwe	Zimbabwe	Zimbabwe (le)	ZW	ZWE	716
+250	NA	Aland	Åland Islands	Åland(les Îles)	AX	ALA	248

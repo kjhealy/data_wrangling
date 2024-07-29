@@ -1,23 +1,3 @@
-## Load the file relative to the path from the top of the project, without separators, etc
-organs <- read_csv(file = here("data", "organdonation.csv"))
-
-
-## -----------------------------------------------------------------------------
-#| label: "06-getting-data-in-6"
-organs
-
-
-## -----------------------------------------------------------------------------
-#| label: "06-getting-data-in-7"
-organs <- read_csv(file = here("data", "organdonation.csv"))
-
-
-## -----------------------------------------------------------------------------
-#| label: "06-getting-data-in-8"
-organ_remote <- read_csv("http://kjhealy.co/organdonation.csv")
-
-organ_remote
-
 
 ## -----------------------------------------------------------------------------
 #| label: "06-getting-data-in-9"

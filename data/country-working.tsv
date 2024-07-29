@@ -1,0 +1,143 @@
+country	continent	iso3	iso2
+Afghanistan	Asia	AFG	AF
+Albania	Europe	ALB	AL
+Algeria	Africa	DZA	DZ
+Angola	Africa	AGO	AO
+Argentina	Americas	ARG	AR
+Australia	Oceania	AUS	AU
+Austria	Europe	AUT	AT
+Bahrain	Asia	BHR	BH
+Bangladesh	Asia	BGD	BD
+Belgium	Europe	BEL	BE
+Benin	Africa	BEN	BJ
+Bolivia	Americas	BOL	BO
+Bosnia and Herzegovina	Europe	BIH	BA
+Botswana	Africa	BWA	BW
+Brazil	Americas	BRA	BR
+Bulgaria	Europe	BGR	BG
+Burkina Faso	Africa	BFA	BF
+Burundi	Africa	BDI	BI
+Cambodia	Asia	KHM	KH
+Cameroon	Africa	CMR	CM
+Canada	Americas	CAN	CA
+Central African Republic	Africa	CAF	CF
+Chad	Africa	TCD	TD
+Chile	Americas	CHL	CL
+China	Asia	CHN	CN
+Colombia	Americas	COL	CO
+Comoros	Africa	COM	KM
+Congo, Dem. Rep.	Africa	NA	NA
+Congo, Rep.	Africa	NA	NA
+Costa Rica	Americas	CRI	CR
+Cote d'Ivoire	Africa	CIV	CI
+Croatia	Europe	HRV	HR
+Cuba	Americas	CUB	CU
+Czech Republic	Europe	CZE	CZ
+Denmark	Europe	DNK	DK
+Djibouti	Africa	DJI	DJ
+Dominican Republic	Americas	DOM	DO
+Ecuador	Americas	ECU	EC
+Egypt	Africa	EGY	EG
+El Salvador	Americas	SLV	SV
+Equatorial Guinea	Africa	GNQ	GQ
+Eritrea	Africa	ERI	ER
+Ethiopia	Africa	ETH	ET
+Finland	Europe	FIN	FI
+France	Europe	FRA	FR
+Gabon	Africa	GAB	GA
+Gambia	Africa	GMB	GM
+Germany	Europe	DEU	DE
+Ghana	Africa	GHA	GH
+Greece	Europe	GRC	GR
+Guatemala	Americas	GTM	GT
+Guinea	Africa	GIN	GN
+Guinea-Bissau	Africa	GNB	GW
+Haiti	Americas	HTI	HT
+Honduras	Americas	HND	HN
+Hong Kong, China	Asia	NA	NA
+Hungary	Europe	HUN	HU
+Iceland	Europe	ISL	IS
+India	Asia	IND	IN
+Indonesia	Asia	IDN	ID
+Iran	Asia	IRN	IR
+Iraq	Asia	IRQ	IQ
+Ireland	Europe	IRL	IE
+Israel	Asia	ISR	IL
+Italy	Europe	ITA	IT
+Jamaica	Americas	JAM	JM
+Japan	Asia	JPN	JP
+Jordan	Asia	JOR	JO
+Kenya	Africa	KEN	KE
+Korea, Dem. Rep.	Asia	NA	NA
+Korea, Rep.	Asia	KOR	KR
+Kuwait	Asia	KWT	KW
+Lebanon	Asia	LBN	LB
+Lesotho	Africa	LSO	LS
+Liberia	Africa	LBR	LR
+Libya	Africa	LBY	LY
+Madagascar	Africa	MDG	MG
+Malawi	Africa	MWI	MW
+Malaysia	Asia	MYS	MY
+Mali	Africa	MLI	ML
+Mauritania	Africa	MRT	MR
+Mauritius	Africa	MUS	MU
+Mexico	Americas	MEX	MX
+Mongolia	Asia	MNG	MN
+Montenegro	Europe	MNE	ME
+Morocco	Africa	MAR	MA
+Mozambique	Africa	MOZ	MZ
+Myanmar	Asia	MMR	MM
+Namibia	Africa	NAM	NA
+Nepal	Asia	NPL	NP
+Netherlands	Europe	NLD	NL
+New Zealand	Oceania	NZL	NZ
+Nicaragua	Americas	NIC	NI
+Niger	Africa	NER	NE
+Nigeria	Africa	NGA	NG
+Norway	Europe	NOR	NO
+Oman	Asia	OMN	OM
+Pakistan	Asia	PAK	PK
+Panama	Americas	PAN	PA
+Paraguay	Americas	PRY	PY
+Peru	Americas	PER	PE
+Philippines	Asia	PHL	PH
+Poland	Europe	POL	PL
+Portugal	Europe	PRT	PT
+Puerto Rico	Americas	PRI	PR
+Reunion	Africa	NA	NA
+Romania	Europe	ROU	RO
+Rwanda	Africa	RWA	RW
+Sao Tome and Principe	Africa	STP	ST
+Saudi Arabia	Asia	SAU	SA
+Senegal	Africa	SEN	SN
+Serbia	Europe	SRB	RS
+Sierra Leone	Africa	SLE	SL
+Singapore	Asia	SGP	SG
+Slovak Republic	Europe	NA	NA
+Slovenia	Europe	SVN	SI
+Somalia	Africa	SOM	SO
+South Africa	Africa	ZAF	ZA
+Spain	Europe	ESP	ES
+Sri Lanka	Asia	LKA	LK
+Sudan	Africa	SDN	SD
+Swaziland	Africa	SWZ	SZ
+Sweden	Europe	SWE	SE
+Switzerland	Europe	CHE	CH
+Syria	Asia	NA	NA
+Taiwan	Asia	TWN	TW
+Tanzania	Africa	TZA	TZ
+Thailand	Asia	THA	TH
+Togo	Africa	TGO	TG
+Trinidad and Tobago	Americas	TTO	TT
+Tunisia	Africa	TUN	TN
+Turkey	Europe	TUR	TR
+Uganda	Africa	UGA	UG
+United Kingdom	Europe	GBR	GB
+United States	Americas	USA	US
+Uruguay	Americas	URY	UY
+Venezuela	Americas	VEN	VE
+Vietnam	Asia	NA	NA
+West Bank and Gaza	Asia	PSE	PS
+Yemen, Rep.	Asia	YEM	YE
+Zambia	Africa	ZMB	ZM
+Zimbabwe	Africa	ZWE	ZW

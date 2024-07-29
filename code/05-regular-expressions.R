@@ -1,24 +1,4 @@
 
-x <- c("apple", "banana", "pear")
-
-str_view(x, "an", html=FALSE)
-
-
-## -----------------------------------------------------------------------------
-#| label: "05-regular-expressions-6"
-# To create the regular expression, we need \\
-dot <- "\\."
-
-# But the expression itself only contains one:
-writeLines(dot)
-
-# And this tells R to look for an explicit .
-str_view(c("abc", "a.c", "bef"), "a\\.c")
-
-
-## -----------------------------------------------------------------------------
-#| label: "05-regular-expressions-7"
-
 x <- "a\\b"
 writeLines(x)
 #> a\b

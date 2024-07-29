@@ -1,23 +1,3 @@
-gss_all
-
-
-
-## -----------------------------------------------------------------------------
-#| label: 07b-iterating-safely-5
-cont_vars <- c("year", "id", "ballot", "age")
-cat_vars <- c("race", "sex", "fefam")
-wt_vars <- c("vpsu",
-             "vstrat",
-             "oversamp",
-             "formwt",              # weight to deal with experimental randomization
-             "wtssall",             # main weight variable
-             "sampcode",            # sampling error code
-             "sample")              # sampling frame and method
-my_vars <- c(cont_vars, cat_vars, wt_vars)
-
-
-
-## -----------------------------------------------------------------------------
 #| label: 07b-iterating-safely-6
 gss_df <- gss_all |>
   filter(year > 1974 & year < 2021) |> 

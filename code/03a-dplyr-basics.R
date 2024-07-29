@@ -1,24 +1,4 @@
 
-gss_sm |> 
-  group_by(bigregion)
-
-
-## -----------------------------------------------------------------------------
-#| label: "03a-dplyr-basics-6"
-#| include: FALSE
-gss_sm |> 
-  group_by(bigregion) |> 
-  summarize(total = n())
-
-
-## -----------------------------------------------------------------------------
-#| label: "03a-dplyr-basics-7"
-#| include: FALSE
-gss_sm |> 
-  group_by(bigregion, religion) |> 
-  summarize(total = n())
-
-
 ## -----------------------------------------------------------------------------
 #| label: "03a-dplyr-basics-8"
 #| include: FALSE
