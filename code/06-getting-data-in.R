@@ -187,8 +187,8 @@ nchs <- with_edition(1, read_csv(
   )) |> 
   janitor::clean_names() |> 
   select(-footnote) |>
-  mutate(age_group = stringr::str_to_sentence(age_group)) |>
-  filter(!stringr::str_detect(state, "Total"))
+  mutate(age_group = str_to_sentence(age_group)) |>
+  filter(!str_detect(state, "Total"))
 )
 
 
@@ -508,7 +508,7 @@ gss_sub |>
   mutate(across(all_of(cat_vars), as_factor)) |>
   mutate(across(all_of(cat_vars), fct_relabel, tolower)) |> 
   mutate(across(all_of(cat_vars), fct_relabel, tools::toTitleCase)) |> 
-  mutate(income = stringr::str_replace(income, " - ", "-")) 
+  mutate(income = str_replace(income, " - ", "-")) 
 
 
 
@@ -521,7 +521,7 @@ gss_sub <- gss_sub |>
          across(all_of(cat_vars), as_factor),
          across(all_of(cat_vars), fct_relabel, tolower), 
          across(all_of(cat_vars), fct_relabel, tools::toTitleCase), 
-         income = stringr::str_replace(income, " - ", "-")) 
+         income = str_replace(income, " - ", "-")) 
 
 
 ## -----------------------------------------------------------------------------

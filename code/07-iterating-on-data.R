@@ -143,8 +143,8 @@ tmp <- read_csv(filenames, id = "path",
                 name_repair = janitor::make_clean_names)
 
 tmp |> 
-  mutate(congress = stringr::str_extract(path, "_\\d{2,3}_congress"), 
-         congress = stringr::str_extract(congress, "\\d{2,3}")) |> 
+  mutate(congress = str_extract(path, "_\\d{2,3}_congress"), 
+         congress = str_extract(congress, "\\d{2,3}")) |> 
   relocate(congress)
 
 

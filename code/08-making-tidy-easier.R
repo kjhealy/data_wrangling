@@ -243,11 +243,11 @@ stmf_raw <- read_csv(here("data", "stmf.csv"), skip = 2) |>
   ) |>
   pivot_wider(names_from = measure,
               values_from = value) |>
-  mutate(age_group = stringr::str_replace(age_group, "_", "-"),
-         age_group = stringr::str_replace(age_group, "p", "+")) |>
+  mutate(age_group = str_replace(age_group, "_", "-"),
+         age_group = str_replace(age_group, "p", "+")) |>
   rename(death_count = d, death_rate = r) |>
   mutate(approx_date = paste0(year, "-", "W", 
-                              stringr::str_pad(week, width = 2, pad = "0"), "-", "7"),
+                              str_pad(week, width = 2, pad = "0"), "-", "7"),
          approx_date = ISOweek::ISOweek2date(approx_date)) |>
   select(country_code:sex, split:forecast, approx_date, 
          age_group:death_rate, deaths_total, rate_total) |>

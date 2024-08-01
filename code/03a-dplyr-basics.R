@@ -370,8 +370,9 @@ my_vars <- c("gdp", "donors", "roads")
 organdata |> 
   group_by(consent_law, country) |>
   summarize(across(all_of(my_vars),           
-                   list(avg = mean),  
-                   na.rm = TRUE))     
+                   list(avg = \(x) mean(x, na.rm = TRUE))
+                  )
+           )     
 
 
 ## -----------------------------------------------------------------------------
@@ -381,11 +382,12 @@ my_vars <- c("gdp", "donors", "roads")
 
 organdata |> 
   group_by(consent_law, country) |>
-  summarize(across(my_vars,           
-                   list(avg = mean, #<<
-                        sd = var, #<<
-                        md = median),#<<
-                   na.rm = TRUE))     
+  summarize(across(all_of(my_vars),           
+                   list(avg = \(x) mean(x, na.rm = TRUE), #<<
+                        sd = \(x) var(x, na.rm = TRUE), #<<
+                        md = \(x) median(x, na.rm = TRUE)) #<<
+                  )
+           )
 
 
 ## -----------------------------------------------------------------------------
@@ -395,22 +397,25 @@ my_vars <- c("gdp", "donors", "roads")
 
 organdata |> 
   group_by(consent_law, country) |>
-  summarize(across(my_vars,           
-                   list(mean = mean, #<<
-                        var = var, #<<
-                        median = median),#<<
-                   na.rm = TRUE))     
+  summarize(across(all_of(my_vars),           
+                   list(mean = \(x) mean(x, na.rm = TRUE), #<<
+                        var = \(x) var(x, na.rm = TRUE), #<<
+                        median = \(x) median(x, na.rm = TRUE)) #<<
+                  )
+           )
 
 
 ## -----------------------------------------------------------------------------
 #| label: "03a-dplyr-basics-46"
+
 organdata |> 
   group_by(consent_law, country) |>
-  summarize(across(where(is.numeric), #<<
-                   list(mean = mean, 
-                        var = var, 
-                        median = median),
-                   na.rm = TRUE)) |> 
+  summarize(across(where(is.numeric),           
+                   list(mean = \(x) mean(x, na.rm = TRUE), #<<
+                        var = \(x) var(x, na.rm = TRUE), #<<
+                        median = \(x) median(x, na.rm = TRUE)) #<<
+                  )
+           ) |> 
     print(n = 3) # just to save slide space
 
 
@@ -418,25 +423,12 @@ organdata |>
 #| label: "03a-dplyr-basics-47"
 organdata |> 
   group_by(consent_law, country) |>
-  summarize(across(where(is.numeric),        
-                   list(mean = mean, 
-                        var = var, 
-                        median = median),
-                   na.rm = TRUE, 
-                   .names = "{fn}_{col}")) |> #<<
-  print(n = 3) 
-
-
-## -----------------------------------------------------------------------------
-#| label: "03a-dplyr-basics-47b"
-organdata |> 
-  group_by(consent_law, country) |>
-  summarize(across(where(is.numeric),        
-                   list(mean = mean, 
-                        var = var, 
-                        median = median),
-                   na.rm = TRUE, 
-                   .names = "{fn}_{col}")) |> #<<
+  summarize(across(where(is.numeric),           
+                   list(mean = \(x) mean(x, na.rm = TRUE), #<<
+                        var = \(x) var(x, na.rm = TRUE), #<<
+                        median = \(x) median(x, na.rm = TRUE)) #<<
+                  ),
+            .names = "{fn}_{col}") |> #<<
   print(n = 3) 
 
 
