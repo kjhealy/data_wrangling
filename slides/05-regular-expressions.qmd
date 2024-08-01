@@ -420,9 +420,9 @@ str_view(fruit, "(..)\\1", match = TRUE)
 
 ## Learning [and testing]{.fg-yellow} regexps
 
-- Practice with a tester like [https://regexr.com](https://regexr.com)
+- Practice with a tester like [https://regexr.com](https://regexr.com) or [https://regex101.com](https://regex101.com)
 - Or an app like [Patterns](https://krillapps.com/patterns/)
-- The regex engine or "flavor" used by `stringr` is Perl- or PCRE-like. 
+- The regex engine or "flavor" used by `stringr` is Perl- or PCRE2-like. 
 
 
 # Regexps in practice
