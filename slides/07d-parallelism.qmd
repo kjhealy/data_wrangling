@@ -1,5 +1,6 @@
 ---
 title: "Parallel Processing"
+subtitle: "Data Wrangling, Session 7d"
 format: kjhslides-revealjs
 engine: knitr
 filters:
@@ -8,7 +9,7 @@ filters:
   - include-code-files
 author:
   - name: Kieran Healy
-    affiliation: "Duke University"
+    affiliation: "Code Horizons"
 date: last-modified
 editor_options: 
   chunk_output_type: console
@@ -45,6 +46,8 @@ library(here)      # manage file paths
 library(socviz)    # data and some useful functions
 library(tidyverse) # your friend and mine
 
+## Magic new package
+# install.packages("furrr")
 library(furrr) # Also loads `future`
 ```
 
