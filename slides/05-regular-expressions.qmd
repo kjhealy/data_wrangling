@@ -371,7 +371,7 @@ str_view(x, "C{2,3}")
 - [{,m}]{.fg-pink} is at most m
 - [{n,m}]{.fg-pink} is between n and m
 
-By default these are _greedy_ matches. You can make them “lazy”, matching the shortest string possible by putting a [?]{.fg-pink} after them. **This is often very useful!**
+By default regexps use _greedy_ matches. You can make them match the _shortest_ string possible by putting a [?]{.fg-pink} after them. **This is often very useful!**
 
 ```{r }
 #| label: "05-regular-expressions-21"
