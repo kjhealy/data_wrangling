@@ -61,8 +61,7 @@ if(!fs::dir_exists(here::here("pdf_slides"))) { fs::dir_create(here::here("pdf_s
 get_flipbookr_orphans <- function() {
   all_candidates <- fs::dir_ls(glob = "*_files/figure-revealjs/*.png", recurse = TRUE)
   all_candidates <- all_candidates[stringr::str_detect(all_candidates, "_site", negate = TRUE)]
-  if(length(all_candidates) == 0) { return(character(0))}
-  all_candidates
+  if(length(all_candidates) == 0) { return(character(0))} else return(all_candidates)
 }
 
 relocate_orphans <- function(file) {
@@ -77,14 +76,12 @@ get_leftover_dirs <- function() {
   # the figure-revealjs subdirs will all have been moved
   deletion_candidates <- fs::dir_ls(glob = "*_files", recurse = TRUE)
   deletion_candidates <- deletion_candidates[stringr::str_detect(deletion_candidates, "_site|_targets", negate = TRUE)]
-  if(length(deletion_candidates) == 0) { return(character(0))}
-  deletion_candidates
+  if(length(deletion_candidates) == 0) { return(character(0))} else return(deletion_candidates)
 }
 
 remove_leftover_dirs <- function (dirs) {
   if(length(dirs) == 0) { return(character(0))}
-  if(is.null(dirs)) { return(character(0))}
-  fs::dir_delete(dirs)
+  if(is.null(dirs)) { return(character(0))} else fs::dir_delete(dirs)
 }
 
 ## Variables and options
@@ -147,11 +144,12 @@ list(
   }
   ),
 
+  tar_invalidate(empty_dirs),
+
   tar_target(empty_dirs, {
     remove_leftover_dirs(flipbookr_dirs)
   },
   pattern = map(flipbookr_dirs)),
-
 
 
   ## Upload site ----
