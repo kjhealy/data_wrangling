@@ -991,7 +991,7 @@ y
 
 ```
 
-## 5. Objects come in [types]{.fg-yellow} and [classes]{.fg-yellow}
+## 5. Vectors come in [types]{.fg-yellow}; Objects in [classes]{.fg-yellow}
 
 I'm going to speak somewhat loosely here for now, and gloss over some distinctions between object classes and data structures, as well as kinds of objects and their attributes.
 
@@ -1089,7 +1089,7 @@ is.logical(my_lgl)
 :::
 ::::
 
-## Kinds of [vector]{.fg-green} 
+## Types of [vector]{.fg-green} 
 
 
 :::: {.columns}
