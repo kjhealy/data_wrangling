@@ -29,7 +29,7 @@ coursepacket:	code
 	rm -rf $(COURSEPACKET)/pdf_slides
 	cp -r code $(COURSEPACKET)/code
 	cp -r _site $(COURSEPACKET)/html_slides
-	cp -r _site $(COURSEPACKET)/pdf_slides
+	cp -r pdf_slides $(COURSEPACKET)/pdf_slides
 	rm -f $(COURSEPACKET)/html_slides/course_notes.html
 
 deploy:
