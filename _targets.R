@@ -64,13 +64,20 @@ get_flipbookr_orphans <- function() {
   if(length(all_candidates) == 0) { return(character(0))} else return(all_candidates)
 }
 
+# Put the orphans in _site/ *and* in _freeze
 relocate_orphans <- function(file) {
   if(length(file) == 0) { return(character(0))}
   if(is.null(file)) {return(character(0))}
-  destdir <- paste0("_site/slides/", fs::path_dir(file))
-  if(!fs::dir_exists(here::here(destdir))) {fs::dir_create(here::here(destdir))}
-  fs::file_move(file, paste0("_site/slides/", file))
+  destdir_site <- paste0("_site/slides/", fs::path_dir(file))
+  destdir_freeze <- stringr::str_remove(fs::path_dir(file), "_files")
+  destdir_freeze <- paste0("_freeze/slides/", destdir_freeze)
+  if(!fs::dir_exists(here::here(destdir_site))) {fs::dir_create(here::here(destdir_site))}
+  fs::file_copy(file, paste0("_site/slides/", file))
+  if(!fs::dir_exists(here::here(destdir_freeze))) {fs::dir_create(here::here(destdir_freeze))}
+  file_freeze <- stringr::str_remove(file, "_files")
+  fs::file_copy(file, paste0("_freeze/slides/", file_freeze))
 }
+
 
 get_leftover_dirs <- function() {
   # the figure-revealjs subdirs will all have been moved
