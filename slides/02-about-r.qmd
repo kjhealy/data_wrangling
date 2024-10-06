@@ -153,8 +153,11 @@ TYPE OUT<br />YOUR CODE<br />[BY HAND]{.fg-orange}
 ![Samuel Beckett](img/02_beckett_fail_better.png){fig-align="center" width=90%}
 
 
-# Getting O[r]{.fg-green}iented
+---
 
+:::{.huge}
+ GETTING O[R]{.fg-lblue}IENTED 
+:::
 
 ## Loading the tidyverse libraries
 
@@ -163,21 +166,20 @@ library(tidyverse)
 ```
 
 ```{.cell-output}
-── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.3     ✔ readr     2.1.4
-✔ forcats   1.0.0     ✔ stringr   1.5.0
-✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+── Attaching core tidyverse packages ────────────────────────────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+── Conflicts ──────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package to force all conflicts to become errors
 ```
 
-The tidyverse has several components. 
-
-We'll return to this message about Conflicts later.
+- The tidyverse has several components. 
+- We'll return to this message about Conflicts later.
 
 
 ## Tidyverse components
@@ -243,11 +245,7 @@ Also by convention, outputting vectors, etc, gets a counter keeping track of the
 letters
 ```
 
----
-
-:::{.huge}
-SOME THINGS<br />TO KNOW<br />ABOUT [R]{.fg-green}  
-:::
+# Some things to know about [R]{.fg-green}
 
 ## 0. [It's a calculator]{.fg-yellow}
 
@@ -348,143 +346,6 @@ Logical equality and inequality (yielding a [`TRUE`]{.fg-green} or [`FALSE`]{.fg
 3 != 7 # Write `!` and then `=` to make `!=`
 ```
 
-## [Watch out!]{.fg-red}
-
-Here's a gotcha. You might think you could write `3 < 5 & 7` and have it be interpreted as "Three is less than five and also less than seven [True or False?]":
-
-
-```{r }
-#| label: "02-about-r-14"
-3 < 5 & 7
-```
-
-
-It seems to work!
-
-## [Watch out!]{.fg-red}
-
-But now try `3 < 5 & 1`, where your intention is "Three is less than five and also less than one [True or False?]"
-
-
-```{r }
-#| label: "02-about-r-15"
-3 < 5 & 1
-```
-
-- What's happening is that `3 < 5` is evaluated first, and resolves to [TRUE]{.fg-green}, leaving us with the expression [`TRUE`]{.fg-green} `& 1`. 
-- R interprets this as [`TRUE`]{.fg-green} `& as.logical(1)`. 
-- In Boolean algebra, `1` resolves to  [`TRUE`]{.fg-green}. Any other number is [`FALSE`]{.fg-red}. So,
-
-## [Watch out!]{.fg-red}
-
-```{r }
-#| label: "02-about-r-16"
-TRUE & as.logical(1)
-```
-
-```{r }
-#| label: "02-about-r-17"
-3 < 5 & 3 < 1
-```
-
-- You have to make your comparisons explicit.
-
-## Logic and floating point arithmetic
-
-Let's evaluate `0.6 + 0.2 == 0.8`
-
-
-## Logic and floating point arithmetic
-
-Let's evaluate `0.6 + 0.2 == 0.8`
-
-```{r }
-#| label: "02-about-r-18"
-0.6 + 0.2 == 0.8
-```
-
-## Logic and floating point arithmetic
-
-Let's evaluate `0.6 + 0.2 == 0.8`
-
-```{r }
-#| label: "02-about-r-18a"
-0.6 + 0.2 == 0.8
-```
-
-Now let's try `0.6 + 0.3 == 0.9`
-
-## Logic and floating point arithmetic
-
-Let's evaluate `0.6 + 0.2 == 0.8`
-
-```{r }
-#| label: "02-about-r-18b"
-0.6 + 0.2 == 0.8
-```
-
-Now let's try `0.6 + 0.3 == 0.9`
-
-```{r }
-#| label: "02-about-r-19"
-0.6 + 0.3 == 0.9
-```
-
-Er. That's not right.
-
-## Welcome to floating point math!
-
-:::: {.columns}
-::: {.column width="70%"}
-  In Base 10, you can't precisely express fractions like $\frac{1}{3}$ and $\frac{1}{9}$. They come out as repeating decimals: 0.3333... or 0.1111... You _can_ cleanly represent fractions that use a prime factor of the base, which in the case of Base 10 are 2 and 5. 
-:::
-
-::: {.column width="30%" .right}
-  
-:::
-::::
-
-
-## Welcome to floating point math!
-
-:::: {.columns}
-::: {.column width="70%"}
-  In Base 10, you can't precisely express fractions like $\frac{1}{3}$ and $\frac{1}{9}$. They come out as repeating decimals: 0.3333... or 0.1111... You _can_ cleanly represent fractions that use a prime factor of the base, which in the case of Base 10 are 2 and 5. 
-  
-Computers represent numbers as binary (i.e. Base 2) floating-points. In Base 2, the only prime factor is 2. So $\frac{1}{5}$ or $\frac{1}{10}$ in binary would be repeating.  
-:::
-
-::: {.column width="30%" .right}
-  
-:::
-::::
-
-
-## Logic and floating point arithmetic
-
-When you do binary math on repeating numbers and convert back to decimals you get tiny leftovers, and this can mess up _logical_ comparisons of equality. The `all.equal()` function exists for this purpose.
-
-
-```{r }
-#| label: "02-about-r-20"
-print(.1 + .2)
-print(.1 + .2, digits=18)
-
-all.equal(.1 + .2, 0.3)
-```
-
-See e.g. [https://0.30000000000000004.com](https://0.30000000000000004.com) 
-
----
-
-:::{.huge}
-More later on why this might bite you, and how to deal with it  
-:::
-
-::: aside
-For now, "Be very careful about doing logical comparisons on floating-point numbers" is not a bad rule.  
-:::
-
 
 ## 1. [Everything in R has a name]{.fg-yellow}
 
@@ -573,27 +434,6 @@ We can create an object with the `c()` function and the *assignment operator*, `
 - Press `alt` _and_ `-` on Windows
 
 
-## Assignment with [**`=`**]{.fg-green}
-
-- You can use [**`=`**]{.fg-pink} as well as [**`<-`**]{.fg-pink} for assignment.
-
-
-```{r }
-#| label: "02-about-r-27"
-my_numbers = c(1, 2, 3, 1, 3, 5, 25)
-
-my_numbers
-```
-
-- On the other hand, [**`=`**]{.fg-pink} has a different meaning when used in functions.
-- I'm going to use [**`<-`**]{.fg-pink} for assignment throughout. 
-- Be consistent either way.
-
-
-
-## Assignment with [**`=`**]{.fg-green}
-
-![](img/gordon_assignment.png){width=100% fig-align="center"}
 
 ## 4. [Do things to objects with functions]{.fg-yellow}
 
@@ -849,7 +689,7 @@ serve(
 - Much nicer:
 
 
-```r
+```{.r}
 eggs |> 
   get_from_fridge() |> 
   crack_eggs(into = "bowl") |> 
@@ -863,28 +703,6 @@ eggs |>
 - We'll still use nested parentheses quite a bit, often in the context of a function working inside a pipeline. But it's good not to have too many levels of nesting.
 
 
-## The other pipe: [`%>%`]{.fg-green}
-
-- The Base R pipe operator, [**`|>`**]{.fg-green} is a relatively recent addition to R. 
-- Piping operations were originally introduced in a package called called `magrittr`, where it took the form [**`%>%`**]{.fg-green}
-
-## The other pipe: [`%>%`]{.fg-green}
-
-- The Base R pipe operator, [**`|>`**]{.fg-green} is a relatively recent addition to R. 
-- Piping operations were originally introduced in a package called called `magrittr`, where it took the form [**`%>%`**]{.fg-green}
-- It's been so successful, a version of it has been incorporated into Base R. It _mostly_ but does not _quite_ work the same way as [**`%>%`**]{.fg-green} in every case.
-
-
-## The other pipe: [`%>%`]{.fg-green}
-
-- The Base R pipe operator, [**`|>`**]{.fg-green} is a relatively recent addition to R. 
-- Piping operations were originally introduced in a package called called `magrittr`, where it took the form [**`%>%`**]{.fg-green}
-- It's been so successful, a version of it has been incorporated into Base R. It _mostly_ but does not _quite_ work the same way as [**`%>%`**]{.fg-green} in every case. We'll use the Base R pipe in this course, but you'll see the Magrittr pipe a lot out in the world.
-
-
-::: aside
-With the Base R pipe, you can only pass an object to the _first_ argument in a function. This is fine for most tidyverse pipelines, where the first argument is usually (implicitly) the data. But it does mean that most Base R functions will continue not to be easily piped, as most of them do not follow the convention of passing the current data as the first argument  
-:::
 
 ## Functions are bundled into [packages]{.fg-yellow}
 
@@ -926,35 +744,35 @@ penguins
 ```
 
 
-
-## Grabbing a single function with [`::`]{.fg-yellow}
-
-"Reach in" to an unloaded package and grab a function directly, using `<package>::<function>`
-
-```{r}
-#| label: "02-about-r-51"
-#| message: FALSE
-#| echo: FALSE
-gtsummary::theme_gtsummary_journal(journal = "jama")
-#gtsummary::theme_gtsummary_compact()
-```
-
 ## Grabbing a single function with [`::`]{.fg-yellow}
 
 ```{r }
 #| label: "02-about-r-52"
-## A little glimpse of what we'll do soon
-penguins |> 
-  select(species, body_mass_g, sex) |> 
-  gtsummary::tbl_summary(by = species) #<<
-```
 
+# A little glimpse of what we'll do soon
+penguins |> 
+  count(species, sex, year) |> 
+  pivot_wider(names_from = year, values_from = n) |> 
+  tinytable::tt()
+```
 
 ## Remember those conflicts?
 
-![](img/function-masking.png){with=90%}
+```{.text}
+library(tidyverse)
+── Attaching core tidyverse packages ────────────────────────────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ──────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package to force all conflicts to become errors
+```
 
-- Notice how some functions in different packages have the same names.
+- Some functions in different packages have the same names.
 - Related concepts of _namespaces_ and _environments_.
 
 ## The scope of names
@@ -991,13 +809,16 @@ y
 
 ```
 
-## 5. Vectors come in [types]{.fg-yellow}; Objects in [classes]{.fg-yellow}
+## 5. Vector [types]{.fg-yellow}; Object [classes]{.fg-yellow}
 
 I'm going to speak somewhat loosely here for now, and gloss over some distinctions between object classes and data structures, as well as kinds of objects and their attributes.
 
-## 5. Objects come in [types]{.fg-yellow} and [classes]{.fg-yellow}
 
-I'm going to speak somewhat loosely here for now, and gloss over some distinctions between object classes and data structures, as well as kinds of objects and their attributes.
+## 5. Vector [types]{.fg-yellow}; Object [classes]{.fg-yellow}
+
+Objects are made of one or more vectors. A vector can, in effect, have a single type: integer, double, logical, character, factor, date, etc. That is, vectors are "atomic".  Complex objects are mostly lists of vectors of different sorts, or nested lists of other simpler objects that are themselves ultimately made up of vectors of
+
+## 5. Vector [types]{.fg-yellow}; Object [classes]{.fg-yellow}
 
 The object inspector in RStudio is your friend.
 
@@ -1010,33 +831,6 @@ typeof(my_numbers)
 ```
 
 
-## 5. Objects come in [types]{.fg-yellow} and [classes]{.fg-yellow}
-
-Objects can have more than one (nested) class:
-
-```{r }
-#| label: "02-about-r-56"
-summary(my_numbers)
-
-my_smry <- summary(my_numbers) # remember, outputs can be assigned to a name, creating an object
-
-class(summary(my_numbers)) # functions can be nested, and are evaluated from the inside out
-
-class(my_smry) # equivalent to the previous line
-```
-
-## 5. Objects come in [types]{.fg-yellow} and [classes]{.fg-yellow}
-
-
-```{r }
-#| label: "02-about-r-57"
-typeof(my_smry)
-attributes(my_smry)
-
-## In this case, the functions extract the corresponding attribute
-class(my_smry)
-names(my_smry)
-```
 
 ## Types of [vector]{.fg-green}
 
@@ -1135,9 +929,10 @@ Durations, which are stored in difftime vectors.
 
 :::
 
+
 ## Vectors can't be heterogenous 
 
-- They can be manually or automatically coerced from one type or class to another. Take care.
+- Objects can be manually or automatically coerced from one class to another. Take care.
 
 ```{r }
 #| label: "02-about-r-60"
@@ -1150,7 +945,7 @@ my_new_vector # vectors are homogeneous/atomic
 class(my_new_vector)
 ```
 
-## Vector types can't be heterogenous 
+## Vectors can't be heterogenous 
 
 - Objects can be manually or automatically coerced from one class to another. Take care.
 
@@ -1176,25 +971,10 @@ typeof(gapminder) # hmm
 
 ```
 
-## A table of data is a kind of [list]{.fg-yellow}
-
-- Lists _can_ be heterogenous. Underneath, most complex R objects are some kind of list with different components that can be accessed by some function that knows their names.
-
-```{r}
-#| label: "02-about-r-62a"
-my_list <- list(
-  first = c("Gold", "Silver", "Bronze"),
-  second = c(1, 2, 3, 4, 5, 6, 7, 8),
-  third = c(TRUE, TRUE, TRUE, FALSE, FALSE)
-)
-
-my_list
-```
-
 
 ## A table of data is a kind of [list]{.fg-yellow}
 
-- Lists _can_ be heterogenous. Underneath, most complex R objects are some kind of list with different components that can be accessed by some function that knows their names.
+- Lists are collections of vectors of possibly different types and lengths, or collections of more complex objects that are themselves ultimately made out of vectors. Underneath, most complex R objects are some kind of list with different components that can be accessed by some function that knows the names of the things inside the list.
 
 - A _data frame_ is a list of vectors of the same length, where the vectors can be of different types (e.g. numeric, character, logical, etc). 
 
@@ -1210,6 +990,7 @@ Again the object inspector is helpful here
 :::
 
 ## Some classes are versions of others
+
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -1294,7 +1075,7 @@ gss_sm
 
 
 
-Tidyverse tools are generally _type safe_, meaning their functions return the same type of thing every time, or fail if they cannot. So it's good to know about the various data types.
+- Tidyverse tools are generally _type safe_, meaning their functions return the same type of thing every time, or fail if they cannot do this. So it's good to know about the various data types.
 
 
 ## 6. [Arithmetic on vectors]{.fg-yellow}
@@ -1327,14 +1108,14 @@ result1 <- my_numbers + 1
 
 
 ```{r }
-#| label: "02-about-r-68"
+#| label: "02-about-r-68-2"
 result1
 ```
 
 ## 6. [Arithmetic on vectors]{.fg-yellow}
 
 ```{r }
-#| label: "02-about-r-69"
+#| label: "02-about-r-69-2"
 result2 <- my_numbers + my_numbers
 
 ```
@@ -1421,3 +1202,317 @@ Note that you get a _warning_ here. It'll still do it, though! Don't ignore warn
 ![](img/error_missing_comma.png){width=50%}
 
 ![](img/error_extra_paren.png){width=50%}
+
+
+
+# [Let's Go!]{.fg-lblue}
+
+## Time to make a plot
+
+Like before:
+
+```{r }
+#| label: "02-about-r-66-2"
+gapminder
+```
+
+# Like before
+
+```{r}
+#| label: "codefig-plot-2"
+#| message: FALSE
+#| fig.width: 5.8
+#| fig.height: 5.5
+#| output-location: column
+library(tidyverse)
+library(gapminder)
+
+p <- ggplot(data = gapminder, 
+            mapping = aes(x = gdpPercap, 
+                          y = lifeExp)) 
+
+p + geom_point()
+```
+
+## What we did
+
+```{r}
+#| label: "02-about-r-68"
+#| message: FALSE
+#| eval: FALSE
+#| echo: TRUE
+
+
+library(gapminder)
+```
+
+- Load the packages we need: `tidyverse` and `gapminder`
+
+## What we did
+
+```{r}
+#| label: "02-about-r-69"
+#| message: FALSE
+#| eval: FALSE
+#| echo: TRUE
+
+p <- ggplot(data = gapminder, 
+            mapping = aes(x = gdpPercap, 
+                          y = lifeExp)) 
+```
+]
+
+- New object named [**`p`**]{.fg-lblue} [`gets`]{.fg-pink} the output of the [`ggplot()` _function_]{.fg-green}, given these [_arguments_]{.fg-orange}
+- Notice how one of the arguments, [`mapping`]{.fg-orange}, is itself taking the output of a function named [`aes()`]{.fg-green}
+
+## What we did
+
+```{r}
+#| label: "02-about-r-70-2"
+#| message: FALSE
+#| eval: FALSE
+#| echo: TRUE
+
+
+p + geom_point()
+
+```
+
+- Show me the output of the [**`p`**]{.fg-lblue} object and the [`geom_point()`]{.fg-green} function.
+- The [`+`]{.fg-pink} here acts just like the [`|>`]{.fg-pink} pipe, but for ggplot functions only. (This is an accident of history.)
+
+
+## And what is R doing?
+
+R objects are just lists of [stuff to use]{.fg-orange} or [things to do]{.fg-green}
+
+## Objects are like Bento Boxes {background-image="img/02_r_object_bento_box.png" background-size="cover"}
+
+---
+
+![The `p` object](img/02_r_objects_p_bleep.png)
+
+
+
+---
+
+![Peek in with the object inspector](img/02_r_object_inspector_panel.png)
+
+
+---
+
+![Peek in with the object inspector](img/02_r_ide_object_inspector.png)
+
+# Appendix: A Few More R Details 
+
+## Logic: [Watch out!]{.fg-red}
+
+Here's a gotcha. You might think you could write `3 < 5 & 7` and have it be interpreted as "Three is less than five and also less than seven [True or False?]":
+
+
+```{r }
+#| label: "02-about-r-14"
+3 < 5 & 7
+```
+
+
+It seems to work!
+
+## Logic: [Watch out!]{.fg-red}
+
+But now try `3 < 5 & 1`, where your intention is "Three is less than five and also less than one [True or False?]"
+
+
+```{r }
+#| label: "02-about-r-15"
+3 < 5 & 1
+```
+
+- What's happening is that `3 < 5` is evaluated first, and resolves to [TRUE]{.fg-green}, leaving us with the expression [`TRUE`]{.fg-green} `& 1`. 
+- R interprets this as [`TRUE`]{.fg-green} `& as.logical(1)`. 
+- In Boolean algebra, `1` resolves to  [`TRUE`]{.fg-green}. Any other number is [`FALSE`]{.fg-red}. So,
+
+## Logic: [Watch out!]{.fg-red}
+
+```{r }
+#| label: "02-about-r-16"
+TRUE & as.logical(1)
+```
+
+```{r }
+#| label: "02-about-r-17"
+3 < 5 & 3 < 1
+```
+
+- You have to make your comparisons explicit.
+
+## Logic and floating point arithmetic
+
+Let's evaluate `0.6 + 0.2 == 0.8`
+
+
+## Logic and floating point arithmetic
+
+Let's evaluate `0.6 + 0.2 == 0.8`
+
+```{r }
+#| label: "02-about-r-18"
+0.6 + 0.2 == 0.8
+```
+
+## Logic and floating point arithmetic
+
+Let's evaluate `0.6 + 0.2 == 0.8`
+
+```{r }
+#| label: "02-about-r-18a"
+0.6 + 0.2 == 0.8
+```
+
+Now let's try `0.6 + 0.3 == 0.9`
+
+## Logic and floating point arithmetic
+
+Let's evaluate `0.6 + 0.2 == 0.8`
+
+```{r }
+#| label: "02-about-r-18b"
+0.6 + 0.2 == 0.8
+```
+
+Now let's try `0.6 + 0.3 == 0.9`
+
+```{r }
+#| label: "02-about-r-19"
+0.6 + 0.3 == 0.9
+```
+
+Er. That's not right.
+
+## Welcome to floating point math!
+
+:::: {.columns}
+::: {.column width="70%"}
+  In Base 10, you can't precisely express fractions like $\frac{1}{3}$ and $\frac{1}{9}$. They come out as repeating decimals: 0.3333... or 0.1111... You _can_ cleanly represent fractions that use a prime factor of the base, which in the case of Base 10 are 2 and 5. 
+:::
+
+::: {.column width="30%" .right}
+  
+:::
+::::
+
+
+## Welcome to floating point math!
+
+:::: {.columns}
+::: {.column width="70%"}
+  In Base 10, you can't precisely express fractions like $\frac{1}{3}$ and $\frac{1}{9}$. They come out as repeating decimals: 0.3333... or 0.1111... You _can_ cleanly represent fractions that use a prime factor of the base, which in the case of Base 10 are 2 and 5. 
+  
+Computers represent numbers as binary (i.e. Base 2) floating-points. In Base 2, the only prime factor is 2. So $\frac{1}{5}$ or $\frac{1}{10}$ in binary would be repeating.  
+:::
+
+::: {.column width="30%" .right}
+  
+:::
+::::
+
+
+## Logic and floating point arithmetic
+
+When you do binary math on repeating numbers and convert back to decimals you get tiny leftovers, and this can mess up _logical_ comparisons of equality. The `all.equal()` function exists for this purpose.
+
+
+```{r }
+#| label: "02-about-r-20"
+print(.1 + .2)
+print(.1 + .2, digits=18)
+
+all.equal(.1 + .2, 0.3)
+```
+
+See e.g. [https://0.30000000000000004.com](https://0.30000000000000004.com) 
+
+---
+
+:::{.huge}
+More later on why this might bite you, and how to deal with it  
+:::
+
+::: aside
+For now, "Be very careful about doing logical comparisons on floating-point numbers" is not a bad rule.  
+:::
+
+## Assignment with [**`=`**]{.fg-green}
+
+- You can use [**`=`**]{.fg-pink} as well as [**`<-`**]{.fg-pink} for assignment.
+
+
+```{r }
+#| label: "02-about-r-27"
+my_numbers = c(1, 2, 3, 1, 3, 5, 25)
+
+my_numbers
+```
+
+- On the other hand, [**`=`**]{.fg-pink} has a different meaning when used in functions.
+- I'm going to use [**`<-`**]{.fg-pink} for assignment throughout. 
+- Be consistent either way.
+
+
+
+## Assignment with [**`=`**]{.fg-green}
+
+![](img/gordon_assignment.png){width=100% fig-align="center"}
+
+
+## The other pipe: [`%>%`]{.fg-green}
+
+- The Base R pipe operator, [**`|>`**]{.fg-green} is a relatively recent addition to R. 
+- Piping operations were originally introduced in a package called called `magrittr`, where it took the form [**`%>%`**]{.fg-green}
+
+## The other pipe: [`%>%`]{.fg-green}
+
+- The Base R pipe operator, [**`|>`**]{.fg-green} is a relatively recent addition to R. 
+- Piping operations were originally introduced in a package called called `magrittr`, where it took the form [**`%>%`**]{.fg-green}
+- It's been so successful, a version of it has been incorporated into Base R. It _mostly_ but does not _quite_ work the same way as [**`%>%`**]{.fg-green} in every case.
+
+
+## The other pipe: [`%>%`]{.fg-green}
+
+- The Base R pipe operator, [**`|>`**]{.fg-green} is a relatively recent addition to R. 
+- Piping operations were originally introduced in a package called called `magrittr`, where it took the form [**`%>%`**]{.fg-green}
+- It's been so successful, a version of it has been incorporated into Base R. It _mostly_ but does not _quite_ work the same way as [**`%>%`**]{.fg-green} in every case. We'll use the Base R pipe in this course, but you'll see the Magrittr pipe a lot out in the world.
+
+
+::: aside
+With the Base R pipe, you can only pass an object to the _first_ argument in a function. This is fine for most tidyverse pipelines, where the first argument is usually (implicitly) the data. But it does mean that most Base R functions will continue not to be easily piped, as most of them do not follow the convention of passing the current data as the first argument  
+:::
+
+## Object [classes]{.fg-yellow}
+
+Objects can have more than one (nested) class:
+
+```{r }
+#| label: "02-about-r-56"
+summary(my_numbers)
+
+my_smry <- summary(my_numbers) # remember, outputs can be assigned to a name, creating an object
+
+class(summary(my_numbers)) # functions can be nested, and are evaluated from the inside out
+
+class(my_smry) # equivalent to the previous line
+```
+
+## Object [classes]{.fg-yellow}
+
+
+```{r }
+#| label: "02-about-r-57"
+typeof(my_smry)
+attributes(my_smry)
+
+## In this case, the functions extract the corresponding attribute
+class(my_smry)
+names(my_smry)
+```
+

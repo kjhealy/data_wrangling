@@ -12,5 +12,7 @@ slides/**/*.html
 /.quarto/
 /_site/
 /_freeze/
+avhrr
+seas
 
 /.luarc.json

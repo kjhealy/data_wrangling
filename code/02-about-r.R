@@ -81,54 +81,6 @@ log10(100)
 
 
 ## -----------------------------------------------------------------------------
-#| label: "02-about-r-14"
-3 < 5 & 7
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-15"
-3 < 5 & 1
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-16"
-TRUE & as.logical(1)
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-17"
-3 < 5 & 3 < 1
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-18"
-0.6 + 0.2 == 0.8
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-18a"
-0.6 + 0.2 == 0.8
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-18b"
-0.6 + 0.2 == 0.8
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-19"
-0.6 + 0.3 == 0.9
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-20"
-print(.1 + .2)
-print(.1 + .2, digits=18)
-
-all.equal(.1 + .2, 0.3)
-
-
-## -----------------------------------------------------------------------------
 #| label: "02-about-r-21"
 my_numbers # We created this a few minutes ago
 
@@ -177,13 +129,6 @@ my_numbers <- c(1, 2, 3, 1, 3, 5, 25, 10)
 
 ## name ... gets ... the output of the function `c()`
 your_numbers <- c(5, 31, 71, 1, 3, 21, 6, 52)
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-27"
-my_numbers = c(1, 2, 3, 1, 3, 5, 25)
-
-my_numbers
 
 
 ## -----------------------------------------------------------------------------
@@ -343,19 +288,13 @@ penguins
 
 
 ## -----------------------------------------------------------------------------
-#| label: "02-about-r-51"
-#| message: FALSE
-#| echo: FALSE
-gtsummary::theme_gtsummary_journal(journal = "jama")
-#gtsummary::theme_gtsummary_compact()
-
-
-## -----------------------------------------------------------------------------
 #| label: "02-about-r-52"
-## A little glimpse of what we'll do soon
+
+# A little glimpse of what we'll do soon
 penguins |> 
-  select(species, body_mass_g, sex) |> 
-  gtsummary::tbl_summary(by = species) #<<
+  count(species, sex, year) |> 
+  pivot_wider(names_from = year, values_from = n) |> 
+  tinytable::tt()
 
 
 ## -----------------------------------------------------------------------------
@@ -386,27 +325,6 @@ y
 #| label: "02-about-r-55"
 class(my_numbers)
 typeof(my_numbers)
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-56"
-summary(my_numbers)
-
-my_smry <- summary(my_numbers) # remember, outputs can be assigned to a name, creating an object
-
-class(summary(my_numbers)) # functions can be nested, and are evaluated from the inside out
-
-class(my_smry) # equivalent to the previous line
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-57"
-typeof(my_smry)
-attributes(my_smry)
-
-## In this case, the functions extract the corresponding attribute
-class(my_smry)
-names(my_smry)
 
 
 ## -----------------------------------------------------------------------------
@@ -473,17 +391,6 @@ typeof(gapminder) # hmm
 
 
 ## -----------------------------------------------------------------------------
-#| label: "02-about-r-62a"
-my_list <- list(
-  first = c("Gold", "Silver", "Bronze"),
-  second = c(1, 2, 3, 4, 5, 6, 7, 8),
-  third = c(TRUE, TRUE, TRUE, FALSE, FALSE)
-)
-
-my_list
-
-
-## -----------------------------------------------------------------------------
 #| label: "02-about-r-63a"
 library(socviz)
 titanic
@@ -541,12 +448,12 @@ result1 <- my_numbers + 1
 
 
 ## -----------------------------------------------------------------------------
-#| label: "02-about-r-68"
+#| label: "02-about-r-68-2"
 result1
 
 
 ## -----------------------------------------------------------------------------
-#| label: "02-about-r-69"
+#| label: "02-about-r-69-2"
 result2 <- my_numbers + my_numbers
 
 
@@ -606,4 +513,133 @@ result4 <- my_numbers + three_nums
 ## -----------------------------------------------------------------------------
 #| label: "02-about-r-74"
 result4
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-66-2"
+gapminder
+
+
+## -----------------------------------------------------------------------------
+#| label: "codefig-plot-2"
+#| message: FALSE
+#| fig.width: 5.8
+#| fig.height: 5.5
+#| output-location: column
+library(tidyverse)
+library(gapminder)
+
+p <- ggplot(data = gapminder, 
+            mapping = aes(x = gdpPercap, 
+                          y = lifeExp)) 
+
+p + geom_point()
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-68"
+#| message: FALSE
+#| eval: FALSE
+#| echo: TRUE
+
+## 
+## library(gapminder)
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-69"
+#| message: FALSE
+#| eval: FALSE
+#| echo: TRUE
+
+## p <- ggplot(data = gapminder,
+##             mapping = aes(x = gdpPercap,
+##                           y = lifeExp))
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-70-2"
+#| message: FALSE
+#| eval: FALSE
+#| echo: TRUE
+
+## 
+## p + geom_point()
+## 
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-14"
+3 < 5 & 7
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-15"
+3 < 5 & 1
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-16"
+TRUE & as.logical(1)
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-17"
+3 < 5 & 3 < 1
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-18"
+0.6 + 0.2 == 0.8
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-18a"
+0.6 + 0.2 == 0.8
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-18b"
+0.6 + 0.2 == 0.8
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-19"
+0.6 + 0.3 == 0.9
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-20"
+print(.1 + .2)
+print(.1 + .2, digits=18)
+
+all.equal(.1 + .2, 0.3)
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-27"
+my_numbers = c(1, 2, 3, 1, 3, 5, 25)
+
+my_numbers
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-56"
+summary(my_numbers)
+
+my_smry <- summary(my_numbers) # remember, outputs can be assigned to a name, creating an object
+
+class(summary(my_numbers)) # functions can be nested, and are evaluated from the inside out
+
+class(my_smry) # equivalent to the previous line
+
+
+## -----------------------------------------------------------------------------
+#| label: "02-about-r-57"
+typeof(my_smry)
+attributes(my_smry)
+
+## In this case, the functions extract the corresponding attribute
+class(my_smry)
+names(my_smry)
 
