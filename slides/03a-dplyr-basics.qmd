@@ -939,10 +939,11 @@ organdata |>
   group_by(consent_law, country) |>
   summarize(across(where(is.numeric),           
                    list(mean = \(x) mean(x, na.rm = TRUE), #<<
-                        var = \(x) var(x, na.rm = TRUE), #<<
-                        median = \(x) median(x, na.rm = TRUE)) #<<
-                  ),
-            .names = "{fn}_{col}") |> #<<
+                        sd = \(x) sd(x, na.rm = TRUE), #<<
+                        median = \(x) median(x, na.rm = TRUE)), 
+                   .names = "{fn}_{col}" #<<
+                   ) 
+            ) |> 
   print(n = 3) 
 ```
 
