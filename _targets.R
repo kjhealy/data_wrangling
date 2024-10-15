@@ -72,10 +72,10 @@ relocate_orphans <- function(file) {
   destdir_freeze <- stringr::str_remove(fs::path_dir(file), "_files")
   destdir_freeze <- paste0("_freeze/slides/", destdir_freeze)
   if(!fs::dir_exists(here::here(destdir_site))) {fs::dir_create(here::here(destdir_site))}
-  fs::file_copy(file, paste0("_site/slides/", file))
+  fs::file_copy(file, paste0("_site/slides/", file), overwrite = TRUE)
   if(!fs::dir_exists(here::here(destdir_freeze))) {fs::dir_create(here::here(destdir_freeze))}
   file_freeze <- stringr::str_remove(file, "_files")
-  fs::file_copy(file, paste0("_freeze/slides/", file_freeze))
+  fs::file_copy(file, paste0("_freeze/slides/", file_freeze), overwrite = TRUE)
 }
 
 
