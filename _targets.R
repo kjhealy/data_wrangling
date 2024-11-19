@@ -156,7 +156,8 @@ list(
   tar_target(empty_dirs, {
     remove_leftover_dirs(flipbookr_dirs)
   },
-  pattern = map(flipbookr_dirs)),
+  pattern = map(flipbookr_dirs)
+  ),
 
 
   ## Upload site ----
