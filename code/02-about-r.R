@@ -69,10 +69,10 @@ log10(100)
 ## -----------------------------------------------------------------------------
 #| label: "02-about-r-12"
 #| eval: FALSE
-## ## This will cause an error, because R will think you are trying to assign a value
-## 2 = 2
-## 
-## ## Error in 2 = 2 : invalid (do_set) left-hand side to assignment
+# ## This will cause an error, because R will think you are trying to assign a value
+# 2 = 2
+# 
+# ## Error in 2 = 2 : invalid (do_set) left-hand side to assignment
 
 
 ## -----------------------------------------------------------------------------
@@ -92,18 +92,18 @@ pi  # Also built-in
 ## -----------------------------------------------------------------------------
 #| label: "02-about-r-22"
 #| eval: FALSE
-## TRUE
-## FALSE
-## Inf
-## NaN
-## NA
-## NULL
-## 
-## for
-## if
-## while
-## break
-## function
+# TRUE
+# FALSE
+# Inf
+# NaN
+# NA
+# NULL
+# 
+# for
+# if
+# while
+# break
+# function
 
 
 ## -----------------------------------------------------------------------------
@@ -153,8 +153,8 @@ my_numbers
 ## -----------------------------------------------------------------------------
 #| label: "02-about-r-31"
 #| eval: FALSE
-## ## If you run this you'll get an error
-## mean()
+# ## If you run this you'll get an error
+# mean()
 
 
 ## -----------------------------------------------------------------------------
@@ -174,14 +174,14 @@ mean(your_numbers)
 ## -----------------------------------------------------------------------------
 #| label: "02-about-r-34"
 #| eval: FALSE
-## help(mean)
+# help(mean)
 
 
 ## -----------------------------------------------------------------------------
 #| label: "02-about-r-35"
 #| eval: FALSE
-## ## quicker
-## ?mean
+# ## quicker
+# ?mean
 
 
 ## -----------------------------------------------------------------------------
@@ -214,12 +214,12 @@ my_summary
 ## -----------------------------------------------------------------------------
 #| label: "02-about-r-40"
 #| eval: FALSE
-## ## rm() function removes objects
-## rm(my_summary)
-## 
-## my_summary
-## 
-## ## Error: object 'my_summary' not found
+# ## rm() function removes objects
+# rm(my_summary)
+# 
+# my_summary
+# 
+# ## Error: object 'my_summary' not found
 
 
 ## -----------------------------------------------------------------------------
@@ -272,12 +272,12 @@ gapminder
 ## -----------------------------------------------------------------------------
 #| label: "02-about-r-49"
 #| eval: FALSE
-## ## Do at least once for each package. Once done, not needed each time.
-## install.packages("palmerpenguins", repos = "http://cran.rstudio.com")
-## 
-## ## Needed sometimes, especially after an R major version upgrade.
-## update.packages(repos = "http://cran.rstudio.com")
-## 
+# ## Do at least once for each package. Once done, not needed each time.
+# install.packages("palmerpenguins", repos = "http://cran.rstudio.com")
+# 
+# ## Needed sometimes, especially after an R major version upgrade.
+# update.packages(repos = "http://cran.rstudio.com")
+# 
 
 
 ## -----------------------------------------------------------------------------
@@ -542,8 +542,8 @@ p + geom_point()
 #| eval: FALSE
 #| echo: TRUE
 
-## 
-## library(gapminder)
+# 
+# library(gapminder)
 
 
 ## -----------------------------------------------------------------------------
@@ -552,9 +552,9 @@ p + geom_point()
 #| eval: FALSE
 #| echo: TRUE
 
-## p <- ggplot(data = gapminder,
-##             mapping = aes(x = gdpPercap,
-##                           y = lifeExp))
+# p <- ggplot(data = gapminder,
+#             mapping = aes(x = gdpPercap,
+#                           y = lifeExp))
 
 
 ## -----------------------------------------------------------------------------
@@ -563,9 +563,9 @@ p + geom_point()
 #| eval: FALSE
 #| echo: TRUE
 
-## 
-## p + geom_point()
-## 
+# 
+# p + geom_point()
+# 
 
 
 ## -----------------------------------------------------------------------------

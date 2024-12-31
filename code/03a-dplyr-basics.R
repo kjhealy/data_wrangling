@@ -99,10 +99,10 @@ gss_sm |>
 ## -----------------------------------------------------------------------------
 #| label: "03a-dplyr-basics-15"
 #| eval: FALSE
-## gss_sm |>
-##   count(bigregion, religion) |>
-##   pivot_wider(names_from = bigregion, values_from = n) |>  #<<
-##   knitr::kable()
+# gss_sm |>
+#   count(bigregion, religion) |>
+#   pivot_wider(names_from = bigregion, values_from = n) |>  #<<
+#   knitr::kable()
 
 
 ## -----------------------------------------------------------------------------
@@ -425,10 +425,11 @@ organdata |>
   group_by(consent_law, country) |>
   summarize(across(where(is.numeric),           
                    list(mean = \(x) mean(x, na.rm = TRUE), #<<
-                        var = \(x) var(x, na.rm = TRUE), #<<
-                        median = \(x) median(x, na.rm = TRUE)) #<<
-                  ),
-            .names = "{fn}_{col}") |> #<<
+                        sd = \(x) sd(x, na.rm = TRUE), #<<
+                        median = \(x) median(x, na.rm = TRUE)), 
+                   .names = "{fn}_{col}" #<<
+                   ) 
+            ) |> 
   print(n = 3) 
 
 

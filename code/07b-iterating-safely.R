@@ -115,7 +115,7 @@ out_yr
 #| label: 07b-iterating-safely-13
 #| echo: true
 #| eval: false
-## possibly(~ tidy(glm(...)), otherwise = NULL)
+# possibly(~ tidy(glm(...)), otherwise = NULL)
 
 
 ## -----------------------------------------------------------------------------

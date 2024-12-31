@@ -45,14 +45,14 @@ trial
 ## -----------------------------------------------------------------------------
 #| label: 08-making-tidy-easier-7
 #| eval: false
-## trial |>
-##   tbl_summary(
-##     include = c(age, grade, response),
-##     by = trt, # split table by group
-##     missing = "no" # don't list missing data separately
-##   ) |>
-##   add_n() |> # add column with total number of non-missing observations
-##   add_p()
+# trial |>
+#   tbl_summary(
+#     include = c(age, grade, response),
+#     by = trt, # split table by group
+#     missing = "no" # don't list missing data separately
+#   ) |>
+#   add_n() |> # add column with total number of non-missing observations
+#   add_p()
 
 
 ## -----------------------------------------------------------------------------
@@ -71,14 +71,14 @@ trial |>
 ## -----------------------------------------------------------------------------
 #| label: 08-making-tidy-easier-9
 #| eval: false
-## gss_sm |>
-##   select(race, degree, marital) |>
-##   drop_na() |>
-##   tbl_summary(
-##     by = race, # split table by group
-##     missing = "no" # don't list missing data separately
-##   ) |>
-##   bold_labels()
+# gss_sm |>
+#   select(race, degree, marital) |>
+#   drop_na() |>
+#   tbl_summary(
+#     by = race, # split table by group
+#     missing = "no" # don't list missing data separately
+#   ) |>
+#   bold_labels()
 
 
 ## -----------------------------------------------------------------------------
@@ -97,17 +97,17 @@ gss_sm |>
 ## -----------------------------------------------------------------------------
 #| label: 08-making-tidy-easier-11
 #| eval: false
-## trial |>
-##   select(trt, age, marker) |>
-##   tbl_summary(
-##     by = trt,
-##     type = all_continuous() ~ "continuous2",
-##     statistic = all_continuous() ~ c("{N_nonmiss}",
-##                                      "{mean} ({sd})",
-##                                      "{median} ({p25}, {p75})",
-##                                      "{min}, {max}"),
-##     missing = "no") |>
-##   italicize_levels()
+# trial |>
+#   select(trt, age, marker) |>
+#   tbl_summary(
+#     by = trt,
+#     type = all_continuous() ~ "continuous2",
+#     statistic = all_continuous() ~ c("{N_nonmiss}",
+#                                      "{mean} ({sd})",
+#                                      "{median} ({p25}, {p75})",
+#                                      "{min}, {max}"),
+#     missing = "no") |>
+#   italicize_levels()
 
 
 ## -----------------------------------------------------------------------------
@@ -311,21 +311,21 @@ all.equal(colnames(stmf), stmf_colnames)
 #| eval: false
 #| echo: true
 
-## ## countries
-## test_that("countries conforms to spec", {
-##   countries_colnames <- c("cname", "iso3", "iso2", "continent")
-##   expect_equal(colnames(countries), countries_colnames)
-## })
-## 
-## 
-## ## stmf
-## test_that("stmf conforms to spec", {
-##   stmf_colnames <- c("country_code", "cname", "iso2", "continent", "iso3", "year",
-##                      "week", "sex", "split", "split_sex", "forecast", "approx_date",
-##                      "age_group", "death_count", "death_rate", "deaths_total", "rate_total")
-##   expect_equal(colnames(stmf), stmf_colnames)
-## })
-## 
+# ## countries
+# test_that("countries conforms to spec", {
+#   countries_colnames <- c("cname", "iso3", "iso2", "continent")
+#   expect_equal(colnames(countries), countries_colnames)
+# })
+# 
+# 
+# ## stmf
+# test_that("stmf conforms to spec", {
+#   stmf_colnames <- c("country_code", "cname", "iso2", "continent", "iso3", "year",
+#                      "week", "sex", "split", "split_sex", "forecast", "approx_date",
+#                      "age_group", "death_count", "death_rate", "deaths_total", "rate_total")
+#   expect_equal(colnames(stmf), stmf_colnames)
+# })
+# 
 
 
 ## -----------------------------------------------------------------------------
@@ -333,18 +333,18 @@ all.equal(colnames(stmf), stmf_colnames)
 #| eval: false
 #| echo: true
 
-## testthat::test_dir(here("tests", "testthat"))
-## 
-## ## ✓ |  OK F W S | Context
-## ##
-## ## - |   0       | stmf
-## ## - |   0       | Validating package data objects
-## ## ✓ |   2       | Validating package data objects
-## ##
-## ## ══ Results ═════════════════════════════════════════════════════════════════════
-## ## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 2 ]
-## 
-## 
+# testthat::test_dir(here("tests", "testthat"))
+# 
+# ## ✓ |  OK F W S | Context
+# ##
+# ## - |   0       | stmf
+# ## - |   0       | Validating package data objects
+# ## ✓ |   2       | Validating package data objects
+# ##
+# ## ══ Results ═════════════════════════════════════════════════════════════════════
+# ## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 2 ]
+# 
+# 
 
 
 ## -----------------------------------------------------------------------------

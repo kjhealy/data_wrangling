@@ -497,18 +497,18 @@ indvs
 #| fig.width: 16
 #| fig.height: 9
 #| eval: FALSE
-## # devtools::install_github("krassowski/complex-upset")
-## 
-## library(ComplexUpset)
-## 
-## upset(data = indvs, intersect = symptoms,
-##       name="Symptom Groupings by Frequency. Total pool is 1,764 individuals.",
-##       min_size = 0,
-##       width_ratio = 0.125) +
-##     labs(title = "Co-Occurence of COVID-19 Symptoms",
-##          caption = "Data: covid.joinzoe.com/us | Graph: @kjhealy")
-## 
-## 
+# # devtools::install_github("krassowski/complex-upset")
+# 
+# library(ComplexUpset)
+# 
+# upset(data = indvs, intersect = symptoms,
+#       name="Symptom Groupings by Frequency. Total pool is 1,764 individuals.",
+#       min_size = 0,
+#       width_ratio = 0.125) +
+#     labs(title = "Co-Occurence of COVID-19 Symptoms",
+#          caption = "Data: covid.joinzoe.com/us | Graph: @kjhealy")
+# 
+# 
 
 
 ## -----------------------------------------------------------------------------
