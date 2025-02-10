@@ -1,7 +1,6 @@
 ---
 title: "Data Wrangling with R and the Tidyverse"
 author: "Kieran Healy"
-format: html
 ---
 
 # Slides

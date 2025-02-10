@@ -21,13 +21,5 @@ website:
       Made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)<br>
       [View the source at {{< fa brands github >}} GitHub]({{< var course.github >}})
 
-format:
-  html:
-    embed-resources: false
-    code-fold: false
-    code-tools: true
-    theme: html/custom.scss
-    highlight-style: html/catppuccin-macchiato.theme
-    toc: true
-    css: html/tenso-berkeley.css
+format: kjhcoursesite-html
 

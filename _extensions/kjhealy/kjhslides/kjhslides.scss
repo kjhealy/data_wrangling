@@ -258,18 +258,27 @@ $presentation-h6-font-size: $presentation-font-size-root * 0.8;
 }
 
 .small p,
+.small th,
+.small tr,
+.small td,
 .small ul {
   font-size: 1.2em;
 }
 
 .smallerkh p,
+.smallerkh th,
+.smallerkh tr,
+.smallerkh td,
 .smallerkh ul {
   font-size: 0.85em;
 }
 
 .tiny p,
+.tiny th,
+.tiny tr,
+.tiny td,
 .tiny ul {
-  font-size: 0.65em;
+  font-size: 0.7em;
 }
 
 .code-annotation-anchor {
@@ -468,85 +477,3 @@ $presentation-h6-font-size: $presentation-font-size-root * 0.8;
   font-size: inherit;
 }
 
-// Body text: Tenso Slab
-@font-face {
-  font-family: "Tenso Slab";
-  src: url("../../../../html/fonts/03-tenso-slab-regular_42_ik.woff2")
-    format("woff2");
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Tenso Slab";
-  src: url("../../../../html/fonts/05_tenso-slab-medium_42_ik.woff2")
-    format("woff2");
-  font-weight: bold;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Tenso Slab";
-  src: url("../../../../html/fonts/04_tenso_slab_italic_42_ik.woff2")
-    format("woff2");
-  font-weight: normal;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Tenso Slab";
-  src: url("../../../../html/fonts/06_tenso-slab-mediumitalic_42_ik.woff2")
-    format("woff2");
-  font-weight: bold;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "Tenso Slab";
-  src: url("../../../../html/fonts/07_tenso-slab-bold_42_ik.woff2")
-    format("woff2");
-  font-weight: 800;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Tenso Slab";
-  src: url("../../../../html/fonts/07_tenso-slab-bold_42_ik.woff2")
-    format("woff2");
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Tenso Slab";
-  src: url("../../../../html/fonts/08_tenso_slab_bolditalic_42_ik.woff2")
-    format("woff2");
-  font-weight: 500;
-  font-style: italic;
-}
-
-// Monospace: Berkeley Mono
-
-@font-face {
-  font-family: "BerkeleyMono";
-  src: url("../../../../html/fonts/BerkeleyMono-Regular.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: "BerkeleyMono";
-  src: url("../../../../html/fonts/BerkeleyMono-Bold.woff2") format("woff2");
-  font-weight: bold;
-  font-style: normal;
-}
-@font-face {
-  font-family: "BerkeleyMono";
-  src: url("../../../../html/fonts/BerkeleyMono-Italic.woff2") format("woff2");
-  font-weight: normal;
-  font-style: italic;
-}
-@font-face {
-  font-family: "BerkeleyMono";
-  src: url("../../../../html/fonts/BerkeleyMono-BoldItalic.woff2")
-    format("woff2");
-  font-weight: bold;
-  font-style: italic;
-}

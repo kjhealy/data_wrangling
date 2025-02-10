@@ -1,0 +1,13 @@
+title: kjhcoursesite
+author: Kieran Healy
+version: 0.1.0
+quarto-required: ">=1.6"
+contributes:
+  formats:
+    common:
+      filters: [embed-fonts.lua]
+      embed-fonts: true
+    html:
+      theme: [kjhcoursesite.scss]
+      highlight-style: catppuccin-macchiato.theme
+      toc: true

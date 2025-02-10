@@ -1,7 +1,6 @@
 ---
 title: "Scratch File"
 author: "Kieran Healy"
-format: html
 ---
 
 ## Quarto

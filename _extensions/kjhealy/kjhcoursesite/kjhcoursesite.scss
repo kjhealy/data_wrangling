@@ -1,0 +1,416 @@
+/*-- scss:defaults --*/
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #ddd !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #868e96 !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black:    #000 !default;
+
+/* SCSS HEX */
+$my-red: #eb1e4eff;
+$my-brown: #582630ff;
+$my-yellow: #ffc847ff;
+$my-orange: #f68434ff;
+$my-off-white: #f6f6f6;
+$my-green: #1BB71Cff;
+$my-lblue: #139fecff;
+/*$my-blue: #073b4cff;*/
+$my-blue: #252F3E;
+$my-pink: #FC2290;
+
+/*$my-off-white: #F6F6F6;*/
+$dark-text: #333333;
+$kjh-grey: #F6F6F6;
+$main-title-inverse: #252F3E;
+$chunk-background: #FCF6E6;
+
+.kjh-pink {
+/*  color: #FC2290;*/
+  color: $my-pink;
+}
+
+.kjh-red {
+/*  color: #FB0307;*/
+  color: $my-red;
+}
+
+.kjh-orange {
+/*  color: #EF9B2D;*/
+  color: $my-orange;
+}
+
+.kjh-yellow {
+/*  color: #FFFF54;*/
+  color: $my-yellow;
+}
+
+.kjh-grey {
+  color: $my-off-white
+}
+
+.kjh-darkgrey {
+  color: #C0C0C0;
+}
+
+
+.kjh-blue {
+/*  color: #212E3E;*/
+  color: $my-blue;
+}
+
+.kjh-lblue {
+/*  color: #4EAFF0;*/
+  color: $my-lblue;
+}
+
+.kjh-green {
+  color: $my-green;
+}
+
+.kjh-white {
+  color: $my-off-white;
+}
+
+
+/*
+$blue:    #42159D !default;
+$indigo:  #771C6D !default;
+$purple:  #480B6A !default;
+$pink:    #A52C60 !default;
+$red:     #CF4446 !default;
+$orange:  #EE6A24 !default;
+$yellow:  #FB9E07 !default;
+$green:   #02b875 !default;
+$teal:    #20c997 !default;
+$cyan:    #17a2b8 !default;
+*/
+
+$blue:    $my-blue !default;
+$indigo:  #771C6D !default;
+$purple:  #480B6A !default;
+$pink:    $my-pink !default;
+$red:     $my-red !default;
+$orange:  $my-orange !default;
+$yellow:  $my-yellow !default;
+$green:   $my-green !default;
+$teal:    $my-green !default;
+$cyan:    $my-lblue !default;
+$primary:       $my-blue !default;
+$secondary:     $gray-500 !default;
+$success:       $my-green !default;
+$info:          $my-blue !default;
+$warning:       $my-yellow !default;
+$danger:        $my-lblue !default;
+$danger-text:   $my-off-white !default;
+$light:         $my-off-white !default;
+$dark:          $gray-800 !default;
+
+$font-family-sans-serif:      'Tenso Slab', sans !default;
+$font-family-serif:           'Tenso Slab', sans !default;
+$font-family-monospace:       'BerkeleyMono', 'sourceCode', 'Andale Mono', monospace !default;
+
+$font-size-base:              1.1rem !default;
+$headings-font-weight:        700 !default;
+
+$h1-font-size: $font-size-base * 2.45;
+$h2-font-size: $font-size-base * 1.85;
+$h3-font-size: $font-size-base * 1.5;
+$h4-font-size: $font-size-base * 1.2;
+$h5-font-size: $font-size-base * 1;
+$h6-font-size: $font-size-base * 0.8;
+
+$toc-font-size: 1.1rem;
+$sidebar-font-size: 1.1rem;
+$sidebar-font-size-section: 0.9rem;
+
+$link-color: $red;
+$link-hover-color: $yellow;
+
+$monokai-bg: #2e3440;
+
+/*-- scss:rules --*/
+
+// For embedding in webpages
+.slide-deck {
+  width: 100%;
+  height: 475px;
+}
+
+@media only screen and (max-width: 600px) {
+ .slide-deck {
+    height: 400px;
+  }
+}
+
+
+h2 {
+  border-bottom: none;
+}
+
+ul,
+ol {
+  font-family: $font-family-serif;
+}
+
+// Custom active link colors
+.navbar-dark .navbar-nav .show > .nav-link, .navbar-dark .navbar-nav .active > .nav-link, .navbar-dark .navbar-nav .nav-link.active {
+  color: $my-yellow;
+}
+
+div.sidebar-item-container .active, div.sidebar-item-container .show > .nav-link, div.sidebar-item-container .sidebar-link > code {
+  color: $my-yellow;
+}
+
+
+// Home page stuff
+.title-block {
+  margin: 1em 0;
+  border-bottom: 3px solid $gray-200;
+  padding-bottom: 1em;
+}
+
+.course-details {
+  margin: 0 0 1em;
+  border-bottom: 3px solid $gray-200;
+  padding-bottom: 1em;
+}
+
+.course-details h3 {
+  margin-top: 0;
+}
+
+.course-title {
+  font-size: 3.5rem;
+  margin-top: 0;
+}
+
+.course-subtitle {
+  font-size: 1.7rem;
+}
+
+.course-meta {
+  font-size: 1.2rem;
+  color: $gray-600;
+}
+
+.course-details ul {
+  list-style: none;
+  text-indent: -0.7rem;
+  padding-left: 1.4rem;
+}
+
+.contact-policy p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.course-details-smaller li {
+  font-size: $font-size-base * 0.85;
+}
+
+.course-details-smaller h3 {
+  font-size: $font-size-base * 0.9;
+}
+
+
+// Footer stuff
+.nav-footer-left {
+  text-align: left;
+}
+
+.nav-footer-right {
+  text-align: right;
+}
+
+
+// Schedule stuff
+.content-title {
+  font-weight: 700;
+}
+
+.content-note {
+  font-size: 0.8rem;
+  display: block;
+}
+
+.schedule-page h3 {
+  text-align: center;
+  margin-top: 3rem;
+  border-bottom: 3px solid $orange;
+  padding-bottom: 0.5rem;
+}
+
+.download-btn {
+  padding-top: 0.25rem;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+
+// News stuff
+.back-nav {
+  margin-bottom: 1.5rem;
+}
+
+.news .quarto-title-meta {
+  font-size: 1.1rem;
+  border-left: 5px solid $orange;
+  padding: 0 0.5rem 1rem;
+  margin: 1rem 0 2.5rem;
+  background-color: lighten($orange, 40%);
+}
+
+.news .quarto-categories {
+  padding-top: 0.5em;
+}
+
+
+// Content page stuff
+// Date bar
+.date-block {
+  font-size: 1.3rem;
+  color: $gray-800;
+}
+
+.bg-content {
+  background-color: $light;
+}
+
+.bg-assignment {
+  background-color: lighten($my-red, 40%);
+}
+
+// Slightly larger buttons
+p a.btn, .buttons span.btn {
+  font-size: 1.2rem;
+}
+
+.buttons .btn {
+  margin-bottom: 1rem;
+}
+
+main {
+  // No space after lists-within-lists
+  ol ol,
+  ul ul,
+  ol ul,
+  ul ol {
+    margin-bottom: 0em;
+  }
+
+  // But yes space after lists-within-lists when paragraphs are involved
+  ol p + ol,
+  ul p + ul,
+  ol p + ul,
+  ul p + ol {
+    margin-bottom: 1em;
+  }
+}
+
+
+// Make callout text and icon bigger
+.callout.callout-style-default {
+  > div.callout-header,
+  > .callout-body {
+    font-size: 1.2rem;
+  }
+
+  .callout-icon::before {
+    height: 1.2rem;
+    width: 1.2rem;
+    background-size: 1.2rem 1.2rem;
+  }
+}
+
+// Increase font size in sidebar
+.sidebar-navigation .sidebar-section .sidebar-item,
+.sidebar-navigation .sidebar-item{
+  line-height: 1.2;
+  padding-bottom: 0.4rem;
+}
+
+.sidebar-item .sidebar-item-toggle .bi {
+  // The dongle for opening and closing sections
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+// Increase font size in TOC
+#TOC {
+  padding-bottom: 0.1em;
+}
+
+#toc-title {
+  font-weight: 700;
+}
+
+.sidebar nav[role="doc-toc"] > ul li a {
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+
+
+// Code stuff
+// Shrink blocks of code
+pre.text, pre.sourceCode, .cell-output pre {
+  font-size: 0.775em;
+}
+
+// Slight bottom margin to output
+.cell-output {
+  margin: 0 0 1em;
+}
+
+// Format output and plain text blocks like code
+.cell-output, .cell-output-stdout pre code {
+  background-color: $chunk-background;
+  margin-top: 0.15em;
+}
+
+.text pre, .text code {
+  border-left: 2px;
+  border-left-color: $my-lblue;
+  background-color: $chunk-background;
+}
+
+
+.smallcode pre, .smallcode code {
+  font-size: 0.78rem;
+}
+
+// Allow content to scroll in output chunks
+.scrollout {
+max-height: 500px;
+overflow-y: scroll;
+}
+
+
+// Download button
+ .btn-slide {
+  color: $light;
+  background-color: $my-lblue;
+  }
+
+// WebR styling
+.view-lines {
+  line-height: 24px;
+}
+
+.qwebr-editor {
+  // can't get editor-font-size to work; setting manually here instead
+  font-size: 14px;
+}
+
+.qwebr-output-code-area {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    background-color: $chunk-background;
+}
+
+
+
