@@ -94,11 +94,11 @@ kjh_set_slide_theme()
 
 ---
 
-![Markdown document](img/02_lorem_covid_quarto_qmd.png){fig-align="center" width=90%}
+![Quarto document](img/02_lorem_covid_quarto_qmd.png){fig-align="center" width=90%}
 
 ---
 
-![Markdown document annotated](img/02_lorem_covid_quarto_qmd_annotated.png){fig-align="center" width=90%}  
+![Quarto document annotated](img/02_lorem_covid_quarto_qmd_annotated.png){fig-align="center" width=90%}  
 
 ---
 
@@ -743,7 +743,7 @@ But you must _load_ the package in each R session before you can access its cont
 
 ```{r }
 #| label: "02-about-r-50"
-## To load a package, usually at the start of your RMarkdown document or script file
+## To load a package, usually at the start of your Quarto document or script file
 library(palmerpenguins)
 penguins
 ```
