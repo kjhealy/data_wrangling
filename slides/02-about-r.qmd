@@ -112,7 +112,7 @@ kjh_set_slide_theme()
 
 :::{.custom-small-table}
 
-| Desired style  | Use the following Markdown annotation | 
+| To get this  | You write this | 
 | -------------- | ------------------------------------- | 
 | **Heading 1**  | `# Heading 1`                                    |
 | **Heading 2**  | `## Heading 2`                                   |
@@ -636,6 +636,11 @@ c(1:20) |> mean() |> summary() |> names() |>  length()
 ```
 
 Read this operator as "_[**and then**]{.fg-green}_"
+
+Like the assignment operator, this is two characters. To write it, type the pipe character `|` and then the `>` character. Better, use a keyboard shortcut. On a Mac, **Command Shift M**. On a Windows PC, **Ctrl Shift M**. 
+
+If the pipe looks like this, `%>%` (the [Magrittr pipe](https://r4ds.hadley.nz/data-transform.html#sec-the-pipe)) don't worry, it will work the same as the one shown here, `|>`. But to change it, go to Global Options > Code and _check_ the "Use native pipe operator" box.
+
 
 ## Use the pipe operator: [|>]{.fg-green}
 
