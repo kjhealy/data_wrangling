@@ -282,7 +282,7 @@ gapminder
 
 ## -----------------------------------------------------------------------------
 #| label: "02-about-r-50"
-## To load a package, usually at the start of your RMarkdown document or script file
+## To load a package, usually at the start of your Quarto document or script file
 library(palmerpenguins)
 penguins
 

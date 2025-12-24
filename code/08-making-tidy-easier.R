@@ -76,6 +76,7 @@ trial |>
 #   drop_na() |>
 #   tbl_summary(
 #     by = race, # split table by group
+#     label = list(race = "Race", degree = "Degree", marital = "Marital Status"),
 #     missing = "no" # don't list missing data separately
 #   ) |>
 #   bold_labels()
@@ -89,6 +90,7 @@ gss_sm |>
   drop_na() |> 
   tbl_summary(
     by = race, # split table by group
+    label = list(race = "Race", degree = "Degree", marital = "Marital Status"),
     missing = "no" # don't list missing data separately
   ) |>
   bold_labels()

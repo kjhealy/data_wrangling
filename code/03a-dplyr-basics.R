@@ -424,8 +424,8 @@ organdata |>
 organdata |> 
   group_by(consent_law, country) |>
   summarize(across(where(is.numeric),           
-                   list(mean = \(x) mean(x, na.rm = TRUE), #<<
-                        sd = \(x) sd(x, na.rm = TRUE), #<<
+                   list(mean = \(x) mean(x, na.rm = TRUE),
+                        sd = \(x) sd(x, na.rm = TRUE),
                         median = \(x) median(x, na.rm = TRUE)), 
                    .names = "{fn}_{col}" #<<
                    ) 

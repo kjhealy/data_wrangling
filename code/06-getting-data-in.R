@@ -664,7 +664,7 @@ levels(gss_sub$degree)
 ## -----------------------------------------------------------------------------
 #| label: "06-getting-data-in-69"
 gss_sub |> 
-  mutate(degree_na = fct_explicit_na(degree)) |> 
+  mutate(degree_na = fct_na_value_to_level(degree)) |> 
   count(degree_na)
 
 

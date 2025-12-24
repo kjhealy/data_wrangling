@@ -5,7 +5,7 @@ COURSEPACKET = ~/Documents/courses/data_wrangling_notes
 
 ## Make all pdfs
 pdfs:
-	Rscript -e "suppressMessages(library(knitr));suppressMessages(library(tidyverse)); kjhslides::kjh_decktape_all_slides()"
+	Rscript -e "suppressMessages(library(knitr));suppressMessages(library(tidyverse)); kjhslides::kjh_decktape_all_slides('_site/slides')"
 
 ## Purl all qmds
 code: .FORCE
