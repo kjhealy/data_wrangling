@@ -16,3 +16,5 @@ avhrr
 seas
 
 /.luarc.json
+
+**/*.quarto_ipynb

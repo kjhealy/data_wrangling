@@ -10,7 +10,7 @@ filters:
 author:
   - name: Kieran Healy
     affiliation: "Code Horizons"
-date: last-modified
+date: today
 editor_options: 
   chunk_output_type: console
 ---
@@ -159,7 +159,7 @@ For small tasks that's fine. But for bigger tasks it gets inefficient quickly.
 ::: {.smallcode}
 
 ```{r}
-## From Henrik Bengtsson's documentation for future/furr
+## From Henrik Bengtsson's documentation for future/furrr
 slow_sum <- function(x) {
   sum <- 0
   for (value in x) {
@@ -226,36 +226,49 @@ Remember, processor clock cycles are _really fast_. They're measured in billions
 
 We need to put those cores to work!
 
-## Future and furrr
+## Previously: Future and furrr
 
-These packages make parallel computing _way_ more straightforward than it used to be. In particular, for Tidyverse-centric workflows, `furrr` provides a set of `future_` functions that are drop-in replacements for `map` and friends. So `map()` becomes `future_map()` and so on.
+`future` and `furrr` made parallel computing _way_ more straightforward than it used to be. In particular, for Tidyverse-centric workflows, `furrr` provides a set of `future_` functions that are drop-in replacements for `map` and friends. So `map()` becomes `future_map()` and so on.
 
-We set things up like this:
+However, `purrr` has recently added support for parallelization via the `in_parallel()` function. It uses `crate` and `mirai` under the hood.
+
+## Parallel `purrr`
+
+Update your R packages with `remotes::update_packages()`.
 
 ```{r}
-# library(furrr) # We did this already
-plan(multisession) # Default will use the available resources
-## Note difference between multisession and multicore 
-## [tl;dr: the latter is faster, but you can't use it on Windows]
+library(tidyverse)
+library(here)
+
+# Set up parallel processing
+library(mirai)
+
+status()
+
+# Summon daemons. Do not summon more daemons than you have cores. People often choose one less than the number of cores.
+daemons(15)
+
+status()
 
 ```
 
 ## Toy Example
 
 ```{r}
-# Another slow function (from 
+# Another slow function (from
 # Grant McDermott this time)
 slow_square <- function(x = 1) {
-    x_sq <- x^2 
-    out <-  tibble(value = x, value_sq = x_sq)
+    x_sq <- x^2
+    ## We explicitly namespace all our package function calls
+    out <-  tibble::tibble(value = x, value_sq = x_sq)
     Sys.sleep(2) # Zzzz
     out
 }
 
 tictoc::tic("Serially")
-## This is of course way slower than just writing 
-## slow_square(1:15) but nvm that for now
-serial_out <- map(1:15, slow_square) |> 
+## This is of course way slower than just writing
+## slow_square(1:20) but nvm that for now
+serial_out <- map(1:20, slow_square) |>
   list_rbind()
 tictoc::toc()
 
@@ -266,7 +279,10 @@ tictoc::toc()
 
 ```{r}
 tictoc::tic("Parallelized")
-parallel_out <-  future_map_dfr(1:15, slow_square)
+parallel_out <- 1:20 |>
+  map(in_parallel(\(x) slow_square(x),
+      slow_square = slow_square)) |>
+        list_rbind()
 tictoc::toc()
 
 ```
@@ -275,22 +291,118 @@ tictoc::toc()
 identical(serial_out, parallel_out)
 ```
 
-## NOAA Data
 
-Data obtained with:
+## Using `in_parallel()`
 
-```{.bassh}
-mkdir raw
-cd raw
-wget --no-parent -r -l inf --wait 5 --random-wait 'https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/'
+- If you use `in_parallel()` but don’t set `daemons()`, then the map will just proceed sequentially, as if `in_parallel()` were not there.
+- You have to explicitly pass through the names of any local functions you're using, as well as any local objects. This can make the code a little more verbose, but with more complex jobs it's clear what's being passed in and from where.
+- If you have written a local function and are passing that along, you must make sure any package functions it calls are fully namespaced (e.g. `tibble::tibble()` rather than just `tibble()`).
+
+
+## Using `in_parallel()`
+
+E.g. From the help:
+
+```{r}
+#| eval: FALSE
+
+# ❌ This won't work - external dependencies not declared
+my_data <- c(1, 2, 3)
+map(1:3, in_parallel(\(x) mean(my_data)))
+
+# ✅ This works - dependencies explicitly provided
+my_data <- c(1, 2, 3)
+map(1:3, in_parallel(\(x) mean(my_data), my_data = my_data))
+
+# ✅ Package functions need explicit namespacing
+map(1:3, in_parallel(\(x) vctrs::vec_init(integer(), x)))
+
+# ✅ Or load packages within the function
+map(
+  1:3,
+  in_parallel(\(x) {
+    library(vctrs)
+    vec_init(integer(), x)
+  })
+
+
 ```
 
-This tries to be polite with the NOAA: it enforces a wait time and in addition randomizes it to make it variably longer. Note also no boundary on depth of folder recursion. There are a lot of files (>15,000). Doing it this way will take several *days* in real time (though much much less in actual transfer time of course).
+## NOAA Temperature Data
+
+See: <https://github.com/kjhealy/noaa_ncei/>. This function gets one folder full of NCDF files from NOAA.
+
+```{r}
+#| eval: false
+
+#' Get a year-month folder of NCDF Files from NOAA
+#'
+#' @param url The endpoint URL of the AVHRR data, <https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/>
+#' @param local A local file path for the raw data folders, i.e. where all the year-month dirs go. Defaults to a local version under raw/ of the same path as the NOAA website.
+#' @param subdir The subdirectory of monthly data to get. A character string of digits, of the form "YYYYMM". No default. Gets appended to `local`
+#'
+#' @return  A directory of NCDF files.
+#' @export
+#'
+#'
+get_nc_files <- function(
+  url = "https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/",
+  local = here::here(
+    "raw/www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/"
+  ),
+  subdir
+) {
+  localdir <- here::here(local, subdir)
+
+  if (!fs::dir_exists(localdir)) {
+    fs::dir_create(localdir)
+  }
+
+  files <- rvest::read_html(paste0(url, subdir)) |>
+    rvest::html_elements("a") |>
+    rvest::html_text2()
+  files <- subset(files, str_detect(files, "nc"))
+
+  full_urls <- paste0(url, subdir, "/", files)
+  full_outpaths <- paste0(localdir, "/", files)
+
+  walk2(full_urls, full_outpaths, \(x, y) {
+    httr::GET(x, httr::write_disk(y, overwrite = TRUE))
+  })
+}
+
+```
+
+## NOAA Temperature Data
+
+Initial get:
+
+```{r}
+#| eval: FALSE
+
+## Functions, incl. actual get_nc_files() function to get 1 year-month's batch of files.
+source(here("R", "functions.R"))
+
+### Initial get. Only have to do this once.
+## We try to be nice.
+
+# Data collection starts in September 1981
+first_yr <- paste0("1981", sprintf('%0.2d', 9:12))
+yrs <- 1982:2024
+months <- sprintf('%0.2d', 1:12)
+subdirs <- c(first_yr, paste0(rep(yrs, each = 12), months))
+
+slowly_get_nc_files <- slowly(get_nc_files)
+
+walk(subdirs, \(x) slowly_get_nc_files(subdir = x))
+```
+
+This tries to be polite with the NOAA: it enforces a wait time and in addition randomizes it to make it variably longer. There are a lot of files (>15,000). Doing it this way will take several *days* in real time (though much much less in actual transfer time of course).
 
 
 ## NOAA Temperature Data
 
-Raw data directories:
+Raw data directories locally:
 
 ```{r}
 basename(fs::dir_ls(here::here("avhrr")))
@@ -356,7 +468,7 @@ length(chunked_fnames)
 
 ## NOAA Temperature Data
 
-The data is in netCDF (Version 4) format. An interesting self-documenting format. Read one in with the netCDF reader. 
+The data is in netCDF (Version 4) format. An interesting self-documenting format. Read one in with the netCDF reader.
 
 ```{r}
 tmp <- ncdf4::nc_open(all_fnames[10000])
@@ -365,14 +477,14 @@ tmp
 
 ## NOAA Temperature Data
 
-For analysis we are going to use the `terra` package, which understands many GIS type formats. Fundamentally we have a grid or _raster_ of data that's 1440 x 720 in size. The data has several _layers_, each one a specific measure, such as sea-surface temperature, sea ice coverage, and so on. 
+We use the `terra` package, which understands many GIS formats. Each day is a grid or _raster_ of data that's 1440 x 720 in size. It has several _layers_, each one a specific measure---sea-surface temperature, sea ice, etc.
 
 ```{r}
 tmp <- terra::rast(all_fnames[10000])
 tmp
 ```
 
-Terra can understand rasters that are aggregated into slabs or "bricks" covering the same area repeatedly, and has methods for aggregating these arrays in different ways.
+Terra can understand rasters aggregated into slabs or "bricks" covering the same area repeatedly, and has methods for aggregating these arrays in different ways.
 
 ## NOAA Temperature Data
 
@@ -400,20 +512,51 @@ Write a function to get a file, read in the SST raster, and get its area-weighte
 for the North Atlantic region only.
 
 ```{r}
-process_raster <- function(fnames, crop_area = c(-80, 0, 0, 60), var = "sst") {
+#' Process NCDF temperature rasters
+#'
+#' Use terra to process a temperature NCDF file
+#'
+#' @param fnames
+#' @param crop_area
+#' @param layerinfo
+#'
+#' @returns
+#' @export
+#'
+#' @examples
+process_raster <- function(
+  fnames,
+  crop_area = c(-80, 0, 0, 60),
+  layerinfo = NULL
+) {
+  nc_layerinfo <- tibble::tibble(
+    num = c(1:4),
+    raw_name = c("anom_zlev=0", "err_zlev=0", "ice_zlev=0", "sst_zlev=0"),
+    name = c("anom", "err", "ice", "sst")
+  )
 
-  tdf <- terra::rast(as.character(fnames))[var] |>
-    terra::rotate() |>   # Fix 0-360 lon
-    terra::crop(crop_area) # Manually crop to a defined box. Default is Atlantic lat/lon box
+  if (!is.null(layerinfo)) {
+    nc_layerinfo <- layerinfo
+  }
+
+  tdf <- terra::rast(fnames) |>
+    terra::rotate() |> # Convert 0 to 360 lon to -180 to +180 lon
+    terra::crop(crop_area) # Manually crop to a defined box.  Default is roughly N. Atlantic lat/lon box
 
   wts <- terra::cellSize(tdf, unit = "km") # For scaling
 
-  data.frame(
+  # global() calculates a quantity for the whole grid on a particular SpatRaster
+  # so we get one weighted mean per file that comes in
+  out <- data.frame(
     date = terra::time(tdf),
-    # global() calculates a quantity for the whole grid on a particular SpatRaster
-    # so we get one weighted mean per file that comes in
-    wt_mean_sst = terra::global(tdf, "mean", weights = wts, na.rm=TRUE)$weighted_mean
+    means = terra::global(tdf, "mean", weights = wts, na.rm = TRUE)
   )
+  out$var <- rownames(out)
+  out$var <- gsub("_.*", "", out$var)
+  out <- reshape(out, idvar = "date", timevar = "var", direction = "wide")
+
+  colnames(out) <- gsub("weighted_mean\\.", "", colnames(out))
+  out
 }
 ```
 
@@ -422,14 +565,14 @@ process_raster <- function(fnames, crop_area = c(-80, 0, 0, 60), var = "sst") {
 Try it on one data file:
 
 ```{r}
-process_raster(all_fnames[1000]) |> 
+process_raster(all_fnames[1000]) |>
   as_tibble()
 ```
 
 ## Try it on one _chunk_ of data files:
 
 ```{r}
-process_raster(chunked_fnames[[500]]) |> 
+process_raster(chunked_fnames[[500]]) |>
   as_tibble()
 
 ```
@@ -440,28 +583,31 @@ process_raster(chunked_fnames[[500]]) |>
 Do it in parallel for all files:
 
 ```{r}
-# library(furrr) # We did this already
-# plan(multisession) 
-
 tictoc::tic("Terra Method")
-df <- future_map(chunked_fnames, process_raster) |>
+df <- chunked_fnames |>
+  map(in_parallel(
+    \(x) process_raster(x),
+    process_raster = process_raster
+  )) |>
   list_rbind() |>
-  as_tibble() |> 
-  mutate(date = ymd(date),
-         year = lubridate::year(date),
-         month = lubridate::month(date),
-         day = lubridate::day(date),
-         yrday = lubridate::yday(date),
-         season = season(date))
-tictoc::toc()
+  as_tibble() |>
+  mutate(
+    date = ymd(date),
+    year = lubridate::year(date),
+    month = lubridate::month(date),
+    day = lubridate::day(date),
+    yrday = lubridate::yday(date),
+    season = season(date)
+  )
 
 dim(df)
+tictoc::toc()
 ```
 
 ##  NOAA Temperature Data
 
 ```{r}
-df |> 
+df |>
   slice_sample(n = 10)
 ```
 
@@ -471,8 +617,10 @@ df |>
 Make our cores work even harder
 
 ```{r}
-## Seas of the world polygons
-seas <- sf::read_sf(here("seas")) 
+# All the seas with rasterize() and zonal()
+# Seas of the world polygons from https://www.marineregions.org/downloads.php,
+# IHO Sea Areas V3 shapefile.
+seas <- sf::read_sf(here("seas"))
 
 seas
 ```
@@ -482,12 +630,11 @@ seas
 ```{r}
 ## Rasterize the seas polygons using one of the nc files
 ## as a reference grid for the rasterization process
-## They're all on the same grid so it doesn't matter which one
 one_raster <- all_fnames[1]
 seas_vect <- terra::vect(seas)
 tmp_tdf_seas <- terra::rast(one_raster)["sst"] |>
-  terra::rotate()
-seas_zonal <- terra::rasterize(seas_vect, tmp_tdf_seas, "NAME")
+  rotate()
+seas_zonal <- rasterize(seas_vect, tmp_tdf_seas, "NAME")
 
 ```
 
@@ -503,7 +650,7 @@ We'll need to apply this grid of seas and oceans repeatedly --- once for each `.
 
 ```{r}
 # If we don't do this it can't be passed around
-# across the processes that future_map() will spawn
+# across the processes that in_parallel() will spawn
 seas_zonal_wrapped <- terra::wrap(seas_zonal)
 ```
 
@@ -512,17 +659,44 @@ seas_zonal_wrapped <- terra::wrap(seas_zonal)
 Write a function very similar to the other one.
 
 ```{r}
-process_raster_zonal <- function(fnames, var = "sst") {
+#' Process raster zonally
+#'
+#' Use terra to process the NCDF files
+#'
+#' @param fnames Vector of filenames
+#' @param wrapped_seas wrapped object containing rasterized seas data
+#'
+#' @returns
+#' @export
+#'
+#' @examples
+process_raster_zonal <- function(fnames, wrapped_seas = seas_zonal_wrapped) {
+  d <- terra::rast(fnames)
+  wts <- terra::cellSize(d, unit = "km") # For scaling
 
-  tdf_seas <- terra::rast(as.character(fnames))[var] |>
-    terra::rotate() |>
-    terra::zonal(terra::unwrap(seas_zonal_wrapped), mean, na.rm = TRUE)
+  layer_varnames <- terra::varnames(d) # vector of layers
+  date_seq <- rep(terra::time(d)) # vector of dates
 
-  colnames(tdf_seas) <- c("ID", paste0("d_", terra::time(terra::rast(as.character(fnames))[var])))
+  # New colnames for use post zonal calculation below
+  new_colnames <- c("sea", paste(layer_varnames, date_seq, sep = "_"))
+
+  # Better colnames
+  tdf_seas <- d |>
+    terra::rotate() |> # Convert 0 to 360 lon to -180 to +180 lon
+    terra::zonal(terra::unwrap(wrapped_seas), mean, na.rm = TRUE)
+  colnames(tdf_seas) <- new_colnames
+
+  # Reshape to long
   tdf_seas |>
-    pivot_longer(-ID, names_to = "date", values_to = "sst_wt_mean")
-
+    tidyr::pivot_longer(
+      -sea,
+      names_to = c("measure", "date"),
+      values_to = "value",
+      names_pattern = "(.*)_(.*)"
+    ) |>
+    tidyr::pivot_wider(names_from = measure, values_from = value)
 }
+
 ```
 
 ## NOAA Temperature Data
@@ -546,23 +720,30 @@ process_raster_zonal(chunked_fnames[[1]])
 
 ## NOAA Temperature Data
 
-Now `future_map()` it:
+Now parallelize it:
 
 ```{r}
 tictoc::tic("Big op")
-seameans_df <- future_map(chunked_fnames, process_raster_zonal) |>
+seameans_df <- chunked_fnames |>
+  map(in_parallel(
+    \(x) process_raster_zonal(x),
+    process_raster_zonal = process_raster_zonal,
+    seas_zonal_wrapped = seas_zonal_wrapped
+  )) |>
   list_rbind() |>
-  mutate(date = str_remove(date, "d_"),
-         date = ymd(date),
-         year = lubridate::year(date),
-         month = lubridate::month(date),
-         day = lubridate::day(date),
-         yrday = lubridate::yday(date),
-         season = season(date)) |>
-  rename(sea = ID)
+  mutate(
+    date = ymd(date),
+    year = lubridate::year(date),
+    month = lubridate::month(date),
+    day = lubridate::day(date),
+    yrday = lubridate::yday(date),
+    season = season(date)
+  )
 tictoc::toc()
 
 ```
+
+
 
 ## NOAA Temperature Data
 
@@ -572,18 +753,18 @@ seameans_df
 
 ## NOAA that's more like it
 
-![](img/08_taxed_cpu)
+![](img/10_taxed_cpu)
 
 ---
 
-![](img/08_north_atlantic.png)
+![](img/10_north_atlantic.png)
 
 
 ---
 
-![](img/08_four_oceans.png)
+  ![](img/10_global_mean.png)
 
 ---
 
-![](img/08_all_seas.png)
+![](img/10_all_seas.png)
 

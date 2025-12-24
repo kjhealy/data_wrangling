@@ -10,7 +10,7 @@ filters:
 author:
   - name: Kieran Healy
     affiliation: "Code Horizons"
-date: last-modified
+date: today
 editor_options: 
   chunk_output_type: console
 ---

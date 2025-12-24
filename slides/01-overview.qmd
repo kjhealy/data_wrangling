@@ -9,7 +9,7 @@ filters:
 author:
   - name: Kieran Healy
     affiliation: "Code Horizons"
-date: last-modified
+date: today
 ---
 
 
