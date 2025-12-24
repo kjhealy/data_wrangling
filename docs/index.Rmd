@@ -34,19 +34,21 @@ We will be working with the most recent stable versions of R and RStudio, as wel
 
 Begin by installing R (<http://cloud.r-project.org>). Choose the version appropriate for your computing platform: 
 
-  - If you use macOS and your Mac has an Apple Silicon (M-series) processor [download this version of R](https://cran.r-project.org/bin/macosx/big-sur-arm64/base/R-4.5.0-arm64.pkg)
+  - If you use macOS and your Mac has an Apple Silicon (M-series) processor [download this version of R](https://cran.r-project.org/bin/macosx/big-sur-arm64/base/R-4.5.2-arm64.pkg)
 
-  - If you use macOS and your Mack has an older Intel processor, [download this version of R](https://cran.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.5.0-x86_64.pkg)
+  - If you use macOS and your Mac as an older Intel processor, [download this version of R](https://cran.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.5.2-x86_64.pkg)
 
-  - If you use Windows, [download this version of R](https://cran.r-project.org/bin/windows/base/R-4.5.0-win.exe),
+  - If you use Windows, [download this version of R](https://cran.r-project.org/bin/windows/base/R-4.5.2-win.exe),
 
   - If you use Linux [choose which version you want](https://cloud.r-project.org/bin/linux/).
 
 ### Install RStudio on your computer
 
-- If you use macOS (whether Apple Silicon or Intel), [install this version of RStudio](https://download1.rstudio.org/electron/macos/RStudio-2024.12.1-563.dmg)
 
-- If you use Windows, [install this version of RStudio](https://download1.rstudio.org/electron/windows/RStudio-2024.12.1-563.exe)
+
+- If you use macOS (whether Apple Silicon or Intel), [install this version of RStudio](https://download1.rstudio.org/electron/macos/RStudio-2025.09.2-418.dmg)
+
+- If you use Windows, [install this version of RStudio](https://download1.rstudio.org/electron/windows/RStudio-2025.09.2-418.exe)
 
 - If you use Linux, [choose your distribution from the download page](https://posit.co/download/rstudio-desktop/)
 
