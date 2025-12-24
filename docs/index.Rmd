@@ -1,5 +1,5 @@
 ---
-title: "Data Wrangling with R and the tidyverse"
+title: "Data Wrangling with the Tidyverse"
 description: |
   A Short Course using R and the Tidyverse suite of tools.
 author:
