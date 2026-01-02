@@ -184,7 +184,7 @@ Notice how the tibble already tells us a lot.
 
 - Here's what we're going to do:
 
-![](img/dplyr-pipe-example.png)]
+![](img/dplyr-pipe-example.png)
 
 ## Summarizing a Table
 
@@ -367,7 +367,7 @@ gss_sm |>
 gss_sm |> 
   count(bigregion, religion) |> 
   pivot_wider(names_from = bigregion, values_from = n) |>  #<<
-  knitr::kable()  
+  tinytable::tt()  
 ```
 
 ```{r}
@@ -376,11 +376,11 @@ gss_sm |>
 gss_sm |> 
   count(bigregion, religion) |> 
   pivot_wider(names_from = bigregion, values_from = n) |> 
-  knitr::kable()  
+  tinytable::tt() 
 ```
 
 
-- More on [**`pivot_wider()`**]{.fg-green} and [**`kable()`**]{.fg-green} soon ...
+- More on [**`pivot_wider()`**]{.fg-green} soon ...
 
 
 
@@ -800,7 +800,7 @@ organdata |>
   filter(!(country %in% my_countries)) #<<
 ```
 
-Also a bit awkward. There's no built-in "Not in" operator. 
+Also a bit awkward. There's no built-in "Not in" operator. (Soon there will be!) 
 
 ## A custom operator 
 
@@ -865,12 +865,12 @@ my_vars <- c("gdp", "donors", "roads")
 organdata |> 
   group_by(consent_law, country) |>
   summarize(across(all_of(my_vars),           
-                   list(avg = \(x) mean(x, na.rm = TRUE))
-                  )
+                    list(avg = \(x) mean(x, na.rm = TRUE))
+                   )
            )     
 ```
 
-`r chunq_reveal("03a-dplyr-basics-43", smallcode = TRUE, widths = c(40,60), title = "Let's look at that again")`
+`r chunq_reveal("03a-dplyr-basics-43", smallcode = TRUE, widths = c(50,50), title = "Let's look at that again")`
 
 ::: {.incremental}
 - `my_vars` are selected by [**`across()`**]{.fg-green}
@@ -975,7 +975,7 @@ Sort rows with [**`arrange()`**]{.fg-green}
 organdata |> 
   group_by(consent_law, country) |>
   summarize(donors = mean(donors, na.rm = TRUE)) |> 
-  arrange(donors) |> ##<
+  arrange(donors) |> #<<
   print(n = 5)
 ```
 
@@ -997,7 +997,7 @@ Sort rows with [**`arrange()`**]{.fg-green}
 organdata |> 
   group_by(consent_law, country) |>
   summarize(donors = mean(donors, na.rm = TRUE)) |> 
-  arrange(donors) |> ##<
+  arrange(donors) |> #<<
   print(n = 5)
 ```
 

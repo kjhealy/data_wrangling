@@ -102,7 +102,7 @@ gss_sm |>
 # gss_sm |>
 #   count(bigregion, religion) |>
 #   pivot_wider(names_from = bigregion, values_from = n) |>  #<<
-#   knitr::kable()
+#   tinytable::tt()
 
 
 ## -----------------------------------------------------------------------------
@@ -111,7 +111,7 @@ gss_sm |>
 gss_sm |> 
   count(bigregion, religion) |> 
   pivot_wider(names_from = bigregion, values_from = n) |> 
-  knitr::kable()  
+  tinytable::tt() 
 
 
 ## -----------------------------------------------------------------------------
@@ -370,8 +370,8 @@ my_vars <- c("gdp", "donors", "roads")
 organdata |> 
   group_by(consent_law, country) |>
   summarize(across(all_of(my_vars),           
-                   list(avg = \(x) mean(x, na.rm = TRUE))
-                  )
+                    list(avg = \(x) mean(x, na.rm = TRUE))
+                   )
            )     
 
 
@@ -445,7 +445,7 @@ organdata |>
 organdata |> 
   group_by(consent_law, country) |>
   summarize(donors = mean(donors, na.rm = TRUE)) |> 
-  arrange(donors) |> ##<
+  arrange(donors) |> #<<
   print(n = 5)
 
 
@@ -454,7 +454,7 @@ organdata |>
 organdata |> 
   group_by(consent_law, country) |>
   summarize(donors = mean(donors, na.rm = TRUE)) |> 
-  arrange(donors) |> ##<
+  arrange(donors) |> #<<
   print(n = 5)
 
 

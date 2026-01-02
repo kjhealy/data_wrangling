@@ -1221,7 +1221,7 @@ Like before:
 gapminder
 ```
 
-# Like before
+## Like before
 
 ```{r}
 #| label: "codefig-plot-2"
@@ -1265,7 +1265,7 @@ p <- ggplot(data = gapminder,
             mapping = aes(x = gdpPercap, 
                           y = lifeExp)) 
 ```
-]
+
 
 - New object named [**`p`**]{.fg-lblue} [`gets`]{.fg-pink} the output of the [`ggplot()` _function_]{.fg-green}, given these [_arguments_]{.fg-orange}
 - Notice how one of the arguments, [`mapping`]{.fg-orange}, is itself taking the output of a function named [`aes()`]{.fg-green}

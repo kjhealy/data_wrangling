@@ -1177,7 +1177,6 @@ gss_sub |>
   pivot_wider(names_from = sex, values_from = n)
 ```
 
----
 
 # More about factors
 

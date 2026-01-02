@@ -302,7 +302,7 @@ ukvote2019 |>
 
 ## Example: UK Election Data
 
-- A vector of unique constituency names
+- A one-column tibble of unique constituency names
 
 ```{r}
 #| label: "03b-dplyr-basics-18"
@@ -749,7 +749,7 @@ By default, unused levels won't display:
 #| label: "03b-dplyr-basics-44"
 df_f <- df |> 
   mutate(party_f = factor(party, 
-                          levels = c("Democrat", 
+                          levels = c("Democratic", 
                                      "Republican", 
                                      "Libertarian")))
 df_f |> 

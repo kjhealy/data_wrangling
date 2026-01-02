@@ -33,7 +33,7 @@ library(palmerpenguins)
 penguins |> 
   group_by(species, island, year) |> 
   summarize(bill = round(mean(bill_length_mm, na.rm = TRUE),2)) |> 
-  knitr::kable()
+  tinytable::tt()
 
 
 ## -----------------------------------------------------------------------------
@@ -42,7 +42,7 @@ penguins |>
   group_by(species, island, year) |> 
   summarize(bill = round(mean(bill_length_mm, na.rm = TRUE), 2)) |> 
   pivot_wider(names_from = year, values_from = bill) |> 
-  knitr::kable()
+  tinytable::tt()
 
 
 ## -----------------------------------------------------------------------------
@@ -63,13 +63,58 @@ edu |>
 
 
 ## -----------------------------------------------------------------------------
-#| label: "04-tidy-data-13"
+#| label: "04-tidy-data-13a"
 edu |> 
   pivot_longer(elem4:coll4, names_to = "education", values_to = "n") |> 
-  mutate(education = recode(education, 
-                            elem4 = "Elementary 4", elem8 = "Elementary 8", 
-                            hs3 = "High School 3", hs4 = "High School 4",
-                            coll3 = "College 3", coll4 = "College 4"))
+  mutate(education = case_match(education, 
+                                "elem4" ~ "Elementary 4",
+                                "elem8" ~ "Elementary 8", 
+                                "hs3" ~ "High School 3", 
+                                "hs4" ~ "High School 4", 
+                                "coll3" ~ "College 3", 
+                                "coll4" ~ "College 4"))
+
+
+## -----------------------------------------------------------------------------
+#| label: "04-tidy-data-13b"
+edu |> 
+  pivot_longer(elem4:coll4, names_to = "education", values_to = "n") |> 
+  mutate(education = case_match(education, 
+                                c("elem4", "elem8") ~ "Elementary",
+                                c("hs3", "hs4") ~ "High School", 
+                                c("coll3", "coll4") ~ "College")) 
+
+
+## -----------------------------------------------------------------------------
+#| label: "04-tidy-data-13c"
+edu |> 
+  pivot_longer(elem4:coll4, names_to = "education", values_to = "n") |> 
+  mutate(education = case_match(education, 
+                                c("elem4", "elem8") ~ "Elementary",
+                                c("hs3", "hs4") ~ "High School", 
+                                c("coll3", "coll4") ~ "College")) |> 
+  group_by(age,sex,year, education) |> 
+  summarize(n = sum(n)) 
+
+
+## -----------------------------------------------------------------------------
+#| label: "04-tidy-data-13d"
+edu |> 
+  pivot_longer(elem4:coll4, names_to = "education", values_to = "n") |> 
+  mutate(education = case_match(education, 
+                                c("elem4", "elem8") ~ "Elementary",
+                                .default = "Other"))
+
+
+## -----------------------------------------------------------------------------
+#| label: "04-tidy-data-13e"
+edu |> 
+  pivot_longer(elem4:coll4, names_to = "education", values_to = "n") |> 
+  mutate(
+    weird_group = case_when(
+      age == "25-34" & year > 1980 & (education %in% c("elem4", "elem8")) ~ "Group 1", 
+      age == "25-34" & (year == 2016 | education == "hs3")  ~ "Group 2",
+      .default = "Group 3"))
   
 
 

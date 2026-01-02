@@ -426,7 +426,7 @@ levels(df_f$party_f)
 #| label: "03b-dplyr-basics-44"
 df_f <- df |> 
   mutate(party_f = factor(party, 
-                          levels = c("Democrat", 
+                          levels = c("Democratic", 
                                      "Republican", 
                                      "Libertarian")))
 df_f |> 
