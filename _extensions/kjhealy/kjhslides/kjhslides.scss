@@ -236,13 +236,8 @@ $presentation-h6-font-size: $presentation-font-size-root * 0.8;
 .larger p,
 .larger li {
   font-size: 3em;
-  line-height: 0.85em;
+  line-height: 1em;
   margin-bottom: 0.1em;
-}
-
-.larger p {
-  text-align: center;
-  font-weight: bold;
 }
 
 .large p,
@@ -250,11 +245,6 @@ $presentation-h6-font-size: $presentation-font-size-root * 0.8;
   font-size: 1.65em;
   line-height: 1em;
   margin-bottom: 0.1em;
-}
-
-.large p {
-  text-align: center;
-  font-weight: bold;
 }
 
 .small p,
@@ -279,6 +269,15 @@ $presentation-h6-font-size: $presentation-font-size-root * 0.8;
 .tiny td,
 .tiny ul {
   font-size: 0.7em;
+}
+
+
+.center p {
+  text-align: center;
+}
+
+.bold p {
+  font-weight: bold;
 }
 
 .code-annotation-anchor {
@@ -307,6 +306,14 @@ $presentation-h6-font-size: $presentation-font-size-root * 0.8;
 .reveal .slide code {
   font-size: inherit;
 }
+
+// This handles cases where code is not in a .cell-output div but is in a chunk
+// like ```text
+.reveal pre code {
+  color: $my-dark-text;
+  background-color: $chunk-background;
+}
+
 
 // Table output from code cells
 
@@ -476,4 +483,3 @@ $presentation-h6-font-size: $presentation-font-size-root * 0.8;
   color: $my-green !important;
   font-size: inherit;
 }
-
