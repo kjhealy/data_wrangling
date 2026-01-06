@@ -417,54 +417,106 @@ gh_tb |>
 
 
 ## -----------------------------------------------------------------------------
-bikes <- jsonlite::read_json("https://gbfs.citibikenyc.com/gbfs/2.3/gbfs.json")
-
-bikes
-
-
-## -----------------------------------------------------------------------------
-bikes_tib <- tibble(bikes = bikes$data$en$feeds) |> 
-  unnest_wider(bikes)
-
-bikevec <- bikes_tib$url |> 
-  set_names(bikes_tib$name)
-
-## Available feeds
-bikevec
+gbfsurl <- "https://gbfs.citibikenyc.com/gbfs/2.3/gbfs.json"
+feeds <- jsonlite::fromJSON(gbfsurl)
+str(feeds)
 
 
 ## -----------------------------------------------------------------------------
-## Q: Why do we write it like this?
-nyc_stations <- tibble(stations = jsonlite::read_json(bikevec["station_status"])$data) 
-
-nyc_stations
+feeds_df <- as_tibble(feeds)
+feeds_df
 
 
 ## -----------------------------------------------------------------------------
-## Live! (At the time of rendering)
-nyc_stations |> 
-  unnest_wider(stations, names_sep = "_") 
+feeds_df |>
+  slice(1) |>
+  unnest(data) |> # It's two levels down
+  unnest(data)
 
 
 ## -----------------------------------------------------------------------------
+nyc_stations_url <- feeds_df |>
+  slice(1) |> unnest(data) |> unnest(data) |>
+  filter(name == "station_information") |> pull(url)
 
-nyc_stations |> 
-  unnest_wider(stations, names_sep = "_") |> 
-  pivot_longer(starts_with("stations")) 
-
-
-## -----------------------------------------------------------------------------
-
-nyc_stations |> 
-  unnest_wider(stations, names_sep = "_") |> 
-  pivot_longer(starts_with("stations")) |>   
-  unnest_wider(value)
+nyc_stations_url
 
 
 ## -----------------------------------------------------------------------------
-## Q: Why do we write it like this?
-nyc_stations_info <- tibble(stations = jsonlite::read_json(bikevec["station_information"])$data[[1]])
+# Base R style
+feeds_df[[1]]$en$feeds$url[3]
 
-nyc_stations_info |>
-  unnest_wider(stations)
+
+## -----------------------------------------------------------------------------
+# Pluck by element number or name
+feeds_df |> pluck(1,"en", "feeds", "url", 3)
+
+
+## -----------------------------------------------------------------------------
+feeds_df |>
+  pluck(1,"en", "feeds") |>
+  as_tibble()
+
+
+## -----------------------------------------------------------------------------
+station_status_url <- feeds_df |> pluck(1,"en", "feeds") |>
+  filter(name == "station_status") |> pull(url)
+
+station_status_df <- jsonlite::fromJSON(station_status_url)
+
+str(station_status_df) # Still a list
+
+
+## -----------------------------------------------------------------------------
+station_status_df <- station_status_df$data$stations |>
+  as_tibble()
+
+station_status_df
+
+
+## -----------------------------------------------------------------------------
+station_info_url <- feeds_df |> pluck(1,"en", "feeds") |>
+  filter(name == "station_information") |> pull(url)
+
+station_info_df <- station_info_url |>
+  jsonlite::fromJSON() |>
+  pluck("data", "stations") |>
+  as_tibble()
+
+station_info_df
+
+
+
+## -----------------------------------------------------------------------------
+stations_df <- station_status_df |>
+  left_join(station_info_df, by = "station_id") |>
+  relocate(name, capacity, num_bikes_available, lat, lon)
+
+stations_df
+
+
+## -----------------------------------------------------------------------------
+#| output-location: column
+#| classes: custom3070
+
+stations_df |>
+  ggplot(aes(x = lon,
+             y = lat,
+             color = num_bikes_available/capacity)) +
+  geom_point(size = 0.5) +
+  scale_color_viridis_c(option = "plasma",
+                        labels = scales::percent_format()) +
+  coord_equal() +
+  labs(color = "Availability",
+       title = "New York CitiBike Stations",
+       subtitle = "Current bike availability as a percentage of station capacity") +
+  theme_void()
+
+
+## -----------------------------------------------------------------------------
+feeds_df$last_updated[1]
+
+
+## -----------------------------------------------------------------------------
+as_datetime(feeds_df$last_updated)[1]
 

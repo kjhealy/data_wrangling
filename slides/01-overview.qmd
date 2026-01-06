@@ -250,9 +250,22 @@ Also, it's weirdly satisfying once you get into it.
 
 ---
 
+## {background-color="black" background-image="img/01_control.png"}
 
-:::{.huge}
-Because the research process is [_intrinsically messy_]{.fg-lblue}  
+## Control, not Productivity
+
+::: {.large .left}
+
+ Productivity is great and everything, but not why we do all this.
+
+:::
+
+### &nbsp;
+
+::: {.large .left}
+
+ The most important thing is to be able to [_confidently know and clearly show what it was that you did_]{.fg-red} in the service of doing your work properly.
+
 :::
 
 
@@ -369,10 +382,11 @@ Because the research process is [_intrinsically messy_]{.fg-lblue}
 
 ::: {.column width=50% .right}
 ### Engineering model
-- Try to guess what the user wants and offer hints or suggestions.
-- Talk to version control via a GUI client.
-- Make help and code assistance easily available.
+- Try to guess what the user wants; offer hints.
+- Continuously analyze code for errors.
+- Reintroduce GUI elements for e.g. Version Control.
 - Allow users treat their code more like a formatted document.
+- Have an LLM propose, edit, or directly write code.
 
 :::
 ::::

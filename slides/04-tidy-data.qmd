@@ -731,7 +731,7 @@ chars2  |>
 `r chunq_reveal("04-tidy-data-got",  lcolw="40", rcolw="60", smallcode = TRUE, title = "Example 1: Vignette")`
 
 
-
+# Example 2: GitHub
 
 ## Example 2: GitHub 
 
@@ -776,7 +776,7 @@ gh_tb |>
   pull(name)
 ```
 
-## Example 2: GitHub 
+## GitHub 
 
 ```{r}
 gh_tb |> 
@@ -785,78 +785,181 @@ gh_tb |>
   arrange(desc(watchers_count))
 ```
 
-## Example 3: Citibike NYC
+# Example 3: the NY Citibike API
+
+## NYC CitiBikes
+
+Many cities have Bike Share programs. Many of those provide data according to the [GBFS specification](https://github.com/MobilityData/gbfs/blob/master/gbfs.md). A spec like this is a set of rules that says "If you adhere to this spec, you will provide data in the following consistent way", where this includes rules about the data format and the endpoints or URLs where that data can be found.
+
+## NYC CitiBikes
+
+The spec has a rule saying "Provide a feed specifying the data available".
+
+::: {.smallcode}
+```{r}
+gbfsurl <- "https://gbfs.citibikenyc.com/gbfs/2.3/gbfs.json"
+feeds <- jsonlite::fromJSON(gbfsurl)
+str(feeds)
+```
+
+This comes in to us a _nested list_.
+
+:::
+
+## NYC CitiBikes
+
+JSON data is typically nested. It can look really complex at first glance. This is one reason to read the spec. We can put the feed into a tibble if we like:
 
 ```{r}
-bikes <- jsonlite::read_json("https://gbfs.citibikenyc.com/gbfs/2.3/gbfs.json")
+feeds_df <- as_tibble(feeds)
+feeds_df
+```
 
-bikes
+RStudio's object viewer is a good way to explore the hierarchical structure of unfamiliar lists.
+
+## NYC CitiBikes
+
+If we explore or look at the spec we see that each row provides the same feed information in English, Spanish, or French. We can slice out the English feed and look at what's in it:
+
+```{r}
+feeds_df |>
+  slice(1) |>
+  unnest(data) |> # It's two levels down
+  unnest(data)
+```
+
+More urls! Let's extract the station data feed.
+
+## NYC CitiBikes
+
+```{r}
+nyc_stations_url <- feeds_df |>
+  slice(1) |> unnest(data) |> unnest(data) |>
+  filter(name == "station_information") |> pull(url)
+
+nyc_stations_url
+```
+
+## NYC CitiBikes
+
+That was tedious. If we know _precisely_ what we're after we can do it faster by plumbing down through the list:
+
+```{r}
+# Base R style
+feeds_df[[1]]$en$feeds$url[3]
+```
+
+Or with `pluck()`:
+
+```{r}
+# Pluck by element number or name
+feeds_df |> pluck(1,"en", "feeds", "url", 3)
+```
+
+You can find these index locations via the Object Inspector.
+
+## NYC CitiBikes
+
+Or with some combination of methods:
+
+```{r}
+feeds_df |>
+  pluck(1,"en", "feeds") |>
+  as_tibble()
+```
+
+Then work as you would with a tibble.
+
+## NYC CitiBikes
+
+```{r}
+station_status_url <- feeds_df |> pluck(1,"en", "feeds") |>
+  filter(name == "station_status") |> pull(url)
+
+station_status_df <- jsonlite::fromJSON(station_status_url)
+
+str(station_status_df) # Still a list
+```
+
+Like the overall feeds data, the station status data is a nested list with information on when it was last updated and the software version as well as the actual data, which is in `station_df$data$stations`. We can get it out.
+
+## NYC CitiBikes
+
+::: {.smallcode}
+```{r}
+station_status_df <- station_status_df$data$stations |>
+  as_tibble()
+
+station_status_df
+```
+
+:::
+
+
+As you can see there is more nested data in here too, in the column about the types of bike and scooter models available.
+
+## NYC CitiBikes
+
+Let's do the same for the feed of static information about stations.
+
+```{r}
+station_info_url <- feeds_df |> pluck(1,"en", "feeds") |>
+  filter(name == "station_information") |> pull(url)
+
+station_info_df <- station_info_url |>
+  jsonlite::fromJSON() |>
+  pluck("data", "stations") |>
+  as_tibble()
+
+station_info_df
+
+```
+
+## NYC CityBikes
+
+We can join these by `station_id`
+
+```{r}
+stations_df <- station_status_df |>
+  left_join(station_info_df, by = "station_id") |>
+  relocate(name, capacity, num_bikes_available, lat, lon)
+
+stations_df
 ```
 
 
-## Example 3: Citibike NYC
+## NYC CityBikes
 
-A slightly messier case:
-
-```{r}
-bikes_tib <- tibble(bikes = bikes$data$en$feeds) |> 
-  unnest_wider(bikes)
-
-bikevec <- bikes_tib$url |> 
-  set_names(bikes_tib$name)
-
-## Available feeds
-bikevec
-```
-
-## Example 3: Citibike NYC
+::: {.smallcode}
 
 ```{r}
-## Q: Why do we write it like this?
-nyc_stations <- tibble(stations = jsonlite::read_json(bikevec["station_status"])$data) 
+#| output-location: column
+#| classes: custom3070
 
-nyc_stations
+stations_df |>
+  ggplot(aes(x = lon,
+             y = lat,
+             color = num_bikes_available/capacity)) +
+  geom_point(size = 0.5) +
+  scale_color_viridis_c(option = "plasma",
+                        labels = scales::percent_format()) +
+  coord_equal() +
+  labs(color = "Availability",
+       title = "New York CitiBike Stations",
+       subtitle = "Current bike availability as a percentage of station capacity") +
+  theme_void()
 ```
 
-## Example 3: Citibike NYC
+:::
+
+## NYC CitiBikes
+
+Finally, the "last updated" tag is a good old Unix time number expressed in seconds since 1970:
 
 ```{r}
-## Live! (At the time of rendering)
-nyc_stations |> 
-  unnest_wider(stations, names_sep = "_") 
+feeds_df$last_updated[1]
 ```
-
-## Example 3: Citibike NYC
 
 ```{r}
-
-nyc_stations |> 
-  unnest_wider(stations, names_sep = "_") |> 
-  pivot_longer(starts_with("stations")) 
+as_datetime(feeds_df$last_updated)[1]
 ```
-
-## Example 3: Citibike NYC
-
-```{r}
-
-nyc_stations |> 
-  unnest_wider(stations, names_sep = "_") |> 
-  pivot_longer(starts_with("stations")) |>   
-  unnest_wider(value)
-```
-
-
-## Example 3: Citibike NYC
-
-Extra info on the stations:
-
-```{r}
-## Q: Why do we write it like this?
-nyc_stations_info <- tibble(stations = jsonlite::read_json(bikevec["station_information"])$data[[1]])
-
-nyc_stations_info |>
-  unnest_wider(stations)
-```
-
-From here we could join these two tables.
-
