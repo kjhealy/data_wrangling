@@ -37,13 +37,13 @@ kjh_set_slide_theme()
 
 ## Housekeeping
 
-### 10:30am till 12:30pm US EST each day
+::: {.large .listspacer}
 
-### 1:30pm to 3:00pm US EST each day
+- 10:30am till 12:30pm US EST each day
+- 1:30pm to 3:30pm US EST each day
+- [Use the Zoom chat to ask questions, or raise a hand with ![](img/zoom_raise_hand.png){width=4%}]{.fg-lblue}
 
-### [Use the Zoom chat to ask questions, or raise a hand with ![](img/zoom_raise_hand.png){width=4%}]{.fg-lblue}
-
-
+:::
 
 
 ## In between class sessions
@@ -70,25 +70,25 @@ kjh_set_slide_theme()
 
 ## My Setup and Yours
 
-### Talking, Slides, and Live-Coding in RStudio 
+::: {.large .listspacer}
 
-### Follow along with RStudio yourself if you can
+- Talking, Slides, and Live-Coding in RStudio. 
+- Follow along with RStudio yourself if you can.
+- The course packet is also an RStudio project and the place for your notes.
 
-### The course packet is also an RStudio project and the place for your notes
-
+:::
 
 
 ## Goals for this first session
 
-### Some big-picture motivation & perspective
+::: {.large .listspacer}
+- Some big-picture motivation & perspective.
+- Getting familiar with RStudio & its relationship to R.
+- Getting oriented to R and how it thinks.
+:::
 
-### Getting familiar with RStudio and its relationship to R
 
-### Getting oriented to R and how it thinks
-
-
-
-# [DATA ANALYSIS]{.fg-lblue} is mostly [DATA WRANGLING]{.fg-pink}
+# [DATA ANALYSIS]{.fg-lblue}<br />is mostly<br />[DATA WRANGLING]{.fg-pink}
 
 
 ## Wrangling data is frustrating
@@ -283,7 +283,7 @@ Also, it's weirdly satisfying once you get into it.
 ## Different Answers
 
 :::: {.columns}
-::: {.column width=50%}
+::: {.column width=50% .fg-lblue}
 ### Office model
 
 - Formatted documents are real.
@@ -301,7 +301,7 @@ Also, it's weirdly satisfying once you get into it.
 ## Different Answers
 
 :::: {.columns}
-::: {.column width=50%}
+::: {.column width=50% .fg-lblue}
 ### Office model
 
 - Formatted documents are real.
@@ -310,7 +310,7 @@ Also, it's weirdly satisfying once you get into it.
 - Final output is often in the same format you've been working in, e.g. a Word file, or perhaps a PDF.
 :::
 
-::: {.column width=50% .right}
+::: {.column width=50% .right .fg-orange}
 ### Engineering model
 
 - Plain-text files are real.
@@ -326,7 +326,7 @@ Also, it's weirdly satisfying once you get into it.
 
 
 :::: {.columns}
-::: {.column width=50%}
+::: {.column width=50%  .fg-lblue}
 ### Office model
 - Everyone knows Word, Excel, or Google Docs.
 - "Track changes" is powerful and easy.
@@ -346,7 +346,7 @@ Also, it's weirdly satisfying once you get into it.
 
 
 :::: {.columns}
-::: {.column width=50%}
+::: {.column width=50%  .fg-lblue}
 ### Office model
 - Everyone knows Word, Excel, or Google Docs.
 - "Track changes" is powerful and easy.
@@ -356,7 +356,7 @@ Also, it's weirdly satisfying once you get into it.
 
 :::
 
-::: {.column width=50% .right}
+::: {.column width=50% .right  .fg-orange}
 ### Engineering model
 - Plain text is universally portable.
 - Push button, recreate analysis.
@@ -367,20 +367,20 @@ Also, it's weirdly satisfying once you get into it.
 :::
 ::::
 
-## Each approach generates solutions to its own problems
+## Each generates solutions to its problems
 
 :::: {.columns}
-::: {.column width=50%}
+::: {.column width=50%  .fg-lblue}
 ### Office model
-- Make a suite of applications.
+- Make a suite of applications that know about each other.
 - Put everything on a cloud server, not your computer.
-- Rely on search to find stuff.
+- Just rely on search to find stuff in the pile.
 - Allow users to treat documents like plain-text (e.g. Markdown).
 - Put more advanced functions back in, somewhere.
 
 :::
 
-::: {.column width=50% .right}
+::: {.column width=50% .right .fg-orange}
 ### Engineering model
 - Try to guess what the user wants; offer hints.
 - Continuously analyze code for errors.

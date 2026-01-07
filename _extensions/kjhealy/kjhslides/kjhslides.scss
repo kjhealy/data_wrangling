@@ -217,7 +217,6 @@ $presentation-h6-font-size: $presentation-font-size-root * 0.8;
 }
 
 // Text size changes
-
 .huge p {
   font-size: 4em;
   font-weight: bold;
@@ -244,7 +243,11 @@ $presentation-h6-font-size: $presentation-font-size-root * 0.8;
 .large li {
   font-size: 1.65em;
   line-height: 1em;
-  margin-bottom: 0.1em;
+  margin-bottom: 0.2em;
+}
+
+.listspacer li {
+  padding-bottom: 1.15em;
 }
 
 .small p,
