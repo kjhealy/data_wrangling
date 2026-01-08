@@ -516,59 +516,6 @@ result4
 
 
 ## -----------------------------------------------------------------------------
-#| label: "02-about-r-66-2"
-gapminder
-
-
-## -----------------------------------------------------------------------------
-#| label: "codefig-plot-2"
-#| message: FALSE
-#| fig.width: 5.8
-#| fig.height: 5.5
-#| output-location: column
-library(tidyverse)
-library(gapminder)
-
-p <- ggplot(data = gapminder, 
-            mapping = aes(x = gdpPercap, 
-                          y = lifeExp)) 
-
-p + geom_point()
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-68"
-#| message: FALSE
-#| eval: FALSE
-#| echo: TRUE
-
-# 
-# library(gapminder)
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-69"
-#| message: FALSE
-#| eval: FALSE
-#| echo: TRUE
-
-# p <- ggplot(data = gapminder,
-#             mapping = aes(x = gdpPercap,
-#                           y = lifeExp))
-
-
-## -----------------------------------------------------------------------------
-#| label: "02-about-r-70-2"
-#| message: FALSE
-#| eval: FALSE
-#| echo: TRUE
-
-# 
-# p + geom_point()
-# 
-
-
-## -----------------------------------------------------------------------------
 #| label: "02-about-r-14"
 3 < 5 & 7
 

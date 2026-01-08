@@ -1009,7 +1009,7 @@ organdata |>
 organdata |> 
   group_by(consent_law, country) |>
   summarize(donors = mean(donors, na.rm = TRUE)) |> 
-  arrange(desc(donors)) |>  ##<
+  arrange(desc(donors)) |>  #<<
   print(n = 5)
 ```
 
