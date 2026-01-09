@@ -61,7 +61,10 @@ engmort <- read_table(here("data", "mortality.txt"),
 read_table(here("data", "mortality.txt"), 
            skip = 2, na = ".") |> 
   janitor::clean_names() |> 
-  mutate(age = as.integer(recode(age, "110+" = "110")))
+  mutate(age  = case_match(age, 
+                           "110+" ~ "110", 
+                           .default = age), 
+         age = as.integer(age))
 
 
 ## -----------------------------------------------------------------------------
@@ -337,7 +340,7 @@ read_csv(here("data", "rfm_table.csv")) |>
   select(-value) |>
   pivot_wider(names_from = name, 
               values_from = lo:hi) |>
-  mutate(across(where(is.integer), replace_na, 0)) |> 
+  mutate(across(where(is.integer), \(x) replace_na(x, 0))) |> 
   select(segment, 
          lo_r, hi_r, 
          lo_f, hi_f, 

@@ -1116,3 +1116,149 @@ out_tidy |>
 #| echo: FALSE
 options(digits = old_digits)
 ```
+
+## Plot what we have
+
+```{r }
+#| label: "06-work-with-models-52"
+p <- ggplot(data = out_tidy,
+            mapping = aes(x = year, y = estimate,
+                          ymin = estimate - 2*std.error,
+                          ymax = estimate + 2*std.error,
+                          group = continent, 
+                          color = continent))
+
+p_out <- p + 
+  geom_pointrange(size = rel(1.25), 
+                  position = position_dodge(width = rel(1.3))) +#<<
+  scale_x_continuous(breaks = unique(gapminder$year)) + #<<
+  labs(x = "Year", 
+       y = "Estimate", 
+       color = "Continent")
+```
+
+
+---
+
+```{r}
+#| label: "06-work-with-models-53"
+#| echo: FALSE
+#| fig.height: 6
+#| fig.width: 15
+p_out
+```
+
+Repeated Estimates of log GDP on Life Expectancy by Continent
+
+
+## And there's more ... 
+
+Let's go back to this stage:
+
+```{r }
+#| label: "06-work-with-models-54"
+# New model
+fit_ols2 <- function(df) {
+    lm(lifeExp ~ log(gdpPercap) + log(pop), data = df)
+}
+
+out_tidy <- gapminder |>
+    group_by(continent, year) |>
+    nest() |> 
+    mutate(model = map(data, fit_ols2),
+           tidied = map(model, tidy)) 
+
+out_tidy
+```
+
+## A function to draw a coef plot
+
+```{r }
+#| label: "06-work-with-models-55"
+# Plot the output from our model
+mod_plot <- function(data, 
+                     title){
+  data |> 
+    filter(term %nin% "(Intercept)") |> 
+    ggplot(mapping = aes(x = estimate,
+                         xmin = estimate - std.error,
+                         xmax = estimate + std.error,
+                         y = reorder(term, estimate))) + 
+    geom_pointrange() + 
+    labs(title = title, 
+         y = NULL)
+}
+```
+
+## Add it using [`map2()`]{.fg-green} or [`pmap()`]{.fg-green}
+
+- When we have two arguments to feed a function we can use [`map2()`]{.fg-green}. The general case is [`pmap()`]{.fg-green}, for passing any number of arguments in a list.
+
+```{r }
+#| label: "06-work-with-models-56"
+out_tidy <- gapminder |> group_by(continent, year) |> nest() |> 
+    mutate(title = paste(continent, year),
+           model = map(data, fit_ols2),#<<
+           tidied = map(model, tidy), 
+           ggout = pmap(list(tidied, title), #<<
+                        mod_plot)) #<<
+
+out_tidy
+```
+Now, every element of [`ggout`]{.fg-orange} is ...
+
+## A plot!
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+#| label: "06-work-with-models-57"
+#| fig.height: 3
+#| fig.width: 6
+out_tidy$ggout[[8]]
+```
+:::
+
+::: {.column width="50%" .right}
+```{r}
+#| label: "06-work-with-models-58"
+#| fig.height: 3
+#| fig.width: 6
+out_tidy$ggout[[18]]
+```
+
+:::
+::::
+
+## We don't just put them in there for fun
+
+- We can e.g. [`walk`]{.fg-green} the plots out to disk
+
+[`walk()`]{.fg-green} is [`map()`]{.fg-green} for when you just want a "side-effect" such as printed output. There is also [`walk2()`]{.fg-green} and [`pwalk()`]{.fg-green}
+
+```{r }
+#| label: "06-work-with-models-59"
+
+pwalk(
+  list(
+    filename = paste0(out_tidy$title, ".png"),
+    plot = out_tidy$ggout,
+    path = here("figures"),
+    height = 3, width = 4,
+    dpi = 300
+  ),
+  ggsave
+)
+
+
+                       
+```
+
+## Peek in the [`figures/`]{.fg-orange} folder
+
+```{r }
+#| label: "06-work-with-models-60"
+fs::dir_ls(here("figures")) |> 
+  basename()
+```
+
